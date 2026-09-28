@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gym Tracker - Control de Progreso</title>
+    <title>ENFOQUE - Gym Tracker</title>
     <style>
         :root {
-            --bg-primary: #121212;
-            --bg-surface: #1e1e1e;
-            --bg-card: #2a2a2a;
+            --bg-primary: #0a0a0a;
+            --bg-surface: rgba(22, 22, 22, 0.85);
+            --bg-card: rgba(35, 35, 35, 0.85);
             --accent: #00e676;
             --text-primary: #ffffff;
             --text-secondary: #b0b0b0;
@@ -25,6 +25,11 @@
 
         body {
             background-color: var(--bg-primary);
+            /* Fondo de gimnasio oscuro con baja opacidad */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             color: var(--text-primary);
             display: flex;
             flex-direction: column;
@@ -34,7 +39,8 @@
 
         header {
             background-color: var(--bg-surface);
-            padding: 16px;
+            backdrop-filter: blur(8px);
+            padding: 18px 16px;
             text-align: center;
             border-bottom: 1px solid var(--border-color);
             position: sticky;
@@ -43,10 +49,19 @@
         }
 
         header h1 {
-            font-size: 1.2rem;
+            font-size: 1.6rem;
+            font-weight: 900;
             color: var(--accent);
             text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 2px;
+        }
+
+        header p {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
             letter-spacing: 1px;
+            font-weight: 600;
         }
 
         main {
@@ -67,10 +82,12 @@
 
         .card {
             background-color: var(--bg-surface);
+            backdrop-filter: blur(10px);
             border-radius: 12px;
-            padding: 16px;
+            padding: 18px;
             margin-bottom: 16px;
             border: 1px solid var(--border-color);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
         }
 
         .form-group {
@@ -106,19 +123,12 @@
             border: none;
             cursor: pointer;
             transition: opacity 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .btn-primary:active {
             opacity: 0.8;
-        }
-
-        .btn-secondary {
-            background-color: transparent;
-            border: 1px solid var(--accent);
-            color: var(--accent);
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 8px;
         }
 
         .row {
@@ -147,6 +157,7 @@
             left: 0;
             right: 0;
             background-color: var(--bg-surface);
+            backdrop-filter: blur(10px);
             display: flex;
             border-top: 1px solid var(--border-color);
             height: 60px;
@@ -169,6 +180,7 @@
 
         .nav-item.active {
             color: var(--accent);
+            font-weight: bold;
         }
 
         .nav-item svg {
@@ -178,13 +190,17 @@
             fill: currentColor;
         }
 
-        /* Lista de Registros e Histórico */
+        /* Historial y Registros */
         .history-item {
             background-color: var(--bg-card);
+            backdrop-filter: blur(8px);
             border-radius: 8px;
-            padding: 12px;
+            padding: 14px;
             margin-bottom: 10px;
             border-left: 4px solid var(--accent);
+            border-top: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
         }
 
         .history-item .header-info {
@@ -205,6 +221,7 @@
             font-size: 0.95rem;
             color: var(--accent);
             margin-top: 4px;
+            font-weight: bold;
         }
 
         .history-item img {
@@ -231,13 +248,17 @@
             color: var(--text-secondary);
             padding: 30px 10px;
             font-size: 0.9rem;
+            background-color: var(--bg-surface);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Gym Tracker</h1>
+        <h1>ENFOQUE</h1>
+        <p>CONTROL DE PROGRESO</p>
     </header>
 
     <main>
@@ -252,9 +273,7 @@
 
                     <div class="form-group">
                         <label for="exercise-select">Ejercicio</label>
-                        <select id="exercise-select" required>
-                            <!-- Opciones cargadas por JS -->
-                        </select>
+                        <select id="exercise-select" required></select>
                     </div>
 
                     <div class="row">
@@ -284,7 +303,7 @@
             </div>
         </section>
 
-        <!-- TAB 2: CONSULTAR PROGRESO POR EJERCICIO -->
+        <!-- TAB 2: PROGRESO -->
         <section id="tab-progress" class="tab-content">
             <div class="card">
                 <div class="form-group">
@@ -299,11 +318,9 @@
             </div>
         </section>
 
-        <!-- TAB 3: GALERÍA Y DIARIO GLOBAL -->
+        <!-- TAB 3: HISTÓRICO -->
         <section id="tab-history" class="tab-content">
-            <div id="global-history-list">
-                <!-- Carga dinámica -->
-            </div>
+            <div id="global-history-list"></div>
         </section>
     </main>
 
@@ -323,8 +340,7 @@
     </nav>
 
     <script>
-        // --- BASE DE DATOS LOCAL (IndexedDB) ---
-        const DB_NAME = 'GymTrackerDB';
+        const DB_NAME = 'EnfoqueGymDB';
         const DB_VERSION = 1;
         let db;
 
@@ -391,7 +407,6 @@
             });
         }
 
-        // --- INTERFAZ Y NAVEGACIÓN ---
         function switchTab(tabId, btn) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
@@ -422,7 +437,6 @@
             });
         }
 
-        // Manejo de vista previa de imagen
         let currentPhotoBase64 = null;
         document.getElementById('photo-input').addEventListener('change', function(e) {
             const file = e.target.files[0];
@@ -438,7 +452,6 @@
             }
         });
 
-        // Envío del formulario
         document.getElementById('workout-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             const logData = {
@@ -454,7 +467,6 @@
             await saveLog(logData);
             alert("¡Entrenamiento guardado con éxito!");
 
-            // Limpiar formulario parcial
             document.getElementById('weight-input').value = '';
             document.getElementById('reps-input').value = '';
             document.getElementById('photo-input').value = '';
@@ -462,7 +474,6 @@
             currentPhotoBase64 = null;
         });
 
-        // Filtrado por ejercicio
         document.getElementById('filter-exercise').addEventListener('change', async function(e) {
             const selectedEx = e.target.value;
             const container = document.getElementById('progress-results');
@@ -494,7 +505,6 @@
             `).join('');
         });
 
-        // Carga de historial global
         async function loadGlobalHistory() {
             const container = document.getElementById('global-history-list');
             const allLogs = await getAllLogs();
@@ -531,7 +541,6 @@
             document.getElementById('filter-exercise').dispatchEvent(new Event('change'));
         }
 
-        // Inicialización
         window.addEventListener('DOMContentLoaded', async () => {
             document.getElementById('workout-date').valueAsDate = new Date();
             populateSelects();
