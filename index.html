@@ -30,7 +30,6 @@
 
         body {
             background-color: var(--bg-primary);
-            /* Fondo global nítido con pareja entrenando */
             background-image: linear-gradient(rgba(0, 0, 0, 0.60), rgba(0, 0, 0, 0.60)), url('https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1200');
             background-size: cover;
             background-position: center;
@@ -45,7 +44,7 @@
         /* Banner Dinámico */
         .hero-banner {
             position: relative;
-            height: 195px;
+            height: 200px;
             overflow: hidden;
             border-bottom: 2px solid var(--accent);
             box-shadow: 0 4px 25px var(--accent-glow);
@@ -68,7 +67,6 @@
 
         .banner-slide.active { opacity: 1; }
 
-        /* Capa con menor opacidad para imágenes más nítidas */
         .banner-overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -83,6 +81,18 @@
             text-shadow: 0 3px 12px rgba(0,0,0,0.9);
         }
 
+        /* Título Principal de la App */
+        .banner-content h1.main-title {
+            font-family: 'Teko', sans-serif;
+            font-size: 3.4rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            line-height: 0.95;
+            text-shadow: 0 0 15px var(--accent-glow);
+        }
+
         .banner-content small.verse-title {
             font-size: 0.9rem;
             color: #ffffff;
@@ -93,7 +103,7 @@
             margin-bottom: 4px;
         }
 
-        .banner-content h1 {
+        .banner-content h1.slide-phrase {
             font-family: 'Teko', sans-serif;
             font-size: 2.8rem;
             font-weight: 700;
@@ -103,30 +113,26 @@
             line-height: 1;
         }
 
-        /* Tipografía legible para el mensaje de Andrés */
-        .banner-content h1.user-motivation {
+        /* Tipografía Ajustada y Legible para Andrés Arcila */
+        .banner-content div.user-motivation {
             font-family: 'Montserrat', sans-serif;
-            font-size: 1.35rem;
+            font-size: 1rem;
             font-weight: 900;
             color: #ffffff;
-            letter-spacing: 1px;
-            line-height: 1.3;
-            min-height: 65px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            letter-spacing: 0.5px;
+            line-height: 1.35;
+            margin-top: 6px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
             text-transform: uppercase;
-        }
-
-        .banner-content h1.user-motivation span {
-            color: var(--accent);
+            padding: 0 10px;
         }
 
         .typewriter-cursor::after {
             content: '|';
             animation: blink 0.7s infinite;
             color: var(--accent);
-            margin-left: 3px;
+            margin-left: 2px;
         }
 
         @keyframes blink {
@@ -369,12 +375,12 @@
             <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
         </audio>
 
-        <!-- Slide 1: Pareja Gym / Máquina de Escribir Andrés Arcila -->
+        <!-- Slide 1: ENFOQUE Grande + Texto de Andrés -->
         <div class="banner-slide active" style="background-image: url('https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1000');">
             <div class="banner-overlay"></div>
             <div class="banner-content">
-                <small class="verse-title">ENFOQUE MENTAL</small>
-                <h1 class="user-motivation typewriter-cursor" id="typewriter-text"></h1>
+                <h1 class="main-title">ENFOQUE</h1>
+                <div class="user-motivation typewriter-cursor" id="typewriter-text"></div>
             </div>
         </div>
 
@@ -383,7 +389,7 @@
             <div class="banner-overlay"></div>
             <div class="banner-content">
                 <small class="verse-title">FUERZA Y POTENCIA</small>
-                <h1>SOBRECARGA PROGRESIVA</h1>
+                <h1 class="slide-phrase">SOBRECARGA PROGRESIVA</h1>
             </div>
         </div>
 
@@ -392,7 +398,7 @@
             <div class="banner-overlay"></div>
             <div class="banner-content">
                 <small class="verse-title">JOSUÉ 1:9</small>
-                <h1>ESFUÉRZATE</h1>
+                <h1 class="slide-phrase">ESFUÉRZATE</h1>
             </div>
         </div>
 
@@ -401,7 +407,7 @@
             <div class="banner-overlay"></div>
             <div class="banner-content">
                 <small class="verse-title">DÍA DE PIERNA</small>
-                <h1>DEDICACIÓN TOTAL</h1>
+                <h1 class="slide-phrase">DEDICACIÓN TOTAL</h1>
             </div>
         </div>
 
@@ -410,7 +416,7 @@
             <div class="banner-overlay"></div>
             <div class="banner-content">
                 <small class="verse-title">FILIPENSES 5:29</small>
-                <h1>CUIDA TU CUERPO</h1>
+                <h1 class="slide-phrase">CUIDA TU CUERPO</h1>
             </div>
         </div>
     </header>
@@ -765,7 +771,7 @@
             } catch (e) {}
         }
 
-        // --- EFECTO MÁQUINA DE ESCRIBIR LEGIBLE ---
+        // --- EFECTO MÁQUINA DE ESCRIBIR PARA LA FRASE MOTIVACIONAL ---
         const textToType = "¡VAMOS ANDRÉS ARCILA! VAMOS A LOGRAR TU OBJETIVO";
         let typeIndex = 0;
         let typingTimeout = null;
@@ -786,7 +792,7 @@
                     }
                     playTypewriterClick();
                     typeIndex++;
-                    typingTimeout = setTimeout(typeNextChar, 70);
+                    typingTimeout = setTimeout(typeNextChar, 65);
                 }
             }
             typeNextChar();
@@ -877,7 +883,6 @@
             loadNutritionHistory();
         });
 
-        // SUBIR Y GUARDAR VIDEO MOTIVACIONAL
         document.getElementById('video-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             const file = document.getElementById('video-file').files[0];
