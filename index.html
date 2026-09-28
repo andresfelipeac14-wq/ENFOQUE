@@ -51,7 +51,7 @@
         }
 
         .bg-dynamic-layer.active {
-            opacity: 0.25; /* Transparencia para no estorbar la lectura de datos */
+            opacity: 0.25;
         }
 
         .bg-overlay-dark {
@@ -74,8 +74,6 @@
         .banner-slide {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-size: cover;
-            background-position: center;
             opacity: 0;
             transition: opacity 0.8s ease-in-out;
             display: flex;
@@ -88,6 +86,16 @@
 
         .banner-slide.active { opacity: 1; }
 
+        .banner-slide video.banner-video-bg {
+            position: absolute;
+            top: 50%; left: 50%;
+            min-width: 100%; min-height: 100%;
+            width: auto; height: auto;
+            z-index: 0;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+
         .banner-slide.green-bg {
             background-color: #051a0e !important;
             background-image: radial-gradient(circle, #0a3a1f 0%, #031008 100%) !important;
@@ -97,6 +105,7 @@
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.65);
+            z-index: 1;
         }
 
         .banner-content {
@@ -401,12 +410,15 @@
             </div>
         </div>
 
-        <!-- Slide Hombre: Sentadilla con Barra -->
-        <div class="banner-slide" style="background-image: url('https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=1000');">
+        <!-- Slide Video Hombre: Movimiento Real de Ejercicio -->
+        <div class="banner-slide">
+            <video class="banner-video-bg" autoplay loop muted playsinline>
+                <source src="https://assets.mixkit.co/videos/preview/mixkit-man-holding-a-barbell-with-weights-41527-large.mp4" type="video/mp4">
+            </video>
             <div class="banner-overlay"></div>
             <div class="banner-content">
                 <small class="verse-title">TÉCNICA Y POTENCIA</small>
-                <h1>SENTADILLA LIBRE</h1>
+                <h1>SENTADILLA CON BARRA</h1>
                 <p style="letter-spacing:2px; font-weight:bold;">MÁXIMA SOBRECARGA PROGRESIVA</p>
             </div>
         </div>
@@ -418,19 +430,23 @@
             </div>
         </div>
 
-        <!-- Slide Mujer: Hip Thrust / Prensa Focus Glúteo -->
-        <div class="banner-slide" style="background-image: url('https://images.unsplash.com/photo-1574680096145-d05b474e2155?q=80&w=1000');">
+        <!-- Slide Video Mujer: Movimiento Real de Ejercicio -->
+        <div class="banner-slide">
+            <video class="banner-video-bg" autoplay loop muted playsinline>
+                <source src="https://assets.mixkit.co/videos/preview/mixkit-young-woman-doing-leg-presses-at-the-gym-41529-large.mp4" type="video/mp4">
+            </video>
             <div class="banner-overlay"></div>
             <div class="banner-content">
                 <small class="verse-title">FOCUS PIERNA Y GLÚTEO</small>
-                <h1>PRENSA Y HIP THRUST</h1>
+                <h1>PRENSA DE PIERNA</h1>
                 <p style="letter-spacing:2px; font-weight:bold;">DISCIPLINA Y CONSTANCIA</p>
             </div>
         </div>
 
+        <!-- Slide Filipenses 5:29 corregido -->
         <div class="banner-slide green-bg">
             <div class="banner-content">
-                <small class="verse-title">FILIPENSES 4:13</small>
+                <small class="verse-title">FILIPENSES 5:29</small>
                 <h1 class="grunge">CUIDA TU CUERPO</h1>
             </div>
         </div>
@@ -730,7 +746,7 @@
             currentBgLayer = (currentBgLayer % totalBgLayers) + 1;
             document.getElementById(`bg-layer-${currentBgLayer}`).classList.add('active');
         }
-        setInterval(rotateGlobalBackground, 12000); // Cambia cada 12 segundos
+        setInterval(rotateGlobalBackground, 12000);
 
         // --- SINTETIZADOR DE SONIDO MÁQUINA DE ESCRIBIR ---
         let audioCtx = null;
@@ -784,6 +800,13 @@
             slides[currentSlide].classList.remove('active');
             currentSlide = (currentSlide + 1) % slides.length;
             slides[currentSlide].classList.add('active');
+
+            // Si el slide activo contiene un video, reiniciar reproducción
+            const video = slides[currentSlide].querySelector('video');
+            if (video) {
+                video.currentTime = 0;
+                video.play();
+            }
 
             if (currentSlide === 0) {
                 startTypewriter();
