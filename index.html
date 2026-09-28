@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ENFOQUE - Gym & Nutrition Tracker</title>
-    <!-- Fuentes con efecto desgastado/urbano -->
+    <!-- Fuentes estilo urbano y deportivo -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik+Glitch&family=Teko:wght@700&display=swap" rel="stylesheet">
@@ -30,42 +30,21 @@
 
         body {
             background-color: var(--bg-primary);
+            background-image: linear-gradient(rgba(0, 0, 0, 0.88), rgba(0, 0, 0, 0.88)), url('https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1200');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             color: var(--text-primary);
             display: flex;
             flex-direction: column;
             min-height: 100vh;
             padding-bottom: 75px;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        /* FONDO DINÁMICO GLOBAL */
-        .bg-dynamic-layer {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -2;
-            background-size: cover;
-            background-position: center;
-            opacity: 0;
-            transition: opacity 1.5s ease-in-out;
-        }
-
-        .bg-dynamic-layer.active {
-            opacity: 0.25;
-        }
-
-        .bg-overlay-dark {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
-            background: linear-gradient(180deg, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.95) 100%);
-            pointer-events: none;
         }
 
         /* Banner Dinámico */
         .hero-banner {
             position: relative;
-            height: 190px;
+            height: 180px;
             overflow: hidden;
             border-bottom: 2px solid var(--accent);
             box-shadow: 0 4px 20px var(--accent-glow);
@@ -74,6 +53,8 @@
         .banner-slide {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
             opacity: 0;
             transition: opacity 0.8s ease-in-out;
             display: flex;
@@ -86,16 +67,6 @@
 
         .banner-slide.active { opacity: 1; }
 
-        .banner-slide video.banner-video-bg {
-            position: absolute;
-            top: 50%; left: 50%;
-            min-width: 100%; min-height: 100%;
-            width: auto; height: auto;
-            z-index: 0;
-            transform: translate(-50%, -50%);
-            object-fit: cover;
-        }
-
         .banner-slide.green-bg {
             background-color: #051a0e !important;
             background-image: radial-gradient(circle, #0a3a1f 0%, #031008 100%) !important;
@@ -105,7 +76,6 @@
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.65);
-            z-index: 1;
         }
 
         .banner-content {
@@ -146,7 +116,6 @@
             justify-content: center;
         }
 
-        /* Cursor Parpadeante de Máquina de Escribir */
         .typewriter-cursor::after {
             content: '|';
             animation: blink 0.7s infinite;
@@ -159,7 +128,7 @@
             50% { opacity: 0; }
         }
 
-        /* Reproductor de Música Fijo */
+        /* Reproductor de Música */
         .music-player {
             position: absolute;
             top: 10px;
@@ -270,7 +239,7 @@
             border: 1px solid var(--border-color);
         }
 
-        /* Nav Inferior */
+        /* Nav Inferior Ajustado a 5 pestañas */
         nav {
             position: fixed;
             bottom: 0; left: 0; right: 0;
@@ -290,11 +259,11 @@
             justify-content: center;
             color: var(--text-secondary);
             text-decoration: none;
-            font-size: 0.75rem;
+            font-size: 0.65rem;
             background: none;
             border: none;
             cursor: pointer;
-            padding: 4px 0;
+            padding: 2px 0;
         }
 
         .nav-item.active {
@@ -303,13 +272,12 @@
         }
 
         .nav-item svg {
-            width: 22px;
-            height: 22px;
-            margin-bottom: 3px;
+            width: 20px;
+            height: 20px;
+            margin-bottom: 2px;
             fill: currentColor;
         }
 
-        /* Histórico */
         .history-item {
             background-color: var(--bg-card);
             border-radius: 10px;
@@ -342,9 +310,9 @@
             font-weight: bold;
         }
 
-        .history-item img {
+        .history-item video, .history-item img {
             width: 100%;
-            max-height: 200px;
+            max-height: 220px;
             object-fit: cover;
             border-radius: 6px;
             margin-top: 8px;
@@ -385,15 +353,8 @@
 </head>
 <body>
 
-    <!-- CAPAS DEL FONDO DINÁMICO GLOBAL -->
-    <div class="bg-dynamic-layer active" id="bg-layer-1" style="background-image: url('https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1200');"></div>
-    <div class="bg-dynamic-layer" id="bg-layer-2" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1200');"></div>
-    <div class="bg-dynamic-layer" id="bg-layer-3" style="background-image: url('https://images.unsplash.com/photo-1574680096145-d05b474e2155?q=80&w=1200');"></div>
-    <div class="bg-overlay-dark"></div>
-
-    <!-- Header con Banner Dinámico -->
+    <!-- Header con Banner Dinámico de Imágenes -->
     <header class="hero-banner">
-        <!-- Control de Audio -->
         <div class="music-player">
             <button class="music-btn" id="play-btn" onclick="toggleAudio()">▶</button>
             <span class="music-text">MOTIVACIÓN</span>
@@ -402,7 +363,7 @@
             <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
         </audio>
 
-        <!-- Slide Personalizado Máquina de Escribir para Andrés Arcila -->
+        <!-- Slide Máquina de Escribir -->
         <div class="banner-slide green-bg active" id="slide-typewriter">
             <div class="banner-content">
                 <small class="verse-title">ENFOQUE MENTAL</small>
@@ -410,19 +371,17 @@
             </div>
         </div>
 
-        <!-- Slide Video Hombre: Movimiento Real de Ejercicio -->
-        <div class="banner-slide">
-            <video class="banner-video-bg" autoplay loop muted playsinline webkit-playsinline>
-                <source src="https://assets.mixkit.co/videos/preview/mixkit-man-holding-a-barbell-with-weights-41527-large.mp4" type="video/mp4">
-            </video>
+        <!-- Slide Gym Hombre -->
+        <div class="banner-slide" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1000');">
             <div class="banner-overlay"></div>
             <div class="banner-content">
-                <small class="verse-title">TÉCNICA Y POTENCIA</small>
-                <h1>SENTADILLA CON BARRA</h1>
-                <p style="letter-spacing:2px; font-weight:bold;">MÁXIMA SOBRECARGA PROGRESIVA</p>
+                <small class="verse-title">FUERZA Y DISCIPLINA</small>
+                <h1>ENTRENAMIENTO PESADO</h1>
+                <p style="letter-spacing:2px; font-weight:bold;">SOBRECARGA PROGRESIVA</p>
             </div>
         </div>
 
+        <!-- Slide Josué 1:9 -->
         <div class="banner-slide green-bg">
             <div class="banner-content">
                 <small class="verse-title">JOSUÉ 1:9</small>
@@ -430,16 +389,13 @@
             </div>
         </div>
 
-        <!-- Slide Video Mujer: Movimiento Real de Ejercicio -->
-        <div class="banner-slide">
-            <video class="banner-video-bg" autoplay loop muted playsinline webkit-playsinline>
-                <source src="https://assets.mixkit.co/videos/preview/mixkit-young-woman-doing-leg-presses-at-the-gym-41529-large.mp4" type="video/mp4">
-            </video>
+        <!-- Slide Gym Pareja / Mujer -->
+        <div class="banner-slide" style="background-image: url('https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1000');">
             <div class="banner-overlay"></div>
             <div class="banner-content">
-                <small class="verse-title">FOCUS PIERNA Y GLÚTEO</small>
-                <h1>PRENSA DE PIERNA</h1>
-                <p style="letter-spacing:2px; font-weight:bold;">DISCIPLINA Y CONSTANCIA</p>
+                <small class="verse-title">ENFOQUE TOTAL</small>
+                <h1>PIERNA Y GLÚTEO</h1>
+                <p style="letter-spacing:2px; font-weight:bold;">CONSTANCIA DIARIA</p>
             </div>
         </div>
 
@@ -507,7 +463,7 @@
             </div>
         </section>
 
-        <!-- TAB 2: ALIMENTACIÓN / NUTRICIÓN -->
+        <!-- TAB 2: ALIMENTACIÓN -->
         <section id="tab-nutrition" class="tab-content">
             <div class="card">
                 <div class="card-title">🥗 Control de Alimentación</div>
@@ -546,7 +502,26 @@
             <div id="nutrition-history-list"></div>
         </section>
 
-        <!-- TAB 3: PROGRESO -->
+        <!-- TAB 3: VIDEOS MOTIVACIONALES -->
+        <section id="tab-videos" class="tab-content">
+            <div class="card">
+                <div class="card-title">🎬 Videos Motivacionales</div>
+                <form id="video-form">
+                    <div class="form-group">
+                        <label for="video-title">Título del Video</label>
+                        <input type="text" id="video-title" placeholder="ej. Motivación Pierna Pesada" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="video-file">Subir Video (Desde Galería)</label>
+                        <input type="file" id="video-file" accept="video/*" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Guardar Video</button>
+                </form>
+            </div>
+            <div id="video-list"></div>
+        </section>
+
+        <!-- TAB 4: PROGRESO -->
         <section id="tab-progress" class="tab-content">
             <div class="card">
                 <div class="card-title">📈 Sobrecarga Progresiva</div>
@@ -562,7 +537,7 @@
             </div>
         </section>
 
-        <!-- TAB 4: HISTÓRICO COMPLETO -->
+        <!-- TAB 5: HISTÓRICO -->
         <section id="tab-history" class="tab-content">
             <div id="global-history-list"></div>
         </section>
@@ -578,6 +553,10 @@
             <svg viewBox="0 0 24 24"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.46 3.9 3.45 4.38l-.95 7.62h2l.95-7.62C10.54 12.9 12 11.12 12 9V2h-1v7zm6-7v18h2V11h2V2h-4z"/></svg>
             Nutrición
         </button>
+        <button class="nav-item" onclick="switchTab('tab-videos', this)">
+            <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+            Motivación
+        </button>
         <button class="nav-item" onclick="switchTab('tab-progress', this)">
             <svg viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
             Progreso
@@ -590,7 +569,7 @@
 
     <script>
         const DB_NAME = 'EnfoqueGymDB';
-        const DB_VERSION = 2;
+        const DB_VERSION = 3;
         let db;
 
         const routinesByDay = {
@@ -656,6 +635,9 @@
                     if (!dbRef.objectStoreNames.contains('meals')) {
                         dbRef.createObjectStore('meals', { keyPath: 'id', autoIncrement: true });
                     }
+                    if (!dbRef.objectStoreNames.contains('videos')) {
+                        dbRef.createObjectStore('videos', { keyPath: 'id', autoIncrement: true });
+                    }
                 };
             });
         }
@@ -674,6 +656,13 @@
             });
         }
 
+        function saveVideo(videoData) {
+            return new Promise((resolve) => {
+                const tx = db.transaction(['videos'], 'readwrite');
+                tx.objectStore('videos').add(videoData).onsuccess = () => resolve();
+            });
+        }
+
         function getAllLogs() {
             return new Promise((resolve) => {
                 const tx = db.transaction(['logs'], 'readonly');
@@ -685,6 +674,13 @@
             return new Promise((resolve) => {
                 const tx = db.transaction(['meals'], 'readonly');
                 tx.objectStore('meals').getAll().onsuccess = (e) => resolve(e.target.result);
+            });
+        }
+
+        function getAllVideos() {
+            return new Promise((resolve) => {
+                const tx = db.transaction(['videos'], 'readonly');
+                tx.objectStore('videos').getAll().onsuccess = (e) => resolve(e.target.result);
             });
         }
 
@@ -734,19 +730,10 @@
             btn.classList.add('active');
 
             if (tabId === 'tab-nutrition') loadNutritionHistory();
+            if (tabId === 'tab-videos') loadVideosList();
             if (tabId === 'tab-progress') loadProgressFilter();
             if (tabId === 'tab-history') loadGlobalHistory();
         }
-
-        // --- ROTACIÓN DEL FONDO DINÁMICO GLOBAL ---
-        let currentBgLayer = 1;
-        const totalBgLayers = 3;
-        function rotateGlobalBackground() {
-            document.getElementById(`bg-layer-${currentBgLayer}`).classList.remove('active');
-            currentBgLayer = (currentBgLayer % totalBgLayers) + 1;
-            document.getElementById(`bg-layer-${currentBgLayer}`).classList.add('active');
-        }
-        setInterval(rotateGlobalBackground, 12000);
 
         // --- SINTETIZADOR DE SONIDO MÁQUINA DE ESCRIBIR ---
         let audioCtx = null;
@@ -771,7 +758,7 @@
             } catch (e) {}
         }
 
-        // --- EFECTO MÁQUINA DE ESCRIBIR CON SONIDO ---
+        // --- EFECTO MÁQUINA DE ESCRIBIR ---
         const textToType = "¡VAMOS ANDRES ARCILA! VAMOS A LOGRAR TU OBJETIVO";
         let typeIndex = 0;
         let typingTimeout = null;
@@ -793,22 +780,13 @@
             typeNextChar();
         }
 
-        // --- ROTACIÓN DEL BANNER CON REPRODUCCIÓN FORZADA DE VIDEO ---
+        // --- ROTACIÓN DEL BANNER ---
         let currentSlide = 0;
         function rotateBanner() {
             const slides = document.querySelectorAll('.banner-slide');
             slides[currentSlide].classList.remove('active');
             currentSlide = (currentSlide + 1) % slides.length;
             slides[currentSlide].classList.add('active');
-
-            const video = slides[currentSlide].querySelector('video');
-            if (video) {
-                video.currentTime = 0;
-                const playPromise = video.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(() => {});
-                }
-            }
 
             if (currentSlide === 0) {
                 startTypewriter();
@@ -886,6 +864,61 @@
             document.getElementById('protein-input').value = '';
             loadNutritionHistory();
         });
+
+        // SUBIR Y GUARDAR VIDEO MOTIVACIONAL
+        document.getElementById('video-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const file = document.getElementById('video-file').files[0];
+            const title = document.getElementById('video-title').value;
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = async function(event) {
+                    const videoData = {
+                        title: title,
+                        src: event.target.result,
+                        date: new Date().toISOString().split('T')[0],
+                        timestamp: new Date().getTime()
+                    };
+                    await saveVideo(videoData);
+                    alert("¡Video motivacional guardado!");
+                    document.getElementById('video-title').value = '';
+                    document.getElementById('video-file').value = '';
+                    loadVideosList();
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        async function loadVideosList() {
+            const container = document.getElementById('video-list');
+            const videos = await getAllVideos();
+
+            if (videos.length === 0) {
+                container.innerHTML = '<div class="empty-state">No has subido videos motivacionales aún.</div>';
+                return;
+            }
+
+            videos.sort((a, b) => b.timestamp - a.timestamp);
+
+            container.innerHTML = videos.map(item => `
+                <div class="history-item">
+                    <button class="delete-btn" onclick="removeVideoRecord(${item.id})">Eliminar</button>
+                    <div class="header-info">
+                        <span>${item.date}</span>
+                    </div>
+                    <div class="title-info">${item.title}</div>
+                    <video controls src="${item.src}"></video>
+                </div>
+            `).join('');
+        }
+
+        async function removeVideoRecord(id) {
+            if (confirm("¿Deseas eliminar este video?")) {
+                await deleteRecord('videos', id);
+                loadVideosList();
+            }
+        }
 
         async function loadNutritionHistory() {
             const container = document.getElementById('nutrition-history-list');
