@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ENFOQUE - Gym Tracker</title>
+    <title>ENFOQUE - Gym & Nutrition Tracker</title>
     <style>
         :root {
             --bg-primary: #0a0a0a;
-            --bg-surface: rgba(22, 22, 22, 0.85);
-            --bg-card: rgba(35, 35, 35, 0.85);
+            --bg-surface: rgba(20, 20, 20, 0.88);
+            --bg-card: rgba(30, 30, 30, 0.85);
             --accent: #00e676;
+            --accent-glow: rgba(0, 230, 118, 0.3);
             --text-primary: #ffffff;
             --text-secondary: #b0b0b0;
             --border-color: #333333;
@@ -25,7 +26,6 @@
 
         body {
             background-color: var(--bg-primary);
-            /* Fondo de gimnasio oscuro con baja opacidad */
             background-image: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1000&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
@@ -34,34 +34,61 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            padding-bottom: 70px;
+            padding-bottom: 75px;
         }
 
-        header {
-            background-color: var(--bg-surface);
-            backdrop-filter: blur(8px);
-            padding: 18px 16px;
+        /* Banner Dinámico */
+        .hero-banner {
+            position: relative;
+            height: 140px;
+            overflow: hidden;
+            border-bottom: 2px solid var(--accent);
+            box-shadow: 0 4px 20px var(--accent-glow);
+        }
+
+        .banner-slide {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
-            border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            z-index: 10;
+            padding: 10px;
         }
 
-        header h1 {
-            font-size: 1.6rem;
+        .banner-slide.active { opacity: 1; }
+
+        .banner-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.65);
+        }
+
+        .banner-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .banner-content h1 {
+            font-size: 2rem;
             font-weight: 900;
             color: var(--accent);
             text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 2px;
+            letter-spacing: 3px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
         }
 
-        header p {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            letter-spacing: 1px;
+        .banner-content p {
+            font-size: 0.8rem;
+            color: #fff;
+            letter-spacing: 1.5px;
             font-weight: 600;
+            margin-top: 4px;
         }
 
         main {
@@ -72,27 +99,32 @@
             width: 100%;
         }
 
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
 
         .card {
             background-color: var(--bg-surface);
-            backdrop-filter: blur(10px);
-            border-radius: 12px;
+            backdrop-filter: blur(12px);
+            border-radius: 14px;
             padding: 18px;
             margin-bottom: 16px;
             border: 1px solid var(--border-color);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
         }
 
-        .form-group {
+        .card-title {
+            font-size: 1.1rem;
+            color: var(--accent);
+            font-weight: bold;
             margin-bottom: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
+
+        .form-group { margin-bottom: 14px; }
 
         label {
             display: block;
@@ -112,9 +144,7 @@
             outline: none;
         }
 
-        input:focus, select:focus {
-            border-color: var(--accent);
-        }
+        input:focus, select:focus { border-color: var(--accent); }
 
         .btn-primary {
             background-color: var(--accent);
@@ -122,27 +152,20 @@
             font-weight: bold;
             border: none;
             cursor: pointer;
-            transition: opacity 0.2s;
+            transition: transform 0.1s, opacity 0.2s;
             text-transform: uppercase;
             letter-spacing: 1px;
+            margin-top: 6px;
         }
 
-        .btn-primary:active {
-            opacity: 0.8;
-        }
+        .btn-primary:active { transform: scale(0.98); opacity: 0.9; }
 
-        .row {
-            display: flex;
-            gap: 10px;
-        }
-
-        .row .form-group {
-            flex: 1;
-        }
+        .row { display: flex; gap: 10px; }
+        .row .form-group { flex: 1; }
 
         .image-preview {
             width: 100%;
-            max-height: 250px;
+            max-height: 220px;
             object-fit: cover;
             border-radius: 8px;
             margin-top: 10px;
@@ -153,14 +176,12 @@
         /* Nav Inferior */
         nav {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            bottom: 0; left: 0; right: 0;
             background-color: var(--bg-surface);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             display: flex;
             border-top: 1px solid var(--border-color);
-            height: 60px;
+            height: 65px;
             z-index: 100;
         }
 
@@ -172,10 +193,11 @@
             justify-content: center;
             color: var(--text-secondary);
             text-decoration: none;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             background: none;
             border: none;
             cursor: pointer;
+            padding: 4px 0;
         }
 
         .nav-item.active {
@@ -184,19 +206,18 @@
         }
 
         .nav-item svg {
-            width: 22px;
-            height: 22px;
-            margin-bottom: 4px;
+            width: 20px;
+            height: 20px;
+            margin-bottom: 3px;
             fill: currentColor;
         }
 
-        /* Historial y Registros */
+        /* Items de Histórico y Comidas */
         .history-item {
             background-color: var(--bg-card);
-            backdrop-filter: blur(8px);
-            border-radius: 8px;
+            border-radius: 10px;
             padding: 14px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             border-left: 4px solid var(--accent);
             border-top: 1px solid var(--border-color);
             border-right: 1px solid var(--border-color);
@@ -237,7 +258,7 @@
             color: var(--danger);
             border: none;
             font-size: 0.8rem;
-            padding: 4px;
+            padding: 2px;
             width: auto;
             cursor: pointer;
             float: right;
@@ -246,26 +267,70 @@
         .empty-state {
             text-align: center;
             color: var(--text-secondary);
-            padding: 30px 10px;
+            padding: 25px 10px;
             font-size: 0.9rem;
             background-color: var(--bg-surface);
             border-radius: 12px;
             border: 1px solid var(--border-color);
         }
+
+        .routine-tag {
+            background-color: var(--accent-glow);
+            color: var(--accent);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>ENFOQUE</h1>
-        <p>CONTROL DE PROGRESO</p>
+    <!-- Banner Dinámico con Frases y Fondos de Gym -->
+    <header class="hero-banner">
+        <div class="banner-slide active" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1000');">
+            <div class="banner-overlay"></div>
+            <div class="banner-content">
+                <h1>ENFOQUE</h1>
+                <p>DISCIPLINA, FUERZA Y CONSTANCIA</p>
+            </div>
+        </div>
+        <div class="banner-slide" style="background-image: url('https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1000');">
+            <div class="banner-overlay"></div>
+            <div class="banner-content">
+                <h1>ENFOQUE</h1>
+                <p>DÍA DE PIERNA: DEDICACIÓN TOTAL</p>
+            </div>
+        </div>
+        <div class="banner-slide" style="background-image: url('https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?q=80&w=1000');">
+            <div class="banner-overlay"></div>
+            <div class="banner-content">
+                <h1>ENFOQUE</h1>
+                <p>SOBRECARGA PROGRESIVA DIARIA</p>
+            </div>
+        </div>
     </header>
 
     <main>
-        <!-- TAB 1: REGISTRAR -->
+        <!-- TAB 1: REGISTRAR ENTRENAMIENTO -->
         <section id="tab-register" class="tab-content active">
             <div class="card">
+                <div class="card-title">🏋️ Registro de Rutina</div>
                 <form id="workout-form">
+                    <div class="form-group">
+                        <label for="day-select">Día y Rutina</label>
+                        <select id="day-select" onchange="updateExercisesByDay()">
+                            <option value="Lunes">Lunes: Pierna (Cuádriceps, Glúteo, Pantorrilla)</option>
+                            <option value="Martes">Martes: Pecho y Tríceps</option>
+                            <option value="Miércoles">Miércoles: Espalda y Bíceps</option>
+                            <option value="Jueves">Jueves: Pierna (Femoral y Glúteo Focus)</option>
+                            <option value="Viernes">Viernes: Hombro y Trapecio</option>
+                            <option value="Sábado">Sábado: Full Body / Cardio</option>
+                        </select>
+                    </div>
+
                     <div class="form-group">
                         <label for="workout-date">Fecha</label>
                         <input type="date" id="workout-date" required>
@@ -303,9 +368,49 @@
             </div>
         </section>
 
-        <!-- TAB 2: PROGRESO -->
+        <!-- TAB 2: ALIMENTACIÓN -->
+        <section id="tab-nutrition" class="tab-content">
+            <div class="card">
+                <div class="card-title">🥗 Control de Alimentación</div>
+                <form id="nutrition-form">
+                    <div class="form-group">
+                        <label for="meal-date">Fecha</label>
+                        <input type="date" id="meal-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="meal-type">Tipo de Comida</label>
+                        <select id="meal-type" required>
+                            <option value="Desayuno">Desayuno</option>
+                            <option value="Almuerzo">Almuerzo</option>
+                            <option value="Cena">Cena</option>
+                            <option value="Pre-Entreno">Pre-Entreno</option>
+                            <option value="Post-Entreno">Post-Entreno / Snack</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="meal-desc">Descripción de Alimentos</label>
+                        <input type="text" id="meal-desc" placeholder="ej. 200g Pechuga, 150g Arroz, Ensalada" required>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="calories-input">Calorías (kcal)</label>
+                            <input type="number" id="calories-input" placeholder="ej. 550">
+                        </div>
+                        <div class="form-group">
+                            <label for="protein-input">Proteína (g)</label>
+                            <input type="number" id="protein-input" placeholder="ej. 40">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary">Guardar Comida</button>
+                </form>
+            </div>
+            <div id="nutrition-history-list"></div>
+        </section>
+
+        <!-- TAB 3: PROGRESO -->
         <section id="tab-progress" class="tab-content">
             <div class="card">
+                <div class="card-title">📈 Sobrecarga Progresiva</div>
                 <div class="form-group">
                     <label for="filter-exercise">Filtrar por Ejercicio</label>
                     <select id="filter-exercise">
@@ -318,16 +423,21 @@
             </div>
         </section>
 
-        <!-- TAB 3: HISTÓRICO -->
+        <!-- TAB 4: HISTÓRICO COMPLETO -->
         <section id="tab-history" class="tab-content">
             <div id="global-history-list"></div>
         </section>
     </main>
 
+    <!-- Navegación Inferior -->
     <nav>
         <button class="nav-item active" onclick="switchTab('tab-register', this)">
             <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-            Registrar
+            Entreno
+        </button>
+        <button class="nav-item" onclick="switchTab('tab-nutrition', this)">
+            <svg viewBox="0 0 24 24"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.46 3.9 3.45 4.38l-.95 7.62h2l.95-7.62C10.54 12.9 12 11.12 12 9V2h-1v7zm6-7v18h2V11h2V2h-4z"/></svg>
+            Nutrición
         </button>
         <button class="nav-item" onclick="switchTab('tab-progress', this)">
             <svg viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
@@ -341,22 +451,55 @@
 
     <script>
         const DB_NAME = 'EnfoqueGymDB';
-        const DB_VERSION = 1;
+        const DB_VERSION = 2;
         let db;
 
-        const defaultExercises = [
-            "Prensa 45°",
-            "Sentadilla Libre",
-            "Peso Muerto",
-            "Extensión de Cuádriceps",
-            "Curl Femoral",
-            "Press de Banca Plano",
-            "Press Inclinado con Mancuernas",
-            "Jalón al Pecho",
-            "Remo con Barra",
-            "Press Militar",
-            "Elevaciones Laterales"
-        ];
+        // Base de datos de ejercicios por día de entrenamiento
+        const routinesByDay = {
+            "Lunes": [
+                "Prensa 45° (Cuádriceps/Glúteo)",
+                "Sentadilla Libre (Cuádriceps)",
+                "Extensión de Cuádriceps",
+                "Hip Thrust (Glúteo)",
+                "Zancadas / Búlgaras (Cuádriceps/Glúteo)",
+                "Elevación de Pantorrilla de pie",
+                "Elevación de Pantorrilla sentado"
+            ],
+            "Martes": [
+                "Press de Banca Plano",
+                "Press Inclinado con Mancuernas",
+                "Aperturas en Polea / Peck Deck",
+                "Extensiones de Tríceps en Polea",
+                "Press Francés"
+            ],
+            "Miércoles": [
+                "Jalón al Pecho",
+                "Remo con Barra",
+                "Remo Gironda",
+                "Curl de Bíceps con Barra",
+                "Curl Martillo"
+            ],
+            "Jueves": [
+                "Peso Muerto Rumano (Femoral/Glúteo)",
+                "Curl Femoral Tumbado",
+                "Curl Femoral Sentado",
+                "Hip Thrust Pesado",
+                "Abductores en Máquina",
+                "Pantorrilla en Prensa"
+            ],
+            "Viernes": [
+                "Press Militar con Barra/Mancuernas",
+                "Elevaciones Laterales",
+                "Pájaro / Deltoides Posterior",
+                "Encogimientos de Trapecio"
+            ],
+            "Sábado": [
+                "Sentadilla Búlgara",
+                "Press Inclinado",
+                "Remo con Mancuerna",
+                "Paseo del Granjero"
+            ]
+        };
 
         function initDB() {
             return new Promise((resolve, reject) => {
@@ -371,39 +514,78 @@
                     if (!dbRef.objectStoreNames.contains('logs')) {
                         const store = dbRef.createObjectStore('logs', { keyPath: 'id', autoIncrement: true });
                         store.createIndex('exercise', 'exercise', { unique: false });
-                        store.createIndex('date', 'date', { unique: false });
+                    }
+                    if (!dbRef.objectStoreNames.contains('meals')) {
+                        dbRef.createObjectStore('meals', { keyPath: 'id', autoIncrement: true });
                     }
                 };
             });
         }
 
         function saveLog(logData) {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 const tx = db.transaction(['logs'], 'readwrite');
-                const store = tx.objectStore('logs');
-                const req = store.add(logData);
-                req.onsuccess = () => resolve(req.result);
-                req.onerror = () => reject(req.error);
+                tx.objectStore('logs').add(logData).onsuccess = () => resolve();
+            });
+        }
+
+        function saveMeal(mealData) {
+            return new Promise((resolve) => {
+                const tx = db.transaction(['meals'], 'readwrite');
+                tx.objectStore('meals').add(mealData).onsuccess = () => resolve();
             });
         }
 
         function getAllLogs() {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 const tx = db.transaction(['logs'], 'readonly');
-                const store = tx.objectStore('logs');
-                const req = store.getAll();
-                req.onsuccess = () => resolve(req.result);
-                req.onerror = () => reject(req.error);
+                tx.objectStore('logs').getAll().onsuccess = (e) => resolve(e.target.result);
             });
         }
 
-        function deleteLog(id) {
-            return new Promise((resolve, reject) => {
-                const tx = db.transaction(['logs'], 'readwrite');
-                const store = tx.objectStore('logs');
-                const req = store.delete(id);
-                req.onsuccess = () => resolve();
-                req.onerror = () => reject(req.error);
+        function getAllMeals() {
+            return new Promise((resolve) => {
+                const tx = db.transaction(['meals'], 'readonly');
+                tx.objectStore('meals').getAll().onsuccess = (e) => resolve(e.target.result);
+            });
+        }
+
+        function deleteRecord(storeName, id) {
+            return new Promise((resolve) => {
+                const tx = db.transaction([storeName], 'readwrite');
+                tx.objectStore(storeName).delete(id).onsuccess = () => resolve();
+            });
+        }
+
+        function updateExercisesByDay() {
+            const selectedDay = document.getElementById('day-select').value;
+            const exerciseSelect = document.getElementById('exercise-select');
+            exerciseSelect.innerHTML = '';
+
+            const exercises = routinesByDay[selectedDay] || [];
+            exercises.forEach(ex => {
+                const opt = document.createElement('option');
+                opt.value = ex;
+                opt.textContent = ex;
+                exerciseSelect.appendChild(opt);
+            });
+        }
+
+        function populateAllFilterExercises() {
+            const filterSelect = document.getElementById('filter-exercise');
+            filterSelect.innerHTML = '<option value="">-- Selecciona un ejercicio --</option>';
+
+            let allEx = [];
+            Object.values(routinesByDay).forEach(list => {
+                allEx = allEx.concat(list);
+            });
+            const uniqueEx = [...new Set(allEx)].sort();
+
+            uniqueEx.forEach(ex => {
+                const opt = document.createElement('option');
+                opt.value = ex;
+                opt.textContent = ex;
+                filterSelect.appendChild(opt);
             });
         }
 
@@ -413,29 +595,20 @@
             document.getElementById(tabId).classList.add('active');
             btn.classList.add('active');
 
+            if (tabId === 'tab-nutrition') loadNutritionHistory();
             if (tabId === 'tab-progress') loadProgressFilter();
             if (tabId === 'tab-history') loadGlobalHistory();
         }
 
-        function populateSelects() {
-            const exerciseSelect = document.getElementById('exercise-select');
-            const filterSelect = document.getElementById('filter-exercise');
-            
-            exerciseSelect.innerHTML = '';
-            filterSelect.innerHTML = '<option value="">-- Selecciona un ejercicio --</option>';
-
-            defaultExercises.sort().forEach(ex => {
-                const opt1 = document.createElement('option');
-                opt1.value = ex;
-                opt1.textContent = ex;
-                exerciseSelect.appendChild(opt1);
-
-                const opt2 = document.createElement('option');
-                opt2.value = ex;
-                opt2.textContent = ex;
-                filterSelect.appendChild(opt2);
-            });
+        // Banner Slider Automático
+        let currentSlide = 0;
+        function rotateBanner() {
+            const slides = document.querySelectorAll('.banner-slide');
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
         }
+        setInterval(rotateBanner, 4000);
 
         let currentPhotoBase64 = null;
         document.getElementById('photo-input').addEventListener('change', function(e) {
@@ -455,6 +628,7 @@
         document.getElementById('workout-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             const logData = {
+                day: document.getElementById('day-select').value,
                 date: document.getElementById('workout-date').value,
                 exercise: document.getElementById('exercise-select').value,
                 weight: parseFloat(document.getElementById('weight-input').value),
@@ -473,6 +647,57 @@
             document.getElementById('photo-preview').style.display = 'none';
             currentPhotoBase64 = null;
         });
+
+        document.getElementById('nutrition-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const mealData = {
+                date: document.getElementById('meal-date').value,
+                type: document.getElementById('meal-type').value,
+                desc: document.getElementById('meal-desc').value,
+                calories: document.getElementById('calories-input').value || 'N/A',
+                protein: document.getElementById('protein-input').value || 'N/A',
+                timestamp: new Date().getTime()
+            };
+
+            await saveMeal(mealData);
+            alert("¡Comida guardada con éxito!");
+
+            document.getElementById('meal-desc').value = '';
+            document.getElementById('calories-input').value = '';
+            document.getElementById('protein-input').value = '';
+            loadNutritionHistory();
+        });
+
+        async function loadNutritionHistory() {
+            const container = document.getElementById('nutrition-history-list');
+            const meals = await getAllMeals();
+
+            if (meals.length === 0) {
+                container.innerHTML = '<div class="empty-state">No hay comidas registradas aún.</div>';
+                return;
+            }
+
+            meals.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            container.innerHTML = meals.map(item => `
+                <div class="history-item">
+                    <button class="delete-btn" onclick="removeMealRecord(${item.id})">Eliminar</button>
+                    <div class="header-info">
+                        <span>${item.date}</span>
+                        <span>${item.type}</span>
+                    </div>
+                    <div class="title-info">${item.desc}</div>
+                    <div class="detail-info">${item.calories} kcal | ${item.protein}g Proteína</div>
+                </div>
+            `).join('');
+        }
+
+        async function removeMealRecord(id) {
+            if (confirm("¿Eliminar este registro de comida?")) {
+                await deleteRecord('meals', id);
+                loadNutritionHistory();
+            }
+        }
 
         document.getElementById('filter-exercise').addEventListener('change', async function(e) {
             const selectedEx = e.target.value;
@@ -494,6 +719,7 @@
 
             container.innerHTML = filtered.map(item => `
                 <div class="history-item">
+                    <span class="routine-tag">${item.day || 'Entrenamiento'}</span>
                     <div class="header-info">
                         <span>${item.date}</span>
                         <span>${item.sets} series</span>
@@ -508,7 +734,7 @@
         async function loadGlobalHistory() {
             const container = document.getElementById('global-history-list');
             const allLogs = await getAllLogs();
-            
+
             if (allLogs.length === 0) {
                 container.innerHTML = '<div class="empty-state">Aún no tienes entrenamientos guardados.</div>';
                 return;
@@ -518,7 +744,8 @@
 
             container.innerHTML = allLogs.map(item => `
                 <div class="history-item">
-                    <button class="delete-btn" onclick="removeLog(${item.id})">Eliminar</button>
+                    <button class="delete-btn" onclick="removeLogRecord(${item.id})">Eliminar</button>
+                    <span class="routine-tag">${item.day || 'Entrenamiento'}</span>
                     <div class="header-info">
                         <span>${item.date}</span>
                         <span>${item.sets} series</span>
@@ -530,9 +757,9 @@
             `).join('');
         }
 
-        async function removeLog(id) {
-            if (confirm("¿Deseas eliminar este registro?")) {
-                await deleteLog(id);
+        async function removeLogRecord(id) {
+            if (confirm("¿Deseas eliminar este registro de entrenamiento?")) {
+                await deleteRecord('logs', id);
                 loadGlobalHistory();
             }
         }
@@ -542,8 +769,12 @@
         }
 
         window.addEventListener('DOMContentLoaded', async () => {
-            document.getElementById('workout-date').valueAsDate = new Date();
-            populateSelects();
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('workout-date').value = today;
+            document.getElementById('meal-date').value = today;
+
+            updateExercisesByDay();
+            populateAllFilterExercises();
             await initDB();
         });
     </script>
