@@ -4,7 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ENFOQUE - Gym & Nutrition Tracker</title>
-    <!-- Fuentes deportivas y de alta legibilidad -->
+    
+    <!-- Configuración PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#00e676">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="ENFOQUE">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2964/2964514.png">
+
+    <!-- Fuentes deportivas -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Teko:wght@700&display=swap" rel="stylesheet">
@@ -41,7 +50,6 @@
             padding-bottom: 75px;
         }
 
-        /* Banner Dinámico */
         .hero-banner {
             position: relative;
             height: 200px;
@@ -138,7 +146,6 @@
             50% { opacity: 0; }
         }
 
-        /* Reproductor de Música */
         .music-player {
             position: absolute;
             top: 10px;
@@ -249,7 +256,6 @@
             border: 1px solid var(--border-color);
         }
 
-        /* Estilos Tarjetas de Consejos */
         .tip-card {
             position: relative;
             border-radius: 12px;
@@ -302,7 +308,6 @@
             line-height: 1.3;
         }
 
-        /* Nav Inferior con 7 ítems compactos */
         nav {
             position: fixed;
             bottom: 0; left: 0; right: 0;
@@ -416,7 +421,6 @@
 </head>
 <body>
 
-    <!-- Header con Banner Dinámico -->
     <header class="hero-banner">
         <div class="music-player">
             <button class="music-btn" id="play-btn" onclick="toggleAudio()">▶</button>
@@ -468,7 +472,6 @@
     </header>
 
     <main>
-        <!-- TAB 1: REGISTRAR ENTRENAMIENTO -->
         <section id="tab-register" class="tab-content active">
             <div class="card">
                 <div class="card-title">🏋️ Registro de Rutina</div>
@@ -522,7 +525,6 @@
             </div>
         </section>
 
-        <!-- TAB 2: MI PERFIL Y MEDIDAS (PESO Y ESTATURA) -->
         <section id="tab-profile" class="tab-content">
             <div class="card">
                 <div class="card-title">📏 Peso y Estatura</div>
@@ -547,7 +549,6 @@
             <div id="body-history-list"></div>
         </section>
 
-        <!-- TAB 3: ALIMENTACIÓN -->
         <section id="tab-nutrition" class="tab-content">
             <div class="card">
                 <div class="card-title">🥗 Control de Alimentación</div>
@@ -586,7 +587,6 @@
             <div id="nutrition-history-list"></div>
         </section>
 
-        <!-- TAB 4: CONSEJOS DEL DÍA -->
         <section id="tab-tips" class="tab-content">
             <div class="tip-card" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1000');">
                 <div class="tip-overlay"></div>
@@ -625,7 +625,6 @@
             </div>
         </section>
 
-        <!-- TAB 5: PROGRESO POR EJERCICIO -->
         <section id="tab-progress" class="tab-content">
             <div class="card">
                 <div class="card-title">📈 Sobrecarga Progresiva</div>
@@ -641,7 +640,6 @@
             </div>
         </section>
 
-        <!-- TAB 6: VIDEOS MOTIVACIONALES -->
         <section id="tab-videos" class="tab-content">
             <div class="card">
                 <div class="card-title">🎬 Videos Motivacionales</div>
@@ -660,13 +658,11 @@
             <div id="video-list"></div>
         </section>
 
-        <!-- TAB 7: HISTÓRICO GLOBAL -->
         <section id="tab-history" class="tab-content">
             <div id="global-history-list"></div>
         </section>
     </main>
 
-    <!-- Navegación Inferior -->
     <nav>
         <button class="nav-item active" onclick="switchTab('tab-register', this)">
             <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
@@ -699,11 +695,19 @@
     </nav>
 
     <script>
+        // Registrar Service Worker para PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('Service Worker registrado con éxito', reg))
+                    .catch(err => console.log('Error registrando Service Worker', err));
+            });
+        }
+
         const DB_NAME = 'EnfoqueGymDB';
         const DB_VERSION = 4;
         let db;
 
-        // Rutinas con Íconos Visuales
         const routinesByDay = {
             "Lunes": [
                 "🦵 Prensa 45° (Cuádriceps/Glúteo)",
@@ -885,7 +889,6 @@
             if (tabId === 'tab-history') loadGlobalHistory();
         }
 
-        // --- SINTETIZADOR DE SONIDO MÁQUINA DE ESCRIBIR ---
         let audioCtx = null;
         function playTypewriterClick() {
             try {
@@ -1105,10 +1108,6 @@
                 </div>
             `).join('');
         });
-
-        function loadProgressFilter() {
-            document.getElementById('filter-exercise').dispatchEvent(new Event('change'));
-        }
 
         document.getElementById('video-form').addEventListener('submit', async function(e) {
             e.preventDefault();
