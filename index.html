@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ENFOQUE - Gym & Nutrition Tracker</title>
-    <!-- Fuente con efecto desgastado/urbano -->
+    <!-- Fuentes con efecto desgastado/urbano -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik+Glitch&family=Teko:wght@700&display=swap" rel="stylesheet">
@@ -30,21 +30,42 @@
 
         body {
             background-color: var(--bg-primary);
-            background-image: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1000&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
             color: var(--text-primary);
             display: flex;
             flex-direction: column;
             min-height: 100vh;
             padding-bottom: 75px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* FONDO DINÁMICO GLOBAL */
+        .bg-dynamic-layer {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+
+        .bg-dynamic-layer.active {
+            opacity: 0.25; /* Transparencia para no estorbar la lectura de datos */
+        }
+
+        .bg-overlay-dark {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: linear-gradient(180deg, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.95) 100%);
+            pointer-events: none;
         }
 
         /* Banner Dinámico */
         .hero-banner {
             position: relative;
-            height: 180px;
+            height: 190px;
             overflow: hidden;
             border-bottom: 2px solid var(--accent);
             box-shadow: 0 4px 20px var(--accent-glow);
@@ -96,7 +117,7 @@
         }
 
         .banner-content h1 {
-            font-size: 2.2rem;
+            font-size: 2.1rem;
             font-weight: 900;
             color: var(--accent);
             text-transform: uppercase;
@@ -135,7 +156,7 @@
             top: 10px;
             right: 10px;
             z-index: 10;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.75);
             border: 1px solid var(--accent);
             border-radius: 20px;
             padding: 6px 12px;
@@ -355,6 +376,12 @@
 </head>
 <body>
 
+    <!-- CAPAS DEL FONDO DINÁMICO GLOBAL -->
+    <div class="bg-dynamic-layer active" id="bg-layer-1" style="background-image: url('https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1200');"></div>
+    <div class="bg-dynamic-layer" id="bg-layer-2" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1200');"></div>
+    <div class="bg-dynamic-layer" id="bg-layer-3" style="background-image: url('https://images.unsplash.com/photo-1574680096145-d05b474e2155?q=80&w=1200');"></div>
+    <div class="bg-overlay-dark"></div>
+
     <!-- Header con Banner Dinámico -->
     <header class="hero-banner">
         <!-- Control de Audio -->
@@ -374,11 +401,13 @@
             </div>
         </div>
 
-        <div class="banner-slide" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1000');">
+        <!-- Slide Hombre: Sentadilla con Barra -->
+        <div class="banner-slide" style="background-image: url('https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=1000');">
             <div class="banner-overlay"></div>
             <div class="banner-content">
-                <h1>ENFOQUE</h1>
-                <p style="letter-spacing:2px; font-weight:bold;">DISCIPLINA Y CONSTANCIA</p>
+                <small class="verse-title">TÉCNICA Y POTENCIA</small>
+                <h1>SENTADILLA LIBRE</h1>
+                <p style="letter-spacing:2px; font-weight:bold;">MÁXIMA SOBRECARGA PROGRESIVA</p>
             </div>
         </div>
 
@@ -389,11 +418,13 @@
             </div>
         </div>
 
-        <div class="banner-slide" style="background-image: url('https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1000');">
+        <!-- Slide Mujer: Hip Thrust / Prensa Focus Glúteo -->
+        <div class="banner-slide" style="background-image: url('https://images.unsplash.com/photo-1574680096145-d05b474e2155?q=80&w=1000');">
             <div class="banner-overlay"></div>
             <div class="banner-content">
-                <h1>ENFOQUE</h1>
-                <p style="letter-spacing:2px; font-weight:bold;">DÍA DE PIERNA - DEDICACIÓN TOTAL</p>
+                <small class="verse-title">FOCUS PIERNA Y GLÚTEO</small>
+                <h1>PRENSA Y HIP THRUST</h1>
+                <p style="letter-spacing:2px; font-weight:bold;">DISCIPLINA Y CONSTANCIA</p>
             </div>
         </div>
 
@@ -691,6 +722,16 @@
             if (tabId === 'tab-history') loadGlobalHistory();
         }
 
+        // --- ROTACIÓN DEL FONDO DINÁMICO GLOBAL ---
+        let currentBgLayer = 1;
+        const totalBgLayers = 3;
+        function rotateGlobalBackground() {
+            document.getElementById(`bg-layer-${currentBgLayer}`).classList.remove('active');
+            currentBgLayer = (currentBgLayer % totalBgLayers) + 1;
+            document.getElementById(`bg-layer-${currentBgLayer}`).classList.add('active');
+        }
+        setInterval(rotateGlobalBackground, 12000); // Cambia cada 12 segundos
+
         // --- SINTETIZADOR DE SONIDO MÁQUINA DE ESCRIBIR ---
         let audioCtx = null;
         function playTypewriterClick() {
@@ -711,9 +752,7 @@
                 gain.connect(audioCtx.destination);
                 osc.start();
                 osc.stop(audioCtx.currentTime + 0.04);
-            } catch (e) {
-                // Silencioso si el navegador restringe audio previo a toque
-            }
+            } catch (e) {}
         }
 
         // --- EFECTO MÁQUINA DE ESCRIBIR CON SONIDO ---
@@ -746,7 +785,6 @@
             currentSlide = (currentSlide + 1) % slides.length;
             slides[currentSlide].classList.add('active');
 
-            // Si entra al slide 0 (el de Andrés Arcila), inicia el efecto de máquina de escribir con sonido
             if (currentSlide === 0) {
                 startTypewriter();
             }
@@ -933,7 +971,6 @@
             populateAllFilterExercises();
             await initDB();
             
-            // Iniciar máquina de escribir
             startTypewriter();
         });
     </script>
