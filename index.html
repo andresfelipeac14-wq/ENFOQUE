@@ -302,7 +302,7 @@
             line-height: 1.3;
         }
 
-        /* Nav Inferior Ajustada a 6 ítems */
+        /* Nav Inferior con 7 ítems compactos */
         nav {
             position: fixed;
             bottom: 0; left: 0; right: 0;
@@ -322,7 +322,7 @@
             justify-content: center;
             color: var(--text-secondary);
             text-decoration: none;
-            font-size: 0.58rem;
+            font-size: 0.52rem;
             background: none;
             border: none;
             cursor: pointer;
@@ -335,8 +335,8 @@
         }
 
         .nav-item svg {
-            width: 18px;
-            height: 18px;
+            width: 17px;
+            height: 17px;
             margin-bottom: 2px;
             fill: currentColor;
         }
@@ -476,12 +476,12 @@
                     <div class="form-group">
                         <label for="day-select">Día y Rutina</label>
                         <select id="day-select" onchange="updateExercisesByDay()">
-                            <option value="Lunes">Lunes: Pierna (Cuádriceps, Glúteo, Pantorrilla)</option>
-                            <option value="Martes">Martes: Pecho y Tríceps</option>
-                            <option value="Miércoles">Miércoles: Espalda y Bíceps</option>
-                            <option value="Jueves">Jueves: Pierna (Femoral y Glúteo Focus)</option>
-                            <option value="Viernes">Viernes: Hombro y Trapecio</option>
-                            <option value="Sábado">Sábado: Full Body / Cardio</option>
+                            <option value="Lunes">🍗 Lunes: Pierna (Cuádriceps, Glúteo, Pantorrilla)</option>
+                            <option value="Martes">🏋️‍♂️ Martes: Pecho y Tríceps</option>
+                            <option value="Miércoles">🦾 Miércoles: Espalda y Bíceps</option>
+                            <option value="Jueves">🦵 Jueves: Pierna (Femoral y Glúteo Focus)</option>
+                            <option value="Viernes">🏋️‍♀️ Viernes: Hombro y Trapecio</option>
+                            <option value="Sábado">🔥 Sábado: Full Body / Cardio</option>
                         </select>
                     </div>
 
@@ -559,11 +559,11 @@
                     <div class="form-group">
                         <label for="meal-type">Tipo de Comida</label>
                         <select id="meal-type" required>
-                            <option value="Desayuno">Desayuno</option>
-                            <option value="Almuerzo">Almuerzo</option>
-                            <option value="Cena">Cena</option>
-                            <option value="Pre-Entreno">Pre-Entreno</option>
-                            <option value="Post-Entreno">Post-Entreno / Snack</option>
+                            <option value="Desayuno">🍳 Desayuno</option>
+                            <option value="Almuerzo">🥩 Almuerzo</option>
+                            <option value="Cena">🥗 Cena</option>
+                            <option value="Pre-Entreno">🍌 Pre-Entreno</option>
+                            <option value="Post-Entreno">🥤 Post-Entreno / Snack</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -625,7 +625,23 @@
             </div>
         </section>
 
-        <!-- TAB 5: VIDEOS MOTIVACIONALES -->
+        <!-- TAB 5: PROGRESO POR EJERCICIO -->
+        <section id="tab-progress" class="tab-content">
+            <div class="card">
+                <div class="card-title">📈 Sobrecarga Progresiva</div>
+                <div class="form-group">
+                    <label for="filter-exercise">Filtrar por Ejercicio</label>
+                    <select id="filter-exercise">
+                        <option value="">-- Selecciona un ejercicio --</option>
+                    </select>
+                </div>
+            </div>
+            <div id="progress-results">
+                <div class="empty-state">Selecciona un ejercicio para ver tu sobrecarga progresiva.</div>
+            </div>
+        </section>
+
+        <!-- TAB 6: VIDEOS MOTIVACIONALES -->
         <section id="tab-videos" class="tab-content">
             <div class="card">
                 <div class="card-title">🎬 Videos Motivacionales</div>
@@ -644,7 +660,7 @@
             <div id="video-list"></div>
         </section>
 
-        <!-- TAB 6: HISTÓRICO -->
+        <!-- TAB 7: HISTÓRICO GLOBAL -->
         <section id="tab-history" class="tab-content">
             <div id="global-history-list"></div>
         </section>
@@ -668,9 +684,13 @@
             <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
             Consejos
         </button>
+        <button class="nav-item" onclick="switchTab('tab-progress', this)">
+            <svg viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
+            Progreso
+        </button>
         <button class="nav-item" onclick="switchTab('tab-videos', this)">
             <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
-            Motivación
+            Videos
         </button>
         <button class="nav-item" onclick="switchTab('tab-history', this)">
             <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg>
@@ -683,49 +703,50 @@
         const DB_VERSION = 4;
         let db;
 
+        // Rutinas con Íconos Visuales
         const routinesByDay = {
             "Lunes": [
-                "Prensa 45° (Cuádriceps/Glúteo)",
-                "Sentadilla Libre (Cuádriceps)",
-                "Extensión de Cuádriceps",
-                "Hip Thrust (Glúteo)",
-                "Zancadas / Búlgaras (Cuádriceps/Glúteo)",
-                "Elevación de Pantorrilla de pie",
-                "Elevación de Pantorrilla sentado"
+                "🦵 Prensa 45° (Cuádriceps/Glúteo)",
+                "🏋️‍♂️ Sentadilla Libre (Cuádriceps)",
+                "🦵 Extensión de Cuádriceps",
+                "🍑 Hip Thrust (Glúteo)",
+                "🦶 Zancadas / Búlgaras (Cuádriceps/Glúteo)",
+                "🦶 Elevación de Pantorrilla de pie",
+                "🦶 Elevación de Pantorrilla sentado"
             ],
             "Martes": [
-                "Press de Banca Plano",
-                "Press Inclinado con Mancuernas",
-                "Aperturas en Polea / Peck Deck",
-                "Extensiones de Tríceps en Polea",
-                "Press Francés"
+                "🏋️‍♂️ Press de Banca Plano",
+                "🏋️‍♂️ Press Inclinado con Mancuernas",
+                "🦾 Aperturas en Polea / Peck Deck",
+                "🦾 Extensiones de Tríceps en Polea",
+                "🦾 Press Francés"
             ],
             "Miércoles": [
-                "Jalón al Pecho",
-                "Remo con Barra",
-                "Remo Gironda",
-                "Curl de Bíceps con Barra",
-                "Curl Martillo"
+                "🏋️‍♀️ Jalón al Pecho",
+                "🏋️‍♀️ Remo con Barra",
+                "🏋️‍♀️ Remo Gironda",
+                "🦾 Curl de Bíceps con Barra",
+                "🦾 Curl Martillo"
             ],
             "Jueves": [
-                "Peso Muerto Rumano (Femoral/Glúteo)",
-                "Curl Femoral Tumbado",
-                "Curl Femoral Sentado",
-                "Hip Thrust Pesado",
-                "Abductores en Máquina",
-                "Pantorrilla en Prensa"
+                "🍑 Peso Muerto Rumano (Femoral/Glúteo)",
+                "🦵 Curl Femoral Tumbado",
+                "🦵 Curl Femoral Sentado",
+                "🍑 Hip Thrust Pesado",
+                "🦵 Abductores en Máquina",
+                "🦶 Pantorrilla en Prensa"
             ],
             "Viernes": [
-                "Press Militar con Barra/Mancuernas",
-                "Elevaciones Laterales",
-                "Pájaro / Deltoides Posterior",
-                "Encogimientos de Trapecio"
+                "🏋️‍♂️ Press Militar con Barra/Mancuernas",
+                "🏋️‍♂️ Elevaciones Laterales",
+                "🏋️‍♂️ Pájaro / Deltoides Posterior",
+                "🏋️‍♂️ Encogimientos de Trapecio"
             ],
             "Sábado": [
-                "Sentadilla Búlgara",
-                "Press Inclinado",
-                "Remo con Mancuerna",
-                "Paseo del Granjero"
+                "🦶 Sentadilla Búlgara",
+                "🏋️‍♂️ Press Inclinado",
+                "🏋️‍♀️ Remo con Mancuerna",
+                "🏋️‍♂️ Paseo del Granjero"
             ]
         };
 
@@ -833,6 +854,24 @@
             });
         }
 
+        function populateAllFilterExercises() {
+            const filterSelect = document.getElementById('filter-exercise');
+            filterSelect.innerHTML = '<option value="">-- Selecciona un ejercicio --</option>';
+
+            let allEx = [];
+            Object.values(routinesByDay).forEach(list => {
+                allEx = allEx.concat(list);
+            });
+            const uniqueEx = [...new Set(allEx)].sort();
+
+            uniqueEx.forEach(ex => {
+                const opt = document.createElement('option');
+                opt.value = ex;
+                opt.textContent = ex;
+                filterSelect.appendChild(opt);
+            });
+        }
+
         function switchTab(tabId, btn) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
@@ -841,6 +880,7 @@
 
             if (tabId === 'tab-profile') loadBodyHistory();
             if (tabId === 'tab-nutrition') loadNutritionHistory();
+            if (tabId === 'tab-progress') loadProgressFilter();
             if (tabId === 'tab-videos') loadVideosList();
             if (tabId === 'tab-history') loadGlobalHistory();
         }
@@ -957,7 +997,6 @@
             currentPhotoBase64 = null;
         });
 
-        // REGISTRAR PESO Y ESTATURA
         document.getElementById('body-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             const heightCm = parseFloat(document.getElementById('user-height').value);
@@ -1034,6 +1073,42 @@
             document.getElementById('protein-input').value = '';
             loadNutritionHistory();
         });
+
+        document.getElementById('filter-exercise').addEventListener('change', async function(e) {
+            const selectedEx = e.target.value;
+            const container = document.getElementById('progress-results');
+            if (!selectedEx) {
+                container.innerHTML = '<div class="empty-state">Selecciona un ejercicio para ver tu sobrecarga progresiva.</div>';
+                return;
+            }
+
+            const allLogs = await getAllLogs();
+            const filtered = allLogs
+                .filter(l => l.exercise === selectedEx)
+                .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="empty-state">No hay registros para "${selectedEx}".</div>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(item => `
+                <div class="history-item">
+                    <span class="routine-tag">${item.day || 'Entrenamiento'}</span>
+                    <div class="header-info">
+                        <span>${item.date}</span>
+                        <span>${item.sets} series</span>
+                    </div>
+                    <div class="title-info">${item.exercise}</div>
+                    <div class="detail-info">${item.weight} kg × ${item.reps} reps</div>
+                    ${item.photo ? `<img src="${item.photo}" alt="Foto de progreso">` : ''}
+                </div>
+            `).join('');
+        });
+
+        function loadProgressFilter() {
+            document.getElementById('filter-exercise').dispatchEvent(new Event('change'));
+        }
 
         document.getElementById('video-form').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -1160,6 +1235,7 @@
             document.getElementById('body-date').value = today;
 
             updateExercisesByDay();
+            populateAllFilterExercises();
             await initDB();
             
             startTypewriter();
