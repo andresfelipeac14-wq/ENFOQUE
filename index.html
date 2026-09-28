@@ -4,13 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ENFOQUE - Gym & Nutrition Tracker</title>
+    <!-- Fuente con efecto desgastado/urbano -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik+Glitch&family=Teko:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-primary: #0a0a0a;
-            --bg-surface: rgba(20, 20, 20, 0.88);
-            --bg-card: rgba(30, 30, 30, 0.85);
+            --bg-surface: rgba(20, 20, 20, 0.92);
+            --bg-card: rgba(30, 30, 30, 0.88);
             --accent: #00e676;
-            --accent-glow: rgba(0, 230, 118, 0.3);
+            --accent-glow: rgba(0, 230, 118, 0.4);
             --text-primary: #ffffff;
             --text-secondary: #b0b0b0;
             --border-color: #333333;
@@ -40,7 +44,7 @@
         /* Banner Dinámico */
         .hero-banner {
             position: relative;
-            height: 140px;
+            height: 180px;
             overflow: hidden;
             border-bottom: 2px solid var(--accent);
             box-shadow: 0 4px 20px var(--accent-glow);
@@ -52,16 +56,21 @@
             background-size: cover;
             background-position: center;
             opacity: 0;
-            transition: opacity 1s ease-in-out;
+            transition: opacity 0.8s ease-in-out;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 10px;
+            padding: 15px;
         }
 
         .banner-slide.active { opacity: 1; }
+
+        .banner-slide.green-bg {
+            background-color: #051a0e !important;
+            background-image: radial-gradient(circle, #0a3a1f 0%, #031008 100%) !important;
+        }
 
         .banner-overlay {
             position: absolute;
@@ -72,23 +81,87 @@
         .banner-content {
             position: relative;
             z-index: 2;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .banner-content small.verse-title {
+            font-size: 0.85rem;
+            color: #ffffff;
+            letter-spacing: 2px;
+            font-weight: 600;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 4px;
         }
 
         .banner-content h1 {
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 900;
             color: var(--accent);
             text-transform: uppercase;
             letter-spacing: 3px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
         }
 
-        .banner-content p {
-            font-size: 0.8rem;
+        .banner-content h1.grunge {
+            font-family: 'Rubik Glitch', 'Teko', sans-serif;
+            font-size: 1.8rem;
+            color: var(--accent);
+            text-shadow: 0 0 10px var(--accent-glow);
+            letter-spacing: 2px;
+            line-height: 1.2;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Cursor Parpadeante de Máquina de Escribir */
+        .typewriter-cursor::after {
+            content: '|';
+            animation: blink 0.7s infinite;
+            color: #ffffff;
+            margin-left: 3px;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Reproductor de Música Fijo */
+        .music-player {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--accent);
+            border-radius: 20px;
+            padding: 6px 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .music-btn {
+            background: var(--accent);
+            color: #000;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .music-text {
+            font-size: 0.7rem;
             color: #fff;
-            letter-spacing: 1.5px;
-            font-weight: 600;
-            margin-top: 4px;
+            font-weight: bold;
         }
 
         main {
@@ -119,9 +192,6 @@
             margin-bottom: 14px;
             text-transform: uppercase;
             letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
 
         .form-group { margin-bottom: 14px; }
@@ -152,13 +222,10 @@
             font-weight: bold;
             border: none;
             cursor: pointer;
-            transition: transform 0.1s, opacity 0.2s;
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-top: 6px;
         }
-
-        .btn-primary:active { transform: scale(0.98); opacity: 0.9; }
 
         .row { display: flex; gap: 10px; }
         .row .form-group { flex: 1; }
@@ -193,7 +260,7 @@
             justify-content: center;
             color: var(--text-secondary);
             text-decoration: none;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             background: none;
             border: none;
             cursor: pointer;
@@ -206,13 +273,13 @@
         }
 
         .nav-item svg {
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
             margin-bottom: 3px;
             fill: currentColor;
         }
 
-        /* Items de Histórico y Comidas */
+        /* Histórico */
         .history-item {
             background-color: var(--bg-card);
             border-radius: 10px;
@@ -288,27 +355,52 @@
 </head>
 <body>
 
-    <!-- Banner Dinámico con Frases y Fondos de Gym -->
+    <!-- Header con Banner Dinámico -->
     <header class="hero-banner">
-        <div class="banner-slide active" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1000');">
+        <!-- Control de Audio -->
+        <div class="music-player">
+            <button class="music-btn" id="play-btn" onclick="toggleAudio()">▶</button>
+            <span class="music-text">MOTIVACIÓN</span>
+        </div>
+        <audio id="gym-audio" loop>
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        </audio>
+
+        <!-- Slide Personalizado Máquina de Escribir para Andrés Arcila -->
+        <div class="banner-slide green-bg active" id="slide-typewriter">
+            <div class="banner-content">
+                <small class="verse-title">ENFOQUE MENTAL</small>
+                <h1 class="grunge typewriter-cursor" id="typewriter-text"></h1>
+            </div>
+        </div>
+
+        <div class="banner-slide" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1000');">
             <div class="banner-overlay"></div>
             <div class="banner-content">
                 <h1>ENFOQUE</h1>
-                <p>DISCIPLINA, FUERZA Y CONSTANCIA</p>
+                <p style="letter-spacing:2px; font-weight:bold;">DISCIPLINA Y CONSTANCIA</p>
             </div>
         </div>
+
+        <div class="banner-slide green-bg">
+            <div class="banner-content">
+                <small class="verse-title">JOSUÉ 1:9</small>
+                <h1 class="grunge">ESFUÉRZATE</h1>
+            </div>
+        </div>
+
         <div class="banner-slide" style="background-image: url('https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1000');">
             <div class="banner-overlay"></div>
             <div class="banner-content">
                 <h1>ENFOQUE</h1>
-                <p>DÍA DE PIERNA: DEDICACIÓN TOTAL</p>
+                <p style="letter-spacing:2px; font-weight:bold;">DÍA DE PIERNA - DEDICACIÓN TOTAL</p>
             </div>
         </div>
-        <div class="banner-slide" style="background-image: url('https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?q=80&w=1000');">
-            <div class="banner-overlay"></div>
+
+        <div class="banner-slide green-bg">
             <div class="banner-content">
-                <h1>ENFOQUE</h1>
-                <p>SOBRECARGA PROGRESIVA DIARIA</p>
+                <small class="verse-title">FILIPENSES 4:13</small>
+                <h1 class="grunge">CUIDA TU CUERPO</h1>
             </div>
         </div>
     </header>
@@ -368,7 +460,7 @@
             </div>
         </section>
 
-        <!-- TAB 2: ALIMENTACIÓN -->
+        <!-- TAB 2: ALIMENTACIÓN / NUTRICIÓN -->
         <section id="tab-nutrition" class="tab-content">
             <div class="card">
                 <div class="card-title">🥗 Control de Alimentación</div>
@@ -454,7 +546,6 @@
         const DB_VERSION = 2;
         let db;
 
-        // Base de datos de ejercicios por día de entrenamiento
         const routinesByDay = {
             "Lunes": [
                 "Prensa 45° (Cuádriceps/Glúteo)",
@@ -600,15 +691,80 @@
             if (tabId === 'tab-history') loadGlobalHistory();
         }
 
-        // Banner Slider Automático
+        // --- SINTETIZADOR DE SONIDO MÁQUINA DE ESCRIBIR ---
+        let audioCtx = null;
+        function playTypewriterClick() {
+            try {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(1200 + Math.random() * 400, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.04);
+            } catch (e) {
+                // Silencioso si el navegador restringe audio previo a toque
+            }
+        }
+
+        // --- EFECTO MÁQUINA DE ESCRIBIR CON SONIDO ---
+        const textToType = "¡VAMOS ANDRES ARCILA! VAMOS A LOGRAR TU OBJETIVO";
+        let typeIndex = 0;
+        let typingTimeout = null;
+
+        function startTypewriter() {
+            const el = document.getElementById('typewriter-text');
+            el.textContent = "";
+            typeIndex = 0;
+            if (typingTimeout) clearTimeout(typingTimeout);
+
+            function typeNextChar() {
+                if (typeIndex < textToType.length) {
+                    el.textContent += textToType.charAt(typeIndex);
+                    playTypewriterClick();
+                    typeIndex++;
+                    typingTimeout = setTimeout(typeNextChar, 75);
+                }
+            }
+            typeNextChar();
+        }
+
+        // --- ROTACIÓN DEL BANNER ---
         let currentSlide = 0;
         function rotateBanner() {
             const slides = document.querySelectorAll('.banner-slide');
             slides[currentSlide].classList.remove('active');
             currentSlide = (currentSlide + 1) % slides.length;
             slides[currentSlide].classList.add('active');
+
+            // Si entra al slide 0 (el de Andrés Arcila), inicia el efecto de máquina de escribir con sonido
+            if (currentSlide === 0) {
+                startTypewriter();
+            }
         }
-        setInterval(rotateBanner, 4000);
+        setInterval(rotateBanner, 5500);
+
+        // Control de Audio Motivacional
+        function toggleAudio() {
+            const audio = document.getElementById('gym-audio');
+            const btn = document.getElementById('play-btn');
+            if (audio.paused) {
+                audio.play();
+                btn.textContent = '❚❚';
+            } else {
+                audio.pause();
+                btn.textContent = '▶';
+            }
+        }
 
         let currentPhotoBase64 = null;
         document.getElementById('photo-input').addEventListener('change', function(e) {
@@ -639,7 +795,7 @@
             };
 
             await saveLog(logData);
-            alert("¡Entrenamiento guardado con éxito!");
+            alert("¡Entrenamiento guardado!");
 
             document.getElementById('weight-input').value = '';
             document.getElementById('reps-input').value = '';
@@ -660,7 +816,7 @@
             };
 
             await saveMeal(mealData);
-            alert("¡Comida guardada con éxito!");
+            alert("¡Comida guardada!");
 
             document.getElementById('meal-desc').value = '';
             document.getElementById('calories-input').value = '';
@@ -776,6 +932,9 @@
             updateExercisesByDay();
             populateAllFilterExercises();
             await initDB();
+            
+            // Iniciar máquina de escribir
+            startTypewriter();
         });
     </script>
 </body>
