@@ -1,7 +1,6 @@
 {
   "name": "ENFOQUE Gym & Nutrition",
   "short_name": "ENFOQUE",
-  "description": "Tracker de entrenamiento, sobrecarga progresiva y nutrición para Andrés Arcila.",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#0a0a0a",
@@ -9,14 +8,16 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/2964/2964514.png",
+      "src": "./icono.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/2964/2964514.png",
+      "src": "./icono.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
