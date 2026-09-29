@@ -709,49 +709,54 @@
         const DB_VERSION = 4;
         let db;
 
-        const routinesByDay = {
-            "Lunes": [
-                "🦵 Prensa 45° (Cuádriceps/Glúteo)",
-                "🏋️‍♂️ Sentadilla Libre (Cuádriceps)",
-                "🦵 Extensión de Cuádriceps",
-                "🍑 Hip Thrust (Glúteo)",
-                "🦶 Zancadas / Búlgaras (Cuádriceps/Glúteo)",
-                "🦶 Elevación de Pantorrilla de pie",
-                "🦶 Elevación de Pantorrilla sentado"
+       const routinesByDay = {
+            "Lunes: Pierna (Cuádriceps, Glúteo, Pantorrilla)": [
+                "🦵 Sentadilla Hack",
+                "🦵 Zancada Búlgara",
+                "🦵 Prensa 45°",
+                "🦵 Extensiones de Cuádriceps",
+                "🦵 Aductor en Máquina (Cerrando)",
+                "🍑 Hip Thrust",
+                "🦶 Pantorrilla de Pie en Máquina"
             ],
-            "Martes": [
-                "🏋️‍♂️ Press de Banca Plano",
-                "🏋️‍♂️ Press Inclinado con Mancuernas",
-                "🦾 Aperturas en Polea / Peck Deck",
-                "🦾 Extensiones de Tríceps en Polea",
-                "🦾 Press Francés"
-            ],
-            "Miércoles": [
+            "Martes: Espalda, Bíceps, Hombro": [
                 "🏋️‍♀️ Jalón al Pecho",
-                "🏋️‍♀️ Remo con Barra",
-                "🏋️‍♀️ Remo Gironda",
-                "🦾 Curl de Bíceps con Barra",
-                "🦾 Curl Martillo"
-            ],
-            "Jueves": [
-                "🍑 Peso Muerto Rumano (Femoral/Glúteo)",
-                "🦵 Curl Femoral Tumbado",
-                "🦵 Curl Femoral Sentado",
-                "🍑 Hip Thrust Pesado",
-                "🦵 Abductores en Máquina",
-                "🦶 Pantorrilla en Prensa"
-            ],
-            "Viernes": [
-                "🏋️‍♂️ Press Militar con Barra/Mancuernas",
+                "🏋️‍♀️ Extensión de Espalda",
+                "🏋️‍♀️ Remo en Máquina",
+                "🏋️‍♀️ Cabina Invertida",
+                "🦾 Curl Predicador",
+                "🦾 Curl Martillo",
                 "🏋️‍♂️ Elevaciones Laterales",
-                "🏋️‍♂️ Pájaro / Deltoides Posterior",
-                "🏋️‍♂️ Encogimientos de Trapecio"
+                "🏋️‍♂️ Press Militar",
+                "🏋️‍♂️ Elevaciones Frontales"
             ],
-            "Sábado": [
-                "🦶 Sentadilla Búlgara",
-                "🏋️‍♂️ Press Inclinado",
-                "🏋️‍♀️ Remo con Mancuerna",
-                "🏋️‍♂️ Paseo del Granjero"
+            "Miércoles: Femoral, Pantorrilla": [
+                "🦶 Pantorrilla de Pie en Máquina",
+                "🦵 Curl Femoral Acostado",
+                "🦵 Curl Femoral Sentado",
+                "🍑 Peso Muerto"
+            ],
+            "Jueves: Pecho, Tríceps, Hombro": [
+                "🏋️‍♂️ Press de Pecho Plano",
+                "🏋️‍♂️ Press de Pecho Inclinado",
+                "🦾 Cabina (Aperturas)",
+                "🦾 Fondos en Paralelas",
+                "🦾 Extensión de Tríceps en Polea Alta",
+                "🦾 Extensión de Tríceps en Polea Baja",
+                "🏋️‍♂️ Elevaciones Laterales",
+                "🏋️‍♂️ Elevaciones Frontales",
+                "🏋️‍♂️ Press Militar"
+            ],
+            "Viernes: Pierna Completa": [
+                "🦵 Sentadilla Hack",
+                "🦵 Zancada Búlgara",
+                "🦵 Prensa 45°",
+                "🦵 Extensiones de Cuádriceps",
+                "🦵 Curl Femoral Acostado",
+                "🦵 Aductor en Máquina (Cerrando)",
+                "🦵 Abductor en Máquina (Abriendo)",
+                "🍑 Hip Thrust",
+                "🦶 Pantorrilla de Pie en Máquina"
             ]
         };
 
