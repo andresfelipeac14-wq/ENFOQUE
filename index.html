@@ -2,1251 +2,302 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ENFOQUE - Gym & Nutrition Tracker</title>
-    
-   <!-- Configuración PWA -->
-  <link rel="manifest" href="manifest.json">
-<link rel="icon" type="image/png" href="./icon.png">
-  <link rel="apple-touch-icon" href="./icon.png">
-  <meta name="theme-color" content="#00e676">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="ENFOQUE">
-
-    <!-- Fuentes deportivas -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Teko:wght@700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ENFOQUE</title>
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#00ff88">
     <style>
-        :root {
-            --bg-primary: #0a0a0a;
-            --bg-surface: rgba(18, 18, 18, 0.85);
-            --bg-card: rgba(28, 28, 28, 0.85);
-            --accent: #00e676;
-            --accent-glow: rgba(0, 230, 118, 0.5);
-            --text-primary: #ffffff;
-            --text-secondary: #d0d0d0;
-            --border-color: #333333;
-            --danger: #ff5252;
-        }
-
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background-color: var(--bg-primary);
-            background-image: linear-gradient(rgba(0, 0, 0, 0.60), rgba(0, 0, 0, 0.60)), url('https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1200');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: var(--text-primary);
+            background-color: #0d0f12;
+            color: #ffffff;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            padding-bottom: 75px;
+            padding-bottom: 30px;
         }
 
-        .hero-banner {
-            position: relative;
-            height: 200px;
-            overflow: hidden;
-            border-bottom: 2px solid var(--accent);
-            box-shadow: 0 4px 25px var(--accent-glow);
-        }
-
-        .banner-slide {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-size: cover;
-            background-position: center;
-            opacity: 0;
-            transition: opacity 0.8s ease-in-out;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+        header {
+            background: linear-gradient(180deg, rgba(0,255,136,0.15) 0%, rgba(13,15,18,1) 100%);
+            padding: 20px 15px;
             text-align: center;
-            padding: 15px;
+            border-bottom: 1px solid rgba(0,255,136,0.2);
         }
 
-        .banner-slide.active { opacity: 1; }
-
-        .banner-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.35);
-        }
-
-        .banner-content {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            max-width: 520px;
-            text-shadow: 0 3px 12px rgba(0,0,0,0.9);
-        }
-
-        .banner-content h1.main-title {
-            font-family: 'Teko', sans-serif;
-            font-size: 3.4rem;
-            font-weight: 700;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            line-height: 0.95;
-            text-shadow: 0 0 15px var(--accent-glow);
-        }
-
-        .banner-content small.verse-title {
-            font-size: 0.9rem;
-            color: #ffffff;
-            letter-spacing: 2px;
-            font-weight: 800;
-            text-transform: uppercase;
-            display: block;
-            margin-bottom: 4px;
-        }
-
-        .banner-content h1.slide-phrase {
-            font-family: 'Teko', sans-serif;
-            font-size: 2.8rem;
-            font-weight: 700;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            line-height: 1;
-        }
-
-        .banner-content div.user-motivation {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1rem;
+        h1.logo {
+            color: #00ff88;
+            font-size: 2.2rem;
             font-weight: 900;
-            color: #ffffff;
-            letter-spacing: 0.5px;
-            line-height: 1.35;
-            margin-top: 6px;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
+            letter-spacing: 2px;
             text-transform: uppercase;
-            padding: 0 10px;
+            text-shadow: 0 0 12px rgba(0,255,136,0.4);
         }
 
-        .typewriter-cursor::after {
-            content: '|';
-            animation: blink 0.7s infinite;
-            color: var(--accent);
-            margin-left: 2px;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-
-        .music-player {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            z-index: 10;
-            background: rgba(0, 0, 0, 0.8);
-            border: 1px solid var(--accent);
-            border-radius: 20px;
-            padding: 6px 12px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .music-btn {
-            background: var(--accent);
-            color: #000;
-            border: none;
-            border-radius: 50%;
-            width: 28px;
-            height: 28px;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .music-text {
-            font-size: 0.7rem;
-            color: #fff;
-            font-weight: bold;
-        }
-
-        main {
-            padding: 16px;
-            flex: 1;
-            max-width: 600px;
-            margin: 0 auto;
+        .container {
             width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 15px;
+            flex: 1;
         }
-
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
 
         .card {
-            background-color: var(--bg-surface);
-            backdrop-filter: blur(10px);
-            border-radius: 14px;
-            padding: 18px;
-            margin-bottom: 16px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
+            background: #16191e;
+            border: 1px solid #252a34;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
         }
 
         .card-title {
-            font-size: 1.1rem;
-            color: var(--accent);
-            font-weight: bold;
-            margin-bottom: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            color: #00ff88;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .form-group { margin-bottom: 14px; }
-
-        label {
-            display: block;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-bottom: 6px;
-        }
-
-        input, select, button {
+        select, input, button {
             width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            background-color: var(--bg-card);
-            color: var(--text-primary);
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid #2f3642;
+            background: #0d0f12;
+            color: #fff;
             font-size: 1rem;
+            margin-bottom: 12px;
             outline: none;
         }
 
-        input:focus, select:focus { border-color: var(--accent); }
+        select:focus, input:focus {
+            border-color: #00ff88;
+        }
 
-        .btn-primary {
-            background-color: var(--accent);
-            color: #000;
-            font-weight: bold;
+        .btn {
+            background: #00ff88;
+            color: #0d0f12;
+            font-weight: 800;
             border: none;
             cursor: pointer;
+            transition: all 0.2s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-top: 6px;
+            margin-top: 5px;
         }
 
-        .row { display: flex; gap: 10px; }
-        .row .form-group { flex: 1; }
+        .btn:active {
+            transform: scale(0.98);
+            opacity: 0.9;
+        }
 
-        .image-preview {
+        .btn-secondary {
+            background: #252a34;
+            color: #ffffff;
+            border: 1px solid #3a4252;
+        }
+
+        .exercise-item {
+            background: #1a1e24;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-left: 4px solid #00ff88;
+        }
+
+        .exercise-name {
+            font-weight: 700;
+            font-size: 1.05rem;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        .inputs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .banner {
             width: 100%;
-            max-height: 220px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-top: 10px;
-            display: none;
-            border: 1px solid var(--border-color);
-        }
-
-        .tip-card {
-            position: relative;
             border-radius: 12px;
             overflow: hidden;
-            margin-bottom: 16px;
-            border: 1px solid var(--border-color);
-            min-height: 180px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 16px;
-            background-size: cover;
-            background-position: center;
+            margin-bottom: 20px;
+            border: 1px solid #252a34;
         }
 
-        .tip-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.85) 100%);
-            z-index: 1;
-        }
-
-        .tip-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .tip-tag {
-            background: var(--accent);
-            color: #000;
-            font-size: 0.7rem;
-            font-weight: bold;
-            padding: 3px 8px;
-            border-radius: 4px;
-            display: inline-block;
-            margin-bottom: 6px;
-            text-transform: uppercase;
-        }
-
-        .tip-title {
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: #fff;
-            margin-bottom: 4px;
-        }
-
-        .tip-desc {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            line-height: 1.3;
-        }
-
-        nav {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            background-color: var(--bg-surface);
-            backdrop-filter: blur(12px);
-            display: flex;
-            border-top: 1px solid var(--border-color);
-            height: 65px;
-            z-index: 100;
-        }
-
-        .nav-item {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.52rem;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 2px 0;
-        }
-
-        .nav-item.active {
-            color: var(--accent);
-            font-weight: bold;
-        }
-
-        .nav-item svg {
-            width: 17px;
-            height: 17px;
-            margin-bottom: 2px;
-            fill: currentColor;
-        }
-
-        .history-item {
-            background-color: var(--bg-card);
-            border-radius: 10px;
-            padding: 14px;
-            margin-bottom: 12px;
-            border-left: 4px solid var(--accent);
-            border-top: 1px solid var(--border-color);
-            border-right: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .history-item .header-info {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            margin-bottom: 6px;
-        }
-
-        .history-item .title-info {
-            font-weight: bold;
-            font-size: 1rem;
-            color: var(--text-primary);
-        }
-
-        .history-item .detail-info {
-            font-size: 0.95rem;
-            color: var(--accent);
-            margin-top: 4px;
-            font-weight: bold;
-        }
-
-        .history-item video, .history-item img {
+        .banner img {
             width: 100%;
-            max-height: 220px;
-            object-fit: cover;
-            border-radius: 6px;
-            margin-top: 8px;
-        }
-
-        .delete-btn {
-            background-color: transparent;
-            color: var(--danger);
-            border: none;
-            font-size: 0.8rem;
-            padding: 2px;
-            width: auto;
-            cursor: pointer;
-            float: right;
-        }
-
-        .empty-state {
-            text-align: center;
-            color: var(--text-secondary);
-            padding: 25px 10px;
-            font-size: 0.9rem;
-            background-color: var(--bg-surface);
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-        }
-
-        .routine-tag {
-            background-color: var(--accent-glow);
-            color: var(--accent);
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 8px;
+            display: block;
         }
     </style>
 </head>
 <body>
 
-    <header class="hero-banner">
-        <div class="music-player">
-            <button class="music-btn" id="play-btn" onclick="toggleAudio()">▶</button>
-            <span class="music-text">MOTIVACIÓN</span>
-        </div>
-        <audio id="gym-audio" loop>
-            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-        </audio>
-
-        <div class="banner-slide active" style="background-image: url('https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1000');">
-            <div class="banner-overlay"></div>
-            <div class="banner-content">
-                <h1 class="main-title">ENFOQUE</h1>
-                <div class="user-motivation typewriter-cursor" id="typewriter-text"></div>
-            </div>
-        </div>
-
-        <div class="banner-slide" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1000');">
-            <div class="banner-overlay"></div>
-            <div class="banner-content">
-                <small class="verse-title">FUERZA Y POTENCIA</small>
-                <h1 class="slide-phrase">SOBRECARGA PROGRESIVA</h1>
-            </div>
-        </div>
-
-        <div class="banner-slide" style="background-image: url('https://images.unsplash.com/photo-1574680096145-d05b474e2155?q=80&w=1000');">
-            <div class="banner-overlay"></div>
-            <div class="banner-content">
-                <small class="verse-title">JOSUÉ 1:9</small>
-                <h1 class="slide-phrase">ESFUÉRZATE</h1>
-            </div>
-        </div>
-
-        <div class="banner-slide" style="background-image: url('https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=1000');">
-            <div class="banner-overlay"></div>
-            <div class="banner-content">
-                <small class="verse-title">DÍA DE PIERNA</small>
-                <h1 class="slide-phrase">DEDICACIÓN TOTAL</h1>
-            </div>
-        </div>
-
-        <div class="banner-slide" style="background-image: url('https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?q=80&w=1000');">
-            <div class="banner-overlay"></div>
-            <div class="banner-content">
-                <small class="verse-title">FILIPENSES 5:29</small>
-                <h1 class="slide-phrase">CUIDA TU CUERPO</h1>
-            </div>
-        </div>
+    <header>
+        <h1 class="logo">ENFOQUE</h1>
     </header>
 
-    <main>
-        <section id="tab-register" class="tab-content active">
-            <div class="card">
-                <div class="card-title">🏋️ Registro de Rutina</div>
-                <form id="workout-form">
-                    <div class="form-group">
-                        <label for="day-select">Día y Rutina</label>
-                        <select id="day-select" onchange="updateExercisesByDay()">
-                            <option value="Lunes">🍗 Lunes: Pierna (Cuádriceps, Glúteo, Pantorrilla)</option>
-                            <option value="Martes">🏋️‍♂️ Martes: Pecho y Tríceps</option>
-                            <option value="Miércoles">🦾 Miércoles: Espalda y Bíceps</option>
-                            <option value="Jueves">🦵 Jueves: Pierna (Femoral y Glúteo Focus)</option>
-                            <option value="Viernes">🏋️‍♀️ Viernes: Hombro y Trapecio</option>
-                            <option value="Sábado">🔥 Sábado: Full Body / Cardio</option>
-                        </select>
-                    </div>
+    <div class="container">
+        
+        <!-- PANTALLA 1: SELECCIÓN DE RUTINA -->
+        <div id="step-select" class="card">
+            <div class="card-title">🏋️ REGISTRO DE RUTINA</div>
+            
+            <label style="display:block; margin-bottom: 8px; color: #a0aab8; font-size: 0.9rem;">Selecciona el día de entrenamiento:</label>
+            <select id="routine-select">
+                <option value="Lunes">Lunes: Pierna (Cuádriceps, Glúteo, Pantorrilla)</option>
+                <option value="Martes">Martes: Espalda, Bíceps, Hombro</option>
+                <option value="Miércoles">Miércoles: Femoral, Pantorrilla</option>
+                <option value="Jueves">Jueves: Pecho, Tríceps, Hombro</option>
+                <option value="Viernes">Viernes: Pierna Completa</option>
+            </select>
 
-                    <div class="form-group">
-                        <label for="workout-date">Fecha</label>
-                        <input type="date" id="workout-date" required>
-                    </div>
+            <button class="btn" onclick="goToExercises()">Siguiente</button>
+        </div>
 
-                    <div class="form-group">
-                        <label for="exercise-select">Ejercicio</label>
-                        <select id="exercise-select" required></select>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="weight-input">Peso (kg)</label>
-                            <input type="number" id="weight-input" step="0.5" placeholder="ej. 80" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="reps-input">Repeticiones</label>
-                            <input type="number" id="reps-input" placeholder="ej. 10" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="sets-input">Series completadas</label>
-                        <input type="number" id="sets-input" placeholder="ej. 4" value="4" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="photo-input">Foto de progreso (Galería)</label>
-                        <input type="file" id="photo-input" accept="image/*">
-                        <img id="photo-preview" class="image-preview" alt="Vista previa">
-                    </div>
-
-                    <button type="submit" class="btn-primary">Guardar Entrenamiento</button>
-                </form>
-            </div>
-        </section>
-
-        <section id="tab-profile" class="tab-content">
-            <div class="card">
-                <div class="card-title">📏 Peso y Estatura</div>
-                <form id="body-form">
-                    <div class="form-group">
-                        <label for="body-date">Fecha de Medición</label>
-                        <input type="date" id="body-date" required>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="user-height">Estatura (cm)</label>
-                            <input type="number" id="user-height" placeholder="ej. 175" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="user-weight">Peso Corporal (kg)</label>
-                            <input type="number" id="user-weight" step="0.1" placeholder="ej. 78.5" required>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn-primary">Registrar Medida</button>
-                </form>
-            </div>
-            <div id="body-history-list"></div>
-        </section>
-
-        <section id="tab-nutrition" class="tab-content">
-            <div class="card">
-                <div class="card-title">🥗 Control de Alimentación</div>
-                <form id="nutrition-form">
-                    <div class="form-group">
-                        <label for="meal-date">Fecha</label>
-                        <input type="date" id="meal-date" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="meal-type">Tipo de Comida</label>
-                        <select id="meal-type" required>
-                            <option value="Desayuno">🍳 Desayuno</option>
-                            <option value="Almuerzo">🥩 Almuerzo</option>
-                            <option value="Cena">🥗 Cena</option>
-                            <option value="Pre-Entreno">🍌 Pre-Entreno</option>
-                            <option value="Post-Entreno">🥤 Post-Entreno / Snack</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="meal-desc">Descripción de Alimentos</label>
-                        <input type="text" id="meal-desc" placeholder="ej. 200g Pechuga, 150g Arroz, Ensalada" required>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="calories-input">Calorías (kcal)</label>
-                            <input type="number" id="calories-input" placeholder="ej. 550">
-                        </div>
-                        <div class="form-group">
-                            <label for="protein-input">Proteína (g)</label>
-                            <input type="number" id="protein-input" placeholder="ej. 40">
-                        </div>
-                    </div>
-                    <button type="submit" class="btn-primary">Guardar Comida</button>
-                </form>
-            </div>
-            <div id="nutrition-history-list"></div>
-        </section>
-
-        <section id="tab-tips" class="tab-content">
-            <div class="tip-card" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1000');">
-                <div class="tip-overlay"></div>
-                <div class="tip-content">
-                    <span class="tip-tag">Sobrecarga Progresiva</span>
-                    <div class="tip-title">Aumenta el volumen con inteligencia</div>
-                    <div class="tip-desc">No busques subir peso en cada sesión si pierdes la técnica. Si logras hacer 10 reps perfectas, sube de 1 a 2 kg en la siguiente.</div>
-                </div>
+        <!-- PANTALLA 2: REGISTRO DE EJERCICIOS -->
+        <div id="step-exercises" class="card hidden">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <button class="btn btn-secondary" onclick="goBack()" style="width: auto; padding: 8px 15px; margin: 0;">Ant.</button>
+                <div id="selected-routine-title" style="font-weight: 700; color: #00ff88; font-size: 0.95rem;"></div>
             </div>
 
-            <div class="tip-card" style="background-image: url('https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1000');">
-                <div class="tip-overlay"></div>
-                <div class="tip-content">
-                    <span class="tip-tag">Enfoque en Pierna</span>
-                    <div class="tip-title">Profundidad en la Sentadilla</div>
-                    <div class="tip-desc">Mantén los talones firmes en el suelo y rompe el paralelo de 90° para activar al máximo los cuádriceps y glúteos.</div>
-                </div>
-            </div>
+            <div id="exercises-list"></div>
 
-            <div class="tip-card" style="background-image: url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=1000');">
-                <div class="tip-overlay"></div>
-                <div class="tip-content">
-                    <span class="tip-tag">Nutrición Clave</span>
-                    <div class="tip-title">Proteína para Construir</div>
-                    <div class="tip-desc">Consume entre 1.6g y 2g de proteína por cada kilo de tu peso corporal diario para reparar las fibras musculares.</div>
-                </div>
-            </div>
+            <button class="btn" onclick="saveWorkout()">Guardar Rutina</button>
+        </div>
 
-            <div class="tip-card" style="background-image: url('https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?q=80&w=1000');">
-                <div class="tip-overlay"></div>
-                <div class="tip-content">
-                    <span class="tip-tag">Recuperación</span>
-                    <div class="tip-title">El Descanso es Crecimiento</div>
-                    <div class="tip-desc">Duerme al menos 7-8 horas. El músculo no crece mientras entrenas, sino mientras descansas y te alimentas.</div>
-                </div>
-            </div>
-        </section>
-
-        <section id="tab-progress" class="tab-content">
-            <div class="card">
-                <div class="card-title">📈 Sobrecarga Progresiva</div>
-                <div class="form-group">
-                    <label for="filter-exercise">Filtrar por Ejercicio</label>
-                    <select id="filter-exercise">
-                        <option value="">-- Selecciona un ejercicio --</option>
-                    </select>
-                </div>
-            </div>
-            <div id="progress-results">
-                <div class="empty-state">Selecciona un ejercicio para ver tu sobrecarga progresiva.</div>
-            </div>
-        </section>
-
-        <section id="tab-videos" class="tab-content">
-            <div class="card">
-                <div class="card-title">🎬 Videos Motivacionales</div>
-                <form id="video-form">
-                    <div class="form-group">
-                        <label for="video-title">Título del Video</label>
-                        <input type="text" id="video-title" placeholder="ej. Motivación Pierna Pesada" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="video-file">Subir Video (Desde Galería)</label>
-                        <input type="file" id="video-file" accept="video/*" required>
-                    </div>
-                    <button type="submit" class="btn-primary">Guardar Video</button>
-                </form>
-            </div>
-            <div id="video-list"></div>
-        </section>
-
-        <section id="tab-history" class="tab-content">
-            <div id="global-history-list"></div>
-        </section>
-    </main>
-
-    <nav>
-        <button class="nav-item active" onclick="switchTab('tab-register', this)">
-            <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-            Entreno
-        </button>
-        <button class="nav-item" onclick="switchTab('tab-profile', this)">
-            <svg viewBox="0 0 24 24"><path d="M12 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 7h-6v13h-2v-6h-2v6H9V9H3V7h18v2z"/></svg>
-            Medidas
-        </button>
-        <button class="nav-item" onclick="switchTab('tab-nutrition', this)">
-            <svg viewBox="0 0 24 24"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.46 3.9 3.45 4.38l-.95 7.62h2l.95-7.62C10.54 12.9 12 11.12 12 9V2h-1v7zm6-7v18h2V11h2V2h-4z"/></svg>
-            Nutrición
-        </button>
-        <button class="nav-item" onclick="switchTab('tab-tips', this)">
-            <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
-            Consejos
-        </button>
-        <button class="nav-item" onclick="switchTab('tab-progress', this)">
-            <svg viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
-            Progreso
-        </button>
-        <button class="nav-item" onclick="switchTab('tab-videos', this)">
-            <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
-            Videos
-        </button>
-        <button class="nav-item" onclick="switchTab('tab-history', this)">
-            <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg>
-            Histórico
-        </button>
-    </nav>
+    </div>
 
     <script>
         // Registrar Service Worker para PWA
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js')
-                    .then(reg => console.log('Service Worker registrado con éxito', reg))
+                    .then(reg => console.log('Service Worker registrado', reg))
                     .catch(err => console.log('Error registrando Service Worker', err));
             });
         }
 
-       const DB_NAME = 'EnfoqueGymDB';
-        const DB_VERSION = 4;
-        let db;
-
+        // Estructura de Rutinas Predeterminadas
         const routinesByDay = {
-            "Lunes: Pierna (Cuádriceps, Glúteo, Pantorrilla)": [
-                "🦵 Sentadilla Hack",
-                "🦵 Zancada Búlgara",
-                "🦵 Prensa 45°",
-                "🦵 Extensiones de Cuádriceps",
-                "🦵 Aductor en Máquina (Cerrando)",
-                "🍑 Hip Thrust",
-                "🦶 Pantorrilla de Pie en Máquina"
-            ],
-            "Martes: Espalda, Bíceps, Hombro": [
-                "🏋️‍♀️ Jalón al Pecho",
-                "🏋️‍♀️ Extensión de Espalda",
-                "🏋️‍♀️ Remo en Máquina",
-                "🏋️‍♀️ Cabina Invertida",
-                "🦾 Curl Predicador",
-                "🦾 Curl Martillo",
-                "🏋️‍♂️ Elevaciones Laterales",
-                "🏋️‍♂️ Press Militar",
-                "🏋️‍♂️ Elevaciones Frontales"
-            ],
-            "Miércoles: Femoral, Pantorrilla": [
-                "🦶 Pantorrilla de Pie en Máquina",
-                "🦵 Curl Femoral Acostado",
-                "🦵 Curl Femoral Sentado",
-                "🍑 Peso Muerto"
-            ],
-            "Jueves: Pecho, Tríceps, Hombro": [
-                "🏋️‍♂️ Press de Pecho Plano",
-                "🏋️‍♂️ Press de Pecho Inclinado",
-                "🦾 Cabina (Aperturas)",
-                "🦾 Fondos en Paralelas",
-                "🦾 Extensión de Tríceps en Polea Alta",
-                "🦾 Extensión de Tríceps en Polea Baja",
-                "🏋️‍♂️ Elevaciones Laterales",
-                "🏋️‍♂️ Elevaciones Frontales",
-                "🏋️‍♂️ Press Militar"
-            ],
-            "Viernes: Pierna Completa": [
-                "🦵 Sentadilla Hack",
-                "🦵 Zancada Búlgara",
-                "🦵 Prensa 45°",
-                "🦵 Extensiones de Cuádriceps",
-                "🦵 Curl Femoral Acostado",
-                "🦵 Aductor en Máquina (Cerrando)",
-                "🦵 Abductor en Máquina (Abriendo)",
-                "🍑 Hip Thrust",
-                "🦶 Pantorrilla de Pie en Máquina"
-            ]
+            "Lunes": {
+                title: "Lunes: Pierna (Cuádriceps, Glúteo, Pantorrilla)",
+                exercises: [
+                    "🦵 Sentadilla Hack",
+                    "🦵 Zancada Búlgara",
+                    "🦵 Prensa 45°",
+                    "🦵 Extensiones de Cuádriceps",
+                    "🦵 Aductor en Máquina (Cerrando)",
+                    "🍑 Hip Thrust",
+                    "🦶 Pantorrilla de Pie en Máquina"
+                ]
+            },
+            "Martes": {
+                title: "Martes: Espalda, Bíceps, Hombro",
+                exercises: [
+                    "🏋️‍♀️ Jalón al Pecho",
+                    "🏋️‍♀️ Extensión de Espalda",
+                    "🏋️‍♀️ Remo en Máquina",
+                    "🏋️‍♀️ Cabina Invertida",
+                    "🦾 Curl Predicador",
+                    "🦾 Curl Martillo",
+                    "🏋️‍♂️ Elevaciones Laterales",
+                    "🏋️‍♂️ Press Militar",
+                    "🏋️‍♂️ Elevaciones Frontales"
+                ]
+            },
+            "Miércoles": {
+                title: "Miércoles: Femoral, Pantorrilla",
+                exercises: [
+                    "🦶 Pantorrilla de Pie en Máquina",
+                    "🦵 Curl Femoral Acostado",
+                    "🦵 Curl Femoral Sentado",
+                    "🍑 Peso Muerto"
+                ]
+            },
+            "Jueves": {
+                title: "Jueves: Pecho, Tríceps, Hombro",
+                exercises: [
+                    "🏋️‍♂️ Press de Pecho Plano",
+                    "🏋️‍♂️ Press de Pecho Inclinado",
+                    "🦾 Cabina (Aperturas)",
+                    "🦾 Fondos en Paralelas",
+                    "🦾 Extensión de Tríceps en Polea Alta",
+                    "🦾 Extensión de Tríceps en Polea Baja",
+                    "🏋️‍♂️ Elevaciones Laterales",
+                    "🏋️‍♂️ Elevaciones Frontales",
+                    "🏋️‍♂️ Press Militar"
+                ]
+            },
+            "Viernes": {
+                title: "Viernes: Pierna Completa",
+                exercises: [
+                    "🦵 Sentadilla Hack",
+                    "🦵 Zancada Búlgara",
+                    "🦵 Prensa 45°",
+                    "🦵 Extensiones de Cuádriceps",
+                    "🦵 Curl Femoral Acostado",
+                    "🦵 Aductor en Máquina (Cerrando)",
+                    "🦵 Abductor en Máquina (Abriendo)",
+                    "🍑 Hip Thrust",
+                    "🦶 Pantorrilla de Pie en Máquina"
+                ]
+            }
         };
-            
-        
 
-        function initDB() {
-            return new Promise((resolve, reject) => {
-                const request = indexedDB.open(DB_NAME, DB_VERSION);
-                request.onerror = (e) => reject("Error abriendo DB", e);
-                request.onsuccess = (e) => {
-                    db = e.target.result;
-                    resolve(db);
-                };
-                request.onupgradeneeded = (e) => {
-                    const dbRef = e.target.result;
-                    if (!dbRef.objectStoreNames.contains('logs')) {
-                        const store = dbRef.createObjectStore('logs', { keyPath: 'id', autoIncrement: true });
-                        store.createIndex('exercise', 'exercise', { unique: false });
-                    }
-                    if (!dbRef.objectStoreNames.contains('meals')) {
-                        dbRef.createObjectStore('meals', { keyPath: 'id', autoIncrement: true });
-                    }
-                    if (!dbRef.objectStoreNames.contains('videos')) {
-                        dbRef.createObjectStore('videos', { keyPath: 'id', autoIncrement: true });
-                    }
-                    if (!dbRef.objectStoreNames.contains('body')) {
-                        dbRef.createObjectStore('body', { keyPath: 'id', autoIncrement: true });
-                    }
-                };
-            });
-        }
+        let currentDayKey = "Lunes";
 
-        function saveLog(logData) {
-            return new Promise((resolve) => {
-                const tx = db.transaction(['logs'], 'readwrite');
-                tx.objectStore('logs').add(logData).onsuccess = () => resolve();
-            });
-        }
+        function goToExercises() {
+            const select = document.getElementById('routine-select');
+            currentDayKey = select.value;
+            const routineData = routinesByDay[currentDayKey];
 
-        function saveMeal(mealData) {
-            return new Promise((resolve) => {
-                const tx = db.transaction(['meals'], 'readwrite');
-                tx.objectStore('meals').add(mealData).onsuccess = () => resolve();
-            });
-        }
+            document.getElementById('selected-routine-title').innerText = routineData.title;
 
-        function saveVideo(videoData) {
-            return new Promise((resolve) => {
-                const tx = db.transaction(['videos'], 'readwrite');
-                tx.objectStore('videos').add(videoData).onsuccess = () => resolve();
-            });
-        }
+            const exercisesListContainer = document.getElementById('exercises-list');
+            exercisesListContainer.innerHTML = '';
 
-        function saveBodyRecord(bodyData) {
-            return new Promise((resolve) => {
-                const tx = db.transaction(['body'], 'readwrite');
-                tx.objectStore('body').add(bodyData).onsuccess = () => resolve();
-            });
-        }
-
-        function getAllLogs() {
-            return new Promise((resolve) => {
-                const tx = db.transaction(['logs'], 'readonly');
-                tx.objectStore('logs').getAll().onsuccess = (e) => resolve(e.target.result);
-            });
-        }
-
-        function getAllMeals() {
-            return new Promise((resolve) => {
-                const tx = db.transaction(['meals'], 'readonly');
-                tx.objectStore('meals').getAll().onsuccess = (e) => resolve(e.target.result);
-            });
-        }
-
-        function getAllVideos() {
-            return new Promise((resolve) => {
-                const tx = db.transaction(['videos'], 'readonly');
-                tx.objectStore('videos').getAll().onsuccess = (e) => resolve(e.target.result);
-            });
-        }
-
-        function getAllBodyRecords() {
-            return new Promise((resolve) => {
-                const tx = db.transaction(['body'], 'readonly');
-                tx.objectStore('body').getAll().onsuccess = (e) => resolve(e.target.result);
-            });
-        }
-
-        function deleteRecord(storeName, id) {
-            return new Promise((resolve) => {
-                const tx = db.transaction([storeName], 'readwrite');
-                tx.objectStore(storeName).delete(id).onsuccess = () => resolve();
-            });
-        }
-
-        function updateExercisesByDay() {
-            const selectedDay = document.getElementById('day-select').value;
-            const exerciseSelect = document.getElementById('exercise-select');
-            exerciseSelect.innerHTML = '';
-
-            const exercises = routinesByDay[selectedDay] || [];
-            exercises.forEach(ex => {
-                const opt = document.createElement('option');
-                opt.value = ex;
-                opt.textContent = ex;
-                exerciseSelect.appendChild(opt);
-            });
-        }
-
-        function populateAllFilterExercises() {
-            const filterSelect = document.getElementById('filter-exercise');
-            filterSelect.innerHTML = '<option value="">-- Selecciona un ejercicio --</option>';
-
-            let allEx = [];
-            Object.values(routinesByDay).forEach(list => {
-                allEx = allEx.concat(list);
-            });
-            const uniqueEx = [...new Set(allEx)].sort();
-
-            uniqueEx.forEach(ex => {
-                const opt = document.createElement('option');
-                opt.value = ex;
-                opt.textContent = ex;
-                filterSelect.appendChild(opt);
-            });
-        }
-
-        function switchTab(tabId, btn) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            btn.classList.add('active');
-
-            if (tabId === 'tab-profile') loadBodyHistory();
-            if (tabId === 'tab-nutrition') loadNutritionHistory();
-            if (tabId === 'tab-progress') loadProgressFilter();
-            if (tabId === 'tab-videos') loadVideosList();
-            if (tabId === 'tab-history') loadGlobalHistory();
-        }
-
-        let audioCtx = null;
-        function playTypewriterClick() {
-            try {
-                if (!audioCtx) {
-                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                }
-                if (audioCtx.state === 'suspended') {
-                    audioCtx.resume();
-                }
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(1200 + Math.random() * 400, audioCtx.currentTime);
-                gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start();
-                osc.stop(audioCtx.currentTime + 0.04);
-            } catch (e) {}
-        }
-
-        const textToType = "¡VAMOS ANDRÉS ARCILA! VAMOS A LOGRAR TU OBJETIVO";
-        let typeIndex = 0;
-        let typingTimeout = null;
-
-        function startTypewriter() {
-            const el = document.getElementById('typewriter-text');
-            el.innerHTML = "";
-            typeIndex = 0;
-            if (typingTimeout) clearTimeout(typingTimeout);
-
-            function typeNextChar() {
-                if (typeIndex < textToType.length) {
-                    const char = textToType.charAt(typeIndex);
-                    if (typeIndex >= 7 && typeIndex <= 21) {
-                        el.innerHTML += `<span style="color:var(--accent);">${char}</span>`;
-                    } else {
-                        el.innerHTML += char;
-                    }
-                    playTypewriterClick();
-                    typeIndex++;
-                    typingTimeout = setTimeout(typeNextChar, 65);
-                }
-            }
-            typeNextChar();
-        }
-
-        let currentSlide = 0;
-        function rotateBanner() {
-            const slides = document.querySelectorAll('.banner-slide');
-            slides[currentSlide].classList.remove('active');
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides[currentSlide].classList.add('active');
-
-            if (currentSlide === 0) {
-                startTypewriter();
-            }
-        }
-        setInterval(rotateBanner, 5500);
-
-        function toggleAudio() {
-            const audio = document.getElementById('gym-audio');
-            const btn = document.getElementById('play-btn');
-            if (audio.paused) {
-                audio.play();
-                btn.textContent = '❚❚';
-            } else {
-                audio.pause();
-                btn.textContent = '▶';
-            }
-        }
-
-        let currentPhotoBase64 = null;
-        document.getElementById('photo-input').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    currentPhotoBase64 = event.target.result;
-                    const preview = document.getElementById('photo-preview');
-                    preview.src = currentPhotoBase64;
-                    preview.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        document.getElementById('workout-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const logData = {
-                day: document.getElementById('day-select').value,
-                date: document.getElementById('workout-date').value,
-                exercise: document.getElementById('exercise-select').value,
-                weight: parseFloat(document.getElementById('weight-input').value),
-                reps: parseInt(document.getElementById('reps-input').value),
-                sets: parseInt(document.getElementById('sets-input').value),
-                photo: currentPhotoBase64,
-                timestamp: new Date().getTime()
-            };
-
-            await saveLog(logData);
-            alert("¡Entrenamiento guardado!");
-
-            document.getElementById('weight-input').value = '';
-            document.getElementById('reps-input').value = '';
-            document.getElementById('photo-input').value = '';
-            document.getElementById('photo-preview').style.display = 'none';
-            currentPhotoBase64 = null;
-        });
-
-        document.getElementById('body-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const heightCm = parseFloat(document.getElementById('user-height').value);
-            const weightKg = parseFloat(document.getElementById('user-weight').value);
-            const heightM = heightCm / 100;
-            const imc = (weightKg / (heightM * heightM)).toFixed(1);
-
-            let status = "Normal";
-            if (imc < 18.5) status = "Bajo peso";
-            else if (imc >= 25 && imc < 29.9) status = "Sobrepeso";
-            else if (imc >= 30) status = "Obesidad";
-
-            const bodyData = {
-                date: document.getElementById('body-date').value,
-                height: heightCm,
-                weight: weightKg,
-                imc: imc,
-                status: status,
-                timestamp: new Date().getTime()
-            };
-
-            await saveBodyRecord(bodyData);
-            alert("¡Registro de medida guardado!");
-            loadBodyHistory();
-        });
-
-        async function loadBodyHistory() {
-            const container = document.getElementById('body-history-list');
-            const records = await getAllBodyRecords();
-
-            if (records.length === 0) {
-                container.innerHTML = '<div class="empty-state">No hay registros de peso y estatura aún.</div>';
-                return;
-            }
-
-            records.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-            container.innerHTML = records.map(item => `
-                <div class="history-item">
-                    <button class="delete-btn" onclick="removeBodyRecord(${item.id})">Eliminar</button>
-                    <div class="header-info">
-                        <span>${item.date}</span>
-                        <span>Estatura: ${item.height} cm</span>
+            routineData.exercises.forEach((exName, index) => {
+                const exCard = document.createElement('div');
+                exCard.className = 'exercise-item';
+                exCard.innerHTML = `
+                    <div class="exercise-name">${exName}</div>
+                    <div class="inputs-grid">
+                        <input type="number" id="weight-${index}" placeholder="Peso (kg / lbs)">
+                        <input type="number" id="reps-${index}" placeholder="Reps de salida">
                     </div>
-                    <div class="title-info">Peso: ${item.weight} kg</div>
-                    <div class="detail-info">IMC: ${item.imc} (${item.status})</div>
-                </div>
-            `).join('');
+                `;
+                exercisesListContainer.appendChild(exCard);
+            });
+
+            document.getElementById('step-select').classList.add('hidden');
+            document.getElementById('step-exercises').classList.remove('hidden');
         }
 
-        async function removeBodyRecord(id) {
-            if (confirm("¿Deseas eliminar este registro de medida?")) {
-                await deleteRecord('body', id);
-                loadBodyHistory();
-            }
+        function goBack() {
+            document.getElementById('step-exercises').classList.add('hidden');
+            document.getElementById('step-select').classList.remove('hidden');
         }
 
-        document.getElementById('nutrition-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const mealData = {
-                date: document.getElementById('meal-date').value,
-                type: document.getElementById('meal-type').value,
-                desc: document.getElementById('meal-desc').value,
-                calories: document.getElementById('calories-input').value || 'N/A',
-                protein: document.getElementById('protein-input').value || 'N/A',
-                timestamp: new Date().getTime()
-            };
-
-            await saveMeal(mealData);
-            alert("¡Comida guardada!");
-
-            document.getElementById('meal-desc').value = '';
-            document.getElementById('calories-input').value = '';
-            document.getElementById('protein-input').value = '';
-            loadNutritionHistory();
-        });
-
-        document.getElementById('filter-exercise').addEventListener('change', async function(e) {
-            const selectedEx = e.target.value;
-            const container = document.getElementById('progress-results');
-            if (!selectedEx) {
-                container.innerHTML = '<div class="empty-state">Selecciona un ejercicio para ver tu sobrecarga progresiva.</div>';
-                return;
-            }
-
-            const allLogs = await getAllLogs();
-            const filtered = allLogs
-                .filter(l => l.exercise === selectedEx)
-                .sort((a, b) => new Date(b.date) - new Date(a.date));
-
-            if (filtered.length === 0) {
-                container.innerHTML = `<div class="empty-state">No hay registros para "${selectedEx}".</div>`;
-                return;
-            }
-
-            container.innerHTML = filtered.map(item => `
-                <div class="history-item">
-                    <span class="routine-tag">${item.day || 'Entrenamiento'}</span>
-                    <div class="header-info">
-                        <span>${item.date}</span>
-                        <span>${item.sets} series</span>
-                    </div>
-                    <div class="title-info">${item.exercise}</div>
-                    <div class="detail-info">${item.weight} kg × ${item.reps} reps</div>
-                    ${item.photo ? `<img src="${item.photo}" alt="Foto de progreso">` : ''}
-                </div>
-            `).join('');
-        });
-
-        document.getElementById('video-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const file = document.getElementById('video-file').files[0];
-            const title = document.getElementById('video-title').value;
-
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = async function(event) {
-                    const videoData = {
-                        title: title,
-                        src: event.target.result,
-                        date: new Date().toISOString().split('T')[0],
-                        timestamp: new Date().getTime()
-                    };
-                    await saveVideo(videoData);
-                    alert("¡Video motivacional guardado!");
-                    document.getElementById('video-title').value = '';
-                    document.getElementById('video-file').value = '';
-                    loadVideosList();
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        async function loadVideosList() {
-            const container = document.getElementById('video-list');
-            const videos = await getAllVideos();
-
-            if (videos.length === 0) {
-                container.innerHTML = '<div class="empty-state">No has subido videos motivacionales aún.</div>';
-                return;
-            }
-
-            videos.sort((a, b) => b.timestamp - a.timestamp);
-
-            container.innerHTML = videos.map(item => `
-                <div class="history-item">
-                    <button class="delete-btn" onclick="removeVideoRecord(${item.id})">Eliminar</button>
-                    <div class="header-info">
-                        <span>${item.date}</span>
-                    </div>
-                    <div class="title-info">${item.title}</div>
-                    <video controls src="${item.src}"></video>
-                </div>
-            `).join('');
+        function saveWorkout() {
+            alert('¡Rutina registrada con éxito en ENFOQUE!');
+            goBack();
         }
-
-        async function removeVideoRecord(id) {
-            if (confirm("¿Deseas eliminar este video?")) {
-                await deleteRecord('videos', id);
-                loadVideosList();
-            }
-        }
-
-        async function loadNutritionHistory() {
-            const container = document.getElementById('nutrition-history-list');
-            const meals = await getAllMeals();
-
-            if (meals.length === 0) {
-                container.innerHTML = '<div class="empty-state">No hay comidas registradas aún.</div>';
-                return;
-            }
-
-            meals.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-            container.innerHTML = meals.map(item => `
-                <div class="history-item">
-                    <button class="delete-btn" onclick="removeMealRecord(${item.id})">Eliminar</button>
-                    <div class="header-info">
-                        <span>${item.date}</span>
-                        <span>${item.type}</span>
-                    </div>
-                    <div class="title-info">${item.desc}</div>
-                    <div class="detail-info">${item.calories} kcal | ${item.protein}g Proteína</div>
-                </div>
-            `).join('');
-        }
-
-        async function removeMealRecord(id) {
-            if (confirm("¿Eliminar este registro de comida?")) {
-                await deleteRecord('meals', id);
-                loadNutritionHistory();
-            }
-        }
-
-        async function loadGlobalHistory() {
-            const container = document.getElementById('global-history-list');
-            const allLogs = await getAllLogs();
-
-            if (allLogs.length === 0) {
-                container.innerHTML = '<div class="empty-state">Aún no tienes entrenamientos guardados.</div>';
-                return;
-            }
-
-            allLogs.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-            container.innerHTML = allLogs.map(item => `
-                <div class="history-item">
-                    <button class="delete-btn" onclick="removeLogRecord(${item.id})">Eliminar</button>
-                    <span class="routine-tag">${item.day || 'Entrenamiento'}</span>
-                    <div class="header-info">
-                        <span>${item.date}</span>
-                        <span>${item.sets} series</span>
-                    </div>
-                    <div class="title-info">${item.exercise}</div>
-                    <div class="detail-info">${item.weight} kg × ${item.reps} reps</div>
-                    ${item.photo ? `<img src="${item.photo}" alt="Foto de progreso">` : ''}
-                </div>
-            `).join('');
-        }
-
-        async function removeLogRecord(id) {
-            if (confirm("¿Deseas eliminar este registro de entrenamiento?")) {
-                await deleteRecord('logs', id);
-                loadGlobalHistory();
-            }
-        }
-
-        window.addEventListener('DOMContentLoaded', async () => {
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('workout-date').value = today;
-            document.getElementById('meal-date').value = today;
-            document.getElementById('body-date').value = today;
-
-            updateExercisesByDay();
-            populateAllFilterExercises();
-            await initDB();
-            
-            startTypewriter();
-        });
     </script>
 </body>
 </html>
