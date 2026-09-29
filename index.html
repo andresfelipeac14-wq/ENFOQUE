@@ -1,303 +1,54 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ENFOQUE</title>
-    <link rel="manifest" href="./manifest.json">
-    <meta name="theme-color" content="#00ff88">
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
+const DB_NAME = 'EnfoqueGymDB';
+        const DB_VERSION = 4;
+        let db;
 
-        body {
-            background-color: #0d0f12;
-            color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            padding-bottom: 30px;
-        }
-
-        header {
-            background: linear-gradient(180deg, rgba(0,255,136,0.15) 0%, rgba(13,15,18,1) 100%);
-            padding: 20px 15px;
-            text-align: center;
-            border-bottom: 1px solid rgba(0,255,136,0.2);
-        }
-
-        h1.logo {
-            color: #00ff88;
-            font-size: 2.2rem;
-            font-weight: 900;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            text-shadow: 0 0 12px rgba(0,255,136,0.4);
-        }
-
-        .container {
-            width: 100%;
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 15px;
-            flex: 1;
-        }
-
-        .card {
-            background: #16191e;
-            border: 1px solid #252a34;
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-        }
-
-        .card-title {
-            color: #00ff88;
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        select, input, button {
-            width: 100%;
-            padding: 14px;
-            border-radius: 10px;
-            border: 1px solid #2f3642;
-            background: #0d0f12;
-            color: #fff;
-            font-size: 1rem;
-            margin-bottom: 12px;
-            outline: none;
-        }
-
-        select:focus, input:focus {
-            border-color: #00ff88;
-        }
-
-        .btn {
-            background: #00ff88;
-            color: #0d0f12;
-            font-weight: 800;
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 5px;
-        }
-
-        .btn:active {
-            transform: scale(0.98);
-            opacity: 0.9;
-        }
-
-        .btn-secondary {
-            background: #252a34;
-            color: #ffffff;
-            border: 1px solid #3a4252;
-        }
-
-        .exercise-item {
-            background: #1a1e24;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 12px;
-            border-left: 4px solid #00ff88;
-        }
-
-        .exercise-name {
-            font-weight: 700;
-            font-size: 1.05rem;
-            margin-bottom: 10px;
-            color: #ffffff;
-        }
-
-        .inputs-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        .banner {
-            width: 100%;
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 20px;
-            border: 1px solid #252a34;
-        }
-
-        .banner img {
-            width: 100%;
-            display: block;
-        }
-    </style>
-</head>
-<body>
-
-    <header>
-        <h1 class="logo">ENFOQUE</h1>
-    </header>
-
-    <div class="container">
-        
-        <!-- PANTALLA 1: SELECCIÓN DE RUTINA -->
-        <div id="step-select" class="card">
-            <div class="card-title">🏋️ REGISTRO DE RUTINA</div>
-            
-            <label style="display:block; margin-bottom: 8px; color: #a0aab8; font-size: 0.9rem;">Selecciona el día de entrenamiento:</label>
-            <select id="routine-select">
-                <option value="Lunes">Lunes: Pierna (Cuádriceps, Glúteo, Pantorrilla)</option>
-                <option value="Martes">Martes: Espalda, Bíceps, Hombro</option>
-                <option value="Miércoles">Miércoles: Femoral, Pantorrilla</option>
-                <option value="Jueves">Jueves: Pecho, Tríceps, Hombro</option>
-                <option value="Viernes">Viernes: Pierna Completa</option>
-            </select>
-
-            <button class="btn" onclick="goToExercises()">Siguiente</button>
-        </div>
-
-        <!-- PANTALLA 2: REGISTRO DE EJERCICIOS -->
-        <div id="step-exercises" class="card hidden">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <button class="btn btn-secondary" onclick="goBack()" style="width: auto; padding: 8px 15px; margin: 0;">Ant.</button>
-                <div id="selected-routine-title" style="font-weight: 700; color: #00ff88; font-size: 0.95rem;"></div>
-            </div>
-
-            <div id="exercises-list"></div>
-
-            <button class="btn" onclick="saveWorkout()">Guardar Rutina</button>
-        </div>
-
-    </div>
-
-    <script>
-        // Registrar Service Worker para PWA
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
-                    .then(reg => console.log('Service Worker registrado', reg))
-                    .catch(err => console.log('Error registrando Service Worker', err));
-            });
-        }
-
-        // Estructura de Rutinas Predeterminadas
         const routinesByDay = {
-            "Lunes": {
-                title: "Lunes: Pierna (Cuádriceps, Glúteo, Pantorrilla)",
-                exercises: [
-                    "🦵 Sentadilla Hack",
-                    "🦵 Zancada Búlgara",
-                    "🦵 Prensa 45°",
-                    "🦵 Extensiones de Cuádriceps",
-                    "🦵 Aductor en Máquina (Cerrando)",
-                    "🍑 Hip Thrust",
-                    "🦶 Pantorrilla de Pie en Máquina"
-                ]
-            },
-            "Martes": {
-                title: "Martes: Espalda, Bíceps, Hombro",
-                exercises: [
-                    "🏋️‍♀️ Jalón al Pecho",
-                    "🏋️‍♀️ Extensión de Espalda",
-                    "🏋️‍♀️ Remo en Máquina",
-                    "🏋️‍♀️ Cabina Invertida",
-                    "🦾 Curl Predicador",
-                    "🦾 Curl Martillo",
-                    "🏋️‍♂️ Elevaciones Laterales",
-                    "🏋️‍♂️ Press Militar",
-                    "🏋️‍♂️ Elevaciones Frontales"
-                ]
-            },
-            "Miércoles": {
-                title: "Miércoles: Femoral, Pantorrilla",
-                exercises: [
-                    "🦶 Pantorrilla de Pie en Máquina",
-                    "🦵 Curl Femoral Acostado",
-                    "🦵 Curl Femoral Sentado",
-                    "🍑 Peso Muerto"
-                ]
-            },
-            "Jueves": {
-                title: "Jueves: Pecho, Tríceps, Hombro",
-                exercises: [
-                    "🏋️‍♂️ Press de Pecho Plano",
-                    "🏋️‍♂️ Press de Pecho Inclinado",
-                    "🦾 Cabina (Aperturas)",
-                    "🦾 Fondos en Paralelas",
-                    "🦾 Extensión de Tríceps en Polea Alta",
-                    "🦾 Extensión de Tríceps en Polea Baja",
-                    "🏋️‍♂️ Elevaciones Laterales",
-                    "🏋️‍♂️ Elevaciones Frontales",
-                    "🏋️‍♂️ Press Militar"
-                ]
-            },
-            "Viernes": {
-                title: "Viernes: Pierna Completa",
-                exercises: [
-                    "🦵 Sentadilla Hack",
-                    "🦵 Zancada Búlgara",
-                    "🦵 Prensa 45°",
-                    "🦵 Extensiones de Cuádriceps",
-                    "🦵 Curl Femoral Acostado",
-                    "🦵 Aductor en Máquina (Cerrando)",
-                    "🦵 Abductor en Máquina (Abriendo)",
-                    "🍑 Hip Thrust",
-                    "🦶 Pantorrilla de Pie en Máquina"
-                ]
-            }
+            "Lunes: Pierna (Cuádriceps, Glúteo, Pantorrilla)": [
+                "🦵 Sentadilla Hack",
+                "🦵 Zancada Búlgara",
+                "🦵 Prensa 45°",
+                "🦵 Extensiones de Cuádriceps",
+                "🦵 Aductor en Máquina (Cerrando)",
+                "🍑 Hip Thrust",
+                "🦶 Pantorrilla de Pie en Máquina"
+            ],
+            "Martes: Espalda, Bíceps, Hombro": [
+                "🏋️‍♀️ Jalón al Pecho",
+                "🏋️‍♀️ Extensión de Espalda",
+                "🏋️‍♀️ Remo en Máquina",
+                "🏋️‍♀️ Cabina Invertida",
+                "🦾 Curl Predicador",
+                "🦾 Curl Martillo",
+                "🏋️‍♂️ Elevaciones Laterales",
+                "🏋️‍♂️ Press Militar",
+                "🏋️‍♂️ Elevaciones Frontales"
+            ],
+            "Miércoles: Femoral, Pantorrilla": [
+                "🦶 Pantorrilla de Pie en Máquina",
+                "🦵 Curl Femoral Acostado",
+                "🦵 Curl Femoral Sentado",
+                "🍑 Peso Muerto"
+            ],
+            "Jueves: Pecho, Tríceps, Hombro": [
+                "🏋️‍♂️ Press de Pecho Plano",
+                "🏋️‍♂️ Press de Pecho Inclinado",
+                "🦾 Cabina (Aperturas)",
+                "🦾 Fondos en Paralelas",
+                "🦾 Extensión de Tríceps en Polea Alta",
+                "🦾 Extensión de Tríceps en Polea Baja",
+                "🏋️‍♂️ Elevaciones Laterales",
+                "🏋️‍♂️ Elevaciones Frontales",
+                "🏋️‍♂️ Press Militar"
+            ],
+            "Viernes: Pierna Completa": [
+                "🦵 Sentadilla Hack",
+                "🦵 Zancada Búlgara",
+                "🦵 Prensa 45°",
+                "🦵 Extensiones de Cuádriceps",
+                "🦵 Curl Femoral Acostado",
+                "🦵 Aductor en Máquina (Cerrando)",
+                "🦵 Abductor en Máquina (Abriendo)",
+                "🍑 Hip Thrust",
+                "🦶 Pantorrilla de Pie en Máquina"
+            ]
         };
-
-        let currentDayKey = "Lunes";
-
-        function goToExercises() {
-            const select = document.getElementById('routine-select');
-            currentDayKey = select.value;
-            const routineData = routinesByDay[currentDayKey];
-
-            document.getElementById('selected-routine-title').innerText = routineData.title;
-
-            const exercisesListContainer = document.getElementById('exercises-list');
-            exercisesListContainer.innerHTML = '';
-
-            routineData.exercises.forEach((exName, index) => {
-                const exCard = document.createElement('div');
-                exCard.className = 'exercise-item';
-                exCard.innerHTML = `
-                    <div class="exercise-name">${exName}</div>
-                    <div class="inputs-grid">
-                        <input type="number" id="weight-${index}" placeholder="Peso (kg / lbs)">
-                        <input type="number" id="reps-${index}" placeholder="Reps de salida">
-                    </div>
-                `;
-                exercisesListContainer.appendChild(exCard);
-            });
-
-            document.getElementById('step-select').classList.add('hidden');
-            document.getElementById('step-exercises').classList.remove('hidden');
-        }
-
-        function goBack() {
-            document.getElementById('step-exercises').classList.add('hidden');
-            document.getElementById('step-select').classList.remove('hidden');
-        }
-
-        function saveWorkout() {
-            alert('¡Rutina registrada con éxito en ENFOQUE!');
-            goBack();
-        }
-    </script>
-</body>
-</html>
