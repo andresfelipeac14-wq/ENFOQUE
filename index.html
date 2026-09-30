@@ -479,14 +479,14 @@
                 <form id="workout-form">
                     <div class="form-group">
                         <label for="day-select">Día y Rutina</label>
-                        <select id="day-select" onchange="updateExercisesByDay()">
-                            <option value="Lunes">🍗 Lunes: Pierna (Cuádriceps, Glúteo, Pantorrilla)</option>
-                            <option value="Martes">🏋️‍♂️ Martes: Pecho y Tríceps</option>
-                            <option value="Miércoles">🦾 Miércoles: Espalda y Bíceps</option>
-                            <option value="Jueves">🦵 Jueves: Pierna (Femoral y Glúteo Focus)</option>
-                            <option value="Viernes">🏋️‍♀️ Viernes: Hombro y Trapecio</option>
-                            <option value="Sábado">🔥 Sábado: Full Body / Cardio</option>
-                        </select>
+                       <select id="day-select" onchange="updateExercisesByDay()">
+            <option value="">-- Selecciona un día --</option>
+            <option value="Lunes: Pierna (Cuádriceps, Glúteo, Pantorrilla)">Lunes: Pierna (Cuádriceps, Glúteo, Pantorrilla)</option>
+            <option value="Martes: Espalda, Bíceps, Hombro">Martes: Espalda, Bíceps, Hombro</option>
+            <option value="Miércoles: Femoral, Pantorrilla">Miércoles: Femoral, Pantorrilla</option>
+            <option value="Jueves: Pecho, Tríceps, Hombro">Jueves: Pecho, Tríceps, Hombro</option>
+            <option value="Viernes: Pierna Completa">Viernes: Pierna Completa</option>
+        </select>
                     </div>
 
                     <div class="form-group">
