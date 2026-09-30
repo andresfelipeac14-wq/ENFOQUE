@@ -1352,3 +1352,60 @@ setInterval(() => {
     </script>
 </body>
 </html>
+<script>
+function renderNutritionPlan() {
+    const nutritionContainer = document.getElementById('nutrition-container') || document.getElementById('tab-nutrition') || document.getElementById('nutricion');
+    if (!nutritionContainer) return;
+
+    nutritionContainer.innerHTML = `
+        <div style="background: #1c1c1e; padding: 16px; border-radius: 12px; margin-bottom: 15px; border-left: 4px solid #00e676;">
+            <h3 style="color: #00e676; margin-top: 0; font-size: 1.1rem;">🔥 PLAN AUTOMÁTICO: GANANCIA MUSCULAR</h3>
+            <p style="color: #aaa; font-size: 0.85rem; margin-bottom: 0;">Menú estructurado con aporte calórico y proteico óptimo para hipertrofia.</p>
+        </div>
+
+        <!-- DESAYUNO -->
+        <div style="background: #1c1c1e; padding: 14px; border-radius: 10px; margin-bottom: 12px; border: 1px solid #333;">
+            <div style="font-weight: bold; color: #fff; font-size: 1rem; margin-bottom: 6px;">🍳 Desayuno</div>
+            <p style="color: #ddd; font-size: 0.88rem; margin: 0 0 4px 0;">• <strong>3 a 4 Huevos enteros</strong></p>
+            <p style="color: #ddd; font-size: 0.88rem; margin: 0 0 4px 0;">• 1 taza de Avena en hojuelas</p>
+            <p style="color: #ddd; font-size: 0.88rem; margin: 0;">• 1 Banano + 1 cucharada de mantequilla de maní</p>
+            <div style="margin-top: 8px; font-size: 0.8rem; color: #00e676; font-weight: bold;">Aporte: ~550 kcal | 32g Proteína</div>
+        </div>
+
+        <!-- ALMUERZO -->
+        <div style="background: #1c1c1e; padding: 14px; border-radius: 10px; margin-bottom: 12px; border: 1px solid #333;">
+            <div style="font-weight: bold; color: #fff; font-size: 1rem; margin-bottom: 6px;">🍗 Almuerzo</div>
+            <p style="color: #ddd; font-size: 0.88rem; margin: 0 0 4px 0;">• <strong>200g Pechuga de Pollo, Carne o Pescado</strong></p>
+            <p style="color: #ddd; font-size: 0.88rem; margin: 0 0 4px 0;">• 1.5 tazas de Arroz o Papa cocida</p>
+            <p style="color: #ddd; font-size: 0.88rem; margin: 0;">• Porción de Aguacate y ensalada</p>
+            <div style="margin-top: 8px; font-size: 0.8rem; color: #00e676; font-weight: bold;">Aporte: ~700 kcal | 48g Proteína</div>
+        </div>
+
+        <!-- MERIENDA -->
+        <div style="background: #1c1c1e; padding: 14px; border-radius: 10px; margin-bottom: 12px; border: 1px solid #333;">
+            <div style="font-weight: bold; color: #fff; font-size: 1rem; margin-bottom: 6px;">🍌 Merienda (Pre/Post Entreno)</div>
+            <p style="color: #ddd; font-size: 0.88rem; margin: 0 0 4px 0;">• 1 Batido de proteína (1 scoop) o 150g Yogur Griego</p>
+            <p style="color: #ddd; font-size: 0.88rem; margin: 0;">• 2 Tostadas integrales o 1 Manzana</p>
+            <div style="margin-top: 8px; font-size: 0.8rem; color: #00e676; font-weight: bold;">Aporte: ~350 kcal | 28g Proteína</div>
+        </div>
+
+        <!-- CENA -->
+        <div style="background: #1c1c1e; padding: 14px; border-radius: 10px; margin-bottom: 15px; border: 1px solid #333;">
+            <div style="font-weight: bold; color: #fff; font-size: 1rem; margin-bottom: 6px;">🥩 Cena</div>
+            <p style="color: #ddd; font-size: 0.88rem; margin: 0 0 4px 0;">• <strong>180g Carne de res, Atún o Pollo</strong></p>
+            <p style="color: #ddd; font-size: 0.88rem; margin: 0 0 4px 0;">• 1 taza de Yuca o Camote</p>
+            <p style="color: #ddd; font-size: 0.88rem; margin: 0;">• Verdes al vapor</p>
+            <div style="margin-top: 8px; font-size: 0.8rem; color: #00e676; font-weight: bold;">Aporte: ~600 kcal | 42g Proteína</div>
+        </div>
+
+        <!-- RESUMEN TOTAL -->
+        <div style="background: #00e676; color: #000; padding: 16px; border-radius: 12px; text-align: center; font-weight: bold;">
+            <div style="font-size: 1.1rem; margin-bottom: 4px;">📊 TOTAL DIARIO RECOMENDADO</div>
+            <div style="font-size: 1.3rem;">2,200 kcal | 150g Proteína</div>
+        </div>
+    `;
+}
+
+document.addEventListener('DOMContentLoaded', renderNutritionPlan);
+setTimeout(renderNutritionPlan, 300);
+</script>
