@@ -1,4 +1,4 @@
-const CACHE_NAME = 'enfoque-v13';
+const CACHE_NAME = 'enfoque-v14';
 const ASSETS = [
   './index.html',
   './manifest.json',
