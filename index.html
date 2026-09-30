@@ -850,19 +850,29 @@
             });
         }
 
-        function updateExercisesByDay() {
-            const selectedDay = document.getElementById('day-select').value;
-            const exerciseSelect = document.getElementById('exercise-select');
-            exerciseSelect.innerHTML = '';
+function updateExercisesByDay() {
+    const selectedDay = document.getElementById('day-select').value;
+    const exerciseSelect = document.getElementById('exercise-select');
+    if (!exerciseSelect) return;
 
-            const exercises = routinesByDay[selectedDay] || [];
-            exercises.forEach(ex => {
-                const opt = document.createElement('option');
-                opt.value = ex;
-                opt.textContent = ex;
-                exerciseSelect.appendChild(opt);
-            });
-        }
+    exerciseSelect.innerHTML = '<option value="">-- Selecciona un ejercicio --</option>';
+
+    const exercises = routinesByDay[selectedDay] || [];
+    exercises.forEach(ex => {
+        const opt = document.createElement('option');
+        opt.value = ex;
+        opt.textContent = ex;
+        exerciseSelect.appendChild(opt);
+    });
+}
+
+// Alerta de descanso diario a las 10:00 PM
+setInterval(() => {
+    const now = new Date();
+    if (now.getHours() === 22 && now.getMinutes() === 0) {
+        alert('🌙 ENFOQUE: Son las 10:00 PM. ¡Hora de descansar y recuperar!');
+    }
+}, 60000);
 
         function populateAllFilterExercises() {
             const filterSelect = document.getElementById('filter-exercise');
