@@ -3,343 +3,322 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>ENFOQUE - Fitness & Nutrición</title>
+  <title>ENFOQUE - Fitness App</title>
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#0b0c0e">
   
   <style>
     :root {
-      --bg: #0b0c0e;
-      --card: #141619;
-      --card-border: #202428;
-      --neon: #00e676;
-      --neon-glow: rgba(0, 230, 118, 0.25);
-      --text: #ffffff;
-      --text-muted: #8b929a;
+      --bg-main: #0b0c0e;
+      --card-bg: #15181c;
+      --card-inner: #1c2026;
+      --accent-neon: #00e676;
+      --accent-glow: rgba(0, 230, 118, 0.4);
+      --text-main: #ffffff;
+      --text-muted: #8e95a0;
       --fire: #ff6d00;
+      --radius-lg: 22px;
+      --radius-md: 14px;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-    body { background-color: var(--bg); color: var(--text); padding-bottom: 100px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    body { background-color: var(--bg-main); color: var(--text-main); padding-bottom: 95px; -webkit-tap-highlight-color: transparent; }
 
-    /* Contenedor tipo App Móvil Premium */
-    .app-container { max-width: 480px; margin: 0 auto; padding: 16px; }
-
-    /* Top Bar / Encabezado */
+    /* Top Bar & Header */
     .top-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 8px 0 20px;
+      padding: 18px 20px 10px;
     }
     .user-profile { display: flex; align-items: center; gap: 12px; }
-    .brand-logo-img {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      background: #181a1d;
-      padding: 4px;
-      border: 1px solid var(--card-border);
-      box-shadow: 0 0 12px var(--neon-glow);
+    .brand-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #000;
+      border: 2px solid var(--accent-neon);
+      object-fit: cover;
+      box-shadow: 0 0 10px var(--accent-glow);
     }
-    .brand-title { font-size: 1.1rem; font-weight: 800; letter-spacing: 0.5px; }
-    .brand-subtitle { font-size: 0.75rem; color: var(--neon); font-weight: 600; }
+    .brand-title { font-size: 1rem; font-weight: 800; letter-spacing: 0.5px; }
+    .brand-sub { font-size: 0.75rem; color: var(--text-muted); }
 
-    /* Hero Banner Motivacional (Felipe 4:13) */
-    .hero-banner {
-      background: linear-gradient(135deg, #181c1f 0%, #0d1012 100%);
-      border: 1px solid var(--card-border);
-      border-radius: 22px;
+    /* Main Hero Widget (Banner) */
+    .hero-widget {
+      background: linear-gradient(135deg, #18261e 0%, #15181c 100%);
+      border: 1px solid rgba(0, 230, 118, 0.2);
+      border-radius: var(--radius-lg);
       padding: 20px;
+      margin: 10px 20px 20px;
       position: relative;
       overflow: hidden;
-      margin-bottom: 20px;
     }
-    .hero-banner::after {
+    .hero-widget::after {
       content: '';
       position: absolute;
-      top: -20%;
-      right: -10%;
-      width: 120px;
-      height: 120px;
-      background: var(--neon-glow);
+      top: -30%; right: -20%;
+      width: 140px; height: 140px;
+      background: var(--accent-neon);
+      opacity: 0.12;
       filter: blur(40px);
       border-radius: 50%;
     }
     .hero-tag {
       display: inline-block;
-      background: rgba(0, 230, 118, 0.15);
-      color: var(--neon);
+      background: var(--accent-neon);
+      color: #000;
       font-size: 0.7rem;
       font-weight: 800;
       padding: 4px 10px;
       border-radius: 20px;
       margin-bottom: 10px;
-      letter-spacing: 1px;
+      text-transform: uppercase;
     }
-    .hero-verse { font-size: 1.05rem; font-weight: 700; line-height: 1.4; color: #fff; margin-bottom: 6px; }
-    .hero-ref { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; }
+    .hero-verse { font-size: 1.05rem; font-weight: 700; line-height: 1.35; margin-bottom: 6px; }
+    .hero-ref { font-size: 0.8rem; color: var(--accent-neon); font-weight: 700; }
 
-    /* Widget Estilo Health Grade Dribbble */
-    .widget-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-    .stat-widget {
-      background: var(--card);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .stat-val { font-size: 1.5rem; font-weight: 800; color: #fff; margin: 6px 0 2px; }
-    .stat-lbl { font-size: 0.75rem; color: var(--text-muted); }
+    /* Layout Content */
+    .container { padding: 0 20px; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
 
-    /* Selectores de Día / Cápsulas Horizontales */
-    .days-scroll {
+    /* Horizontal Day Selector (Pills) */
+    .day-selector-scroll {
       display: flex;
-      gap: 8px;
+      gap: 10px;
       overflow-x: auto;
       padding-bottom: 10px;
       margin-bottom: 15px;
       scrollbar-width: none;
     }
-    .days-scroll::-webkit-scrollbar { display: none; }
+    .day-selector-scroll::-webkit-scrollbar { display: none; }
     .day-pill {
-      flex: 0 0 auto;
-      padding: 10px 18px;
-      background: var(--card);
-      border: 1px solid var(--card-border);
-      border-radius: 30px;
+      background: var(--card-bg);
+      border: 1px solid rgba(255,255,255,0.05);
       color: var(--text-muted);
+      padding: 10px 18px;
+      border-radius: 30px;
       font-size: 0.82rem;
       font-weight: 700;
+      white-space: nowrap;
       cursor: pointer;
       transition: all 0.2s;
     }
     .day-pill.active {
-      background: var(--neon);
+      background: var(--accent-neon);
       color: #000;
-      border-color: var(--neon);
-      box-shadow: 0 0 12px var(--neon-glow);
+      box-shadow: 0 0 12px var(--accent-glow);
     }
 
-    /* Tarjetas de Ejercicios Estilo Dribbble */
-    .exercise-card {
-      background: var(--card);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 18px;
+    /* Exercise Cards Dribbble Style */
+    .card-item {
+      background: var(--card-bg);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: var(--radius-lg);
+      padding: 16px;
       margin-bottom: 14px;
     }
-    .ex-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
-    .ex-title { font-size: 1rem; font-weight: 700; color: #fff; }
-    .prev-badge {
-      font-size: 0.75rem;
-      background: #1c2024;
-      color: var(--text-muted);
-      padding: 4px 10px;
-      border-radius: 12px;
-      border: 1px solid var(--card-border);
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .card-title { font-size: 0.98rem; font-weight: 700; }
+    .card-sub { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
+    
+    .input-box {
+      background: var(--card-inner);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
     }
-    .prev-badge strong { color: var(--neon); }
-
-    .input-row { margin-top: 12px; }
-    .weight-input {
-      width: 100%;
-      background: #090a0c;
-      border: 1px solid var(--card-border);
-      border-radius: 14px;
-      padding: 14px;
+    .input-box label { font-size: 0.78rem; color: var(--accent-neon); font-weight: 700; }
+    .input-box input {
+      background: none;
+      border: none;
       color: #fff;
       font-size: 1.1rem;
-      font-weight: 700;
+      font-weight: 800;
+      text-align: right;
+      width: 90px;
       outline: none;
-      transition: border 0.2s;
     }
-    .weight-input:focus { border-color: var(--neon); }
 
-    .strength-alert {
+    .fire-badge {
       display: none;
-      margin-top: 10px;
       background: rgba(255, 109, 0, 0.15);
       border: 1px solid var(--fire);
       color: var(--fire);
-      padding: 10px;
-      border-radius: 12px;
-      font-size: 0.82rem;
       font-weight: 800;
+      font-size: 0.78rem;
       text-align: center;
+      padding: 8px;
+      border-radius: var(--radius-md);
+      margin-top: 10px;
     }
 
-    /* Toggle Nutrición */
-    .goal-toggle {
-      display: flex;
-      background: var(--card);
-      padding: 5px;
-      border-radius: 16px;
-      border: 1px solid var(--card-border);
-      margin-bottom: 16px;
-    }
-    .goal-btn {
-      flex: 1;
-      padding: 12px;
-      border: none;
-      background: none;
-      color: var(--text-muted);
-      font-weight: 800;
-      font-size: 0.8rem;
-      border-radius: 12px;
-      cursor: pointer;
-    }
-    .goal-btn.active {
-      background: var(--neon);
-      color: #000;
-      box-shadow: 0 0 10px var(--neon-glow);
-    }
-
-    .meal-card {
-      background: var(--card);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
+    /* Nutrition Health Grade Widget */
+    .health-grade-widget {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
       padding: 18px;
-      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 15px;
+      border: 1px solid rgba(255,255,255,0.05);
     }
-    .meal-title { font-size: 0.95rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
-    .meal-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 8px; }
-    .meal-macro { font-size: 0.78rem; color: var(--neon); font-weight: 700; }
+    .grade-circle {
+      width: 65px; height: 65px;
+      border-radius: 50%;
+      background: conic-gradient(var(--accent-neon) 90%, #222 0);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .grade-circle::before {
+      content: ''; position: absolute;
+      width: 50px; height: 50px;
+      background: var(--card-bg);
+      border-radius: 50%;
+    }
+    .grade-text { position: relative; font-weight: 900; font-size: 0.95rem; color: #fff; }
 
-    /* Bottom Dock Navigation (Dribbble Dock) */
+    .nutrition-toggle {
+      display: flex;
+      background: var(--card-inner);
+      padding: 4px;
+      border-radius: 30px;
+      margin-bottom: 15px;
+    }
+    .nut-btn {
+      flex: 1; padding: 10px; border: none; background: none;
+      color: var(--text-muted); font-size: 0.78rem; font-weight: 800;
+      border-radius: 25px; cursor: pointer;
+    }
+    .nut-btn.active { background: var(--accent-neon); color: #000; }
+
+    /* Bottom Dock Floating Navigation */
     .bottom-dock {
       position: fixed;
-      bottom: 20px;
+      bottom: 18px;
       left: 50%;
       transform: translateX(-50%);
-      width: calc(100% - 32px);
-      max-width: 440px;
-      background: rgba(20, 22, 25, 0.92);
-      backdrop-filter: blur(16px);
+      width: calc(100% - 40px);
+      max-width: 420px;
+      background: rgba(21, 24, 28, 0.92);
+      backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 30px;
-      padding: 8px;
+      border-radius: 35px;
       display: flex;
       justify-content: space-around;
+      align-items: center;
+      padding: 8px 10px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
       z-index: 999;
     }
     .dock-btn {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 18px;
-      border-radius: 22px;
-      background: transparent;
-      border: none;
+      background: none; border: none;
       color: var(--text-muted);
-      font-size: 0.82rem;
-      font-weight: 700;
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      font-size: 0.68rem; font-weight: 700;
+      padding: 8px 16px;
+      border-radius: 25px;
       cursor: pointer;
-      transition: all 0.25s ease;
+      transition: all 0.2s;
     }
+    .dock-btn svg { width: 20px; height: 20px; fill: currentColor; }
     .dock-btn.active {
-      background: var(--neon);
+      background: var(--accent-neon);
       color: #000;
-      box-shadow: 0 0 12px var(--neon-glow);
+      box-shadow: 0 0 10px var(--accent-glow);
     }
-    .dock-icon { width: 18px; height: 18px; fill: currentColor; }
-
-    .tab-section { display: none; }
-    .tab-section.active { display: block; }
   </style>
 </head>
 <body>
 
-  <div class="app-container">
-    
-    <!-- ENCABEZADO / BRANDING -->
-    <div class="top-bar">
-      <div class="user-profile">
-        <img src="logo.png" alt="ENFOQUE" class="brand-logo-img" onerror="this.src='https://via.placeholder.com/44/141619/00e676?text=E'">
-        <div>
-          <div class="brand-title">ENFOQUE</div>
-          <div class="brand-subtitle">FITNESS PLATFORM</div>
-        </div>
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="user-profile">
+      <img src="logo.png" alt="Logo" class="brand-avatar" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%2300e676\'><path d=\'M13 2L3 14h9l-1 8 10-12h-9l1-8z\'/></svg>'">
+      <div>
+        <div class="brand-title">ENFOQUE</div>
+        <div class="brand-sub">Versión v20 • Premium</div>
       </div>
     </div>
+  </div>
 
-    <!-- HERO BANNER MOTIVACIONAL -->
-    <div class="hero-banner">
-      <span class="hero-tag">Mente & Disciplina</span>
-      <div class="hero-verse">"Todo lo puedo en Cristo que me fortalece"</div>
-      <div class="hero-ref">FILIPENSES 4:13</div>
-    </div>
+  <!-- HERO BANNER -->
+  <div class="hero-widget">
+    <span class="hero-tag">Mente & Fuerza</span>
+    <div class="hero-verse">"Todo lo puedo en Cristo que me fortalece"</div>
+    <div class="hero-ref">FILIPENSES 4:13</div>
+  </div>
 
-    <!-- SECCIÓN 1: RUTINAS DE ENTRENAMIENTO -->
-    <div id="tab-rutina" class="tab-section active">
-      
-      <!-- Cápsulas de Días -->
-      <div class="days-scroll">
-        <button class="day-pill active" onclick="selectDay('lunes', this)">LUNES</button>
-        <button class="day-pill" onclick="selectDay('martes', this)">MARTES</button>
-        <button class="day-pill" onclick="selectDay('miercoles', this)">MIÉRCOLES</button>
-        <button class="day-pill" onclick="selectDay('jueves', this)">JUEVES</button>
-        <button class="day-pill" onclick="selectDay('viernes', this)">VIERNES</button>
-        <button class="day-pill" onclick="selectDay('sabado', this)">SÁBADO</button>
+  <div class="container">
+    
+    <!-- PESTAÑA: RUTINA -->
+    <div id="tab-rutina" class="tab-content active">
+      <div class="day-selector-scroll">
+        <button class="day-pill active" onclick="selectDay('lunes', this)">Lunes</button>
+        <button class="day-pill" onclick="selectDay('martes', this)">Martes</button>
+        <button class="day-pill" onclick="selectDay('miercoles', this)">Miércoles</button>
+        <button class="day-pill" onclick="selectDay('jueves', this)">Jueves</button>
+        <button class="day-pill" onclick="selectDay('viernes', this)">Viernes</button>
+        <button class="day-pill" onclick="selectDay('sabado', this)">Sábado</button>
       </div>
 
       <div id="exerciseList"></div>
     </div>
 
-    <!-- SECCIÓN 2: NUTRICIÓN INTELIGENTE -->
-    <div id="tab-nutricion" class="tab-section">
-      
-      <div class="goal-toggle">
-        <button id="btn-hip" class="goal-btn active" onclick="switchGoal('hipertrofia')">💪 GANAR MASA</button>
-        <button id="btn-def" class="goal-btn" onclick="switchGoal('definicion')">🔥 BAJAR GRASA</button>
-      </div>
-
-      <div class="widget-grid">
-        <div class="stat-widget">
-          <span class="stat-lbl">Menú Activo</span>
-          <span id="nutriDayName" class="stat-val" style="font-size: 1.1rem; color: var(--neon);">HOY</span>
+    <!-- PESTAÑA: NUTRICIÓN -->
+    <div id="tab-nutricion" class="tab-content">
+      <div class="health-grade-widget">
+        <div class="grade-circle">
+          <span class="grade-text">95%</span>
         </div>
-        <div class="stat-widget">
-          <span class="stat-lbl">Objetivo Diario</span>
-          <span id="nutriCalories" class="stat-val" style="font-size: 1.1rem;">2,350 kcal</span>
+        <div>
+          <div style="font-weight: 800; font-size: 0.95rem;">Meta Nutricional</div>
+          <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 2px;" id="nutSubText">Cumpliendo requerimientos diarios</div>
         </div>
       </div>
 
-      <div id="mealList"></div>
+      <div class="nutrition-toggle">
+        <button id="btn-g-hip" class="nut-btn active" onclick="setNutGoal('hipertrofia')">💪 GANAR MASA</button>
+        <button id="btn-g-def" class="nut-btn" onclick="setNutGoal('definicion')">🔥 BAJAR GRASA</button>
+      </div>
+
+      <div id="mealsList"></div>
     </div>
 
   </div>
 
-  <!-- NAVEGACIÓN DOCK INFERIOR (Estilo Dribbble) -->
+  <!-- BOTTOM FLOATING DOCK -->
   <div class="bottom-dock">
-    <button class="dock-btn active" onclick="switchTab('rutina', this)">
-      <svg class="dock-icon" viewBox="0 0 24 24"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 6.29 3.43 4.86 2 3.43 3.43 2 4.86 3.43 6.29 2 7.71 3.43 9.14 2 10.57 3.43 12 7 20.57 15.57 17 12 20.57 13.43 22 14.86 20.57 16.29 22 17.71 20.57 19.14 22 20.57 20.57 19.14 19.14 20.57 17.71 19.14 16.29z"/></svg>
+    <button class="dock-btn active" onclick="switchDock('rutina', this)">
+      <svg viewBox="0 0 24 24"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 6.29 3.43 4.86 2 3.43 3.43 2 4.86 3.43 6.29 2 7.71 3.43 9.14 2 10.57 3.43 12 7 3.43 15.57 2 17 3.43 18.43 2 19.86 3.43 21.29 4.86 19.86 6.29 21.29 7.71 19.86 9.14 21.29 10.57 19.86 12 17 20.57 14.86z"/></svg>
       Rutina
     </button>
-    <button class="dock-btn" onclick="switchTab('nutricion', this)">
-      <svg class="dock-icon" viewBox="0 0 24 24"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.46 3.9 3.45 4.38L6.22 22pxh2.56l-.23-8.62C10.54 12.9 12 11.12 12 9V2h-1v7zm6-7c-2.21 0-4 1.79-4 4v7h2v9h2V2z"/></svg>
+    <button class="dock-btn" onclick="switchDock('nutricion', this)">
+      <svg viewBox="0 0 24 24"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.46 3.9 3.45 4.38L6.08 22pxh2.83l-.37-8.62C10.54 12.9 12 11.12 12 9V2h-1v7zm7-7s-3 0-3 5v6h2v9h2V2h-1z"/></svg>
       Nutrición
     </button>
   </div>
 
   <script>
-    // RUTINAS CON DÍAS E HISTORIAL PREVIO
-    const routinesData = {
+    const routines = {
       lunes: [
-        { name: "Press de Banca Inclinado", prev: 60 },
+        { name: "Press de Banca Inclinado con Barra", prev: 60 },
         { name: "Press Plano con Mancuernas", prev: 24 },
-        { name: "Cruce de Cables en Polea", prev: 15 },
-        { name: "Press Militar de Hombro", prev: 18 },
-        { name: "Extensión de Tríceps Polea", prev: 25 }
+        { name: "Aperturas en Polea (Cruce de Cables)", prev: 15 },
+        { name: "Press Militar con Mancuernas", prev: 18 },
+        { name: "Extensión de Tríceps en Polea", prev: 25 }
       ],
       martes: [
-        { name: "Jalón al Pecho Polea Alta", prev: 55 },
-        { name: "Remo con Barra T", prev: 50 },
-        { name: "Remo Unilateral Mancuerna", prev: 22 },
-        { name: "Curl de Bíceps Barra Z", prev: 30 }
+        { name: "Jalón al Pecho (Polea Alta)", prev: 55 },
+        { name: "Remo con Barra", prev: 50 },
+        { name: "Remo Unilateral con Mancuerna", prev: 22 },
+        { name: "Curl de Bíceps con Barra Z", prev: 30 }
       ],
       miercoles: [
         { name: "Sentadilla Libre con Barra", prev: 80 },
@@ -348,198 +327,115 @@
         { name: "Curl Femoral Tumbado", prev: 35 }
       ],
       jueves: [
-        { name: "Press de Banca Plano Barra", prev: 65 },
-        { name: "Fondos en Paralela", prev: 0 },
-        { name: "Elevaciones Laterales Hombro", prev: 10 }
+        { name: "Press de Banca Plano", prev: 65 },
+        { name: "Elevaciones Laterales Hombro", prev: 10 },
+        { name: "Press Francés Tríceps", prev: 20 }
       ],
       viernes: [
         { name: "Dominadas Agarre Estrecho", prev: 50 },
-        { name: "Remo Gironda Polea Baja", prev: 45 },
-        { name: "Curl Banco Scott", prev: 25 }
+        { name: "Remo en Gironda", prev: 45 },
+        { name: "Curl de Bíceps Banco Scott", prev: 25 }
       ],
       sabado: [
         { name: "Peso Muerto Rumano", prev: 70 },
-        { name: "Hip Thrust para Glúteo", prev: 90 },
+        { name: "Hip Thrust Glúteo", prev: 90 },
         { name: "Zancadas / Búlgaras", prev: 16 }
       ]
     };
 
-    // MENÚS ROTATIVOS INTELIGENTES
     const nutritionData = {
-      hipertrofia: {
-        0: { day: "Domingo", total: "2,350 kcal", meals: [
-          { name: "Desayuno", desc: "4 Huevos revueltos + 1 taza de Avena con leche y canela", macro: "580 kcal | 36g Prot" },
-          { name: "Almuerzo", desc: "220g Pechuga + 1.5 tazas de Arroz + Ensalada", macro: "700 kcal | 50g Prot" },
-          { name: "Cena", desc: "200g Carne de Res + 1 taza Yuca cocida", macro: "620 kcal | 44g Prot" }
-        ]},
-        1: { day: "Lunes", total: "2,380 kcal", meals: [
-          { name: "Desayuno", desc: "4 Huevos + 2 Tostadas integrales + Crema de maní", macro: "600 kcal | 35g Prot" },
-          { name: "Almuerzo", desc: "220g Carne molida magra + 2 Papas medianas", macro: "720 kcal | 48g Prot" },
-          { name: "Cena", desc: "220g Filete de Tilapia + 1 taza de Arroz", macro: "590 kcal | 42g Prot" }
-        ]},
-        2: { day: "Martes", total: "2,320 kcal", meals: [
-          { name: "Desayuno", desc: "Batido proteico con Avena + Banano + Huevos", macro: "560 kcal | 40g Prot" },
-          { name: "Almuerzo", desc: "200g Pollo a la plancha + 1.5 tazas Pasta integral", macro: "740 kcal | 52g Prot" },
-          { name: "Cena", desc: "2 Latas de Atún + 1 Arepa de maíz con queso", macro: "580 kcal | 45g Prot" }
-        ]},
-        3: { day: "Miércoles", total: "2,340 kcal", meals: [
-          { name: "Desayuno", desc: "4 Huevos pericos + 1 Arepa + 1 Manzana", macro: "570 kcal | 32g Prot" },
-          { name: "Almuerzo", desc: "220g Lomo de cerdo magro + Plátano asado", macro: "710 kcal | 49g Prot" },
-          { name: "Cena", desc: "200g Pollo desmechado + Puré de papa criolla", macro: "610 kcal | 44g Prot" }
-        ]},
-        4: { day: "Jueves", total: "2,360 kcal", meals: [
-          { name: "Desayuno", desc: "Panqueques de avena (3 huevos + 1 taza avena)", macro: "590 kcal | 34g Prot" },
-          { name: "Almuerzo", desc: "200g Pechuga criolla + Arroz + Frijoles", macro: "760 kcal | 54g Prot" },
-          { name: "Cena", desc: "200g Carne asada + Ensalada mixta con aguacate", macro: "570 kcal | 42g Prot" }
-        ]},
-        5: { day: "Viernes", total: "2,310 kcal", meals: [
-          { name: "Desayuno", desc: "4 Huevos en omelette con queso blanco y pavo", macro: "580 kcal | 38g Prot" },
-          { name: "Almuerzo", desc: "220g Churrasco magro + Yuca al vapor", macro: "730 kcal | 50g Prot" },
-          { name: "Cena", desc: "220g Pescado al horno + 1 taza de Arroz", macro: "580 kcal | 41g Prot" }
-        ]},
-        6: { day: "Sábado", total: "2,370 kcal", meals: [
-          { name: "Desayuno", desc: "3 Huevos cocidos + Bowl de avena caliente con frutos secos", macro: "600 kcal | 35g Prot" },
-          { name: "Almuerzo", desc: "220g Pollo al horno + Plátano asado + Ensalada", macro: "720 kcal | 48g Prot" },
-          { name: "Cena", desc: "Sandwich doble en pan integral con 150g de Pollo", macro: "600 kcal | 45g Prot" }
-        ]}
-      },
-      definicion: {
-        0: { day: "Domingo", total: "1,600 kcal", meals: [
-          { name: "Desayuno", desc: "4 Claras + 1 Huevo entero + Espinaca + 1 Tostada", macro: "320 kcal | 28g Prot" },
-          { name: "Almuerzo", desc: "200g Pechuga + 1/2 taza de Arroz + Ensalada verde", macro: "480 kcal | 46g Prot" },
-          { name: "Cena", desc: "200g Tilapia a la plancha + Ensalada de pepino", macro: "380 kcal | 40g Prot" }
-        ]},
-        1: { day: "Lunes", total: "1,620 kcal", meals: [
-          { name: "Desayuno", desc: "3 Huevos revueltos + Tomate + Té verde sin azúcar", macro: "340 kcal | 22g Prot" },
-          { name: "Almuerzo", desc: "180g Carne magra + 1 Papa mediana + Brócoli", macro: "500 kcal | 44g Prot" },
-          { name: "Cena", desc: "2 Latas de Atún en agua + Aguacate y tomate", macro: "360 kcal | 42g Prot" }
-        ]},
-        2: { day: "Martes", total: "1,580 kcal", meals: [
-          { name: "Desayuno", desc: "Batido de Proteína con agua + 4 Claras de huevo", macro: "290 kcal | 32g Prot" },
-          { name: "Almuerzo", desc: "200g Pechuga + 1/2 taza de Frijol + Repollo", macro: "510 kcal | 48g Prot" },
-          { name: "Cena", desc: "Omelette de 5 Claras con champiñones", macro: "320 kcal | 30g Prot" }
-        ]},
-        3: { day: "Miércoles", total: "1,610 kcal", meals: [
-          { name: "Desayuno", desc: "3 Huevos cocidos + 1/2 Banano", macro: "330 kcal | 21g Prot" },
-          { name: "Almuerzo", desc: "180g Lomo magro de cerdo + Ensalada abundante", macro: "490 kcal | 42g Prot" },
-          { name: "Cena", desc: "180g Pechuga a la plancha + Calabacín asado", macro: "370 kcal | 41g Prot" }
-        ]},
-        4: { day: "Jueves", total: "1,630 kcal", meals: [
-          { name: "Desayuno", desc: "1 Arepa delgada + 80g Queso cuajada + Café negro", macro: "350 kcal | 20g Prot" },
-          { name: "Almuerzo", desc: "200g Pescado al vapor + 1/2 taza Arroz", macro: "470 kcal | 43g Prot" },
-          { name: "Cena", desc: "180g Carne molida magra + Ensalada verde", macro: "400 kcal | 40g Prot" }
-        ]},
-        5: { day: "Viernes", total: "1,590 kcal", meals: [
-          { name: "Desayuno", desc: "3 Huevos + 2 Lonchas de pavo + Té verde", macro: "330 kcal | 26g Prot" },
-          { name: "Almuerzo", desc: "200g Pollo a la parrilla + 1 Trozo pequeño de Yuca", macro: "500 kcal | 46g Prot" },
-          { name: "Cena", desc: "2 Latas de Atún + Pepino + Limón", macro: "340 kcal | 41g Prot" }
-        ]},
-        6: { day: "Sábado", total: "1,620 kcal", meals: [
-          { name: "Desayuno", desc: "3 Huevos revueltos + 1 Tostada integral", macro: "340 kcal | 22g Prot" },
-          { name: "Almuerzo", desc: "200g Pollo al horno + Ensalada fresca", macro: "510 kcal | 45g Prot" },
-          { name: "Cena", desc: "Consomé magro con 150g Pechuga desmechada", macro: "350 kcal | 38g Prot" }
-        ]}
-      }
+      hipertrofia: [
+        { type: "Desayuno", name: "Omelette 4 Huevos + Avena & Banano", macro: "580 kcal | 36g Proteína" },
+        { type: "Almuerzo", name: "220g Pechuga + 1.5 Tazas Arroz + Ensalada", macro: "700 kcal | 50g Proteína" },
+        { type: "Cena", name: "200g Carne Magra + Yuca al Vapor", macro: "620 kcal | 44g Proteína" }
+      ],
+      definicion: [
+        { type: "Desayuno", name: "4 Claras + 1 Huevo + Espinaca + 1 Tostada", macro: "320 kcal | 28g Proteína" },
+        { type: "Almuerzo", name: "200g Pechuga + Ensalada Grande + 1/2 Taza Arroz", macro: "480 kcal | 46g Proteína" },
+        { type: "Cena", name: "200g Filete Pescado + Ensalada Verde", macro: "380 kcal | 40g Proteína" }
+      ]
     };
 
-    let selectedDay = 'lunes';
-    let currentGoal = 'hipertrofia';
+    let currentDay = 'lunes';
+    let currentNutGoal = 'hipertrofia';
 
     function selectDay(day, btn) {
-      selectedDay = day;
-      document.querySelectorAll('.day-pill').forEach(b => b.classList.remove('active'));
+      currentDay = day;
+      document.querySelectorAll('.day-pill').forEach(p => p.classList.remove('active'));
       btn.classList.add('active');
       renderRoutine();
     }
 
     function renderRoutine() {
-      const list = routinesData[selectedDay] || [];
+      const list = routines[currentDay] || [];
       const container = document.getElementById('exerciseList');
       container.innerHTML = '';
 
       list.forEach((ex, idx) => {
-        const card = document.createElement('div');
-        card.className = 'exercise-card';
-        card.innerHTML = `
-          <div class="ex-header">
-            <div class="ex-title">${ex.name}</div>
-            <div class="prev-badge">Previo: <strong>${ex.prev} kg</strong></div>
+        const item = document.createElement('div');
+        item.className = 'card-item';
+        item.innerHTML = `
+          <div class="card-header">
+            <div>
+              <div class="card-title">${ex.name}</div>
+              <div class="card-sub">Última marca: ${ex.prev} kg</div>
+            </div>
           </div>
-          <div class="input-row">
-            <input type="number" class="weight-input" id="inp-${idx}" placeholder="Peso de hoy (kg)" oninput="evaluateWeight(${idx}, ${ex.prev})">
+          <div class="input-box">
+            <label>PESO DE HOY</label>
+            <input type="number" placeholder="${ex.prev}" oninput="evaluateWeight(this, ${ex.prev}, ${idx})">
           </div>
-          <div id="alert-${idx}" class="strength-alert">
-            🔥 ¡HAS AUMENTADO TU FUERZA! +Logro desbloqueado.
-          </div>
+          <div id="fire-${idx}" class="fire-badge">🔥 ¡AUMENTASTE FUERZA! SUPERASTE TU MARCA</div>
         `;
-        container.appendChild(card);
+        container.appendChild(item);
       });
     }
 
-    function evaluateWeight(idx, prev) {
-      const val = parseFloat(document.getElementById(`inp-${idx}`).value);
-      const alert = document.getElementById(`alert-${idx}`);
-      if (!isNaN(val) && val > prev) {
-        alert.style.display = 'block';
+    function evaluateWeight(input, prevVal, idx) {
+      const val = parseFloat(input.value);
+      const badge = document.getElementById(`fire-${idx}`);
+      if (!isNaN(val) && val > prevVal) {
+        badge.style.display = 'block';
       } else {
-        alert.style.display = 'none';
+        badge.style.display = 'none';
       }
     }
 
-    function switchGoal(goal) {
-      currentGoal = goal;
-      document.getElementById('btn-hip').classList.toggle('active', goal === 'hipertrofia');
-      document.getElementById('btn-def').classList.toggle('active', goal === 'definicion');
+    function switchDock(tab, btn) {
+      document.querySelectorAll('.dock-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(`tab-${tab}`).classList.add('active');
+      if (tab === 'nutricion') renderNutrition();
+    }
+
+    function setNutGoal(goal) {
+      currentNutGoal = goal;
+      document.getElementById('btn-g-hip').classList.toggle('active', goal === 'hipertrofia');
+      document.getElementById('btn-g-def').classList.toggle('active', goal === 'definicion');
       renderNutrition();
     }
 
     function renderNutrition() {
-      const todayIdx = new Date().getDay();
-      const data = nutritionData[currentGoal][todayIdx];
-
-      document.getElementById('nutriDayName').innerText = data.day.toUpperCase();
-      document.getElementById('nutriCalories').innerText = data.total;
-
-      const container = document.getElementById('mealList');
+      const list = nutritionData[currentNutGoal];
+      const container = document.getElementById('mealsList');
       container.innerHTML = '';
 
-      data.meals.forEach(m => {
-        const card = document.createElement('div');
-        card.className = 'meal-card';
-        card.innerHTML = `
-          <div class="meal-title">${m.name}</div>
-          <div class="meal-desc">${m.desc}</div>
-          <div class="meal-macro">${m.macro}</div>
+      list.forEach(m => {
+        const item = document.createElement('div');
+        item.className = 'card-item';
+        item.innerHTML = `
+          <div style="font-size: 0.75rem; color: var(--accent-neon); font-weight: 800; text-transform: uppercase;">${m.type}</div>
+          <div class="card-title" style="margin: 4px 0;">${m.name}</div>
+          <div class="card-sub" style="color: #fff; font-weight: 700;">${m.macro}</div>
         `;
-        container.appendChild(card);
+        container.appendChild(item);
       });
     }
 
-    function switchTab(tab, btn) {
-      document.querySelectorAll('.dock-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
-      
-      btn.classList.add('active');
-      document.getElementById(`tab-${tab}`).classList.add('active');
-
-      if (tab === 'nutricion') renderNutrition();
-    }
-
-    // AUTO REFRESH SERVICE WORKER
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js').then(reg => {
-        reg.addEventListener('updatefound', () => {
-          const w = reg.installing;
-          w.addEventListener('statechange', () => {
-            if (w.state === 'installed' && navigator.serviceWorker.controller) {
-              window.location.reload();
-            }
-          });
-        });
-      });
-    }
-
-    window.onload = () => { renderRoutine(); };
+    window.onload = () => {
+      renderRoutine();
+    };
   </script>
 </body>
 </html>
