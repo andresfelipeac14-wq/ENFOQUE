@@ -5,466 +5,533 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>ENFOQUE - Fitness & Nutrición</title>
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0d0d0d">
+  <meta name="theme-color" content="#0b0c0e">
   
   <style>
     :root {
-      --bg-color: #0d0d0d;
-      --card-bg: #16181a;
-      --accent: #00e676;
-      --accent-glow: rgba(0, 230, 118, 0.35);
+      --bg: #0b0c0e;
+      --card: #141619;
+      --card-border: #202428;
+      --neon: #00e676;
+      --neon-glow: rgba(0, 230, 118, 0.25);
       --text: #ffffff;
-      --text-dim: #a0a0a0;
-      --border: #222629;
+      --text-muted: #8b929a;
       --fire: #ff6d00;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
-    body { background-color: var(--bg-color); color: var(--text); padding-bottom: 80px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background-color: var(--bg); color: var(--text); padding-bottom: 100px; }
 
-    /* Header Banner con Logo y Versículo */
-    .header-banner {
-      background: linear-gradient(180deg, rgba(0,230,118,0.08) 0%, rgba(22,24,26,1) 100%);
-      border-bottom: 1px solid var(--border);
-      padding: 20px 15px 15px;
-      text-align: center;
-    }
-    .app-logo {
-      max-width: 60px;
-      height: auto;
-      margin: 0 auto 8px;
-      display: block;
-      filter: drop-shadow(0 0 8px var(--accent-glow));
-    }
-    .verse-text {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: #fff;
-      margin-bottom: 4px;
-    }
-    .verse-title {
-      font-size: 0.75rem;
-      color: var(--accent);
-      font-weight: 700;
-      letter-spacing: 1px;
-      display: block;
-    }
+    /* Contenedor tipo App Móvil Premium */
+    .app-container { max-width: 480px; margin: 0 auto; padding: 16px; }
 
-    /* Pestañas de Navegación */
-    .nav-tabs {
+    /* Top Bar / Encabezado */
+    .top-bar {
       display: flex;
-      justify-content: space-around;
-      background: #121315;
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0 20px;
     }
-    .tab-btn {
-      flex: 1;
-      padding: 14px 5px;
-      background: none;
-      border: none;
-      color: var(--text-dim);
-      font-weight: 700;
-      font-size: 0.9rem;
-      cursor: pointer;
-      border-bottom: 3px solid transparent;
-      transition: all 0.2s;
-    }
-    .tab-btn.active {
-      color: var(--accent);
-      border-bottom-color: var(--accent);
-    }
-
-    .container { padding: 15px; max-width: 500px; margin: 0 auto; }
-    .section-content { display: none; }
-    .section-content.active { display: block; }
-
-    /* Tarjetas de Ejercicios */
-    .day-selector {
-      width: 100%;
-      padding: 12px;
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      color: var(--text);
-      font-weight: bold;
-      border-radius: 8px;
-      margin-bottom: 15px;
-      outline: none;
-    }
-    .exercise-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
+    .user-profile { display: flex; align-items: center; gap: 12px; }
+    .brand-logo-img {
+      width: 44px;
+      height: 44px;
       border-radius: 12px;
-      padding: 15px;
-      margin-bottom: 15px;
+      background: #181a1d;
+      padding: 4px;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 0 12px var(--neon-glow);
     }
-    .exercise-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; }
-    .prev-mark { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 12px; }
-    
-    .weight-input-group {
+    .brand-title { font-size: 1.1rem; font-weight: 800; letter-spacing: 0.5px; }
+    .brand-subtitle { font-size: 0.75rem; color: var(--neon); font-weight: 600; }
+
+    /* Hero Banner Motivacional (Felipe 4:13) */
+    .hero-banner {
+      background: linear-gradient(135deg, #181c1f 0%, #0d1012 100%);
+      border: 1px solid var(--card-border);
+      border-radius: 22px;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .hero-banner::after {
+      content: '';
+      position: absolute;
+      top: -20%;
+      right: -10%;
+      width: 120px;
+      height: 120px;
+      background: var(--neon-glow);
+      filter: blur(40px);
+      border-radius: 50%;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: rgba(0, 230, 118, 0.15);
+      color: var(--neon);
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+    .hero-verse { font-size: 1.05rem; font-weight: 700; line-height: 1.4; color: #fff; margin-bottom: 6px; }
+    .hero-ref { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; }
+
+    /* Widget Estilo Health Grade Dribbble */
+    .widget-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+    .stat-widget {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 16px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      justify-content: space-between;
     }
-    .weight-input-group label { font-size: 0.8rem; color: var(--accent); font-weight: 600; }
+    .stat-val { font-size: 1.5rem; font-weight: 800; color: #fff; margin: 6px 0 2px; }
+    .stat-lbl { font-size: 0.75rem; color: var(--text-muted); }
+
+    /* Selectores de Día / Cápsulas Horizontales */
+    .days-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      margin-bottom: 15px;
+      scrollbar-width: none;
+    }
+    .days-scroll::-webkit-scrollbar { display: none; }
+    .day-pill {
+      flex: 0 0 auto;
+      padding: 10px 18px;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 30px;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .day-pill.active {
+      background: var(--neon);
+      color: #000;
+      border-color: var(--neon);
+      box-shadow: 0 0 12px var(--neon-glow);
+    }
+
+    /* Tarjetas de Ejercicios Estilo Dribbble */
+    .exercise-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 18px;
+      margin-bottom: 14px;
+    }
+    .ex-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+    .ex-title { font-size: 1rem; font-weight: 700; color: #fff; }
+    .prev-badge {
+      font-size: 0.75rem;
+      background: #1c2024;
+      color: var(--text-muted);
+      padding: 4px 10px;
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+    }
+    .prev-badge strong { color: var(--neon); }
+
+    .input-row { margin-top: 12px; }
     .weight-input {
       width: 100%;
-      padding: 12px;
-      background: #0d0d0d;
-      border: 1px solid var(--border);
-      border-radius: 8px;
+      background: #090a0c;
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 14px;
       color: #fff;
       font-size: 1.1rem;
-      font-weight: bold;
+      font-weight: 700;
       outline: none;
+      transition: border 0.2s;
     }
-    .weight-input:focus { border-color: var(--accent); }
+    .weight-input:focus { border-color: var(--neon); }
 
     .strength-alert {
       display: none;
       margin-top: 10px;
-      background: rgba(255, 109, 0, 0.12);
+      background: rgba(255, 109, 0, 0.15);
       border: 1px solid var(--fire);
       color: var(--fire);
-      padding: 8px 12px;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      font-weight: 700;
+      padding: 10px;
+      border-radius: 12px;
+      font-size: 0.82rem;
+      font-weight: 800;
       text-align: center;
-      animation: pulse 1.5s infinite;
     }
 
-    /* Módulo Nutrición */
+    /* Toggle Nutrición */
     .goal-toggle {
       display: flex;
-      background: #0d0d0d;
-      padding: 4px;
-      border-radius: 10px;
-      margin-bottom: 15px;
-      border: 1px solid var(--border);
+      background: var(--card);
+      padding: 5px;
+      border-radius: 16px;
+      border: 1px solid var(--card-border);
+      margin-bottom: 16px;
     }
     .goal-btn {
       flex: 1;
-      padding: 10px;
+      padding: 12px;
       border: none;
       background: none;
-      color: var(--text-dim);
-      font-weight: 700;
+      color: var(--text-muted);
+      font-weight: 800;
       font-size: 0.8rem;
-      border-radius: 8px;
+      border-radius: 12px;
       cursor: pointer;
     }
     .goal-btn.active {
-      background: var(--card-bg);
-      color: var(--accent);
-      border: 1px solid var(--accent);
+      background: var(--neon);
+      color: #000;
+      box-shadow: 0 0 10px var(--neon-glow);
     }
 
-    .menu-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 15px;
+    .meal-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 18px;
       margin-bottom: 12px;
     }
-    .menu-day-header {
-      font-size: 0.9rem;
-      color: var(--accent);
-      font-weight: bold;
-      margin-bottom: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .meal-item { margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px dashed var(--border); }
-    .meal-item:last-child { border-bottom: none; margin-bottom: 0; }
-    .meal-name { font-size: 0.9rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
-    .meal-desc { font-size: 0.82rem; color: var(--text-dim); line-height: 1.3; }
-    .meal-macro { font-size: 0.75rem; color: var(--accent); margin-top: 3px; font-weight: 600; }
+    .meal-title { font-size: 0.95rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .meal-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 8px; }
+    .meal-macro { font-size: 0.78rem; color: var(--neon); font-weight: 700; }
 
-    .total-banner {
-      background: linear-gradient(135deg, rgba(0,230,118,0.15) 0%, rgba(22,24,26,1) 100%);
-      border: 1px solid var(--accent);
-      padding: 12px;
-      border-radius: 10px;
-      text-align: center;
-      margin-top: 15px;
+    /* Bottom Dock Navigation (Dribbble Dock) */
+    .bottom-dock {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 32px);
+      max-width: 440px;
+      background: rgba(20, 22, 25, 0.92);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 30px;
+      padding: 8px;
+      display: flex;
+      justify-content: space-around;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      z-index: 999;
     }
+    .dock-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 22px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .dock-btn.active {
+      background: var(--neon);
+      color: #000;
+      box-shadow: 0 0 12px var(--neon-glow);
+    }
+    .dock-icon { width: 18px; height: 18px; fill: currentColor; }
 
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(255, 109, 0, 0.4); }
-      70% { box-shadow: 0 0 0 8px rgba(255, 109, 0, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(255, 109, 0, 0); }
-    }
+    .tab-section { display: none; }
+    .tab-section.active { display: block; }
   </style>
 </head>
 <body>
 
-  <!-- BANNER CON LOGO Y VERSÍCULO -->
-  <div class="header-banner">
-    <img src="logo.png" alt="Logo ENFOQUE" class="app-logo" onerror="this.style.display='none'">
-    <p class="verse-text">"Todo lo puedo en Cristo que me fortalece"</p>
-    <small class="verse-title">FILIPENSES 4:13</small>
-  </div>
-
-  <!-- NAVEGACIÓN -->
-  <div class="nav-tabs">
-    <button class="tab-btn active" onclick="switchTab('rutina')">🏋️ RUTINA</button>
-    <button class="tab-btn" onclick="switchTab('nutricion')">🥗 NUTRICIÓN</button>
-  </div>
-
-  <div class="container">
+  <div class="app-container">
     
-    <!-- MÓDULO 1: RUTINAS -->
-    <div id="sec-rutina" class="section-content active">
-      <select id="daySelect" class="day-selector" onchange="loadRoutine()">
-        <option value="lunes">Lunes - Pecho, Tríceps & Hombro</option>
-        <option value="martes">Martes - Espalda & Bíceps</option>
-        <option value="miercoles">Miércoles - Pierna Completa</option>
-        <option value="jueves">Jueves - Pecho & Hombro</option>
-        <option value="viernes">Viernes - Espalda & Brazos</option>
-        <option value="sabado">Sábado - Pierna & Enfoque Glúteo</option>
-      </select>
-
-      <div id="exerciseContainer"></div>
+    <!-- ENCABEZADO / BRANDING -->
+    <div class="top-bar">
+      <div class="user-profile">
+        <img src="logo.png" alt="ENFOQUE" class="brand-logo-img" onerror="this.src='https://via.placeholder.com/44/141619/00e676?text=E'">
+        <div>
+          <div class="brand-title">ENFOQUE</div>
+          <div class="brand-subtitle">FITNESS PLATFORM</div>
+        </div>
+      </div>
     </div>
 
-    <!-- MÓDULO 2: NUTRICIÓN INTELIGENTE -->
-    <div id="sec-nutricion" class="section-content">
+    <!-- HERO BANNER MOTIVACIONAL -->
+    <div class="hero-banner">
+      <span class="hero-tag">Mente & Disciplina</span>
+      <div class="hero-verse">"Todo lo puedo en Cristo que me fortalece"</div>
+      <div class="hero-ref">FILIPENSES 4:13</div>
+    </div>
+
+    <!-- SECCIÓN 1: RUTINAS DE ENTRENAMIENTO -->
+    <div id="tab-rutina" class="tab-section active">
+      
+      <!-- Cápsulas de Días -->
+      <div class="days-scroll">
+        <button class="day-pill active" onclick="selectDay('lunes', this)">LUNES</button>
+        <button class="day-pill" onclick="selectDay('martes', this)">MARTES</button>
+        <button class="day-pill" onclick="selectDay('miercoles', this)">MIÉRCOLES</button>
+        <button class="day-pill" onclick="selectDay('jueves', this)">JUEVES</button>
+        <button class="day-pill" onclick="selectDay('viernes', this)">VIERNES</button>
+        <button class="day-pill" onclick="selectDay('sabado', this)">SÁBADO</button>
+      </div>
+
+      <div id="exerciseList"></div>
+    </div>
+
+    <!-- SECCIÓN 2: NUTRICIÓN INTELIGENTE -->
+    <div id="tab-nutricion" class="tab-section">
+      
       <div class="goal-toggle">
-        <button id="btn-hip" class="goal-btn active" onclick="setNutritionGoal('hipertrofia')">💪 GANAR MASA</button>
-        <button id="btn-def" class="goal-btn" onclick="setNutritionGoal('definicion')">🔥 BAJAR GRASA</button>
+        <button id="btn-hip" class="goal-btn active" onclick="switchGoal('hipertrofia')">💪 GANAR MASA</button>
+        <button id="btn-def" class="goal-btn" onclick="switchGoal('definicion')">🔥 BAJAR GRASA</button>
       </div>
 
-      <div class="menu-card">
-        <div id="menuDayHeader" class="menu-day-header"></div>
-        <div id="mealsContainer"></div>
+      <div class="widget-grid">
+        <div class="stat-widget">
+          <span class="stat-lbl">Menú Activo</span>
+          <span id="nutriDayName" class="stat-val" style="font-size: 1.1rem; color: var(--neon);">HOY</span>
+        </div>
+        <div class="stat-widget">
+          <span class="stat-lbl">Objetivo Diario</span>
+          <span id="nutriCalories" class="stat-val" style="font-size: 1.1rem;">2,350 kcal</span>
+        </div>
       </div>
 
-      <div id="totalMacrosBanner" class="total-banner"></div>
+      <div id="mealList"></div>
     </div>
 
+  </div>
+
+  <!-- NAVEGACIÓN DOCK INFERIOR (Estilo Dribbble) -->
+  <div class="bottom-dock">
+    <button class="dock-btn active" onclick="switchTab('rutina', this)">
+      <svg class="dock-icon" viewBox="0 0 24 24"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 6.29 3.43 4.86 2 3.43 3.43 2 4.86 3.43 6.29 2 7.71 3.43 9.14 2 10.57 3.43 12 7 20.57 15.57 17 12 20.57 13.43 22 14.86 20.57 16.29 22 17.71 20.57 19.14 22 20.57 20.57 19.14 19.14 20.57 17.71 19.14 16.29z"/></svg>
+      Rutina
+    </button>
+    <button class="dock-btn" onclick="switchTab('nutricion', this)">
+      <svg class="dock-icon" viewBox="0 0 24 24"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.46 3.9 3.45 4.38L6.22 22pxh2.56l-.23-8.62C10.54 12.9 12 11.12 12 9V2h-1v7zm6-7c-2.21 0-4 1.79-4 4v7h2v9h2V2z"/></svg>
+      Nutrición
+    </button>
   </div>
 
   <script>
-    // BASE DE DATOS DE RUTINAS (Mantenemos la tuya intacta)
-    const routines = {
+    // RUTINAS CON DÍAS E HISTORIAL PREVIO
+    const routinesData = {
       lunes: [
-        { name: "Press de Banca Inclinado con Barra", prev: 60 },
+        { name: "Press de Banca Inclinado", prev: 60 },
         { name: "Press Plano con Mancuernas", prev: 24 },
-        { name: "Aperturas en Polea (Cruce de Cables)", prev: 15 },
-        { name: "Press Militar con Mancuernas", prev: 18 },
-        { name: "Extensión de Tríceps en Polea", prev: 25 }
+        { name: "Cruce de Cables en Polea", prev: 15 },
+        { name: "Press Militar de Hombro", prev: 18 },
+        { name: "Extensión de Tríceps Polea", prev: 25 }
       ],
       martes: [
-        { name: "Jalón al Pecho (Polea Alta)", prev: 55 },
-        { name: "Remo con Barra", prev: 50 },
-        { name: "Remo Unilateral con Mancuerna", prev: 22 },
-        { name: "Curl de Bíceps con Barra Z", prev: 30 },
-        { name: "Curl Martillo", prev: 14 }
+        { name: "Jalón al Pecho Polea Alta", prev: 55 },
+        { name: "Remo con Barra T", prev: 50 },
+        { name: "Remo Unilateral Mancuerna", prev: 22 },
+        { name: "Curl de Bíceps Barra Z", prev: 30 }
       ],
       miercoles: [
         { name: "Sentadilla Libre con Barra", prev: 80 },
         { name: "Prensa 45°", prev: 140 },
         { name: "Extensión de Cuádriceps", prev: 45 },
-        { name: "Curl Femoral Tumbado", prev: 35 },
-        { name: "Elevación de Talones (Gemelos)", prev: 60 }
+        { name: "Curl Femoral Tumbado", prev: 35 }
       ],
       jueves: [
-        { name: "Press de Banca Plano con Barra", prev: 65 },
-        { name: "Fondos en Paralelas / Máquina", prev: 0 },
-        { name: "Elevaciones Laterales de Hombro", prev: 10 },
-        { name: "Press Francés para Tríceps", prev: 20 }
+        { name: "Press de Banca Plano Barra", prev: 65 },
+        { name: "Fondos en Paralela", prev: 0 },
+        { name: "Elevaciones Laterales Hombro", prev: 10 }
       ],
       viernes: [
-        { name: "Dominadas / Jalón Agarre Estrecho", prev: 50 },
-        { name: "Remo en Gironda (Polea Baja)", prev: 45 },
-        { name: "Curl de Bíceps en Banco Scott", prev: 25 },
-        { name: "Curl Concentrado", prev: 12 }
+        { name: "Dominadas Agarre Estrecho", prev: 50 },
+        { name: "Remo Gironda Polea Baja", prev: 45 },
+        { name: "Curl Banco Scott", prev: 25 }
       ],
       sabado: [
         { name: "Peso Muerto Rumano", prev: 70 },
         { name: "Hip Thrust para Glúteo", prev: 90 },
-        { name: "Zancadas / Búlgaras", prev: 16 },
-        { name: "Abductores en Máquina", prev: 50 }
+        { name: "Zancadas / Búlgaras", prev: 16 }
       ]
     };
 
-    // BASE DE DATOS DE MENÚS DIARIOS ROTATIVOS
+    // MENÚS ROTATIVOS INTELIGENTES
     const nutritionData = {
       hipertrofia: {
-        0: { day: "Domingo", meals: [
-          { type: "Desayuno", name: "Omelette de 4 Huevos + Avena", desc: "4 huevos enteros + 1 taza de avena cocida con banano.", macro: "580 kcal | 36g Proteína" },
-          { type: "Almuerzo", name: "Pechuga de Pollo + Arroz blanco", desc: "220g pechuga a la plancha + 1.5 tazas de arroz + ensalada.", macro: "700 kcal | 50g Proteína" },
-          { type: "Cena", name: "Carne de Res Magra + Yuca", desc: "200g carne + 1 taza de yuca + ensalada de aguacate.", macro: "620 kcal | 44g Proteína" }
-        ], total: "2,350 kcal | 155g Proteína" },
-        1: { day: "Lunes", meals: [
-          { type: "Desayuno", name: "Tostadas Integrales + Huevos + Crema de Maní", desc: "4 huevos revueltos + 2 tostadas integrales con crema de maní.", macro: "600 kcal | 35g Proteína" },
-          { type: "Almuerzo", name: "Carne Molida Magra + Papa Cocida", desc: "220g carne molida + 2 papas medianas + vegetal verde.", macro: "720 kcal | 48g Proteína" },
-          { type: "Cena", name: "Filete de Pescado + Arroz + Aguacate", desc: "220g tilapia/trucha + 1 taza de arroz.", macro: "590 kcal | 42g Proteína" }
-        ], total: "2,380 kcal | 152g Proteína" },
-        2: { day: "Martes", meals: [
-          { type: "Desayuno", name: "Batido Proteico + Avena & Banano", desc: "2 scoops proteína / 4 huevos + 80g avena licuada.", macro: "560 kcal | 40g Proteína" },
-          { type: "Almuerzo", name: "Pechuga Gratinada + Pasta Integral", desc: "200g pollo + 1.5 tazas pasta cocida + queso bajo en grasa.", macro: "740 kcal | 52g Proteína" },
-          { type: "Cena", name: "Atún en Agua + Arepa de Maíz", desc: "2 latas de atún + 1 arepa mediana con queso blanco.", macro: "580 kcal | 45g Proteína" }
-        ], total: "2,320 kcal | 157g Proteína" },
-        3: { day: "Miércoles", meals: [
-          { type: "Desayuno", name: "Huevos Pericos + Arepa + Fruta", desc: "4 huevos con tomate/cebolla + 1 arepa + 1 manzana.", macro: "570 kcal | 32g Proteína" },
-          { type: "Almuerzo", name: "Lomo de Cerdo Magro + Plátano Maduro", desc: "220g lomo + plátano asado + ensalada.", macro: "710 kcal | 49g Proteína" },
-          { type: "Cena", name: "Pollo Desmechado + Puré de Papa", desc: "200g pollo + puré de papa criolla.", macro: "610 kcal | 44g Proteína" }
-        ], total: "2,340 kcal | 150g Proteína" },
-        4: { day: "Jueves", meals: [
-          { type: "Desayuno", name: "Panqueques de Avena & Huevo", desc: "1 taza avena + 3 huevos + licuado de fresa.", macro: "590 kcal | 34g Proteína" },
-          { type: "Almuerzo", name: "Pechuga a la Criolla + Arroz & Frijol", desc: "200g pollo + arroz + porción de frijol.", macro: "760 kcal | 54g Proteína" },
-          { type: "Cena", name: "Carne Asada + Ensalada Mixta", desc: "200g carne + aguacate y tomate.", macro: "570 kcal | 42g Proteína" }
-        ], total: "2,360 kcal | 155g Proteína" },
-        5: { day: "Viernes", meals: [
-          { type: "Desayuno", name: "Omelette de Queso & Jamón Magro", desc: "4 huevos + 2 lonchas jamón pavo + tostadas.", macro: "580 kcal | 38g Proteína" },
-          { type: "Almuerzo", name: "Churrasco Magro + Yuca o Papa", desc: "220g carne res + yuca al vapor.", macro: "730 kcal | 50g Proteína" },
-          { type: "Cena", name: "Pescado al Horno + Arroz", desc: "220g pescado + 1 taza arroz.", macro: "580 kcal | 41g Proteína" }
-        ], total: "2,310 kcal | 151g Proteína" },
-        6: { day: "Sábado", meals: [
-          { type: "Desayuno", name: "Bowl de Avena, Frutos Secos & Huevos", desc: "3 huevos cocidos + bowl de avena caliente.", macro: "600 kcal | 35g Proteína" },
-          { type: "Almuerzo", name: "Pollo al Horno + Plátano + Ensalada", desc: "220g pollo + plátano asado.", macro: "720 kcal | 48g Proteína" },
-          { type: "Cena", name: "Sandwich Doble de Pollo/Atún", desc: "Pan integral + 150g pollo o atún + queso.", macro: "600 kcal | 45g Proteína" }
-        ], total: "2,370 kcal | 153g Proteína" }
+        0: { day: "Domingo", total: "2,350 kcal", meals: [
+          { name: "Desayuno", desc: "4 Huevos revueltos + 1 taza de Avena con leche y canela", macro: "580 kcal | 36g Prot" },
+          { name: "Almuerzo", desc: "220g Pechuga + 1.5 tazas de Arroz + Ensalada", macro: "700 kcal | 50g Prot" },
+          { name: "Cena", desc: "200g Carne de Res + 1 taza Yuca cocida", macro: "620 kcal | 44g Prot" }
+        ]},
+        1: { day: "Lunes", total: "2,380 kcal", meals: [
+          { name: "Desayuno", desc: "4 Huevos + 2 Tostadas integrales + Crema de maní", macro: "600 kcal | 35g Prot" },
+          { name: "Almuerzo", desc: "220g Carne molida magra + 2 Papas medianas", macro: "720 kcal | 48g Prot" },
+          { name: "Cena", desc: "220g Filete de Tilapia + 1 taza de Arroz", macro: "590 kcal | 42g Prot" }
+        ]},
+        2: { day: "Martes", total: "2,320 kcal", meals: [
+          { name: "Desayuno", desc: "Batido proteico con Avena + Banano + Huevos", macro: "560 kcal | 40g Prot" },
+          { name: "Almuerzo", desc: "200g Pollo a la plancha + 1.5 tazas Pasta integral", macro: "740 kcal | 52g Prot" },
+          { name: "Cena", desc: "2 Latas de Atún + 1 Arepa de maíz con queso", macro: "580 kcal | 45g Prot" }
+        ]},
+        3: { day: "Miércoles", total: "2,340 kcal", meals: [
+          { name: "Desayuno", desc: "4 Huevos pericos + 1 Arepa + 1 Manzana", macro: "570 kcal | 32g Prot" },
+          { name: "Almuerzo", desc: "220g Lomo de cerdo magro + Plátano asado", macro: "710 kcal | 49g Prot" },
+          { name: "Cena", desc: "200g Pollo desmechado + Puré de papa criolla", macro: "610 kcal | 44g Prot" }
+        ]},
+        4: { day: "Jueves", total: "2,360 kcal", meals: [
+          { name: "Desayuno", desc: "Panqueques de avena (3 huevos + 1 taza avena)", macro: "590 kcal | 34g Prot" },
+          { name: "Almuerzo", desc: "200g Pechuga criolla + Arroz + Frijoles", macro: "760 kcal | 54g Prot" },
+          { name: "Cena", desc: "200g Carne asada + Ensalada mixta con aguacate", macro: "570 kcal | 42g Prot" }
+        ]},
+        5: { day: "Viernes", total: "2,310 kcal", meals: [
+          { name: "Desayuno", desc: "4 Huevos en omelette con queso blanco y pavo", macro: "580 kcal | 38g Prot" },
+          { name: "Almuerzo", desc: "220g Churrasco magro + Yuca al vapor", macro: "730 kcal | 50g Prot" },
+          { name: "Cena", desc: "220g Pescado al horno + 1 taza de Arroz", macro: "580 kcal | 41g Prot" }
+        ]},
+        6: { day: "Sábado", total: "2,370 kcal", meals: [
+          { name: "Desayuno", desc: "3 Huevos cocidos + Bowl de avena caliente con frutos secos", macro: "600 kcal | 35g Prot" },
+          { name: "Almuerzo", desc: "220g Pollo al horno + Plátano asado + Ensalada", macro: "720 kcal | 48g Prot" },
+          { name: "Cena", desc: "Sandwich doble en pan integral con 150g de Pollo", macro: "600 kcal | 45g Prot" }
+        ]}
       },
       definicion: {
-        0: { day: "Domingo", meals: [
-          { type: "Desayuno", name: "Omelette con Espinaca & 1 Tostada", desc: "4 claras + 1 huevo entero + espinaca + 1 tostada integral.", macro: "320 kcal | 28g Proteína" },
-          { type: "Almuerzo", name: "Pechuga a la Plancha + Ensalada Grande", desc: "200g pechuga + 1/2 taza arroz blanco + abundante ensalada.", macro: "480 kcal | 46g Proteína" },
-          { type: "Cena", name: "Filete de Tilapia + Pepino & Aguacate", desc: "200g pescado + ensalada verde con limón.", macro: "380 kcal | 40g Proteína" }
-        ], total: "1,600 kcal | 144g Proteína" },
-        1: { day: "Lunes", meals: [
-          { type: "Desayuno", name: "Huevos Revueltos con Tomate & Té Verde", desc: "3 huevos revueltos + tomate + té verde sin azúcar.", macro: "340 kcal | 22g Proteína" },
-          { type: "Almuerzo", name: "Carne Magra de Res + 1 Papa Cocida", desc: "180g carne + 1 papa mediana + brócoli al vapor.", macro: "500 kcal | 44g Proteína" },
-          { type: "Cena", name: "Lata de Atún + Ensalada Mixta", desc: "2 latas de atún en agua + aguacate y tomate.", macro: "360 kcal | 42g Proteína" }
-        ], total: "1,620 kcal | 140g Proteína" },
-        2: { day: "Martes", meals: [
-          { type: "Desayuno", name: "Batido Proteico en Agua & Fresa", desc: "1.5 scoops proteína / 4 claras + fresas naturales.", macro: "290 kcal | 32g Proteína" },
-          { type: "Almuerzo", name: "Pollo Desmechado + 1/2 Taza de Frijol", desc: "200g pechuga + frijol + ensalada de repollo.", macro: "510 kcal | 48g Proteína" },
-          { type: "Cena", name: "Omelette Nocturno de Claras", desc: "5 claras + champiñones.", macro: "320 kcal | 30g Proteína" }
-        ], total: "1,580 kcal | 142g Proteína" },
-        3: { day: "Miércoles", meals: [
-          { type: "Desayuno", name: "Huevos Cocidos + 1/2 Banano", desc: "3 huevos cocidos + 1/2 banano.", macro: "330 kcal | 21g Proteína" },
-          { type: "Almuerzo", name: "Lomo de Cerdo + Ensalada Verde", desc: "180g lomo magro + aguacate + verduras.", macro: "490 kcal | 42g Proteína" },
-          { type: "Cena", name: "Pechuga a la Plancha + Calabacín", desc: "180g pechuga + calabacín asado.", macro: "370 kcal | 41g Proteína" }
-        ], total: "1,610 kcal | 138g Proteína" },
-        4: { day: "Jueves", meals: [
-          { type: "Desayuno", name: "Arepa Pequeña + Queso Cuajada", desc: "1 arepa delgada + 80g queso bajo en grasa + café negro.", macro: "350 kcal | 20g Proteína" },
-          { type: "Almuerzo", name: "Pescado al Vapor + 1/2 Taza Arroz", desc: "200g pescado + arroz + ensalada verde.", macro: "470 kcal | 43g Proteína" },
-          { type: "Cena", name: "Carne Molida Magra + Guacamole", desc: "180g carne molida + ensalada con guacamole.", macro: "400 kcal | 40g Proteína" }
-        ], total: "1,630 kcal | 143g Proteína" },
-        5: { day: "Viernes", meals: [
-          { type: "Desayuno", name: "Omelette de Jamón de Pavo", desc: "3 huevos + 2 lonchas pavo + té verde.", macro: "330 kcal | 26g Proteína" },
-          { type: "Almuerzo", name: "Pechuga a la Parriilla + Yuca Cocida", desc: "200g pollo + 1 trozo pequeño de yuca.", macro: "500 kcal | 46g Proteína" },
-          { type: "Cena", name: "Atún con Picadillo de Pepino", desc: "2 latas de atún + pepino + limón.", macro: "340 kcal | 41g Proteína" }
-        ], total: "1,590 kcal | 145g Proteína" },
-        6: { day: "Sábado", meals: [
-          { type: "Desayuno", name: "Huevos Revueltos + 1 Tostada Integral", desc: "3 huevos + 1 tostada.", macro: "340 kcal | 22g Proteína" },
-          { type: "Almuerzo", name: "Pollo al Horno + Ensalada Rusa Ligera", desc: "200g pollo + ensalada.", macro: "510 kcal | 45g Proteína" },
-          { type: "Cena", name: "Consomé con Pollo Desmechado", desc: "Caldo magro + 150g pechuga desmechada.", macro: "350 kcal | 38g Proteína" }
-        ], total: "1,620 kcal | 141g Proteína" }
+        0: { day: "Domingo", total: "1,600 kcal", meals: [
+          { name: "Desayuno", desc: "4 Claras + 1 Huevo entero + Espinaca + 1 Tostada", macro: "320 kcal | 28g Prot" },
+          { name: "Almuerzo", desc: "200g Pechuga + 1/2 taza de Arroz + Ensalada verde", macro: "480 kcal | 46g Prot" },
+          { name: "Cena", desc: "200g Tilapia a la plancha + Ensalada de pepino", macro: "380 kcal | 40g Prot" }
+        ]},
+        1: { day: "Lunes", total: "1,620 kcal", meals: [
+          { name: "Desayuno", desc: "3 Huevos revueltos + Tomate + Té verde sin azúcar", macro: "340 kcal | 22g Prot" },
+          { name: "Almuerzo", desc: "180g Carne magra + 1 Papa mediana + Brócoli", macro: "500 kcal | 44g Prot" },
+          { name: "Cena", desc: "2 Latas de Atún en agua + Aguacate y tomate", macro: "360 kcal | 42g Prot" }
+        ]},
+        2: { day: "Martes", total: "1,580 kcal", meals: [
+          { name: "Desayuno", desc: "Batido de Proteína con agua + 4 Claras de huevo", macro: "290 kcal | 32g Prot" },
+          { name: "Almuerzo", desc: "200g Pechuga + 1/2 taza de Frijol + Repollo", macro: "510 kcal | 48g Prot" },
+          { name: "Cena", desc: "Omelette de 5 Claras con champiñones", macro: "320 kcal | 30g Prot" }
+        ]},
+        3: { day: "Miércoles", total: "1,610 kcal", meals: [
+          { name: "Desayuno", desc: "3 Huevos cocidos + 1/2 Banano", macro: "330 kcal | 21g Prot" },
+          { name: "Almuerzo", desc: "180g Lomo magro de cerdo + Ensalada abundante", macro: "490 kcal | 42g Prot" },
+          { name: "Cena", desc: "180g Pechuga a la plancha + Calabacín asado", macro: "370 kcal | 41g Prot" }
+        ]},
+        4: { day: "Jueves", total: "1,630 kcal", meals: [
+          { name: "Desayuno", desc: "1 Arepa delgada + 80g Queso cuajada + Café negro", macro: "350 kcal | 20g Prot" },
+          { name: "Almuerzo", desc: "200g Pescado al vapor + 1/2 taza Arroz", macro: "470 kcal | 43g Prot" },
+          { name: "Cena", desc: "180g Carne molida magra + Ensalada verde", macro: "400 kcal | 40g Prot" }
+        ]},
+        5: { day: "Viernes", total: "1,590 kcal", meals: [
+          { name: "Desayuno", desc: "3 Huevos + 2 Lonchas de pavo + Té verde", macro: "330 kcal | 26g Prot" },
+          { name: "Almuerzo", desc: "200g Pollo a la parrilla + 1 Trozo pequeño de Yuca", macro: "500 kcal | 46g Prot" },
+          { name: "Cena", desc: "2 Latas de Atún + Pepino + Limón", macro: "340 kcal | 41g Prot" }
+        ]},
+        6: { day: "Sábado", total: "1,620 kcal", meals: [
+          { name: "Desayuno", desc: "3 Huevos revueltos + 1 Tostada integral", macro: "340 kcal | 22g Prot" },
+          { name: "Almuerzo", desc: "200g Pollo al horno + Ensalada fresca", macro: "510 kcal | 45g Prot" },
+          { name: "Cena", desc: "Consomé magro con 150g Pechuga desmechada", macro: "350 kcal | 38g Prot" }
+        ]}
       }
     };
 
-    let currentNutritionGoal = 'hipertrofia';
+    let selectedDay = 'lunes';
+    let currentGoal = 'hipertrofia';
 
-    // CAMBIO DE PESTAÑAS
-    function switchTab(tab) {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.section-content').forEach(s => s.classList.remove('active'));
-      
-      if(tab === 'rutina') {
-        document.querySelectorAll('.tab-btn')[0].classList.add('active');
-        document.getElementById('sec-rutina').classList.add('active');
-      } else {
-        document.querySelectorAll('.tab-btn')[1].classList.add('active');
-        document.getElementById('sec-nutricion').classList.add('active');
-        loadNutrition();
-      }
+    function selectDay(day, btn) {
+      selectedDay = day;
+      document.querySelectorAll('.day-pill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderRoutine();
     }
 
-    // CARGAR RUTINA DEL DÍA SELECCIONADO
-    function loadRoutine() {
-      const day = document.getElementById('daySelect').value;
-      const list = routines[day] || [];
-      const container = document.getElementById('exerciseContainer');
+    function renderRoutine() {
+      const list = routinesData[selectedDay] || [];
+      const container = document.getElementById('exerciseList');
       container.innerHTML = '';
 
-      list.forEach((ex, index) => {
+      list.forEach((ex, idx) => {
         const card = document.createElement('div');
         card.className = 'exercise-card';
         card.innerHTML = `
-          <div class="exercise-title">${ex.name}</div>
-          <div class="prev-mark">Última marca registrada: <strong>${ex.prev} kg</strong></div>
-          <div class="weight-input-group">
-            <label>Peso de Hoy (kg):</label>
-            <input type="number" class="weight-input" id="weight-${index}" placeholder="${ex.prev}" oninput="checkStrength(${index}, ${ex.prev})">
+          <div class="ex-header">
+            <div class="ex-title">${ex.name}</div>
+            <div class="prev-badge">Previo: <strong>${ex.prev} kg</strong></div>
           </div>
-          <div id="alert-${index}" class="strength-alert">
-            🔥 ¡HAS AUMENTADO TU FUERZA! Subiendo de nivel.
+          <div class="input-row">
+            <input type="number" class="weight-input" id="inp-${idx}" placeholder="Peso de hoy (kg)" oninput="evaluateWeight(${idx}, ${ex.prev})">
+          </div>
+          <div id="alert-${idx}" class="strength-alert">
+            🔥 ¡HAS AUMENTADO TU FUERZA! +Logro desbloqueado.
           </div>
         `;
         container.appendChild(card);
       });
     }
 
-    // COMPROBAR SI AUMENTÓ LA FUERZA
-    function checkStrength(index, prevWeight) {
-      const inputVal = parseFloat(document.getElementById(`weight-${index}`).value);
-      const alertBox = document.getElementById(`alert-${index}`);
-      
-      if(!isNaN(inputVal) && inputVal > prevWeight) {
-        alertBox.style.display = 'block';
+    function evaluateWeight(idx, prev) {
+      const val = parseFloat(document.getElementById(`inp-${idx}`).value);
+      const alert = document.getElementById(`alert-${idx}`);
+      if (!isNaN(val) && val > prev) {
+        alert.style.display = 'block';
       } else {
-        alertBox.style.display = 'none';
+        alert.style.display = 'none';
       }
     }
 
-    // CONFIGURAR OBJETIVO DE NUTRICIÓN
-    function setNutritionGoal(goal) {
-      currentNutritionGoal = goal;
+    function switchGoal(goal) {
+      currentGoal = goal;
       document.getElementById('btn-hip').classList.toggle('active', goal === 'hipertrofia');
       document.getElementById('btn-def').classList.toggle('active', goal === 'definicion');
-      loadNutrition();
+      renderNutrition();
     }
 
-    // CARGAR MENÚ ROTATIVO SEGÚN DÍA DE LA SEMANA
-    function loadNutrition() {
-      const todayIndex = new Date().getDay(); // 0 = Domingo, 1 = Lunes...
-      const data = nutritionData[currentNutritionGoal][todayIndex];
+    function renderNutrition() {
+      const todayIdx = new Date().getDay();
+      const data = nutritionData[currentGoal][todayIdx];
 
-      document.getElementById('menuDayHeader').innerText = `📅 MENÚ DE HOY: ${data.day}`;
-      
-      const container = document.getElementById('mealsContainer');
+      document.getElementById('nutriDayName').innerText = data.day.toUpperCase();
+      document.getElementById('nutriCalories').innerText = data.total;
+
+      const container = document.getElementById('mealList');
       container.innerHTML = '';
 
       data.meals.forEach(m => {
-        const item = document.createElement('div');
-        item.className = 'meal-item';
-        item.innerHTML = `
-          <div class="meal-name">${m.type}: ${m.name}</div>
+        const card = document.createElement('div');
+        card.className = 'meal-card';
+        card.innerHTML = `
+          <div class="meal-title">${m.name}</div>
           <div class="meal-desc">${m.desc}</div>
           <div class="meal-macro">${m.macro}</div>
         `;
-        container.appendChild(item);
+        container.appendChild(card);
       });
-
-      document.getElementById('totalMacrosBanner').innerHTML = `
-        <div style="font-size:0.78rem; color:var(--text-dim);">TOTAL RECOMENDADO DIARIO</div>
-        <div style="font-size:1.1rem; font-weight:bold; color:var(--accent); margin-top:2px;">${data.total}</div>
-      `;
     }
 
-    // AUTO-ACTUALIZACIÓN AUTOMÁTICA DEL SERVICE WORKER EN EL CELULAR
+    function switchTab(tab, btn) {
+      document.querySelectorAll('.dock-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
+      
+      btn.classList.add('active');
+      document.getElementById(`tab-${tab}`).classList.add('active');
+
+      if (tab === 'nutricion') renderNutrition();
+    }
+
+    // AUTO REFRESH SERVICE WORKER
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('./sw.js').then(reg => {
         reg.addEventListener('updatefound', () => {
-          const newWorker = reg.installing;
-          newWorker.addEventListener('statechange', () => {
-            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+          const w = reg.installing;
+          w.addEventListener('statechange', () => {
+            if (w.state === 'installed' && navigator.serviceWorker.controller) {
               window.location.reload();
             }
           });
@@ -472,10 +539,7 @@
       });
     }
 
-    // INICIALIZACIÓN
-    window.onload = () => {
-      loadRoutine();
-    };
+    window.onload = () => { renderRoutine(); };
   </script>
 </body>
 </html>
