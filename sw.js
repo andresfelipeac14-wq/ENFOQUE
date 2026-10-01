@@ -1,22 +1,42 @@
-const CACHE_NAME = 'enfoque-v18';
-const ASSETS = [
+const CACHE_NAME = 'enfoque-v19';
+const ASSETS_TO_CACHE = [
+  './',
   './index.html',
   './manifest.json',
-  'https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Teko:wght@700&display=swap'
+  './sw.js',
+  './logo.png'
 ];
 
-self.addEventListener('install', (e) => {
-  e.waitUntil(
+// Instalación y forzado de activación inmediata
+self.addEventListener('install', (event) => {
+  self.skipWaiting();
+  event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS);
+      return cache.addAll(ASSETS_TO_CACHE);
     })
   );
 });
 
-self.addEventListener('fetch', (e) => {
-  e.respondWith(
-    caches.match(e.request).then((response) => {
-      return response || fetch(e.request);
+// Limpieza de cachés antiguas (v17, v18, etc.)
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cache) => {
+          if (cache !== CACHE_NAME) {
+            return caches.delete(cache);
+          }
+        })
+      );
+    }).then(() => self.clients.claim())
+  );
+});
+
+// Estrategia de respuesta
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    caches.match(event.request).then((response) => {
+      return response || fetch(event.request);
     })
   );
 });
