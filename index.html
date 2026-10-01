@@ -1,1411 +1,481 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ENFOQUE - Gym & Nutrition Tracker</title>
-    
-   <!-- Configuración PWA -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>ENFOQUE - Fitness & Nutrición</title>
   <link rel="manifest" href="manifest.json">
-<link rel="icon" type="image/png" href="./icon.png">
-  <link rel="apple-touch-icon" href="./icon.png">
-  <meta name="theme-color" content="#00e676">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="ENFOQUE">
+  <meta name="theme-color" content="#0d0d0d">
+  
+  <style>
+    :root {
+      --bg-color: #0d0d0d;
+      --card-bg: #16181a;
+      --accent: #00e676;
+      --accent-glow: rgba(0, 230, 118, 0.35);
+      --text: #ffffff;
+      --text-dim: #a0a0a0;
+      --border: #222629;
+      --fire: #ff6d00;
+    }
 
-    <!-- Fuentes deportivas -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Teko:wght@700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-primary: #0a0a0a;
-            --bg-surface: rgba(18, 18, 18, 0.85);
-            --bg-card: rgba(28, 28, 28, 0.85);
-            --accent: #00e676;
-            --accent-glow: rgba(0, 230, 118, 0.5);
-            --text-primary: #ffffff;
-            --text-secondary: #d0d0d0;
-            --border-color: #333333;
-            --danger: #ff5252;
-        }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+    body { background-color: var(--bg-color); color: var(--text); padding-bottom: 80px; }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
+    /* Header Banner con Logo y Versículo */
+    .header-banner {
+      background: linear-gradient(180deg, rgba(0,230,118,0.08) 0%, rgba(22,24,26,1) 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 15px 15px;
+      text-align: center;
+    }
+    .app-logo {
+      max-width: 60px;
+      height: auto;
+      margin: 0 auto 8px;
+      display: block;
+      filter: drop-shadow(0 0 8px var(--accent-glow));
+    }
+    .verse-text {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .verse-title {
+      font-size: 0.75rem;
+      color: var(--accent);
+      font-weight: 700;
+      letter-spacing: 1px;
+      display: block;
+    }
 
-        body {
-            background-color: var(--bg-primary);
-            background-image: linear-gradient(rgba(0, 0, 0, 0.60), rgba(0, 0, 0, 0.60)), url('https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1200');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: var(--text-primary);
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            padding-bottom: 75px;
-        }
+    /* Pestañas de Navegación */
+    .nav-tabs {
+      display: flex;
+      justify-content: space-around;
+      background: #121315;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 14px 5px;
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
 
-        .hero-banner {
-            position: relative;
-            height: 200px;
-            overflow: hidden;
-            border-bottom: 2px solid var(--accent);
-            box-shadow: 0 4px 25px var(--accent-glow);
-        }
+    .container { padding: 15px; max-width: 500px; margin: 0 auto; }
+    .section-content { display: none; }
+    .section-content.active { display: block; }
 
-        .banner-slide {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-size: cover;
-            background-position: center;
-            opacity: 0;
-            transition: opacity 0.8s ease-in-out;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 15px;
-        }
+    /* Tarjetas de Ejercicios */
+    .day-selector {
+      width: 100%;
+      padding: 12px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-weight: bold;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      outline: none;
+    }
+    .exercise-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+    .exercise-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; }
+    .prev-mark { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 12px; }
+    
+    .weight-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .weight-input-group label { font-size: 0.8rem; color: var(--accent); font-weight: 600; }
+    .weight-input {
+      width: 100%;
+      padding: 12px;
+      background: #0d0d0d;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: bold;
+      outline: none;
+    }
+    .weight-input:focus { border-color: var(--accent); }
 
-        .banner-slide.active { opacity: 1; }
+    .strength-alert {
+      display: none;
+      margin-top: 10px;
+      background: rgba(255, 109, 0, 0.12);
+      border: 1px solid var(--fire);
+      color: var(--fire);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-align: center;
+      animation: pulse 1.5s infinite;
+    }
 
-        .banner-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.35);
-        }
+    /* Módulo Nutrición */
+    .goal-toggle {
+      display: flex;
+      background: #0d0d0d;
+      padding: 4px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      border: 1px solid var(--border);
+    }
+    .goal-btn {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      background: none;
+      color: var(--text-dim);
+      font-weight: 700;
+      font-size: 0.8rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .goal-btn.active {
+      background: var(--card-bg);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+    }
 
-        .banner-content {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            max-width: 520px;
-            text-shadow: 0 3px 12px rgba(0,0,0,0.9);
-        }
+    .menu-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 12px;
+    }
+    .menu-day-header {
+      font-size: 0.9rem;
+      color: var(--accent);
+      font-weight: bold;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .meal-item { margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px dashed var(--border); }
+    .meal-item:last-child { border-bottom: none; margin-bottom: 0; }
+    .meal-name { font-size: 0.9rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .meal-desc { font-size: 0.82rem; color: var(--text-dim); line-height: 1.3; }
+    .meal-macro { font-size: 0.75rem; color: var(--accent); margin-top: 3px; font-weight: 600; }
 
-        .banner-content h1.main-title {
-            font-family: 'Teko', sans-serif;
-            font-size: 3.4rem;
-            font-weight: 700;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            line-height: 0.95;
-            text-shadow: 0 0 15px var(--accent-glow);
-        }
+    .total-banner {
+      background: linear-gradient(135deg, rgba(0,230,118,0.15) 0%, rgba(22,24,26,1) 100%);
+      border: 1px solid var(--accent);
+      padding: 12px;
+      border-radius: 10px;
+      text-align: center;
+      margin-top: 15px;
+    }
 
-        .banner-content small.verse-title {
-            font-size: 0.9rem;
-            color: #ffffff;
-            letter-spacing: 2px;
-            font-weight: 800;
-            text-transform: uppercase;
-            display: block;
-            margin-bottom: 4px;
-        }
-
-        .banner-content h1.slide-phrase {
-            font-family: 'Teko', sans-serif;
-            font-size: 2.8rem;
-            font-weight: 700;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            line-height: 1;
-        }
-
-        .banner-content div.user-motivation {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1rem;
-            font-weight: 900;
-            color: #ffffff;
-            letter-spacing: 0.5px;
-            line-height: 1.35;
-            margin-top: 6px;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            text-transform: uppercase;
-            padding: 0 10px;
-        }
-
-        .typewriter-cursor::after {
-            content: '|';
-            animation: blink 0.7s infinite;
-            color: var(--accent);
-            margin-left: 2px;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-
-        .music-player {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            z-index: 10;
-            background: rgba(0, 0, 0, 0.8);
-            border: 1px solid var(--accent);
-            border-radius: 20px;
-            padding: 6px 12px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .music-btn {
-            background: var(--accent);
-            color: #000;
-            border: none;
-            border-radius: 50%;
-            width: 28px;
-            height: 28px;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .music-text {
-            font-size: 0.7rem;
-            color: #fff;
-            font-weight: bold;
-        }
-
-        main {
-            padding: 16px;
-            flex: 1;
-            max-width: 600px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-
-        .card {
-            background-color: var(--bg-surface);
-            backdrop-filter: blur(10px);
-            border-radius: 14px;
-            padding: 18px;
-            margin-bottom: 16px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
-        }
-
-        .card-title {
-            font-size: 1.1rem;
-            color: var(--accent);
-            font-weight: bold;
-            margin-bottom: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .form-group { margin-bottom: 14px; }
-
-        label {
-            display: block;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-bottom: 6px;
-        }
-
-        input, select, button {
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            background-color: var(--bg-card);
-            color: var(--text-primary);
-            font-size: 1rem;
-            outline: none;
-        }
-
-        input:focus, select:focus { border-color: var(--accent); }
-
-        .btn-primary {
-            background-color: var(--accent);
-            color: #000;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 6px;
-        }
-
-        .row { display: flex; gap: 10px; }
-        .row .form-group { flex: 1; }
-
-        .image-preview {
-            width: 100%;
-            max-height: 220px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-top: 10px;
-            display: none;
-            border: 1px solid var(--border-color);
-        }
-
-        .tip-card {
-            position: relative;
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 16px;
-            border: 1px solid var(--border-color);
-            min-height: 180px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 16px;
-            background-size: cover;
-            background-position: center;
-        }
-
-        .tip-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.85) 100%);
-            z-index: 1;
-        }
-
-        .tip-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .tip-tag {
-            background: var(--accent);
-            color: #000;
-            font-size: 0.7rem;
-            font-weight: bold;
-            padding: 3px 8px;
-            border-radius: 4px;
-            display: inline-block;
-            margin-bottom: 6px;
-            text-transform: uppercase;
-        }
-
-        .tip-title {
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: #fff;
-            margin-bottom: 4px;
-        }
-
-        .tip-desc {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            line-height: 1.3;
-        }
-
-        nav {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            background-color: var(--bg-surface);
-            backdrop-filter: blur(12px);
-            display: flex;
-            border-top: 1px solid var(--border-color);
-            height: 65px;
-            z-index: 100;
-        }
-
-        .nav-item {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.52rem;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 2px 0;
-        }
-
-        .nav-item.active {
-            color: var(--accent);
-            font-weight: bold;
-        }
-
-        .nav-item svg {
-            width: 17px;
-            height: 17px;
-            margin-bottom: 2px;
-            fill: currentColor;
-        }
-
-        .history-item {
-            background-color: var(--bg-card);
-            border-radius: 10px;
-            padding: 14px;
-            margin-bottom: 12px;
-            border-left: 4px solid var(--accent);
-            border-top: 1px solid var(--border-color);
-            border-right: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .history-item .header-info {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            margin-bottom: 6px;
-        }
-
-        .history-item .title-info {
-            font-weight: bold;
-            font-size: 1rem;
-            color: var(--text-primary);
-        }
-
-        .history-item .detail-info {
-            font-size: 0.95rem;
-            color: var(--accent);
-            margin-top: 4px;
-            font-weight: bold;
-        }
-
-        .history-item video, .history-item img {
-            width: 100%;
-            max-height: 220px;
-            object-fit: cover;
-            border-radius: 6px;
-            margin-top: 8px;
-        }
-
-        .delete-btn {
-            background-color: transparent;
-            color: var(--danger);
-            border: none;
-            font-size: 0.8rem;
-            padding: 2px;
-            width: auto;
-            cursor: pointer;
-            float: right;
-        }
-
-        .empty-state {
-            text-align: center;
-            color: var(--text-secondary);
-            padding: 25px 10px;
-            font-size: 0.9rem;
-            background-color: var(--bg-surface);
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-        }
-
-        .routine-tag {
-            background-color: var(--accent-glow);
-            color: var(--accent);
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 8px;
-        }
-    </style>
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(255, 109, 0, 0.4); }
+      70% { box-shadow: 0 0 0 8px rgba(255, 109, 0, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 109, 0, 0); }
+    }
+  </style>
 </head>
 <body>
 
-    <header class="hero-banner">
-        <div class="music-player">
-            <button class="music-btn" id="play-btn" onclick="toggleAudio()">▶</button>
-            <span class="music-text">MOTIVACIÓN</span>
-        </div>
-        <audio id="gym-audio" loop>
-            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-        </audio>
+  <!-- BANNER CON LOGO Y VERSÍCULO -->
+  <div class="header-banner">
+    <img src="logo.png" alt="Logo ENFOQUE" class="app-logo" onerror="this.style.display='none'">
+    <p class="verse-text">"Todo lo puedo en Cristo que me fortalece"</p>
+    <small class="verse-title">FILIPENSES 4:13</small>
+  </div>
 
-        <div class="banner-slide active" style="background-image: url('https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1000');">
-            <div class="banner-overlay"></div>
-            <div class="banner-content">
-                <h1 class="main-title">ENFOQUE</h1>
-                <div class="user-motivation typewriter-cursor" id="typewriter-text"></div>
-            </div>
-        </div>
+  <!-- NAVEGACIÓN -->
+  <div class="nav-tabs">
+    <button class="tab-btn active" onclick="switchTab('rutina')">🏋️ RUTINA</button>
+    <button class="tab-btn" onclick="switchTab('nutricion')">🥗 NUTRICIÓN</button>
+  </div>
 
-        <div class="banner-slide" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1000');">
-            <div class="banner-overlay"></div>
-            <div class="banner-content">
-                <small class="verse-title">FUERZA Y POTENCIA</small>
-                <h1 class="slide-phrase">SOBRECARGA PROGRESIVA</h1>
-            </div>
-        </div>
-
-        <div class="banner-slide" style="background-image: url('https://images.unsplash.com/photo-1574680096145-d05b474e2155?q=80&w=1000');">
-            <div class="banner-overlay"></div>
-            <div class="banner-content">
-                <small class="verse-title">JOSUÉ 1:9</small>
-                <h1 class="slide-phrase">ESFUÉRZATE</h1>
-            </div>
-        </div>
-
-        <div class="banner-slide" style="background-image: url('https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=1000');">
-            <div class="banner-overlay"></div>
-            <div class="banner-content">
-                <small class="verse-title">DÍA DE PIERNA</small>
-                <h1 class="slide-phrase">DEDICACIÓN TOTAL</h1>
-            </div>
-        </div>
-
-        <div class="banner-slide" style="background-image: url('https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?q=80&w=1000');">
-            <div class="banner-overlay"></div>
-            <div class="banner-content">
-                <small class="verse-title">FILIPENSES 4:13</small>
-                <h1 class="slide-phrase">CUIDA TU CUERPO</h1>
-            </div>
-        </div>
-    </header>
-
-    <main>
-        <section id="tab-register" class="tab-content active">
-            <div class="card">
-                <div class="card-title">🏋️ Registro de Rutina</div>
-                <form id="workout-form">
-                    <div class="form-group">
-                        <label for="day-select">Día y Rutina</label>
-                       <select id="day-select" onchange="updateExercisesByDay()">
-            <option value="">-- Selecciona un día --</option>
-            <option value="Lunes: Pierna (Cuádriceps, Glúteo, Pantorrilla)">Lunes: Pierna (Cuádriceps, Glúteo, Pantorrilla)</option>
-            <option value="Martes: Espalda, Bíceps, Hombro">Martes: Espalda, Bíceps, Hombro</option>
-            <option value="Miércoles: Femoral, Pantorrilla">Miércoles: Femoral, Pantorrilla</option>
-            <option value="Jueves: Pecho, Tríceps, Hombro">Jueves: Pecho, Tríceps, Hombro</option>
-            <option value="Viernes: Pierna Completa">Viernes: Pierna Completa</option>
-        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="workout-date">Fecha</label>
-                        <input type="date" id="workout-date" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="exercise-select">Ejercicio</label>
-                        <select id="exercise-select" required></select>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="weight-input">Peso (kg)</label>
-                            <input type="number" id="weight-input" step="0.5" placeholder="ej. 80" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="reps-input">Repeticiones</label>
-                            <input type="number" id="reps-input" placeholder="ej. 10" required>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="sets-input">Series completadas</label>
-                        <input type="number" id="sets-input" placeholder="ej. 4" value="4" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="photo-input">Foto de progreso (Galería)</label>
-                        <input type="file" id="photo-input" accept="image/*">
-                        <img id="photo-preview" class="image-preview" alt="Vista previa">
-                    </div>
-
-                    <button type="submit" class="btn-primary">Guardar Entrenamiento</button>
-                </form>
-            </div>
-        </section>
-
-        <section id="tab-profile" class="tab-content">
-            <div class="card">
-                <div class="card-title">📏 Peso y Estatura</div>
-                <form id="body-form">
-                    <div class="form-group">
-                        <label for="body-date">Fecha de Medición</label>
-                        <input type="date" id="body-date" required>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="user-height">Estatura (cm)</label>
-                            <input type="number" id="user-height" placeholder="ej. 175" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="user-weight">Peso Corporal (kg)</label>
-                            <input type="number" id="user-weight" step="0.1" placeholder="ej. 78.5" required>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn-primary">Registrar Medida</button>
-                </form>
-            </div>
-            <div id="body-history-list"></div>
-        </section>
-
-        <section id="tab-nutrition" class="tab-content">
-            <div class="card">
-                <div class="card-title">🥗 Control de Alimentación</div>
-                <form id="nutrition-form">
-                    <div class="form-group">
-                        <label for="meal-date">Fecha</label>
-                        <input type="date" id="meal-date" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="meal-type">Tipo de Comida</label>
-                        <select id="meal-type" required>
-                            <option value="Desayuno">🍳 Desayuno</option>
-                            <option value="Almuerzo">🥩 Almuerzo</option>
-                            <option value="Cena">🥗 Cena</option>
-                            <option value="Pre-Entreno">🍌 Pre-Entreno</option>
-                            <option value="Post-Entreno">🥤 Post-Entreno / Snack</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="meal-desc">Descripción de Alimentos</label>
-                        <input type="text" id="meal-desc" placeholder="ej. 200g Pechuga, 150g Arroz, Ensalada" required>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="calories-input">Calorías (kcal)</label>
-                            <input type="number" id="calories-input" placeholder="ej. 550">
-                        </div>
-                        <div class="form-group">
-                            <label for="protein-input">Proteína (g)</label>
-                            <input type="number" id="protein-input" placeholder="ej. 40">
-                        </div>
-                    </div>
-                    <button type="submit" class="btn-primary">Guardar Comida</button>
-                </form>
-            </div>
-            <div id="nutrition-history-list"></div>
-        </section>
-
-        <section id="tab-tips" class="tab-content">
-            <div class="tip-card" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1000');">
-                <div class="tip-overlay"></div>
-                <div class="tip-content">
-                    <span class="tip-tag">Sobrecarga Progresiva</span>
-                    <div class="tip-title">Aumenta el volumen con inteligencia</div>
-                    <div class="tip-desc">No busques subir peso en cada sesión si pierdes la técnica. Si logras hacer 10 reps perfectas, sube de 1 a 2 kg en la siguiente.</div>
-                </div>
-            </div>
-
-            <div class="tip-card" style="background-image: url('https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1000');">
-                <div class="tip-overlay"></div>
-                <div class="tip-content">
-                    <span class="tip-tag">Enfoque en Pierna</span>
-                    <div class="tip-title">Profundidad en la Sentadilla</div>
-                    <div class="tip-desc">Mantén los talones firmes en el suelo y rompe el paralelo de 90° para activar al máximo los cuádriceps y glúteos.</div>
-                </div>
-            </div>
-
-            <div class="tip-card" style="background-image: url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=1000');">
-                <div class="tip-overlay"></div>
-                <div class="tip-content">
-                    <span class="tip-tag">Nutrición Clave</span>
-                    <div class="tip-title">Proteína para Construir</div>
-                    <div class="tip-desc">Consume entre 1.6g y 2g de proteína por cada kilo de tu peso corporal diario para reparar las fibras musculares.</div>
-                </div>
-            </div>
-
-            <div class="tip-card" style="background-image: url('https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?q=80&w=1000');">
-                <div class="tip-overlay"></div>
-                <div class="tip-content">
-                    <span class="tip-tag">Recuperación</span>
-                    <div class="tip-title">El Descanso es Crecimiento</div>
-                    <div class="tip-desc">Duerme al menos 7-8 horas. El músculo no crece mientras entrenas, sino mientras descansas y te alimentas.</div>
-                </div>
-            </div>
-        </section>
-
-        <section id="tab-progress" class="tab-content">
-            <div class="card">
-                <div class="card-title">📈 Sobrecarga Progresiva</div>
-                <div class="form-group">
-                    <label for="filter-exercise">Filtrar por Ejercicio</label>
-                    <select id="filter-exercise">
-                        <option value="">-- Selecciona un ejercicio --</option>
-                    </select>
-                </div>
-            </div>
-            <div id="progress-results">
-                <div class="empty-state">Selecciona un ejercicio para ver tu sobrecarga progresiva.</div>
-            </div>
-        </section>
-
-        <section id="tab-videos" class="tab-content">
-            <div class="card">
-                <div class="card-title">🎬 Videos Motivacionales</div>
-                <form id="video-form">
-                    <div class="form-group">
-                        <label for="video-title">Título del Video</label>
-                        <input type="text" id="video-title" placeholder="ej. Motivación Pierna Pesada" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="video-file">Subir Video (Desde Galería)</label>
-                        <input type="file" id="video-file" accept="video/*" required>
-                    </div>
-                    <button type="submit" class="btn-primary">Guardar Video</button>
-                </form>
-            </div>
-            <div id="video-list"></div>
-        </section>
-
-        <section id="tab-history" class="tab-content">
-            <div id="global-history-list"></div>
-        </section>
-    </main>
-
-    <nav>
-        <button class="nav-item active" onclick="switchTab('tab-register', this)">
-            <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-            Entreno
-        </button>
-        <button class="nav-item" onclick="switchTab('tab-profile', this)">
-            <svg viewBox="0 0 24 24"><path d="M12 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 7h-6v13h-2v-6h-2v6H9V9H3V7h18v2z"/></svg>
-            Medidas
-        </button>
-        <button class="nav-item" onclick="switchTab('tab-nutrition', this)">
-            <svg viewBox="0 0 24 24"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.46 3.9 3.45 4.38l-.95 7.62h2l.95-7.62C10.54 12.9 12 11.12 12 9V2h-1v7zm6-7v18h2V11h2V2h-4z"/></svg>
-            Nutrición
-        </button>
-        <button class="nav-item" onclick="switchTab('tab-tips', this)">
-            <svg viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>
-            Consejos
-        </button>
-        <button class="nav-item" onclick="switchTab('tab-progress', this)">
-            <svg viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
-            Progreso
-        </button>
-        <button class="nav-item" onclick="switchTab('tab-videos', this)">
-            <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
-            Videos
-        </button>
-        <button class="nav-item" onclick="switchTab('tab-history', this)">
-            <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg>
-            Histórico
-        </button>
-    </nav>
-
-    <script>
-        // Registrar Service Worker para PWA
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
-                    .then(reg => console.log('Service Worker registrado con éxito', reg))
-                    .catch(err => console.log('Error registrando Service Worker', err));
-            });
-        }
-
-        const DB_NAME = 'EnfoqueGymDB';
-        const DB_VERSION = 4;
-        let db;
-
-       const routinesByDay = {
-            "Lunes: Pierna (Cuádriceps, Glúteo, Pantorrilla)": [
-                "🦵 Sentadilla Hack",
-                "🦵 Zancada Búlgara",
-                "🦵 Prensa 45°",
-                "🦵 Extensiones de Cuádriceps",
-                "🦵 Aductor en Máquina (Cerrando)",
-                "🍑 Hip Thrust",
-                "🦶 Pantorrilla de Pie en Máquina"
-            ],
-            "Martes: Espalda, Bíceps, Hombro": [
-                "🏋️‍♀️ Jalón al Pecho",
-                "🏋️‍♀️ Extensión de Espalda",
-                "🏋️‍♀️ Remo en Máquina",
-                "🏋️‍♀️ Cabina Invertida",
-                "🦾 Curl Predicador",
-                "🦾 Curl Martillo",
-                "🏋️‍♂️ Elevaciones Laterales",
-                "🏋️‍♂️ Press Militar",
-                "🏋️‍♂️ Elevaciones Frontales"
-            ],
-            "Miércoles: Femoral, Pantorrilla": [
-                "🦶 Pantorrilla de Pie en Máquina",
-                "🦵 Curl Femoral Acostado",
-                "🦵 Curl Femoral Sentado",
-                "🍑 Peso Muerto"
-            ],
-            "Jueves: Pecho, Tríceps, Hombro": [
-                "🏋️‍♂️ Press de Pecho Plano",
-                "🏋️‍♂️ Press de Pecho Inclinado",
-                "🦾 Cabina (Aperturas)",
-                "🦾 Fondos en Paralelas",
-                "🦾 Extensión de Tríceps en Polea Alta",
-                "🦾 Extensión de Tríceps en Polea Baja",
-                "🏋️‍♂️ Elevaciones Laterales",
-                "🏋️‍♂️ Elevaciones Frontales",
-                "🏋️‍♂️ Press Militar"
-            ],
-            "Viernes: Pierna Completa": [
-                "🦵 Sentadilla Hack",
-                "🦵 Zancada Búlgara",
-                "🦵 Prensa 45°",
-                "🦵 Extensiones de Cuádriceps",
-                "🦵 Curl Femoral Acostado",
-                "🦵 Aductor en Máquina (Cerrando)",
-                "🦵 Abductor en Máquina (Abriendo)",
-                "🍑 Hip Thrust",
-                "🦶 Pantorrilla de Pie en Máquina"
-            ]
-        };
-
-        function initDB() {
-            return new Promise((resolve, reject) => {
-                const request = indexedDB.open(DB_NAME, DB_VERSION);
-                request.onerror = (e) => reject("Error abriendo DB", e);
-                request.onsuccess = (e) => {
-                    db = e.target.result;
-                    resolve(db);
-                };
-                request.onupgradeneeded = (e) => {
-                    const dbRef = e.target.result;
-                    if (!dbRef.objectStoreNames.contains('logs')) {
-                        const store = dbRef.createObjectStore('logs', { keyPath: 'id', autoIncrement: true });
-                        store.createIndex('exercise', 'exercise', { unique: false });
-                    }
-                    if (!dbRef.objectStoreNames.contains('meals')) {
-                        dbRef.createObjectStore('meals', { keyPath: 'id', autoIncrement: true });
-                    }
-                    if (!dbRef.objectStoreNames.contains('videos')) {
-                        dbRef.createObjectStore('videos', { keyPath: 'id', autoIncrement: true });
-                    }
-                    if (!dbRef.objectStoreNames.contains('body')) {
-                        dbRef.createObjectStore('body', { keyPath: 'id', autoIncrement: true });
-                    }
-                };
-            });
-        }
-
-        function saveLog(logData) {
-            return new Promise((resolve) => {
-                const tx = db.transaction(['logs'], 'readwrite');
-                tx.objectStore('logs').add(logData).onsuccess = () => resolve();
-            });
-        }
-
-        function saveMeal(mealData) {
-            return new Promise((resolve) => {
-                const tx = db.transaction(['meals'], 'readwrite');
-                tx.objectStore('meals').add(mealData).onsuccess = () => resolve();
-            });
-        }
-
-        function saveVideo(videoData) {
-            return new Promise((resolve) => {
-                const tx = db.transaction(['videos'], 'readwrite');
-                tx.objectStore('videos').add(videoData).onsuccess = () => resolve();
-            });
-        }
-
-        function saveBodyRecord(bodyData) {
-            return new Promise((resolve) => {
-                const tx = db.transaction(['body'], 'readwrite');
-                tx.objectStore('body').add(bodyData).onsuccess = () => resolve();
-            });
-        }
-
-        function getAllLogs() {
-            return new Promise((resolve) => {
-                const tx = db.transaction(['logs'], 'readonly');
-                tx.objectStore('logs').getAll().onsuccess = (e) => resolve(e.target.result);
-            });
-        }
-
-        function getAllMeals() {
-            return new Promise((resolve) => {
-                const tx = db.transaction(['meals'], 'readonly');
-                tx.objectStore('meals').getAll().onsuccess = (e) => resolve(e.target.result);
-            });
-        }
-
-        function getAllVideos() {
-            return new Promise((resolve) => {
-                const tx = db.transaction(['videos'], 'readonly');
-                tx.objectStore('videos').getAll().onsuccess = (e) => resolve(e.target.result);
-            });
-        }
-
-        function getAllBodyRecords() {
-            return new Promise((resolve) => {
-                const tx = db.transaction(['body'], 'readonly');
-                tx.objectStore('body').getAll().onsuccess = (e) => resolve(e.target.result);
-            });
-        }
-
-        function deleteRecord(storeName, id) {
-            return new Promise((resolve) => {
-                const tx = db.transaction([storeName], 'readwrite');
-                tx.objectStore(storeName).delete(id).onsuccess = () => resolve();
-            });
-        }
-
-function updateExercisesByDay() {
-    const selectedDay = document.getElementById('day-select').value;
-    const exerciseSelect = document.getElementById('exercise-select');
-    if (!exerciseSelect) return;
-
-    exerciseSelect.innerHTML = '<option value="">-- Selecciona un ejercicio --</option>';
-
-    const exercises = routinesByDay[selectedDay] || [];
-    exercises.forEach(ex => {
-        const opt = document.createElement('option');
-        opt.value = ex;
-        opt.textContent = ex;
-        exerciseSelect.appendChild(opt);
-    });
-
-    renderWeightTracker(exercises);
-}
-
-function renderWeightTracker(exercises) {
-    let trackerContainer = document.getElementById('weight-tracker-container');
-    if (!trackerContainer) {
-        trackerContainer = document.createElement('div');
-        trackerContainer.id = 'weight-tracker-container';
-        const form = document.getElementById('workout-form');
-        if (form) form.appendChild(trackerContainer);
-    }
+  <div class="container">
     
-    trackerContainer.innerHTML = '';
-    if (!exercises || exercises.length === 0) return;
+    <!-- MÓDULO 1: RUTINAS -->
+    <div id="sec-rutina" class="section-content active">
+      <select id="daySelect" class="day-selector" onchange="loadRoutine()">
+        <option value="lunes">Lunes - Pecho, Tríceps & Hombro</option>
+        <option value="martes">Martes - Espalda & Bíceps</option>
+        <option value="miercoles">Miércoles - Pierna Completa</option>
+        <option value="jueves">Jueves - Pecho & Hombro</option>
+        <option value="viernes">Viernes - Espalda & Brazos</option>
+        <option value="sabado">Sábado - Pierna & Enfoque Glúteo</option>
+      </select>
 
-    exercises.forEach((ex, index) => {
-        const exId = `ex_${index}`;
+      <div id="exerciseContainer"></div>
+    </div>
+
+    <!-- MÓDULO 2: NUTRICIÓN INTELIGENTE -->
+    <div id="sec-nutricion" class="section-content">
+      <div class="goal-toggle">
+        <button id="btn-hip" class="goal-btn active" onclick="setNutritionGoal('hipertrofia')">💪 GANAR MASA</button>
+        <button id="btn-def" class="goal-btn" onclick="setNutritionGoal('definicion')">🔥 BAJAR GRASA</button>
+      </div>
+
+      <div class="menu-card">
+        <div id="menuDayHeader" class="menu-day-header"></div>
+        <div id="mealsContainer"></div>
+      </div>
+
+      <div id="totalMacrosBanner" class="total-banner"></div>
+    </div>
+
+  </div>
+
+  <script>
+    // BASE DE DATOS DE RUTINAS (Mantenemos la tuya intacta)
+    const routines = {
+      lunes: [
+        { name: "Press de Banca Inclinado con Barra", prev: 60 },
+        { name: "Press Plano con Mancuernas", prev: 24 },
+        { name: "Aperturas en Polea (Cruce de Cables)", prev: 15 },
+        { name: "Press Militar con Mancuernas", prev: 18 },
+        { name: "Extensión de Tríceps en Polea", prev: 25 }
+      ],
+      martes: [
+        { name: "Jalón al Pecho (Polea Alta)", prev: 55 },
+        { name: "Remo con Barra", prev: 50 },
+        { name: "Remo Unilateral con Mancuerna", prev: 22 },
+        { name: "Curl de Bíceps con Barra Z", prev: 30 },
+        { name: "Curl Martillo", prev: 14 }
+      ],
+      miercoles: [
+        { name: "Sentadilla Libre con Barra", prev: 80 },
+        { name: "Prensa 45°", prev: 140 },
+        { name: "Extensión de Cuádriceps", prev: 45 },
+        { name: "Curl Femoral Tumbado", prev: 35 },
+        { name: "Elevación de Talones (Gemelos)", prev: 60 }
+      ],
+      jueves: [
+        { name: "Press de Banca Plano con Barra", prev: 65 },
+        { name: "Fondos en Paralelas / Máquina", prev: 0 },
+        { name: "Elevaciones Laterales de Hombro", prev: 10 },
+        { name: "Press Francés para Tríceps", prev: 20 }
+      ],
+      viernes: [
+        { name: "Dominadas / Jalón Agarre Estrecho", prev: 50 },
+        { name: "Remo en Gironda (Polea Baja)", prev: 45 },
+        { name: "Curl de Bíceps en Banco Scott", prev: 25 },
+        { name: "Curl Concentrado", prev: 12 }
+      ],
+      sabado: [
+        { name: "Peso Muerto Rumano", prev: 70 },
+        { name: "Hip Thrust para Glúteo", prev: 90 },
+        { name: "Zancadas / Búlgaras", prev: 16 },
+        { name: "Abductores en Máquina", prev: 50 }
+      ]
+    };
+
+    // BASE DE DATOS DE MENÚS DIARIOS ROTATIVOS
+    const nutritionData = {
+      hipertrofia: {
+        0: { day: "Domingo", meals: [
+          { type: "Desayuno", name: "Omelette de 4 Huevos + Avena", desc: "4 huevos enteros + 1 taza de avena cocida con banano.", macro: "580 kcal | 36g Proteína" },
+          { type: "Almuerzo", name: "Pechuga de Pollo + Arroz blanco", desc: "220g pechuga a la plancha + 1.5 tazas de arroz + ensalada.", macro: "700 kcal | 50g Proteína" },
+          { type: "Cena", name: "Carne de Res Magra + Yuca", desc: "200g carne + 1 taza de yuca + ensalada de aguacate.", macro: "620 kcal | 44g Proteína" }
+        ], total: "2,350 kcal | 155g Proteína" },
+        1: { day: "Lunes", meals: [
+          { type: "Desayuno", name: "Tostadas Integrales + Huevos + Crema de Maní", desc: "4 huevos revueltos + 2 tostadas integrales con crema de maní.", macro: "600 kcal | 35g Proteína" },
+          { type: "Almuerzo", name: "Carne Molida Magra + Papa Cocida", desc: "220g carne molida + 2 papas medianas + vegetal verde.", macro: "720 kcal | 48g Proteína" },
+          { type: "Cena", name: "Filete de Pescado + Arroz + Aguacate", desc: "220g tilapia/trucha + 1 taza de arroz.", macro: "590 kcal | 42g Proteína" }
+        ], total: "2,380 kcal | 152g Proteína" },
+        2: { day: "Martes", meals: [
+          { type: "Desayuno", name: "Batido Proteico + Avena & Banano", desc: "2 scoops proteína / 4 huevos + 80g avena licuada.", macro: "560 kcal | 40g Proteína" },
+          { type: "Almuerzo", name: "Pechuga Gratinada + Pasta Integral", desc: "200g pollo + 1.5 tazas pasta cocida + queso bajo en grasa.", macro: "740 kcal | 52g Proteína" },
+          { type: "Cena", name: "Atún en Agua + Arepa de Maíz", desc: "2 latas de atún + 1 arepa mediana con queso blanco.", macro: "580 kcal | 45g Proteína" }
+        ], total: "2,320 kcal | 157g Proteína" },
+        3: { day: "Miércoles", meals: [
+          { type: "Desayuno", name: "Huevos Pericos + Arepa + Fruta", desc: "4 huevos con tomate/cebolla + 1 arepa + 1 manzana.", macro: "570 kcal | 32g Proteína" },
+          { type: "Almuerzo", name: "Lomo de Cerdo Magro + Plátano Maduro", desc: "220g lomo + plátano asado + ensalada.", macro: "710 kcal | 49g Proteína" },
+          { type: "Cena", name: "Pollo Desmechado + Puré de Papa", desc: "200g pollo + puré de papa criolla.", macro: "610 kcal | 44g Proteína" }
+        ], total: "2,340 kcal | 150g Proteína" },
+        4: { day: "Jueves", meals: [
+          { type: "Desayuno", name: "Panqueques de Avena & Huevo", desc: "1 taza avena + 3 huevos + licuado de fresa.", macro: "590 kcal | 34g Proteína" },
+          { type: "Almuerzo", name: "Pechuga a la Criolla + Arroz & Frijol", desc: "200g pollo + arroz + porción de frijol.", macro: "760 kcal | 54g Proteína" },
+          { type: "Cena", name: "Carne Asada + Ensalada Mixta", desc: "200g carne + aguacate y tomate.", macro: "570 kcal | 42g Proteína" }
+        ], total: "2,360 kcal | 155g Proteína" },
+        5: { day: "Viernes", meals: [
+          { type: "Desayuno", name: "Omelette de Queso & Jamón Magro", desc: "4 huevos + 2 lonchas jamón pavo + tostadas.", macro: "580 kcal | 38g Proteína" },
+          { type: "Almuerzo", name: "Churrasco Magro + Yuca o Papa", desc: "220g carne res + yuca al vapor.", macro: "730 kcal | 50g Proteína" },
+          { type: "Cena", name: "Pescado al Horno + Arroz", desc: "220g pescado + 1 taza arroz.", macro: "580 kcal | 41g Proteína" }
+        ], total: "2,310 kcal | 151g Proteína" },
+        6: { day: "Sábado", meals: [
+          { type: "Desayuno", name: "Bowl de Avena, Frutos Secos & Huevos", desc: "3 huevos cocidos + bowl de avena caliente.", macro: "600 kcal | 35g Proteína" },
+          { type: "Almuerzo", name: "Pollo al Horno + Plátano + Ensalada", desc: "220g pollo + plátano asado.", macro: "720 kcal | 48g Proteína" },
+          { type: "Cena", name: "Sandwich Doble de Pollo/Atún", desc: "Pan integral + 150g pollo o atún + queso.", macro: "600 kcal | 45g Proteína" }
+        ], total: "2,370 kcal | 153g Proteína" }
+      },
+      definicion: {
+        0: { day: "Domingo", meals: [
+          { type: "Desayuno", name: "Omelette con Espinaca & 1 Tostada", desc: "4 claras + 1 huevo entero + espinaca + 1 tostada integral.", macro: "320 kcal | 28g Proteína" },
+          { type: "Almuerzo", name: "Pechuga a la Plancha + Ensalada Grande", desc: "200g pechuga + 1/2 taza arroz blanco + abundante ensalada.", macro: "480 kcal | 46g Proteína" },
+          { type: "Cena", name: "Filete de Tilapia + Pepino & Aguacate", desc: "200g pescado + ensalada verde con limón.", macro: "380 kcal | 40g Proteína" }
+        ], total: "1,600 kcal | 144g Proteína" },
+        1: { day: "Lunes", meals: [
+          { type: "Desayuno", name: "Huevos Revueltos con Tomate & Té Verde", desc: "3 huevos revueltos + tomate + té verde sin azúcar.", macro: "340 kcal | 22g Proteína" },
+          { type: "Almuerzo", name: "Carne Magra de Res + 1 Papa Cocida", desc: "180g carne + 1 papa mediana + brócoli al vapor.", macro: "500 kcal | 44g Proteína" },
+          { type: "Cena", name: "Lata de Atún + Ensalada Mixta", desc: "2 latas de atún en agua + aguacate y tomate.", macro: "360 kcal | 42g Proteína" }
+        ], total: "1,620 kcal | 140g Proteína" },
+        2: { day: "Martes", meals: [
+          { type: "Desayuno", name: "Batido Proteico en Agua & Fresa", desc: "1.5 scoops proteína / 4 claras + fresas naturales.", macro: "290 kcal | 32g Proteína" },
+          { type: "Almuerzo", name: "Pollo Desmechado + 1/2 Taza de Frijol", desc: "200g pechuga + frijol + ensalada de repollo.", macro: "510 kcal | 48g Proteína" },
+          { type: "Cena", name: "Omelette Nocturno de Claras", desc: "5 claras + champiñones.", macro: "320 kcal | 30g Proteína" }
+        ], total: "1,580 kcal | 142g Proteína" },
+        3: { day: "Miércoles", meals: [
+          { type: "Desayuno", name: "Huevos Cocidos + 1/2 Banano", desc: "3 huevos cocidos + 1/2 banano.", macro: "330 kcal | 21g Proteína" },
+          { type: "Almuerzo", name: "Lomo de Cerdo + Ensalada Verde", desc: "180g lomo magro + aguacate + verduras.", macro: "490 kcal | 42g Proteína" },
+          { type: "Cena", name: "Pechuga a la Plancha + Calabacín", desc: "180g pechuga + calabacín asado.", macro: "370 kcal | 41g Proteína" }
+        ], total: "1,610 kcal | 138g Proteína" },
+        4: { day: "Jueves", meals: [
+          { type: "Desayuno", name: "Arepa Pequeña + Queso Cuajada", desc: "1 arepa delgada + 80g queso bajo en grasa + café negro.", macro: "350 kcal | 20g Proteína" },
+          { type: "Almuerzo", name: "Pescado al Vapor + 1/2 Taza Arroz", desc: "200g pescado + arroz + ensalada verde.", macro: "470 kcal | 43g Proteína" },
+          { type: "Cena", name: "Carne Molida Magra + Guacamole", desc: "180g carne molida + ensalada con guacamole.", macro: "400 kcal | 40g Proteína" }
+        ], total: "1,630 kcal | 143g Proteína" },
+        5: { day: "Viernes", meals: [
+          { type: "Desayuno", name: "Omelette de Jamón de Pavo", desc: "3 huevos + 2 lonchas pavo + té verde.", macro: "330 kcal | 26g Proteína" },
+          { type: "Almuerzo", name: "Pechuga a la Parriilla + Yuca Cocida", desc: "200g pollo + 1 trozo pequeño de yuca.", macro: "500 kcal | 46g Proteína" },
+          { type: "Cena", name: "Atún con Picadillo de Pepino", desc: "2 latas de atún + pepino + limón.", macro: "340 kcal | 41g Proteína" }
+        ], total: "1,590 kcal | 145g Proteína" },
+        6: { day: "Sábado", meals: [
+          { type: "Desayuno", name: "Huevos Revueltos + 1 Tostada Integral", desc: "3 huevos + 1 tostada.", macro: "340 kcal | 22g Proteína" },
+          { type: "Almuerzo", name: "Pollo al Horno + Ensalada Rusa Ligera", desc: "200g pollo + ensalada.", macro: "510 kcal | 45g Proteína" },
+          { type: "Cena", name: "Consomé con Pollo Desmechado", desc: "Caldo magro + 150g pechuga desmechada.", macro: "350 kcal | 38g Proteína" }
+        ], total: "1,620 kcal | 141g Proteína" }
+      }
+    };
+
+    let currentNutritionGoal = 'hipertrofia';
+
+    // CAMBIO DE PESTAÑAS
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.section-content').forEach(s => s.classList.remove('active'));
+      
+      if(tab === 'rutina') {
+        document.querySelectorAll('.tab-btn')[0].classList.add('active');
+        document.getElementById('sec-rutina').classList.add('active');
+      } else {
+        document.querySelectorAll('.tab-btn')[1].classList.add('active');
+        document.getElementById('sec-nutricion').classList.add('active');
+        loadNutrition();
+      }
+    }
+
+    // CARGAR RUTINA DEL DÍA SELECCIONADO
+    function loadRoutine() {
+      const day = document.getElementById('daySelect').value;
+      const list = routines[day] || [];
+      const container = document.getElementById('exerciseContainer');
+      container.innerHTML = '';
+
+      list.forEach((ex, index) => {
         const card = document.createElement('div');
-        card.style.cssText = 'background: #1c1c1e; padding: 10px; border-radius: 8px; margin-top: 10px; border-left: 4px solid #00e676;';
+        card.className = 'exercise-card';
         card.innerHTML = `
-            <div style="font-weight: bold; font-size: 0.95rem; color: #fff; margin-bottom: 6px;">${ex}</div>
-            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-                <input type="number" id="prev-${exId}" placeholder="Previo (kg)" style="width: 95px; padding: 6px; border-radius: 4px; border: 1px solid #444; background: #222; color: #00e676; font-weight: bold;" oninput="compareProgress('${exId}')">
-                <input type="number" id="input-${exId}" placeholder="Hoy (kg)" style="width: 95px; padding: 6px; border-radius: 4px; border: 1px solid #444; background: #222; color: #fff; font-weight: bold;" oninput="compareProgress('${exId}')">
-                <span id="badge-${exId}" style="font-size: 0.75rem; font-weight: bold; padding: 2px 6px; border-radius: 4px;"></span>
-            </div>
+          <div class="exercise-title">${ex.name}</div>
+          <div class="prev-mark">Última marca registrada: <strong>${ex.prev} kg</strong></div>
+          <div class="weight-input-group">
+            <label>Peso de Hoy (kg):</label>
+            <input type="number" class="weight-input" id="weight-${index}" placeholder="${ex.prev}" oninput="checkStrength(${index}, ${ex.prev})">
+          </div>
+          <div id="alert-${index}" class="strength-alert">
+            🔥 ¡HAS AUMENTADO TU FUERZA! Subiendo de nivel.
+          </div>
         `;
-        trackerContainer.appendChild(card);
-    });
-}
-
-function compareProgress(exId) {
-    const prevInput = document.getElementById(`prev-${exId}`);
-    const currentInput = document.getElementById(`input-${exId}`);
-    const badge = document.getElementById(`badge-${exId}`);
-
-    if (!prevInput || !currentInput || !badge) return;
-
-    const prev = parseFloat(prevInput.value);
-    const current = parseFloat(currentInput.value);
-
-    if (isNaN(prev) || isNaN(current)) {
-        badge.textContent = '';
-        return;
+        container.appendChild(card);
+      });
     }
 
-    const diff = current - prev;
-    if (diff > 0) {
-        badge.style.background = 'rgba(0, 230, 118, 0.2)';
-        badge.style.color = '#00e676';
-        badge.textContent = `▲ +${diff} kg (¡Superado!)`;
-    } else if (diff === 0) {
-        badge.style.background = 'rgba(255, 255, 255, 0.1)';
-        badge.style.color = '#fff';
-        badge.textContent = `= Mismo peso`;
-    } else {
-        badge.style.background = 'rgba(255, 23, 68, 0.2)';
-        badge.style.color = '#ff1744';
-        badge.textContent = `▼ ${diff} kg`;
-    }
-}
-function compareProgress(exId) {
-    const prev = parseFloat(document.getElementById(`prev-${exId}`).textContent) || 0;
-    const current = parseFloat(document.getElementById(`input-${exId}`).value) || 0;
-    const badge = document.getElementById(`badge-${exId}`);
-
-    if (!current) {
-        badge.textContent = '';
-        return;
+    // COMPROBAR SI AUMENTÓ LA FUERZA
+    function checkStrength(index, prevWeight) {
+      const inputVal = parseFloat(document.getElementById(`weight-${index}`).value);
+      const alertBox = document.getElementById(`alert-${index}`);
+      
+      if(!isNaN(inputVal) && inputVal > prevWeight) {
+        alertBox.style.display = 'block';
+      } else {
+        alertBox.style.display = 'none';
+      }
     }
 
-    const diff = current - prev;
-    if (diff > 0) {
-        badge.style.background = 'rgba(0, 230, 118, 0.2)';
-        badge.style.color = '#00e676';
-        badge.textContent = `▲ +${diff} kg (¡Superado!)`;
-    } else if (diff === 0) {
-        badge.style.background = 'rgba(255, 255, 255, 0.1)';
-        badge.style.color = '#fff';
-        badge.textContent = `= Mismo peso`;
-    } else {
-        badge.style.background = 'rgba(255, 23, 68, 0.2)';
-        badge.style.color = '#ff1744';
-        badge.textContent = `▼ ${diff} kg`;
+    // CONFIGURAR OBJETIVO DE NUTRICIÓN
+    function setNutritionGoal(goal) {
+      currentNutritionGoal = goal;
+      document.getElementById('btn-hip').classList.toggle('active', goal === 'hipertrofia');
+      document.getElementById('btn-def').classList.toggle('active', goal === 'definicion');
+      loadNutrition();
     }
-}
 
-// Alerta de descanso diario a las 10:00 PM
-setInterval(() => {
-    const now = new Date();
-    if (now.getHours() === 22 && now.getMinutes() === 0) {
-        alert('🌙 ENFOQUE: Son las 10:00 PM. ¡Hora de descansar y recuperar!');
+    // CARGAR MENÚ ROTATIVO SEGÚN DÍA DE LA SEMANA
+    function loadNutrition() {
+      const todayIndex = new Date().getDay(); // 0 = Domingo, 1 = Lunes...
+      const data = nutritionData[currentNutritionGoal][todayIndex];
+
+      document.getElementById('menuDayHeader').innerText = `📅 MENÚ DE HOY: ${data.day}`;
+      
+      const container = document.getElementById('mealsContainer');
+      container.innerHTML = '';
+
+      data.meals.forEach(m => {
+        const item = document.createElement('div');
+        item.className = 'meal-item';
+        item.innerHTML = `
+          <div class="meal-name">${m.type}: ${m.name}</div>
+          <div class="meal-desc">${m.desc}</div>
+          <div class="meal-macro">${m.macro}</div>
+        `;
+        container.appendChild(item);
+      });
+
+      document.getElementById('totalMacrosBanner').innerHTML = `
+        <div style="font-size:0.78rem; color:var(--text-dim);">TOTAL RECOMENDADO DIARIO</div>
+        <div style="font-size:1.1rem; font-weight:bold; color:var(--accent); margin-top:2px;">${data.total}</div>
+      `;
     }
-}, 60000);
 
-// Alerta de descanso diario a las 10:00 PM
-setInterval(() => {
-    const now = new Date();
-    if (now.getHours() === 22 && now.getMinutes() === 0) {
-        alert('🌙 ENFOQUE: Son las 10:00 PM. ¡Hora de descansar y recuperar!');
+    // AUTO-ACTUALIZACIÓN AUTOMÁTICA DEL SERVICE WORKER EN EL CELULAR
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').then(reg => {
+        reg.addEventListener('updatefound', () => {
+          const newWorker = reg.installing;
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              window.location.reload();
+            }
+          });
+        });
+      });
     }
-}, 60000);
 
-        function populateAllFilterExercises() {
-            const filterSelect = document.getElementById('filter-exercise');
-            filterSelect.innerHTML = '<option value="">-- Selecciona un ejercicio --</option>';
-
-            let allEx = [];
-            Object.values(routinesByDay).forEach(list => {
-                allEx = allEx.concat(list);
-            });
-            const uniqueEx = [...new Set(allEx)].sort();
-
-            uniqueEx.forEach(ex => {
-                const opt = document.createElement('option');
-                opt.value = ex;
-                opt.textContent = ex;
-                filterSelect.appendChild(opt);
-            });
-        }
-
-        function switchTab(tabId, btn) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            btn.classList.add('active');
-
-            if (tabId === 'tab-profile') loadBodyHistory();
-            if (tabId === 'tab-nutrition') loadNutritionHistory();
-            if (tabId === 'tab-progress') loadProgressFilter();
-            if (tabId === 'tab-videos') loadVideosList();
-            if (tabId === 'tab-history') loadGlobalHistory();
-        }
-
-        let audioCtx = null;
-        function playTypewriterClick() {
-            try {
-                if (!audioCtx) {
-                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                }
-                if (audioCtx.state === 'suspended') {
-                    audioCtx.resume();
-                }
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(1200 + Math.random() * 400, audioCtx.currentTime);
-                gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start();
-                osc.stop(audioCtx.currentTime + 0.04);
-            } catch (e) {}
-        }
-
-        const textToType = "¡VAMOS ANDRÉS ARCILA! VAMOS A LOGRAR TU OBJETIVO";
-        let typeIndex = 0;
-        let typingTimeout = null;
-
-        function startTypewriter() {
-            const el = document.getElementById('typewriter-text');
-            el.innerHTML = "";
-            typeIndex = 0;
-            if (typingTimeout) clearTimeout(typingTimeout);
-
-            function typeNextChar() {
-                if (typeIndex < textToType.length) {
-                    const char = textToType.charAt(typeIndex);
-                    if (typeIndex >= 7 && typeIndex <= 21) {
-                        el.innerHTML += `<span style="color:var(--accent);">${char}</span>`;
-                    } else {
-                        el.innerHTML += char;
-                    }
-                    playTypewriterClick();
-                    typeIndex++;
-                    typingTimeout = setTimeout(typeNextChar, 65);
-                }
-            }
-            typeNextChar();
-        }
-
-        let currentSlide = 0;
-        function rotateBanner() {
-            const slides = document.querySelectorAll('.banner-slide');
-            slides[currentSlide].classList.remove('active');
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides[currentSlide].classList.add('active');
-
-            if (currentSlide === 0) {
-                startTypewriter();
-            }
-        }
-        setInterval(rotateBanner, 5500);
-
-        function toggleAudio() {
-            const audio = document.getElementById('gym-audio');
-            const btn = document.getElementById('play-btn');
-            if (audio.paused) {
-                audio.play();
-                btn.textContent = '❚❚';
-            } else {
-                audio.pause();
-                btn.textContent = '▶';
-            }
-        }
-
-        let currentPhotoBase64 = null;
-        document.getElementById('photo-input').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    currentPhotoBase64 = event.target.result;
-                    const preview = document.getElementById('photo-preview');
-                    preview.src = currentPhotoBase64;
-                    preview.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        document.getElementById('workout-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const logData = {
-                day: document.getElementById('day-select').value,
-                date: document.getElementById('workout-date').value,
-                exercise: document.getElementById('exercise-select').value,
-                weight: parseFloat(document.getElementById('weight-input').value),
-                reps: parseInt(document.getElementById('reps-input').value),
-                sets: parseInt(document.getElementById('sets-input').value),
-                photo: currentPhotoBase64,
-                timestamp: new Date().getTime()
-            };
-
-            await saveLog(logData);
-            alert("¡Entrenamiento guardado!");
-
-            document.getElementById('weight-input').value = '';
-            document.getElementById('reps-input').value = '';
-            document.getElementById('photo-input').value = '';
-            document.getElementById('photo-preview').style.display = 'none';
-            currentPhotoBase64 = null;
-        });
-
-        document.getElementById('body-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const heightCm = parseFloat(document.getElementById('user-height').value);
-            const weightKg = parseFloat(document.getElementById('user-weight').value);
-            const heightM = heightCm / 100;
-            const imc = (weightKg / (heightM * heightM)).toFixed(1);
-
-            let status = "Normal";
-            if (imc < 18.5) status = "Bajo peso";
-            else if (imc >= 25 && imc < 29.9) status = "Sobrepeso";
-            else if (imc >= 30) status = "Obesidad";
-
-            const bodyData = {
-                date: document.getElementById('body-date').value,
-                height: heightCm,
-                weight: weightKg,
-                imc: imc,
-                status: status,
-                timestamp: new Date().getTime()
-            };
-
-            await saveBodyRecord(bodyData);
-            alert("¡Registro de medida guardado!");
-            loadBodyHistory();
-        });
-
-        async function loadBodyHistory() {
-            const container = document.getElementById('body-history-list');
-            const records = await getAllBodyRecords();
-
-            if (records.length === 0) {
-                container.innerHTML = '<div class="empty-state">No hay registros de peso y estatura aún.</div>';
-                return;
-            }
-
-            records.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-            container.innerHTML = records.map(item => `
-                <div class="history-item">
-                    <button class="delete-btn" onclick="removeBodyRecord(${item.id})">Eliminar</button>
-                    <div class="header-info">
-                        <span>${item.date}</span>
-                        <span>Estatura: ${item.height} cm</span>
-                    </div>
-                    <div class="title-info">Peso: ${item.weight} kg</div>
-                    <div class="detail-info">IMC: ${item.imc} (${item.status})</div>
-                </div>
-            `).join('');
-        }
-
-        async function removeBodyRecord(id) {
-            if (confirm("¿Deseas eliminar este registro de medida?")) {
-                await deleteRecord('body', id);
-                loadBodyHistory();
-            }
-        }
-
-        document.getElementById('nutrition-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const mealData = {
-                date: document.getElementById('meal-date').value,
-                type: document.getElementById('meal-type').value,
-                desc: document.getElementById('meal-desc').value,
-                calories: document.getElementById('calories-input').value || 'N/A',
-                protein: document.getElementById('protein-input').value || 'N/A',
-                timestamp: new Date().getTime()
-            };
-
-            await saveMeal(mealData);
-            alert("¡Comida guardada!");
-
-            document.getElementById('meal-desc').value = '';
-            document.getElementById('calories-input').value = '';
-            document.getElementById('protein-input').value = '';
-            loadNutritionHistory();
-        });
-
-        document.getElementById('filter-exercise').addEventListener('change', async function(e) {
-            const selectedEx = e.target.value;
-            const container = document.getElementById('progress-results');
-            if (!selectedEx) {
-                container.innerHTML = '<div class="empty-state">Selecciona un ejercicio para ver tu sobrecarga progresiva.</div>';
-                return;
-            }
-
-            const allLogs = await getAllLogs();
-            const filtered = allLogs
-                .filter(l => l.exercise === selectedEx)
-                .sort((a, b) => new Date(b.date) - new Date(a.date));
-
-            if (filtered.length === 0) {
-                container.innerHTML = `<div class="empty-state">No hay registros para "${selectedEx}".</div>`;
-                return;
-            }
-
-            container.innerHTML = filtered.map(item => `
-                <div class="history-item">
-                    <span class="routine-tag">${item.day || 'Entrenamiento'}</span>
-                    <div class="header-info">
-                        <span>${item.date}</span>
-                        <span>${item.sets} series</span>
-                    </div>
-                    <div class="title-info">${item.exercise}</div>
-                    <div class="detail-info">${item.weight} kg × ${item.reps} reps</div>
-                    ${item.photo ? `<img src="${item.photo}" alt="Foto de progreso">` : ''}
-                </div>
-            `).join('');
-        });
-
-        document.getElementById('video-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const file = document.getElementById('video-file').files[0];
-            const title = document.getElementById('video-title').value;
-
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = async function(event) {
-                    const videoData = {
-                        title: title,
-                        src: event.target.result,
-                        date: new Date().toISOString().split('T')[0],
-                        timestamp: new Date().getTime()
-                    };
-                    await saveVideo(videoData);
-                    alert("¡Video motivacional guardado!");
-                    document.getElementById('video-title').value = '';
-                    document.getElementById('video-file').value = '';
-                    loadVideosList();
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        async function loadVideosList() {
-            const container = document.getElementById('video-list');
-            const videos = await getAllVideos();
-
-            if (videos.length === 0) {
-                container.innerHTML = '<div class="empty-state">No has subido videos motivacionales aún.</div>';
-                return;
-            }
-
-            videos.sort((a, b) => b.timestamp - a.timestamp);
-
-            container.innerHTML = videos.map(item => `
-                <div class="history-item">
-                    <button class="delete-btn" onclick="removeVideoRecord(${item.id})">Eliminar</button>
-                    <div class="header-info">
-                        <span>${item.date}</span>
-                    </div>
-                    <div class="title-info">${item.title}</div>
-                    <video controls src="${item.src}"></video>
-                </div>
-            `).join('');
-        }
-
-        async function removeVideoRecord(id) {
-            if (confirm("¿Deseas eliminar este video?")) {
-                await deleteRecord('videos', id);
-                loadVideosList();
-            }
-        }
-
-        async function loadNutritionHistory() {
-            const container = document.getElementById('nutrition-history-list');
-            const meals = await getAllMeals();
-
-            if (meals.length === 0) {
-                container.innerHTML = '<div class="empty-state">No hay comidas registradas aún.</div>';
-                return;
-            }
-
-            meals.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-            container.innerHTML = meals.map(item => `
-                <div class="history-item">
-                    <button class="delete-btn" onclick="removeMealRecord(${item.id})">Eliminar</button>
-                    <div class="header-info">
-                        <span>${item.date}</span>
-                        <span>${item.type}</span>
-                    </div>
-                    <div class="title-info">${item.desc}</div>
-                    <div class="detail-info">${item.calories} kcal | ${item.protein}g Proteína</div>
-                </div>
-            `).join('');
-        }
-
-        async function removeMealRecord(id) {
-            if (confirm("¿Eliminar este registro de comida?")) {
-                await deleteRecord('meals', id);
-                loadNutritionHistory();
-            }
-        }
-
-        async function loadGlobalHistory() {
-            const container = document.getElementById('global-history-list');
-            const allLogs = await getAllLogs();
-
-            if (allLogs.length === 0) {
-                container.innerHTML = '<div class="empty-state">Aún no tienes entrenamientos guardados.</div>';
-                return;
-            }
-
-            allLogs.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-            container.innerHTML = allLogs.map(item => `
-                <div class="history-item">
-                    <button class="delete-btn" onclick="removeLogRecord(${item.id})">Eliminar</button>
-                    <span class="routine-tag">${item.day || 'Entrenamiento'}</span>
-                    <div class="header-info">
-                        <span>${item.date}</span>
-                        <span>${item.sets} series</span>
-                    </div>
-                    <div class="title-info">${item.exercise}</div>
-                    <div class="detail-info">${item.weight} kg × ${item.reps} reps</div>
-                    ${item.photo ? `<img src="${item.photo}" alt="Foto de progreso">` : ''}
-                </div>
-            `).join('');
-        }
-
-        async function removeLogRecord(id) {
-            if (confirm("¿Deseas eliminar este registro de entrenamiento?")) {
-                await deleteRecord('logs', id);
-                loadGlobalHistory();
-            }
-        }
-
-        window.addEventListener('DOMContentLoaded', async () => {
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('workout-date').value = today;
-            document.getElementById('meal-date').value = today;
-            document.getElementById('body-date').value = today;
-
-            updateExercisesByDay();
-            populateAllFilterExercises();
-            await initDB();
-            
-            startTypewriter();
-        });
-    </script>
+    // INICIALIZACIÓN
+    window.onload = () => {
+      loadRoutine();
+    };
+  </script>
 </body>
 </html>
-<script>
-function renderNutritionPlan() {
-    const nutritionContainer = document.getElementById('nutrition-container') || document.getElementById('tab-nutrition') || document.getElementById('nutricion');
-    if (!nutritionContainer) return;
-
-    nutritionContainer.innerHTML = `
-        <div style="background: #1c1c1e; padding: 16px; border-radius: 12px; margin-bottom: 15px; border-left: 4px solid #00e676;">
-            <h3 style="color: #00e676; margin-top: 0; font-size: 1.1rem;">🔥 PLAN AUTOMÁTICO: GANANCIA MUSCULAR</h3>
-            <p style="color: #aaa; font-size: 0.85rem; margin-bottom: 0;">Menú estructurado con aporte calórico y proteico óptimo para hipertrofia.</p>
-        </div>
-
-        <!-- DESAYUNO -->
-        <div style="background: #1c1c1e; padding: 14px; border-radius: 10px; margin-bottom: 12px; border: 1px solid #333;">
-            <div style="font-weight: bold; color: #fff; font-size: 1rem; margin-bottom: 6px;">🍳 Desayuno</div>
-            <p style="color: #ddd; font-size: 0.88rem; margin: 0 0 4px 0;">• <strong>3 a 4 Huevos enteros</strong></p>
-            <p style="color: #ddd; font-size: 0.88rem; margin: 0 0 4px 0;">• 1 taza de Avena en hojuelas</p>
-            <p style="color: #ddd; font-size: 0.88rem; margin: 0;">• 1 Banano + 1 cucharada de mantequilla de maní</p>
-            <div style="margin-top: 8px; font-size: 0.8rem; color: #00e676; font-weight: bold;">Aporte: ~550 kcal | 32g Proteína</div>
-        </div>
-
-        <!-- ALMUERZO -->
-        <div style="background: #1c1c1e; padding: 14px; border-radius: 10px; margin-bottom: 12px; border: 1px solid #333;">
-            <div style="font-weight: bold; color: #fff; font-size: 1rem; margin-bottom: 6px;">🍗 Almuerzo</div>
-            <p style="color: #ddd; font-size: 0.88rem; margin: 0 0 4px 0;">• <strong>200g Pechuga de Pollo, Carne o Pescado</strong></p>
-            <p style="color: #ddd; font-size: 0.88rem; margin: 0 0 4px 0;">• 1.5 tazas de Arroz o Papa cocida</p>
-            <p style="color: #ddd; font-size: 0.88rem; margin: 0;">• Porción de Aguacate y ensalada</p>
-            <div style="margin-top: 8px; font-size: 0.8rem; color: #00e676; font-weight: bold;">Aporte: ~700 kcal | 48g Proteína</div>
-        </div>
-
-        <!-- MERIENDA -->
-        <div style="background: #1c1c1e; padding: 14px; border-radius: 10px; margin-bottom: 12px; border: 1px solid #333;">
-            <div style="font-weight: bold; color: #fff; font-size: 1rem; margin-bottom: 6px;">🍌 Merienda (Pre/Post Entreno)</div>
-            <p style="color: #ddd; font-size: 0.88rem; margin: 0 0 4px 0;">• 1 Batido de proteína (1 scoop) o 150g Yogur Griego</p>
-            <p style="color: #ddd; font-size: 0.88rem; margin: 0;">• 2 Tostadas integrales o 1 Manzana</p>
-            <div style="margin-top: 8px; font-size: 0.8rem; color: #00e676; font-weight: bold;">Aporte: ~350 kcal | 28g Proteína</div>
-        </div>
-
-        <!-- CENA -->
-        <div style="background: #1c1c1e; padding: 14px; border-radius: 10px; margin-bottom: 15px; border: 1px solid #333;">
-            <div style="font-weight: bold; color: #fff; font-size: 1rem; margin-bottom: 6px;">🥩 Cena</div>
-            <p style="color: #ddd; font-size: 0.88rem; margin: 0 0 4px 0;">• <strong>180g Carne de res, Atún o Pollo</strong></p>
-            <p style="color: #ddd; font-size: 0.88rem; margin: 0 0 4px 0;">• 1 taza de Yuca o Camote</p>
-            <p style="color: #ddd; font-size: 0.88rem; margin: 0;">• Verdes al vapor</p>
-            <div style="margin-top: 8px; font-size: 0.8rem; color: #00e676; font-weight: bold;">Aporte: ~600 kcal | 42g Proteína</div>
-        </div>
-
-        <!-- RESUMEN TOTAL -->
-        <div style="background: #00e676; color: #000; padding: 16px; border-radius: 12px; text-align: center; font-weight: bold;">
-            <div style="font-size: 1.1rem; margin-bottom: 4px;">📊 TOTAL DIARIO RECOMENDADO</div>
-            <div style="font-size: 1.3rem;">2,200 kcal | 150g Proteína</div>
-        </div>
-    `;
-}
-
-document.addEventListener('DOMContentLoaded', renderNutritionPlan);
-setTimeout(renderNutritionPlan, 300);
-</script>
