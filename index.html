@@ -83,11 +83,17 @@
     <!-- CONTENEDOR PRINCIPAL: 6 SLIDES VERTICALES CONTINUOS -->
     <main id="scroll-container" class="flex-1 overflow-y-auto no-scrollbar relative snap-y snap-mandatory">
 
-  <!-- ==================== SLIDE 1: PORTADA COMPLETA ==================== -->
-<section id="slide-1" class="min-h-full snap-start relative flex flex-col justify-end p-6 overflow-hidden bg-cover bg-center" style="background-image: url('portada.jpg');">
+<!-- ==================== SLIDE 1: PORTADA ENFOQUE ==================== -->
+<section id="slide-1" class="min-h-full snap-start relative flex flex-col justify-end p-6 overflow-hidden bg-black">
   
-  <!-- Únicamente el botón DESLIZA abajo -->
-  <div class="relative z-10 w-full text-center pb-10 sm:pb-4">
+  <!-- Imagen de portada cargada desde el repositorio -->
+  <img src="portada.jpg" alt="Portada ENFOQUE" class="absolute inset-0 w-full h-full object-cover z-0">
+
+  <!-- Sombra abajo para resaltar el botón -->
+  <div class="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black via-black/50 to-transparent z-10 pointer-events-none"></div>
+
+  <!-- Botón Inferior DESLIZA -->
+  <div class="relative z-20 w-full text-center pb-10 sm:pb-4">
     <button onclick="scrollToSlide('slide-2')" class="w-full bg-black/70 backdrop-blur-md text-brand font-extrabold py-3.5 px-6 rounded-full flex items-center justify-center space-x-2 border-2 border-brand shadow-[0_0_20px_rgba(0,255,102,0.4)] active:scale-95 transition transform">
       <span class="text-xs tracking-wider uppercase font-black text-white">DESLIZA</span>
       <i data-lucide="chevron-down" class="w-5 h-5 text-brand animate-bounce"></i>
