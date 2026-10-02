@@ -2,435 +2,570 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fitness & Nutrition App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ENFOQUE - Fitness & Nutrition App</title>
+  
+  <!-- Configuración de PWA para icono en pantalla de inicio -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="ENFOQUE">
+  <link rel="apple-touch-icon" href="ENFOQUE.jpg">
+  <link rel="icon" type="image/jpeg" href="ENFOQUE.jpg">
+
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts: Inter & Outfit -->
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Google Fonts: Montserrat & Outfit -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,800;0,900;1,800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
+
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            brand: '#a3e635', // Verde neón estilo Dribbble
-            darkBg: '#0d0f12',
-            cardBg: '#181b20',
-            cardHover: '#22262e'
+            brand: '#00FF66', // Verde Neón Oficial ENFOQUE
+            brandDark: '#00cc52',
+            darkBg: '#0b0c0e',
+            cardBg: '#13151b',
+            cardHover: '#1c1f28'
           },
           fontFamily: {
-            sans: ['Plus Jakarta Sans', 'sans-serif'],
-            display: ['Outfit', 'sans-serif'],
+            sans: ['Outfit', 'sans-serif'],
+            display: ['Montserrat', 'sans-serif'],
           }
         }
       }
     }
   </script>
+
   <style>
-    /* Ocultar barra de desplazamiento en contenedores horizontales */
+    /* Transición de desplazamiento vertical suave */
+    html {
+      scroll-behavior: smooth;
+    }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    
+    /* Anillo de progreso SVG */
+    .progress-ring__circle {
+      transition: stroke-dashoffset 0.35s;
+      transform: rotate(-90deg);
+      transform-origin: 50% 50%;
+    }
   </style>
 </head>
-<body class="bg-black text-white font-sans flex justify-center items-center min-h-screen sm:py-8">
+<body class="bg-black text-white font-sans flex justify-center items-center min-h-screen sm:py-6">
 
-  <!-- Mobile Container (Simulador de App Móvil) -->
-  <div class="w-full max-w-md bg-darkBg h-[100vh] sm:h-[844px] sm:rounded-[40px] shadow-2xl flex flex-col justify-between overflow-hidden relative border border-gray-800">
+  <!-- Simulación Marco Móvil -->
+  <div class="w-full max-w-md bg-darkBg h-[100vh] sm:h-[844px] sm:rounded-[44px] shadow-2xl flex flex-col justify-between overflow-hidden relative border border-gray-800">
     
-    <!-- Top Status Bar Simulation -->
-    <div class="w-full px-6 pt-4 pb-2 flex justify-between items-center text-xs text-gray-400 z-20">
-      <span class="font-semibold">9:41</span>
+    <!-- Header Superior Fijo con Logo ENFOQUE -->
+    <header class="w-full px-5 pt-4 pb-3 flex justify-between items-center bg-darkBg/95 backdrop-blur-md border-b border-gray-800/80 z-30 shrink-0">
       <div class="flex items-center space-x-2">
-        <i data-lucide="wifi" class="w-4 h-4"></i>
-        <i data-lucide="battery" class="w-4 h-4"></i>
-      </div>
-    </div>
-
-    <!-- MAIN CONTENT AREA -->
-    <div class="flex-1 overflow-y-auto no-scrollbar relative">
-
-      <!-- ==================== PANTALLA 1: ONBOARDING / HERO ==================== -->
-      <section id="view-onboarding" class="absolute inset-0 flex flex-col justify-between p-6 z-10 bg-cover bg-center transition-opacity duration-300">
-        <!-- Background Video con Opacidad -->
-        <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover opacity-50 z-0">
-          <source src="https://assets.mixkit.co/videos/preview/mixkit-athlete-working-out-with-barbell-41228-large.mp4" type="video/mp4">
-        </video>
-        <div class="absolute inset-0 bg-gradient-to-t from-darkBg via-transparent to-black/60 z-0"></div>
-
-        <!-- Header Onboarding -->
-        <div class="relative z-10 pt-4 flex justify-between items-center">
-          <span class="text-brand font-bold tracking-wider text-sm uppercase font-display">PowerFit</span>
-          <span class="text-xs bg-white/10 backdrop-blur-md px-3 py-1 rounded-full text-gray-300">v2.0</span>
+        <!-- Logo ENFOQUE -->
+        <div class="w-8 h-8 rounded-lg bg-black border border-brand/40 flex items-center justify-center p-1">
+          <img src="ENFOQUE.jpg" alt="Logo ENFOQUE" class="w-full h-full object-contain">
         </div>
+        <span class="font-display font-black text-xl italic tracking-wider text-white">EN<span class="text-brand">FOQUE</span></span>
+      </div>
 
-        <!-- Banner con Frases Motivacionales / Versículos Bíblicos -->
-        <div class="relative z-10 my-auto">
-          <div class="bg-cardBg/70 backdrop-blur-md p-4 rounded-2xl border border-white/10 mb-6">
-            <div id="quote-carousel" class="text-sm font-medium italic text-gray-200 min-h-[48px] flex items-center justify-center text-center">
-              "Todo lo puedo en Cristo que me fortalece. — Filipenses 4:13"
+      <div class="flex items-center space-x-3">
+        <button class="w-9 h-9 bg-cardBg rounded-full flex items-center justify-center border border-gray-800 text-gray-300">
+          <i data-lucide="bell" class="w-4 h-4"></i>
+        </button>
+        <!-- Foto de Perfil -->
+        <img src="foto_en_circulo.png" alt="Perfil" class="w-9 h-9 rounded-full border-2 border-brand object-cover shadow-md">
+      </div>
+    </header>
+
+    <!-- CONTENEDOR PRINCIPAL CON SCROLL VERTICAL CONTINUO (6 SLIDES) -->
+    <main id="scroll-container" class="flex-1 overflow-y-auto no-scrollbar relative snap-y snap-mandatory">
+
+      <!-- ==================== SLIDE 1: INICIO ==================== -->
+      <section id="slide-inicio" class="min-h-full p-5 space-y-5 snap-start pt-4 pb-20">
+        
+        <!-- Banner con Movimiento & Frases Inspiradoras -->
+        <div class="relative w-full h-44 rounded-3xl overflow-hidden border border-gray-800 shadow-xl">
+          <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover opacity-60">
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-athlete-working-out-with-barbell-41228-large.mp4" type="video/mp4">
+          </video>
+          <div class="absolute inset-0 bg-gradient-to-t from-darkBg via-darkBg/40 to-transparent"></div>
+          
+          <div class="absolute inset-0 p-4 flex flex-col justify-between z-10">
+            <span class="text-[10px] uppercase font-extrabold tracking-widest bg-brand/20 text-brand px-2.5 py-1 rounded-full w-max border border-brand/30">
+              Frase del Día
+            </span>
+            <div class="space-y-1">
+              <p id="phrase-display" class="text-xs font-bold italic text-white leading-snug drop-shadow-md min-h-[32px] flex items-center">
+                «Todo lo puedo en Cristo que me fortalece.» — Filipenses 4:13
+              </p>
             </div>
           </div>
+        </div>
 
-          <h1 class="text-4xl font-extrabold font-display leading-tight tracking-tight text-white mb-3">
-            Cuida Tu Cuerpo, <br>
-            <span class="text-brand">Tu Mayor Templo.</span>
-          </h1>
-          <p class="text-gray-300 text-sm leading-relaxed">
-            Nutrición consciente, disciplina diaria y seguimiento métrico en tiempo real para alcanzar tu mejor versión.
+        <!-- Anillo Medidor de Progreso Diario -->
+        <div class="bg-cardBg p-5 rounded-3xl border border-gray-800/80 flex items-center justify-between">
+          <div class="space-y-1">
+            <span class="text-xs text-gray-400 font-medium">Meta Diaria</span>
+            <h3 class="text-2xl font-extrabold font-display text-white">85% <span class="text-xs text-brand font-normal">Completado</span></h3>
+            <p class="text-[11px] text-gray-400">4 de 5 ejercicios realizados</p>
+          </div>
+
+          <!-- Gráfico de Anillo SVG -->
+          <div class="relative w-20 h-20 flex items-center justify-center">
+            <svg class="w-20 h-20">
+              <circle stroke="#1c1f28" stroke-width="6" fill="transparent" r="32" cx="40" cy="40"/>
+              <circle class="progress-ring__circle" stroke="#00FF66" stroke-width="6" stroke-dasharray="201" stroke-dashoffset="30" stroke-linecap="round" fill="transparent" r="32" cx="40" cy="40"/>
+            </svg>
+            <i data-lucide="zap" class="w-6 h-6 text-brand absolute"></i>
+          </div>
+        </div>
+
+        <!-- Tira de Calendario Semanal -->
+        <div class="space-y-2">
+          <div class="flex justify-between items-center text-xs">
+            <span class="font-bold font-display text-gray-300">Calendario de Entrenamiento</span>
+            <span class="text-brand text-[10px] font-semibold">Octubre 2026</span>
+          </div>
+          <div class="flex justify-between space-x-1.5">
+            <button class="flex-1 py-2.5 bg-brand text-black rounded-2xl flex flex-col items-center font-bold text-[11px]">
+              <span>Jue</span><span class="text-sm font-extrabold mt-0.5">01</span>
+            </button>
+            <button class="flex-1 py-2.5 bg-cardBg text-gray-400 rounded-2xl flex flex-col items-center font-bold text-[11px] border border-gray-800">
+              <span>Vie</span><span class="text-sm font-extrabold mt-0.5">02</span>
+            </button>
+            <button class="flex-1 py-2.5 bg-cardBg text-gray-400 rounded-2xl flex flex-col items-center font-bold text-[11px] border border-gray-800">
+              <span>Sáb</span><span class="text-sm font-extrabold mt-0.5">03</span>
+            </button>
+            <button class="flex-1 py-2.5 bg-cardBg text-gray-400 rounded-2xl flex flex-col items-center font-bold text-[11px] border border-gray-800">
+              <span>Dom</span><span class="text-sm font-extrabold mt-0.5">04</span>
+            </button>
+            <button class="flex-1 py-2.5 bg-cardBg text-gray-400 rounded-2xl flex flex-col items-center font-bold text-[11px] border border-gray-800">
+              <span>Lun</span><span class="text-sm font-extrabold mt-0.5">05</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="pt-2">
+          <span class="text-xs text-gray-500 flex justify-center items-center space-x-1 animate-pulse">
+            <span>Desliza hacia abajo</span> <i data-lucide="arrow-down" class="w-3 h-3"></i>
+          </span>
+        </div>
+      </section>
+
+      <!-- ==================== SLIDE 2: RUTINA ==================== -->
+      <section id="slide-rutina" class="min-h-full p-5 space-y-4 snap-start pt-4 pb-20">
+        <div class="flex justify-between items-center">
+          <div>
+            <h2 class="text-xl font-extrabold font-display text-white">Mi Rutina</h2>
+            <p class="text-xs text-gray-400">Entrenamiento con control de pesos</p>
+          </div>
+          <span id="current-day-badge" class="text-xs bg-brand/10 text-brand px-3 py-1 rounded-full font-bold border border-brand/20">LUNES</span>
+        </div>
+
+        <!-- Selector de Días (Lunes a Viernes) -->
+        <div class="flex justify-between space-x-1 overflow-x-auto no-scrollbar py-1">
+          <button onclick="switchRoutineDay('lunes', this)" class="routine-day-btn active bg-brand text-black px-3.5 py-2 rounded-xl text-xs font-bold">LUN</button>
+          <button onclick="switchRoutineDay('martes', this)" class="routine-day-btn bg-cardBg text-gray-400 border border-gray-800 px-3.5 py-2 rounded-xl text-xs font-bold">MAR</button>
+          <button onclick="switchRoutineDay('miercoles', this)" class="routine-day-btn bg-cardBg text-gray-400 border border-gray-800 px-3.5 py-2 rounded-xl text-xs font-bold">MIÉ</button>
+          <button onclick="switchRoutineDay('jueves', this)" class="routine-day-btn bg-cardBg text-gray-400 border border-gray-800 px-3.5 py-2 rounded-xl text-xs font-bold">JUE</button>
+          <button onclick="switchRoutineDay('viernes', this)" class="routine-day-btn bg-cardBg text-gray-400 border border-gray-800 px-3.5 py-2 rounded-xl text-xs font-bold">VIE</button>
+        </div>
+
+        <!-- Contenedor Dinámico de Ejercicios -->
+        <div id="exercise-list" class="space-y-3">
+          <!-- Cargado mediante JavaScript -->
+        </div>
+      </section>
+
+      <!-- ==================== SLIDE 3: PESO & MÉTRICAS ==================== -->
+      <section id="slide-peso" class="min-h-full p-5 space-y-4 snap-start pt-4 pb-20">
+        <div>
+          <h2 class="text-xl font-extrabold font-display text-white">Evolución de Peso</h2>
+          <p class="text-xs text-gray-400">Histórico de cargas y masa corporal</p>
+        </div>
+
+        <!-- Card Resumen Peso -->
+        <div class="bg-cardBg p-5 rounded-3xl border border-gray-800 flex justify-between items-center">
+          <div>
+            <span class="text-xs text-gray-400">Peso Actual</span>
+            <p class="text-3xl font-black font-display text-brand">78.5 <span class="text-sm font-normal text-white">Kg</span></p>
+          </div>
+          <div class="text-right">
+            <span class="text-xs text-gray-400">Objetivo</span>
+            <p class="text-lg font-bold font-display text-white">82.0 Kg</p>
+          </div>
+        </div>
+
+        <!-- Gráficos de Indicadores Anulares -->
+        <div class="grid grid-cols-3 gap-2">
+          <div class="bg-cardBg p-3 rounded-2xl border border-gray-800 text-center space-y-1">
+            <span class="text-[10px] text-gray-400">Masa Muscular</span>
+            <p class="text-sm font-bold text-brand">+2.4 Kg</p>
+          </div>
+          <div class="bg-cardBg p-3 rounded-2xl border border-gray-800 text-center space-y-1">
+            <span class="text-[10px] text-gray-400">% Grasa</span>
+            <p class="text-sm font-bold text-white">14.2%</p>
+          </div>
+          <div class="bg-cardBg p-3 rounded-2xl border border-gray-800 text-center space-y-1">
+            <span class="text-[10px] text-gray-400">Imc</span>
+            <p class="text-sm font-bold text-white">23.8</p>
+          </div>
+        </div>
+
+        <!-- Historial Gráfico (Barras) -->
+        <div class="bg-cardBg p-4 rounded-3xl border border-gray-800 space-y-3">
+          <span class="text-xs font-bold text-gray-300">Progreso Mensual</span>
+          <div class="flex justify-between items-end h-28 pt-2 px-2">
+            <div class="flex flex-col items-center space-y-1 h-full justify-end">
+              <div class="w-5 bg-brand/30 rounded-t-md h-[40%]"></div>
+              <span class="text-[9px] text-gray-500">May</span>
+            </div>
+            <div class="flex flex-col items-center space-y-1 h-full justify-end">
+              <div class="w-5 bg-brand/50 rounded-t-md h-[55%]"></div>
+              <span class="text-[9px] text-gray-500">Jun</span>
+            </div>
+            <div class="flex flex-col items-center space-y-1 h-full justify-end">
+              <div class="w-5 bg-brand/70 rounded-t-md h-[70%]"></div>
+              <span class="text-[9px] text-gray-500">Jul</span>
+            </div>
+            <div class="flex flex-col items-center space-y-1 h-full justify-end">
+              <div class="w-5 bg-brand/90 rounded-t-md h-[85%]"></div>
+              <span class="text-[9px] text-gray-500">Ago</span>
+            </div>
+            <div class="flex flex-col items-center space-y-1 h-full justify-end">
+              <div class="w-5 bg-brand rounded-t-md h-[100%]"></div>
+              <span class="text-[9px] text-brand font-bold">Sep</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== SLIDE 4: COMIDA / NUTRICIÓN ==================== -->
+      <section id="slide-comida" class="min-h-full p-5 space-y-4 snap-start pt-4 pb-20">
+        <div>
+          <h2 class="text-xl font-extrabold font-display text-white">Plan de Alimentación</h2>
+          <p class="text-xs text-gray-400">Selecciona tu meta nutricional</p>
+        </div>
+
+        <!-- Switcher Doble de Objetivos -->
+        <div class="bg-cardBg p-1.5 rounded-2xl border border-gray-800 flex justify-between">
+          <button id="btn-bulking" onclick="setNutritionGoal('bulking')" class="flex-1 py-2.5 rounded-xl font-bold text-xs bg-brand text-black transition">
+            💪 Ganar Masa
+          </button>
+          <button id="btn-cutting" onclick="setNutritionGoal('cutting')" class="flex-1 py-2.5 rounded-xl font-bold text-xs text-gray-400 transition">
+            🔥 Definir / Bajar
+          </button>
+        </div>
+
+        <!-- Indicador de Macros -->
+        <div class="bg-cardBg p-4 rounded-3xl border border-gray-800 space-y-3">
+          <div class="flex justify-between items-center">
+            <span class="text-xs text-gray-400">Calorías Diarias</span>
+            <span id="nutri-calories" class="text-lg font-black font-display text-brand">2,850 Kcal</span>
+          </div>
+          <div class="grid grid-cols-3 gap-2 text-center text-xs">
+            <div class="p-2 bg-darkBg rounded-xl border border-gray-800">
+              <span id="nutri-protein" class="font-bold text-white block">180g</span>
+              <span class="text-[9px] text-gray-400">Proteínas</span>
+            </div>
+            <div class="p-2 bg-darkBg rounded-xl border border-gray-800">
+              <span id="nutri-carbs" class="font-bold text-white block">340g</span>
+              <span class="text-[9px] text-gray-400">Carbos</span>
+            </div>
+            <div class="p-2 bg-darkBg rounded-xl border border-gray-800">
+              <span id="nutri-fats" class="font-bold text-white block">75g</span>
+              <span class="text-[9px] text-gray-400">Grasas</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sugerencias de Menú -->
+        <div class="space-y-2">
+          <span class="text-xs font-bold text-gray-300">Menú Recomendado</span>
+          <div class="bg-cardBg p-3.5 rounded-2xl border border-gray-800 flex justify-between items-center text-xs">
+            <div>
+              <p class="font-bold text-white">Desayuno Proteico</p>
+              <p class="text-[10px] text-gray-400">Huevos, avena con banano y mantequilla de maní</p>
+            </div>
+            <span class="text-brand font-bold">650 Kcal</span>
+          </div>
+          <div class="bg-cardBg p-3.5 rounded-2xl border border-gray-800 flex justify-between items-center text-xs">
+            <div>
+              <p class="font-bold text-white">Almuerzo / Post-Entreno</p>
+              <p class="text-[10px] text-gray-400">Pechuga de pollo, arroz integral y aguacate</p>
+            </div>
+            <span class="text-brand font-bold">850 Kcal</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== SLIDE 5: DORMIR & DESCANSO ==================== -->
+      <section id="slide-dormir" class="min-h-full p-5 space-y-4 snap-start pt-4 pb-20">
+        <div>
+          <h2 class="text-xl font-extrabold font-display text-white">Sueño & Recuperación</h2>
+          <p class="text-xs text-gray-400">Optimiza tu hormona de crecimiento</p>
+        </div>
+
+        <!-- Indicador Reloj de Descanso -->
+        <div class="bg-cardBg p-6 rounded-3xl border border-gray-800 flex flex-col items-center justify-center space-y-4 text-center">
+          <div class="w-28 h-28 rounded-full border-4 border-brand/30 border-t-brand flex items-center justify-center p-2">
+            <i data-lucide="moon" class="w-10 h-10 text-brand"></i>
+          </div>
+          <div>
+            <span class="text-xs text-gray-400">Recordatorio de Descanso</span>
+            <h3 class="text-2xl font-extrabold font-display text-white mt-1">10:00 PM</h3>
+            <p class="text-xs text-brand font-semibold mt-1">Meta: 8 Horas Continuas</p>
+          </div>
+        </div>
+
+        <div class="bg-cardBg p-4 rounded-2xl border border-gray-800 space-y-2 text-xs">
+          <span class="font-bold text-white block">Tip de Recuperación</span>
+          <p class="text-gray-400 text-[11px] leading-relaxed">
+            El 90% de la síntesis proteica y reparación muscular ocurre durante la fase de sueño profundo. Evita pantallas 30 minutos antes de dormir.
           </p>
         </div>
-
-        <!-- Botón para pasar al Dashboard -->
-        <div class="relative z-10 pb-6">
-          <button onclick="switchView('dashboard')" class="w-full bg-brand text-black font-bold py-4 rounded-2xl flex items-center justify-center space-x-2 text-base shadow-lg shadow-brand/20 active:scale-95 transition-all">
-            <span>Comenzar Ahora</span>
-            <i data-lucide="arrow-right" class="w-5 h-5"></i>
-          </button>
-        </div>
       </section>
 
-      <!-- ==================== PANTALLA 2: DASHBOARD PRINCIPAL ==================== -->
-      <section id="view-dashboard" class="hidden p-6 space-y-6 pb-24">
-        
-        <!-- User Profile Header -->
-        <div class="flex justify-between items-center">
-          <div class="flex items-center space-x-3">
-            <!-- Foto de perfil circular -->
-            <img src="foto_en_circulo.png" alt="Perfil" class="w-12 h-12 rounded-full border-2 border-brand object-cover shadow-md">
-            <div>
-              <h2 class="text-sm text-gray-400">Hola, Andrés 👋</h2>
-              <p class="text-lg font-bold font-display text-white">Listo para entrenar</p>
-            </div>
-          </div>
-          <button class="w-10 h-10 bg-cardBg rounded-full flex items-center justify-center border border-gray-800 text-gray-300">
-            <i data-lucide="bell" class="w-5 h-5"></i>
-          </button>
-        </div>
-
-        <!-- Daily Challenge Banner -->
-        <div class="bg-brand text-black p-5 rounded-3xl relative overflow-hidden flex justify-between items-center">
-          <div class="space-y-1 z-10 max-w-[60%]">
-            <span class="text-[10px] uppercase tracking-wider font-bold bg-black/10 px-2 py-0.5 rounded-full">Reto del Día</span>
-            <h3 class="text-xl font-extrabold font-display leading-tight">45 Min Pierna & Glúteo</h3>
-            <p class="text-xs font-medium text-black/80">Completa tu rutina antes de las 08:00 PM</p>
-          </div>
-          <div class="z-10">
-            <button onclick="openWorkoutModal('Pierna Intensiva', 'https://assets.mixkit.co/videos/preview/mixkit-man-runs-on-a-treadmill-41226-large.mp4')" class="bg-black text-white p-3 rounded-full shadow-md active:scale-90 transition">
-              <i data-lucide="play" class="w-5 h-5 fill-current"></i>
-            </button>
-          </div>
-          <!-- Elemento decorativo de fondo -->
-          <div class="absolute -right-4 -bottom-8 w-32 h-32 bg-white/20 rounded-full blur-xl pointer-events-none"></div>
-        </div>
-
-        <!-- Calendario Semanal (Lunes a Viernes) -->
+      <!-- ==================== SLIDE 6: DIARIO / COMENTARIOS ==================== -->
+      <section id="slide-diario" class="min-h-full p-5 space-y-4 snap-start pt-4 pb-24">
         <div>
-          <h3 class="text-sm font-semibold text-gray-400 mb-3 font-display">Plan Semanal</h3>
-          <div class="flex justify-between space-x-2">
-            <button onclick="setDay('Lunes')" class="day-btn active flex-1 py-3 bg-brand text-black rounded-2xl flex flex-col items-center font-bold text-xs transition">
-              <span>Lun</span><span class="text-base font-extrabold mt-0.5">22</span>
-            </button>
-            <button onclick="setDay('Martes')" class="day-btn flex-1 py-3 bg-cardBg text-gray-400 rounded-2xl flex flex-col items-center font-bold text-xs transition">
-              <span>Mar</span><span class="text-base font-extrabold mt-0.5">23</span>
-            </button>
-            <button onclick="setDay('Miércoles')" class="day-btn flex-1 py-3 bg-cardBg text-gray-400 rounded-2xl flex flex-col items-center font-bold text-xs transition">
-              <span>Mié</span><span class="text-base font-extrabold mt-0.5">24</span>
-            </button>
-            <button onclick="setDay('Jueves')" class="day-btn flex-1 py-3 bg-cardBg text-gray-400 rounded-2xl flex flex-col items-center font-bold text-xs transition">
-              <span>Jue</span><span class="text-base font-extrabold mt-0.5">25</span>
-            </button>
-            <button onclick="setDay('Viernes')" class="day-btn flex-1 py-3 bg-cardBg text-gray-400 rounded-2xl flex flex-col items-center font-bold text-xs transition">
-              <span>Vie</span><span class="text-base font-extrabold mt-0.5">26</span>
-            </button>
-          </div>
+          <h2 class="text-xl font-extrabold font-display text-white">Diario de Progreso</h2>
+          <p class="text-xs text-gray-400">Anota tus sensaciones y récords personales</p>
         </div>
 
-        <!-- Categorías de Ejercicios -->
-        <div class="flex space-x-3 overflow-x-auto no-scrollbar py-1">
-          <button class="bg-brand text-black px-4 py-2 rounded-xl font-bold text-xs whitespace-nowrap">Todos</button>
-          <button class="bg-cardBg text-gray-400 px-4 py-2 rounded-xl font-semibold text-xs whitespace-nowrap border border-gray-800">Pecho</button>
-          <button class="bg-cardBg text-gray-400 px-4 py-2 rounded-xl font-semibold text-xs whitespace-nowrap border border-gray-800">Espalda</button>
-          <button class="bg-cardBg text-gray-400 px-4 py-2 rounded-xl font-semibold text-xs whitespace-nowrap border border-gray-800">Pierna</button>
-          <button class="bg-cardBg text-gray-400 px-4 py-2 rounded-xl font-semibold text-xs whitespace-nowrap border border-gray-800">Brazos</button>
-        </div>
-
-        <!-- Lista de Ejercicios con Cargas y Video Demo -->
-        <div class="space-y-4">
-          <div class="flex justify-between items-center">
-            <h3 class="text-base font-bold font-display text-white">Rutina del Día (<span id="selected-day-title">Lunes</span>)</h3>
-            <span class="text-xs text-brand font-semibold">4 Ejercicios</span>
-          </div>
-
-          <!-- Card Ejercicio 1 -->
-          <div onclick="openWorkoutModal('Sentadilla con Barra', 'https://assets.mixkit.co/videos/preview/mixkit-athlete-working-out-with-barbell-41228-large.mp4', '4 Series x 10 Reps', '80 Kg')" class="bg-cardBg hover:bg-cardHover p-4 rounded-2xl border border-gray-800/80 flex items-center justify-between cursor-pointer transition">
-            <div class="flex items-center space-x-3">
-              <div class="w-16 h-16 rounded-xl bg-gray-800 overflow-hidden relative">
-                <img src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
-                  <i data-lucide="play-circle" class="w-6 h-6 text-brand"></i>
-                </div>
-              </div>
-              <div>
-                <h4 class="font-bold text-sm text-white">Sentadilla Pesada</h4>
-                <p class="text-xs text-gray-400">4 Series x 10 Reps</p>
-                <span class="inline-block mt-1 text-[10px] font-bold bg-brand/10 text-brand px-2 py-0.5 rounded">Carga: 80 Kg</span>
-              </div>
-            </div>
-            <i data-lucide="chevron-right" class="w-5 h-5 text-gray-500"></i>
-          </div>
-
-          <!-- Card Ejercicio 2 -->
-          <div onclick="openWorkoutModal('Prensa 45°', 'https://assets.mixkit.co/videos/preview/mixkit-man-runs-on-a-treadmill-41226-large.mp4', '4 Series x 12 Reps', '140 Kg')" class="bg-cardBg hover:bg-cardHover p-4 rounded-2xl border border-gray-800/80 flex items-center justify-between cursor-pointer transition">
-            <div class="flex items-center space-x-3">
-              <div class="w-16 h-16 rounded-xl bg-gray-800 overflow-hidden relative">
-                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
-                  <i data-lucide="play-circle" class="w-6 h-6 text-brand"></i>
-                </div>
-              </div>
-              <div>
-                <h4 class="font-bold text-sm text-white">Prensa Inclinada</h4>
-                <p class="text-xs text-gray-400">4 Series x 12 Reps</p>
-                <span class="inline-block mt-1 text-[10px] font-bold bg-brand/10 text-brand px-2 py-0.5 rounded">Carga: 140 Kg</span>
-              </div>
-            </div>
-            <i data-lucide="chevron-right" class="w-5 h-5 text-gray-500"></i>
-          </div>
-        </div>
-
-      </section>
-
-      <!-- ==================== PANTALLA 3: NUTRICIÓN ==================== -->
-      <section id="view-nutrition" class="hidden p-6 space-y-6 pb-24">
-        <div>
-          <h2 class="text-2xl font-extrabold font-display text-white">Plan de Nutrición</h2>
-          <p class="text-xs text-gray-400">Consejos y macronutrientes para optimizar tu rendimiento.</p>
-        </div>
-
-        <!-- Resumen Macronutrientes -->
-        <div class="bg-cardBg p-5 rounded-3xl border border-gray-800 grid grid-cols-3 gap-3 text-center">
-          <div class="p-2 bg-darkBg rounded-2xl border border-gray-800">
-            <span class="text-brand font-extrabold text-lg">180g</span>
-            <p class="text-[10px] text-gray-400 font-semibold">Proteínas</p>
-          </div>
-          <div class="p-2 bg-darkBg rounded-2xl border border-gray-800">
-            <span class="text-yellow-400 font-extrabold text-lg">220g</span>
-            <p class="text-[10px] text-gray-400 font-semibold">Carbos</p>
-          </div>
-          <div class="p-2 bg-darkBg rounded-2xl border border-gray-800">
-            <span class="text-blue-400 font-extrabold text-lg">60g</span>
-            <p class="text-[10px] text-gray-400 font-semibold">Grasas</p>
-          </div>
-        </div>
-
-        <!-- Consejos de Nutrición Saludable -->
+        <!-- Caja de Texto para Notas -->
         <div class="space-y-3">
-          <h3 class="text-sm font-bold font-display text-white">Tips Saludables</h3>
-          
-          <div class="bg-cardBg p-4 rounded-2xl border border-gray-800 flex space-x-3 items-start">
-            <div class="p-2 bg-brand/10 rounded-xl text-brand mt-0.5">
-              <i data-lucide="apple" class="w-5 h-5"></i>
-            </div>
-            <div>
-              <h4 class="text-xs font-bold text-white">Pre-Entrenamiento Óptimo</h4>
-              <p class="text-[11px] text-gray-400 mt-1 leading-normal">Consume carbohidratos complejos y proteína magra 60-90 minutos antes de entrenar para mantener la energía constante.</p>
-            </div>
-          </div>
+          <textarea id="note-input" rows="3" placeholder="Escribe tu nota del día (ej. 'Hoy superé mi récord en Sentadilla con 100Kg')..." class="w-full bg-cardBg border border-gray-800 rounded-2xl p-3.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-brand"></textarea>
+          <button onclick="addJournalNote()" class="w-full bg-brand text-black font-bold py-3 rounded-2xl text-xs active:scale-95 transition">
+            Guardar en mi Diario
+          </button>
+        </div>
 
-          <div class="bg-cardBg p-4 rounded-2xl border border-gray-800 flex space-x-3 items-start">
-            <div class="p-2 bg-blue-500/10 rounded-xl text-blue-400 mt-0.5">
-              <i data-lucide="droplet" class="w-5 h-5"></i>
+        <!-- Lista de Comentarios Guardados -->
+        <div id="journal-list" class="space-y-2">
+          <div class="bg-cardBg p-3.5 rounded-2xl border border-gray-800 text-xs space-y-1">
+            <div class="flex justify-between text-[10px] text-gray-500">
+              <span>01 Octubre, 2026</span>
+              <span class="text-brand">Excelente sesión</span>
             </div>
-            <div>
-              <h4 class="text-xs font-bold text-white">Hidratación Clave</h4>
-              <p class="text-[11px] text-gray-400 mt-1 leading-normal">Toma mínimo 3 litros de agua al día e incorpora electrólitos durante rutinas intensas de pesas.</p>
-            </div>
+            <p class="text-gray-300">Buena congestión en cuadriceps. Logré sacar 4 series limpias con 100Kg.</p>
           </div>
         </div>
       </section>
 
-      <!-- ==================== PANTALLA 4: ESTADÍSTICAS / METRICAS ==================== -->
-      <section id="view-stats" class="hidden p-6 space-y-6 pb-24">
-        <div>
-          <h2 class="text-2xl font-extrabold font-display text-white">Mis Métricas</h2>
-          <p class="text-xs text-gray-400">Progreso semanal e indicadores biométricos.</p>
-        </div>
+    </main>
 
-        <!-- Gráfico de Rendimiento (Barras Estilo Dribbble) -->
-        <div class="bg-cardBg p-5 rounded-3xl border border-gray-800 space-y-4">
-          <div class="flex justify-between items-center">
-            <div>
-              <span class="text-xs text-gray-400">Calorías Quemadas</span>
-              <p class="text-2xl font-extrabold font-display text-brand">1,360 <span class="text-xs font-normal text-gray-400">Kcal</span></p>
-            </div>
-            <span class="text-xs bg-darkBg text-gray-300 px-3 py-1 rounded-full border border-gray-800">Esta Semana</span>
-          </div>
-
-          <!-- Barras simulación -->
-          <div class="flex justify-between items-end h-32 pt-4 px-2">
-            <div class="flex flex-col items-center space-y-2 h-full justify-end">
-              <div class="w-6 bg-brand/30 rounded-t-lg h-[40%]"></div>
-              <span class="text-[10px] text-gray-500">Lun</span>
-            </div>
-            <div class="flex flex-col items-center space-y-2 h-full justify-end">
-              <div class="w-6 bg-brand/50 rounded-t-lg h-[65%]"></div>
-              <span class="text-[10px] text-gray-500">Mar</span>
-            </div>
-            <div class="flex flex-col items-center space-y-2 h-full justify-end">
-              <div class="w-6 bg-brand rounded-t-lg h-[90%]"></div>
-              <span class="text-[10px] text-brand font-bold">Mié</span>
-            </div>
-            <div class="flex flex-col items-center space-y-2 h-full justify-end">
-              <div class="w-6 bg-brand/30 rounded-t-lg h-[50%]"></div>
-              <span class="text-[10px] text-gray-500">Jue</span>
-            </div>
-            <div class="flex flex-col items-center space-y-2 h-full justify-end">
-              <div class="w-6 bg-brand/30 rounded-t-lg h-[75%]"></div>
-              <span class="text-[10px] text-gray-500">Vie</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Indicadores Biométricos -->
-        <div class="grid grid-cols-2 gap-4">
-          <div class="bg-cardBg p-4 rounded-2xl border border-gray-800 flex items-center space-x-3">
-            <div class="p-3 bg-red-500/10 text-red-500 rounded-xl">
-              <i data-lucide="heart" class="w-6 h-6"></i>
-            </div>
-            <div>
-              <span class="text-[10px] text-gray-400">Ritmo Cardíaco</span>
-              <p class="text-lg font-bold font-display text-white">123 <span class="text-xs text-gray-400">Bpm</span></p>
-            </div>
-          </div>
-
-          <div class="bg-cardBg p-4 rounded-2xl border border-gray-800 flex items-center space-x-3">
-            <div class="p-3 bg-brand/10 text-brand rounded-xl">
-              <i data-lucide="flame" class="w-6 h-6"></i>
-            </div>
-            <div>
-              <span class="text-[10px] text-gray-400">Actividad</span>
-              <p class="text-lg font-bold font-display text-white">824 <span class="text-xs text-gray-400">Kcal</span></p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-    </div>
-
-    <!-- ==================== MODAL VIDEO DE TÉCNICA ==================== -->
-    <div id="workout-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex flex-col justify-end">
-      <div class="bg-cardBg rounded-t-[32px] p-6 space-y-4 border-t border-gray-800 max-h-[85vh] overflow-y-auto">
+    <!-- REPRODUCTOR MODAL VIDEO DE TÉCNICA -->
+    <div id="video-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex flex-col justify-end">
+      <div class="bg-cardBg rounded-t-[32px] p-5 space-y-4 border-t border-gray-800 max-h-[85vh] overflow-y-auto">
         <div class="flex justify-between items-center">
-          <h3 id="modal-title" class="text-xl font-bold font-display text-white">Nombre del Ejercicio</h3>
-          <button onclick="closeWorkoutModal()" class="p-2 bg-darkBg text-gray-400 rounded-full">
+          <h3 id="modal-exercise-title" class="text-lg font-bold font-display text-white">Técnica de Ejercicio</h3>
+          <button onclick="closeVideoModal()" class="p-2 bg-darkBg text-gray-400 rounded-full">
             <i data-lucide="x" class="w-5 h-5"></i>
           </button>
         </div>
 
-        <!-- Reproductor de Video de Técnica -->
         <div class="relative rounded-2xl overflow-hidden bg-black aspect-video border border-gray-800">
-          <video id="modal-video" controls autoplay loop playsinline class="w-full h-full object-cover">
+          <video id="modal-video-player" controls autoplay loop playsinline class="w-full h-full object-cover">
             <source src="" type="video/mp4">
           </video>
         </div>
 
-        <div class="flex justify-between items-center bg-darkBg p-4 rounded-2xl border border-gray-800 text-xs">
+        <div class="flex justify-between items-center bg-darkBg p-3.5 rounded-2xl border border-gray-800 text-xs">
           <div>
-            <span class="text-gray-400">Series y Repeticiones</span>
-            <p id="modal-reps" class="font-bold text-white text-sm">4 Series x 10 Reps</p>
+            <span class="text-gray-400">Series x Repeticiones</span>
+            <p id="modal-exercise-reps" class="font-bold text-white">4 Series x 10 Reps</p>
           </div>
           <div>
-            <span class="text-gray-400">Carga Recomendada</span>
-            <p id="modal-weight" class="font-bold text-brand text-sm">80 Kg</p>
+            <span class="text-gray-400">Carga Referencia</span>
+            <p id="modal-exercise-weight" class="font-bold text-brand">100 Kg</p>
           </div>
         </div>
 
-        <button onclick="closeWorkoutModal()" class="w-full bg-brand text-black font-bold py-3.5 rounded-2xl text-sm">
-          Completar Ejercicio
+        <button onclick="closeVideoModal()" class="w-full bg-brand text-black font-bold py-3 rounded-2xl text-xs">
+          Entendido
         </button>
       </div>
     </div>
 
-    <!-- ==================== BOTTOM NAVIGATION BAR ==================== -->
-    <nav id="bottom-nav" class="hidden absolute bottom-0 left-0 right-0 bg-darkBg/90 backdrop-blur-lg border-t border-gray-800/80 px-6 py-3 flex justify-between items-center z-30">
-      <button onclick="switchView('dashboard')" class="nav-btn active flex flex-col items-center space-y-1 text-brand">
-        <i data-lucide="home" class="w-5 h-5"></i>
-        <span class="text-[10px] font-semibold">Inicio</span>
+    <!-- NAVEGACIÓN INFERIOR SINCRONIZADA CON LOS 6 SLIDES -->
+    <nav class="absolute bottom-0 left-0 right-0 bg-darkBg/95 backdrop-blur-lg border-t border-gray-800/80 px-3 py-2 flex justify-around items-center z-30">
+      <button onclick="scrollToSlide('slide-inicio')" class="nav-btn active flex flex-col items-center space-y-1 text-brand">
+        <i data-lucide="home" class="w-4 h-4"></i>
+        <span class="text-[9px] font-semibold">Inicio</span>
       </button>
 
-      <button onclick="switchView('nutrition')" class="nav-btn flex flex-col items-center space-y-1 text-gray-500 hover:text-white">
-        <i data-lucide="utensils" class="w-5 h-5"></i>
-        <span class="text-[10px] font-semibold">Nutrición</span>
+      <button onclick="scrollToSlide('slide-rutina')" class="nav-btn flex flex-col items-center space-y-1 text-gray-500">
+        <i data-lucide="dumbbell" class="w-4 h-4"></i>
+        <span class="text-[9px] font-semibold">Rutina</span>
       </button>
 
-      <button onclick="switchView('stats')" class="nav-btn flex flex-col items-center space-y-1 text-gray-500 hover:text-white">
-        <i data-lucide="bar-chart-2" class="w-5 h-5"></i>
-        <span class="text-[10px] font-semibold">Métricas</span>
+      <button onclick="scrollToSlide('slide-peso')" class="nav-btn flex flex-col items-center space-y-1 text-gray-500">
+        <i data-lucide="line-chart" class="w-4 h-4"></i>
+        <span class="text-[9px] font-semibold">Peso</span>
+      </button>
+
+      <button onclick="scrollToSlide('slide-comida')" class="nav-btn flex flex-col items-center space-y-1 text-gray-500">
+        <i data-lucide="apple" class="w-4 h-4"></i>
+        <span class="text-[9px] font-semibold">Comida</span>
+      </button>
+
+      <button onclick="scrollToSlide('slide-dormir')" class="nav-btn flex flex-col items-center space-y-1 text-gray-500">
+        <i data-lucide="moon" class="w-4 h-4"></i>
+        <span class="text-[9px] font-semibold">Dormir</span>
+      </button>
+
+      <button onclick="scrollToSlide('slide-diario')" class="nav-btn flex flex-col items-center space-y-1 text-gray-500">
+        <i data-lucide="message-square" class="w-4 h-4"></i>
+        <span class="text-[9px] font-semibold">Diario</span>
       </button>
     </nav>
 
   </div>
 
-  <!-- SCRIPT DE INTERACTIVIDAD -->
+  <!-- SCRIPT LÓGICA COMPLETA -->
   <script>
-    // Inicializar Iconos
+    // Inicializar Lucide Icons
     lucide.createIcons();
 
-    // Navegación entre Pantallas
-    function switchView(viewName) {
-      document.getElementById('view-onboarding').classList.add('hidden');
-      document.getElementById('view-dashboard').classList.add('hidden');
-      document.getElementById('view-nutrition').classList.add('hidden');
-      document.getElementById('view-stats').classList.add('hidden');
+    // Base de Datos Rutinas Semanales
+    const rutinas = {
+      lunes: [
+        { nombre: 'Sentadilla Pesada con Barra', series: '4 Series x 8 Reps', peso: '100 Kg', video: 'https://assets.mixkit.co/videos/preview/mixkit-athlete-working-out-with-barbell-41228-large.mp4' },
+        { nombre: 'Prensa Inclinada 45°', series: '4 Series x 12 Reps', peso: '180 Kg', video: 'https://assets.mixkit.co/videos/preview/mixkit-man-runs-on-a-treadmill-41226-large.mp4' },
+        { nombre: 'Extensión de Cuádriceps', series: '3 Series x 15 Reps', peso: '65 Kg', video: 'https://assets.mixkit.co/videos/preview/mixkit-athlete-working-out-with-barbell-41228-large.mp4' }
+      ],
+      martes: [
+        { nombre: 'Press de Banca Plano', series: '4 Series x 8 Reps', peso: '85 Kg', video: 'https://assets.mixkit.co/videos/preview/mixkit-athlete-working-out-with-barbell-41228-large.mp4' },
+        { nombre: 'Press Inclinado Mancuernas', series: '4 Series x 10 Reps', peso: '30 Kg c/u', video: 'https://assets.mixkit.co/videos/preview/mixkit-athlete-working-out-with-barbell-41228-large.mp4' }
+      ],
+      miercoles: [
+        { nombre: 'Peso Muerto Rumano', series: '4 Series x 10 Reps', peso: '90 Kg', video: 'https://assets.mixkit.co/videos/preview/mixkit-athlete-working-out-with-barbell-41228-large.mp4' },
+        { nombre: 'Hip Thrust con Barra', series: '4 Series x 12 Reps', peso: '120 Kg', video: 'https://assets.mixkit.co/videos/preview/mixkit-athlete-working-out-with-barbell-41228-large.mp4' }
+      ],
+      jueves: [
+        { nombre: 'Dominadas Pronas', series: '4 Series x 10 Reps', peso: 'Peso Corporal', video: 'https://assets.mixkit.co/videos/preview/mixkit-athlete-working-out-with-barbell-41228-large.mp4' },
+        { nombre: 'Remo con Barra T', series: '4 Series x 10 Reps', peso: '70 Kg', video: 'https://assets.mixkit.co/videos/preview/mixkit-athlete-working-out-with-barbell-41228-large.mp4' }
+      ],
+      viernes: [
+        { nombre: 'Press Militar de Hombro', series: '4 Series x 8 Reps', peso: '55 Kg', video: 'https://assets.mixkit.co/videos/preview/mixkit-athlete-working-out-with-barbell-41228-large.mp4' },
+        { nombre: 'Elevaciones Laterales', series: '4 Series x 15 Reps', peso: '14 Kg c/u', video: 'https://assets.mixkit.co/videos/preview/mixkit-athlete-working-out-with-barbell-41228-large.mp4' }
+      ]
+    };
 
-      const nav = document.getElementById('bottom-nav');
+    // Cargar Rutina en Pantalla
+    function switchRoutineDay(day, btn) {
+      document.querySelectorAll('.routine-day-btn').forEach(b => {
+        b.classList.remove('bg-brand', 'text-black');
+        b.classList.add('bg-cardBg', 'text-gray-400');
+      });
+      btn.classList.add('bg-brand', 'text-black');
+      btn.classList.remove('bg-cardBg', 'text-gray-400');
 
-      if (viewName === 'onboarding') {
-        document.getElementById('view-onboarding').classList.remove('hidden');
-        nav.classList.add('hidden');
+      document.getElementById('current-day-badge').innerText = day.toUpperCase();
+
+      const container = document.getElementById('exercise-list');
+      const list = rutinas[day] || [];
+
+      container.innerHTML = list.map(item => `
+        <div onclick="openVideoModal('${item.nombre}', '${item.video}', '${item.series}', '${item.peso}')" class="bg-cardBg hover:bg-cardHover p-3.5 rounded-2xl border border-gray-800 flex justify-between items-center cursor-pointer transition">
+          <div class="space-y-0.5">
+            <h4 class="text-xs font-bold text-white">${item.nombre}</h4>
+            <p class="text-[10px] text-gray-400">${item.series}</p>
+            <span class="inline-block text-[9px] font-bold bg-brand/10 text-brand px-2 py-0.5 rounded mt-1">Carga: ${item.peso}</span>
+          </div>
+          <div class="w-8 h-8 rounded-full bg-darkBg flex items-center justify-center text-brand border border-gray-800">
+            <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
+          </div>
+        </div>
+      `).join('');
+
+      lucide.createIcons();
+    }
+
+    // Modal de Videos
+    function openVideoModal(title, videoSrc, reps, weight) {
+      document.getElementById('modal-exercise-title').innerText = title;
+      document.getElementById('modal-exercise-reps').innerText = reps;
+      document.getElementById('modal-exercise-weight').innerText = weight;
+      
+      const player = document.getElementById('modal-video-player');
+      player.src = videoSrc;
+      
+      document.getElementById('video-modal').classList.remove('hidden');
+    }
+
+    function closeVideoModal() {
+      const player = document.getElementById('modal-video-player');
+      player.pause();
+      document.getElementById('video-modal').classList.add('hidden');
+    }
+
+    // Scroll Suave a Slide
+    function scrollToSlide(slideId) {
+      document.getElementById(slideId).scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Alternar Metas Nutricionales
+    function setNutritionGoal(goal) {
+      const btnBulking = document.getElementById('btn-bulking');
+      const btnCutting = document.getElementById('btn-cutting');
+
+      if (goal === 'bulking') {
+        btnBulking.className = 'flex-1 py-2.5 rounded-xl font-bold text-xs bg-brand text-black transition';
+        btnCutting.className = 'flex-1 py-2.5 rounded-xl font-bold text-xs text-gray-400 transition';
+        document.getElementById('nutri-calories').innerText = '2,850 Kcal';
+        document.getElementById('nutri-protein').innerText = '180g';
+        document.getElementById('nutri-carbs').innerText = '340g';
+        document.getElementById('nutri-fats').innerText = '75g';
       } else {
-        nav.classList.remove('hidden');
-        document.getElementById(`view-${viewName}`).classList.remove('hidden');
+        btnCutting.className = 'flex-1 py-2.5 rounded-xl font-bold text-xs bg-brand text-black transition';
+        btnBulking.className = 'flex-1 py-2.5 rounded-xl font-bold text-xs text-gray-400 transition';
+        document.getElementById('nutri-calories').innerText = '2,100 Kcal';
+        document.getElementById('nutri-protein').innerText = '195g';
+        document.getElementById('nutri-carbs').innerText = '180g';
+        document.getElementById('nutri-fats').innerText = '55g';
       }
     }
 
-    // Modal de Ejercicio con Video
-    function openWorkoutModal(title, videoSrc, reps = '4 Series x 12 Reps', weight = '100 Kg') {
-      document.getElementById('modal-title').innerText = title;
-      document.getElementById('modal-reps').innerText = reps;
-      document.getElementById('modal-weight').innerText = weight;
-      
-      const video = document.getElementById('modal-video');
-      video.src = videoSrc;
-      
-      document.getElementById('workout-modal').classList.remove('hidden');
+    // Guardar Notas Diario
+    function addJournalNote() {
+      const input = document.getElementById('note-input');
+      if (!input.value.trim()) return;
+
+      const list = document.getElementById('journal-list');
+      const newCard = document.createElement('div');
+      newCard.className = 'bg-cardBg p-3.5 rounded-2xl border border-gray-800 text-xs space-y-1';
+      newCard.innerHTML = `
+        <div class="flex justify-between text-[10px] text-gray-500">
+          <span>Hoy</span>
+          <span class="text-brand">Nuevo registro</span>
+        </div>
+        <p class="text-gray-300">${input.value}</p>
+      `;
+      list.prepend(newCard);
+      input.value = '';
     }
 
-    function closeWorkoutModal() {
-      const video = document.getElementById('modal-video');
-      video.pause();
-      document.getElementById('workout-modal').classList.add('hidden');
-    }
-
-    // Cambio de Día en el Calendario
-    function setDay(day) {
-      document.getElementById('selected-day-title').innerText = day;
-    }
-
-    // Carrusel Dinámico de Frases y Versículos
-    const quotes = [
-      '"Todo lo puedo en Cristo que me fortalece. — Filipenses 4:13"',
-      '"La disciplina es el puente entre tus metas y tus logros."',
-      '"¿No sabéis que vuestro cuerpo es templo del Espíritu Santo? — 1 Corintios 6:19"',
-      '"No te detengas cuando duela, detente cuando hayas terminado."'
+    // Rotación de Frases
+    const phrases = [
+      '«Todo lo puedo en Cristo que me fortalece.» — Filipenses 4:13',
+      '«La disciplina te llevará a donde la motivación no alcanza.»',
+      '«¿No sabéis que vuestro cuerpo es templo del Espíritu Santo?» — 1 Cor 6:19',
+      '«Persiste hoy para disfrutar los resultados mañana.»'
     ];
-    let quoteIndex = 0;
+    let phraseIdx = 0;
     setInterval(() => {
-      quoteIndex = (quoteIndex + 1) % quotes.length;
-      document.getElementById('quote-carousel').innerText = quotes[quoteIndex];
-    }, 4000);
+      phraseIdx = (phraseIdx + 1) % phrases.length;
+      document.getElementById('phrase-display').innerText = phrases[phraseIdx];
+    }, 4500);
+
+    // Cargar Lunes al Iniciar
+    document.addEventListener('DOMContentLoaded', () => {
+      switchRoutineDay('lunes', document.querySelector('.routine-day-btn'));
+    });
   </script>
 </body>
 </html>
