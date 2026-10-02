@@ -83,29 +83,15 @@
     <!-- CONTENEDOR PRINCIPAL: 6 SLIDES VERTICALES CONTINUOS -->
     <main id="scroll-container" class="flex-1 overflow-y-auto no-scrollbar relative snap-y snap-mandatory">
 
-    <!-- ==================== SLIDE 1: PORTADA ENFOQUE ==================== -->
-<section id="slide-1" class="min-h-full snap-start relative flex flex-col justify-between p-6 overflow-hidden bg-cover bg-center" style="background-image: url('1-PORTAD-APAGINA-WEB_2.jpg');">
+  <!-- ==================== SLIDE 1: PORTADA COMPLETA ==================== -->
+<section id="slide-1" class="min-h-full snap-start relative flex flex-col justify-end p-6 overflow-hidden bg-cover bg-center" style="background-image: url('portada.jpg');">
   
-  <!-- Cita Superior -->
-  <div class="relative z-10 text-center pt-2">
-    <span class="text-xs font-bold text-gray-200 tracking-widest uppercase bg-black/40 px-3 py-1 rounded-full backdrop-blur-sm border border-white/10">1 Corintios 9:27</span>
-  </div>
-
-  <!-- Contenido Central: Logo y Título -->
-  <div class="relative z-10 flex flex-col items-center justify-center my-auto space-y-2">
-    <h1 class="font-black text-3xl tracking-wider text-brand italic drop-shadow-[0_2px_10px_rgba(0,255,102,0.5)]">DISCIPLINA</h1>
-    <div class="w-36 h-36 relative flex items-center justify-center">
-      <img src="ENFOQUE_2.jpg" alt="Logo ENFOQUE" class="w-full h-full object-contain drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]">
-    </div>
-  </div>
-
-  <!-- Botón Inferior: DESLIZA -->
-  <div class="relative z-10 space-y-3 text-center pb-16 sm:pb-4">
-    <button onclick="scrollToSlide('slide-2')" class="w-full bg-black/60 backdrop-blur-md text-brand font-extrabold py-3.5 px-6 rounded-full flex items-center justify-center space-x-2 border-2 border-brand shadow-[0_0_15px_rgba(0,255,102,0.3)] active:scale-95 transition transform">
+  <!-- Únicamente el botón DESLIZA abajo -->
+  <div class="relative z-10 w-full text-center pb-10 sm:pb-4">
+    <button onclick="scrollToSlide('slide-2')" class="w-full bg-black/70 backdrop-blur-md text-brand font-extrabold py-3.5 px-6 rounded-full flex items-center justify-center space-x-2 border-2 border-brand shadow-[0_0_20px_rgba(0,255,102,0.4)] active:scale-95 transition transform">
       <span class="text-xs tracking-wider uppercase font-black text-white">DESLIZA</span>
       <i data-lucide="chevron-down" class="w-5 h-5 text-brand animate-bounce"></i>
     </button>
-    <span class="text-[10px] font-bold text-gray-300 tracking-[0.3em] uppercase block">JOSUÉ 1:9</span>
   </div>
 
 </section>
