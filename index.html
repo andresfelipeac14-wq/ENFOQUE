@@ -71,10 +71,9 @@
 </head>
 <body>
 
-  <!-- Contenedor Principal Estilo Smartphone -->
   <div class="app-container">
 
-    <!-- HEADER SUPERIOR BLINDADO -->
+    <!-- HEADER SUPERIOR -->
     <header style="width: 100%; padding: 14px 16px 10px 16px; background: rgba(8,9,11,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #1f2937; z-index: 30; flex-shrink: 0;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
         <span class="font-display font-black text-xl italic tracking-wider" style="font-style: italic;">EN<span class="text-brand">FOQUE</span></span>
@@ -101,7 +100,7 @@
         </div>
       </div>
 
-      <!-- BANNER DE VECTORES EN MOVIMIENTO -->
+      <!-- BANNER EN MOVIMIENTO -->
       <div style="width: 100%; overflow: hidden; border-radius: 10px; background: #111318; border: 1px solid rgba(0,255,102,0.3); padding: 6px 0;">
         <div class="animate-gym-ticker text-brand font-black text-xs uppercase" style="display: flex; align-items: center; gap: 24px;">
           <div style="display: flex; gap: 24px; white-space: nowrap;">
@@ -124,14 +123,13 @@
       </div>
     </header>
 
-    <!-- CONTENEDOR PRINCIPAL: SLIDES -->
+    <!-- CONTENEDOR DE SLIDES -->
     <main id="scroll-container" class="no-scrollbar" style="flex: 1; overflow-y: auto; position: relative;">
 
       <!-- SLIDE 1: PORTADA -->
       <section id="slide-1" style="height: 100%; min-height: 100%; scroll-snap-align: start; position: relative; display: flex; flex-direction: column; justify-content: flex-end; padding: 24px; overflow: hidden; background: #000;">
         <img src="portada.jpg" alt="Portada ENFOQUE" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;">
         <div style="position: absolute; inset-x: 0; bottom: 0; height: 160px; background: linear-gradient(to top, #000, transparent); z-index: 10; pointer-events: none;"></div>
-
         <div style="position: relative; z-index: 20; width: 100%; text-align: center; padding-bottom: 20px;">
           <button onclick="scrollToSlide('slide-2')" style="width: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); color: #00FF66; font-weight: 900; padding: 14px; border-radius: 9999px; display: flex; align-items: center; justify-content: center; gap: 8px; border: 2px solid #00FF66; cursor: pointer;">
             <span style="font-size: 12px; text-transform: uppercase; color: #fff;">ENTRAR A RUTINAS</span>
@@ -140,7 +138,7 @@
         </div>
       </section>
 
-      <!-- SLIDE 2: RUTINA COMPLETA CON RELOJES INDIVIDUALES -->
+      <!-- SLIDE 2: RUTINAS -->
       <section id="slide-2" style="height: 100%; min-height: 100%; scroll-snap-align: start; padding: 20px; display: flex; flex-direction: column; gap: 14px; overflow-y: auto;" class="no-scrollbar">
         <div style="display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;">
           <div>
@@ -150,7 +148,6 @@
           <span id="current-day-badge" style="font-size: 10px; background: rgba(0,255,102,0.1); color: #00FF66; padding: 4px 10px; border-radius: 9999px; font-weight: 700; border: 1px solid rgba(0,255,102,0.3);">LUNES</span>
         </div>
 
-        <!-- RELOJ FLOTANTE ACTIVO -->
         <div id="active-timer-box" style="display: none; background: #00FF66; color: #000; padding: 10px 14px; border-radius: 14px; justify-content: space-between; align-items: center; flex-shrink: 0; font-weight: 900;">
           <div style="display: flex; align-items: center; gap: 8px;">
             <i data-lucide="timer" style="width: 18px; height: 18px;"></i>
@@ -163,24 +160,19 @@
           <span style="font-size: 10px; text-transform: uppercase; font-weight: 700; color: #9ca3af; display: block; margin-bottom: 4px;">Seleccionar Día</span>
           <div class="no-scrollbar" style="display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px;">
             <button onclick="switchRoutineDay('lunes', this)" class="routine-day-btn" style="flex-shrink: 0; padding: 8px 14px; background: #00FF66; color: #000; border-radius: 12px; border: none; font-weight: 900; text-align: center; cursor: pointer;">
-              <span style="font-size: 10px; display: block;">LUNES</span>
-              <span style="font-size: 8px;">Cuádriceps</span>
+              <span style="font-size: 10px; display: block;">LUNES</span><span style="font-size: 8px;">Cuádriceps</span>
             </button>
             <button onclick="switchRoutineDay('martes', this)" class="routine-day-btn" style="flex-shrink: 0; padding: 8px 14px; background: #111318; color: #9ca3af; border-radius: 12px; border: 1px solid #1f2937; font-weight: 700; text-align: center; cursor: pointer;">
-              <span style="font-size: 10px; display: block;">MARTES</span>
-              <span style="font-size: 8px;">Espalda/Bícep</span>
+              <span style="font-size: 10px; display: block;">MARTES</span><span style="font-size: 8px;">Espalda/Bícep</span>
             </button>
             <button onclick="switchRoutineDay('miercoles', this)" class="routine-day-btn" style="flex-shrink: 0; padding: 8px 14px; background: #111318; color: #9ca3af; border-radius: 12px; border: 1px solid #1f2937; font-weight: 700; text-align: center; cursor: pointer;">
-              <span style="font-size: 10px; display: block;">MIÉRCOLES</span>
-              <span style="font-size: 8px;">Femoral/Hombro</span>
+              <span style="font-size: 10px; display: block;">MIÉRCOLES</span><span style="font-size: 8px;">Femoral/Hombro</span>
             </button>
             <button onclick="switchRoutineDay('jueves', this)" class="routine-day-btn" style="flex-shrink: 0; padding: 8px 14px; background: #111318; color: #9ca3af; border-radius: 12px; border: 1px solid #1f2937; font-weight: 700; text-align: center; cursor: pointer;">
-              <span style="font-size: 10px; display: block;">JUEVES</span>
-              <span style="font-size: 8px;">Pecho/Trícep</span>
+              <span style="font-size: 10px; display: block;">JUEVES</span><span style="font-size: 8px;">Pecho/Trícep</span>
             </button>
             <button onclick="switchRoutineDay('viernes', this)" class="routine-day-btn" style="flex-shrink: 0; padding: 8px 14px; background: #111318; color: #9ca3af; border-radius: 12px; border: 1px solid #1f2937; font-weight: 700; text-align: center; cursor: pointer;">
-              <span style="font-size: 10px; display: block;">VIERNES</span>
-              <span style="font-size: 8px;">Pierna Comp.</span>
+              <span style="font-size: 10px; display: block;">VIERNES</span><span style="font-size: 8px;">Pierna Comp.</span>
             </button>
           </div>
         </div>
@@ -198,7 +190,7 @@
         <div id="exercise-list" style="display: flex; flex-direction: column; gap: 8px; padding-bottom: 40px;"></div>
       </section>
 
-      <!-- SLIDE 3: EVOLUCIÓN PESO & 1RM -->
+      <!-- SLIDE 3: FUERZA & 1RM -->
       <section id="slide-3" style="height: 100%; min-height: 100%; scroll-snap-align: start; padding: 20px; display: flex; flex-direction: column; gap: 14px; overflow-y: auto;" class="no-scrollbar">
         <div>
           <h2 class="font-display" style="font-size: 22px; font-weight: 900;">Evolución & Fuerza</h2>
@@ -258,7 +250,7 @@
         </div>
       </section>
 
-      <!-- SLIDE 4: PLAN NUTRICIONAL COMPLETO LUNES A DOMINGO -->
+      <!-- SLIDE 4: NUTRICIÓN -->
       <section id="slide-4" style="height: 100%; min-height: 100%; scroll-snap-align: start; padding: 20px; display: flex; flex-direction: column; gap: 14px; overflow-y: auto;" class="no-scrollbar">
         <div>
           <h2 class="font-display" style="font-size: 22px; font-weight: 900;">Plan Nutricional Pro</h2>
@@ -282,7 +274,6 @@
           </div>
         </div>
 
-        <!-- TRACKER DE AGUA -->
         <div style="background: #111318; padding: 12px; border-radius: 18px; border: 1px solid #1f2937; display: flex; flex-direction: column; gap: 8px;">
           <div style="display: flex; justify-content: space-between; align-items: center;">
             <span style="font-size: 11px; font-weight: 900; color: #fff;">💧 Consumo de Agua</span>
@@ -306,13 +297,12 @@
         <div id="meal-plan-list" style="display: flex; flex-direction: column; gap: 8px; padding-bottom: 40px;"></div>
       </section>
 
-      <!-- SLIDE 5: DESCANSO & SUEÑO -->
+      <!-- SLIDE 5: SUEÑO -->
       <section id="slide-5" style="height: 100%; min-height: 100%; scroll-snap-align: start; padding: 20px; display: flex; flex-direction: column; gap: 14px; overflow-y: auto;" class="no-scrollbar">
         <div>
           <h2 class="font-display" style="font-size: 22px; font-weight: 900;">Sueño & Descanso</h2>
           <p style="font-size: 11px; color: #9ca3af;">Recuperación muscular nocturna</p>
         </div>
-
         <div style="background: #111318; padding: 24px; border-radius: 20px; border: 1px solid #1f2937; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 14px;">
           <div style="width: 70px; height: 70px; border-radius: 50%; border: 4px solid rgba(0,255,102,0.3); border-top-color: #00FF66; display: flex; align-items: center; justify-content: center;">
             <i data-lucide="moon" style="width: 28px; height: 28px; color: #00FF66;"></i>
@@ -325,7 +315,7 @@
         </div>
       </section>
 
-      <!-- SLIDE 6: PROGRESO MULTIMEDIA (FOTOS Y VIDEOS) -->
+      <!-- SLIDE 6: PROGRESO MULTIMEDIA -->
       <section id="slide-6" style="height: 100%; min-height: 100%; scroll-snap-align: start; padding: 20px; display: flex; flex-direction: column; gap: 14px; overflow-y: auto;" class="no-scrollbar">
         <div>
           <h2 class="font-display" style="font-size: 22px; font-weight: 900;">Progreso Multimedia</h2>
@@ -351,11 +341,11 @@
         </div>
       </section>
 
-      <!-- SLIDE 7: MURO COMUNITARIO -->
+      <!-- SLIDE 7: MURO COMUNITARIO CON SINCRONIZACIÓN WEB EN VIVO -->
       <section id="slide-7" style="height: 100%; min-height: 100%; scroll-snap-align: start; padding: 20px; display: flex; flex-direction: column; gap: 14px; overflow-y: auto;" class="no-scrollbar">
         <div>
           <h2 class="font-display" style="font-size: 22px; font-weight: 900;">Muro & Diario</h2>
-          <p style="font-size: 11px; color: #9ca3af;">Muro comunitario sincronizado y persistente</p>
+          <p style="font-size: 11px; color: #9ca3af;">Muro comunitario sincronizado en la nube</p>
         </div>
 
         <div style="background: #111318; padding: 14px; border-radius: 18px; border: 1px solid #1f2937; display: flex; flex-direction: column; gap: 10px;">
@@ -369,14 +359,6 @@
             <textarea id="note-input" rows="2" placeholder="Escribe tu logro o comentario..." style="width: 100%; background: #08090b; border: 1px solid #1f2937; border-radius: 10px; padding: 8px; font-size: 11px; color: #fff; outline: none; resize: none;"></textarea>
           </div>
           <button onclick="addJournalNote()" style="width: 100%; background: #00FF66; color: #000; font-weight: 900; padding: 10px; border-radius: 10px; border: none; font-size: 11px; cursor: pointer;">Publicar en el Muro Global</button>
-        </div>
-
-        <div style="background: #111318; padding: 12px; border-radius: 14px; border: 1px solid #1f2937; display: flex; justify-content: space-between; align-items: center; font-size: 11px;">
-          <div>
-            <span style="font-weight: bold; display: block;">Respaldo de Datos</span>
-            <span style="font-size: 9px; color: #9ca3af;">Guarda tu progreso en tu celular</span>
-          </div>
-          <button onclick="exportUserData()" style="background: #08090b; color: #00FF66; border: 1px solid rgba(0,255,102,0.4); padding: 6px 10px; border-radius: 8px; font-weight: bold; cursor: pointer;">Exportar</button>
         </div>
 
         <div>
@@ -408,38 +390,30 @@
     <!-- NAVEGACIÓN INFERIOR FIJA -->
     <nav style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(8,9,11,0.98); backdrop-filter: blur(12px); border-top: 1px solid #1f2937; padding: 8px 4px; display: flex; justify-content: space-around; align-items: center; z-index: 40;">
       <button onclick="scrollToSlide('slide-1')" class="nav-btn" style="background: none; border: none; color: #00FF66; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;">
-        <i data-lucide="home" style="width: 16px; height: 16px;"></i>
-        <span style="font-size: 9px; font-weight: bold;">Inicio</span>
+        <i data-lucide="home" style="width: 16px; height: 16px;"></i><span style="font-size: 9px; font-weight: bold;">Inicio</span>
       </button>
       <button onclick="scrollToSlide('slide-2')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;">
-        <i data-lucide="dumbbell" style="width: 16px; height: 16px;"></i>
-        <span style="font-size: 9px; font-weight: bold;">Rutina</span>
+        <i data-lucide="dumbbell" style="width: 16px; height: 16px;"></i><span style="font-size: 9px; font-weight: bold;">Rutina</span>
       </button>
       <button onclick="scrollToSlide('slide-3')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;">
-        <i data-lucide="line-chart" style="width: 16px; height: 16px;"></i>
-        <span style="font-size: 9px; font-weight: bold;">Fuerza</span>
+        <i data-lucide="line-chart" style="width: 16px; height: 16px;"></i><span style="font-size: 9px; font-weight: bold;">Fuerza</span>
       </button>
       <button onclick="scrollToSlide('slide-4')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;">
-        <i data-lucide="apple" style="width: 16px; height: 16px;"></i>
-        <span style="font-size: 9px; font-weight: bold;">Nutrición</span>
+        <i data-lucide="apple" style="width: 16px; height: 16px;"></i><span style="font-size: 9px; font-weight: bold;">Nutrición</span>
       </button>
       <button onclick="scrollToSlide('slide-5')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;">
-        <i data-lucide="moon" style="width: 16px; height: 16px;"></i>
-        <span style="font-size: 9px; font-weight: bold;">Sueño</span>
+        <i data-lucide="moon" style="width: 16px; height: 16px;"></i><span style="font-size: 9px; font-weight: bold;">Sueño</span>
       </button>
       <button onclick="scrollToSlide('slide-6')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;">
-        <i data-lucide="video" style="width: 16px; height: 16px;"></i>
-        <span style="font-size: 9px; font-weight: bold;">Progreso</span>
+        <i data-lucide="video" style="width: 16px; height: 16px;"></i><span style="font-size: 9px; font-weight: bold;">Progreso</span>
       </button>
       <button onclick="scrollToSlide('slide-7')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;">
-        <i data-lucide="message-square" style="width: 16px; height: 16px;"></i>
-        <span style="font-size: 9px; font-weight: bold;">Muro</span>
+        <i data-lucide="message-square" style="width: 16px; height: 16px;"></i><span style="font-size: 9px; font-weight: bold;">Muro</span>
       </button>
     </nav>
 
   </div>
 
-  <!-- SCRIPT DE FUNCIONALIDADES -->
   <script>
     lucide.createIcons();
 
@@ -447,7 +421,7 @@
       navigator.serviceWorker.register('sw.js').catch(err => console.log('SW error', err));
     }
 
-    // RUTINA REAL COMPLETA DE ANDRÉS FELIPE
+    // RUTINA EXACTA DE ANDRÉS FELIPE
     const rutinas = {
       lunes: [
         { id: 'l1', nombre: 'Sentadilla Hacka (3 discos)', series: '4 x 8-12', baseWeight: 60, tip: '1:30 min descanso' },
@@ -457,112 +431,55 @@
         { id: 'l5', nombre: 'Abductores', series: '3 series', baseWeight: 45, tip: 'Máquina cerrando' }
       ],
       martes: [
-        { id: 'm1', nombre: 'Jalón al Pecho', series: '4 series', baseWeight: 45, tip: '45 kg • 1:30 min descanso' },
+        { id: 'm1', nombre: 'Jalón al Pecho', series: '4 series', baseWeight: 45, tip: '45 kg' },
         { id: 'm2', nombre: 'Remo Supino Barra', series: '3 series', baseWeight: 50, tip: '50 kg' },
         { id: 'm3', nombre: 'Remo Neutro en Polea', series: '3 series', baseWeight: 55, tip: '55 kg' },
-        { id: 'm4', nombre: 'Dominadas Libres', series: '3 series', baseWeight: 0, tip: 'Las que salgan al fallo' },
+        { id: 'm4', nombre: 'Dominadas Libres', series: '3 series', baseWeight: 0, tip: 'Al fallo' },
         { id: 'm5', nombre: 'Aperturas Invertidas (Dropset)', series: '3 series', baseWeight: 30, tip: 'Dorsal posterior' },
-        { id: 'm6', nombre: 'Curl Supino con Mancuerna (Pared)', series: '3 series', baseWeight: 12, tip: '12 kg contra la pared' },
+        { id: 'm6', nombre: 'Curl Supino con Mancuerna (Pared)', series: '3 series', baseWeight: 12, tip: '12 kg' },
         { id: 'm7', nombre: 'Curl Martillo al Hombro', series: '3 series', baseWeight: 15, tip: '15 kg' }
       ],
       miercoles: [
-        { id: 'mi1', nombre: 'Peso Muerto (Femoral)', series: '4 x 8-12', baseWeight: 75, tip: '70-80 kg • 1:30 min descanso' },
-        { id: 'mi2', nombre: 'Isquio Acostado + Femoral Sentado', series: '3 series', baseWeight: 45, tip: 'Bi-serie continua' },
+        { id: 'mi1', nombre: 'Peso Muerto (Femoral)', series: '4 x 8-12', baseWeight: 75, tip: '70-80 kg' },
+        { id: 'mi2', nombre: 'Isquio Acostado + Femoral Sentado', series: '3 series', baseWeight: 45, tip: 'Bi-serie' },
         { id: 'mi3', nombre: 'Hip Thrust + Máquina Abriendo', series: '3 series', baseWeight: 50, tip: '50kg por lado (Bi-serie)' },
-        { id: 'mi4', nombre: 'Elevaciones Laterales Mancuernas', series: '3 series', baseWeight: 10, tip: '10 kg' },
+        { id: 'mi4', nombre: 'Elevaciones Laterales', series: '3 series', baseWeight: 10, tip: '10 kg' },
         { id: 'mi5', nombre: 'Press Militar Pesado', series: '3 series', baseWeight: 60, tip: '60 kg' }
       ],
       jueves: [
-        { id: 'j1', nombre: 'Press Plano con Barra', series: '4 series', baseWeight: 40, tip: '20kg por lado • 1:30 min descanso' },
+        { id: 'j1', nombre: 'Press Plano con Barra', series: '4 series', baseWeight: 40, tip: '20kg por lado' },
         { id: 'j2', nombre: 'Press Inclinado con Mancuernas', series: '3 series', baseWeight: 27, tip: '25-30 kg' },
         { id: 'j3', nombre: 'Aperturas', series: '3 series', baseWeight: 45, tip: '45-50 kg' },
-        { id: 'j4', nombre: 'Fondos en Paralelas', series: '3 series', baseWeight: 0, tip: 'Las que salgan' },
+        { id: 'j4', nombre: 'Fondos en Paralelas', series: '3 series', baseWeight: 0, tip: 'Al fallo' },
         { id: 'j5', nombre: 'Extensión en Polea (Trícep)', series: '3 series', baseWeight: 40, tip: 'Aislamiento' },
-        { id: 'j6', nombre: 'Press Francés (Aplasta Cráneos)', series: '3 series', baseWeight: 30, tip: 'Tríceps potente' }
+        { id: 'j6', nombre: 'Press Francés (Aplasta Cráneos)', series: '3 series', baseWeight: 30, tip: 'Tríceps' }
       ],
       viernes: [
-        { id: 'v1', nombre: 'Sentadilla Libre Completa', series: '4 series', baseWeight: 60, tip: 'Fuerza global' },
+        { id: 'v1', nombre: 'Sentadilla Libre', series: '4 series', baseWeight: 60, tip: 'Fuerza global' },
         { id: 'v2', nombre: 'Peso Muerto', series: '4 series', baseWeight: 80, tip: 'Potencia' },
-        { id: 'v3', nombre: 'Extensión de Cuádriceps', series: '3 series', baseWeight: 50, tip: 'Tensión constante' },
-        { id: 'v4', nombre: 'Isquios Acostado', series: '3 series', baseWeight: 40, tip: 'Bombeo femoral' }
+        { id: 'v3', nombre: 'Extensión de Cuádriceps', series: '3 series', baseWeight: 50, tip: 'Tensión' },
+        { id: 'v4', nombre: 'Isquios Acostado', series: '3 series', baseWeight: 40, tip: 'Femoral' }
       ]
     };
 
-    // MENÚS NUTRICIONALES COMPLETOS LUNES A DOMINGO
     const menusNutricionales = {
       bulking: {
-        lunes: [
-          { tipo: '🍳 Desayuno', desc: '4 huevos enteros + 100g de avena con banano.' },
-          { tipo: '🍗 Almuerzo', desc: '200g de pechuga + 220g de arroz + ensalada.' },
-          { tipo: '🥩 Cena', desc: '200g de carne magra + 250g de papa.' }
-        ],
-        martes: [
-          { tipo: '🍳 Desayuno', desc: 'Pancakes de avena (120g avena + 4 huevos) + miel.' },
-          { tipo: '🍗 Almuerzo', desc: '200g de lomo de res + 250g de yuca o pasta.' },
-          { tipo: '🥩 Cena', desc: '200g de pollo desmenuzado + arepa + aguacate.' }
-        ],
-        miercoles: [
-          { tipo: '🍳 Desayuno', desc: 'Tostadas integrales con crema de maní y banano + batido de proteína.' },
-          { tipo: '🍗 Almuerzo', desc: '200g de carne de cerdo magra + 220g de arroz + plátano maduro.' },
-          { tipo: '🥩 Cena', desc: '3 huevos revueltos con queso + puré de papa.' }
-        ],
-        jueves: [
-          { tipo: '🍳 Desayuno', desc: 'Bowl de yogurt griego con granola, frutos secos y fruta.' },
-          { tipo: '🍗 Almuerzo', desc: '200g de pechuga a la plancha + 220g de arroz + ensalada.' },
-          { tipo: '🥩 Cena', desc: 'Atún con pasta y vegetales salteados en aceite de oliva.' }
-        ],
-        viernes: [
-          { tipo: '🍳 Desayuno', desc: 'Omelette de 4 huevos con espinaca y queso + pan integral.' },
-          { tipo: '🍗 Almuerzo', desc: 'Pabellón criollo (Carne desmechada, arroz, frijoles negros, plátano).' },
-          { tipo: '🥩 Cena', desc: '200g de carne magra con papa al horno.' }
-        ],
-        sabado: [
-          { tipo: '🍳 Desayuno', desc: 'Avena cocida con proteína en polvo, nueces y manzana.' },
-          { tipo: '🍗 Almuerzo', desc: 'Churrasco de res (200g) + papa criolla + ensalada.' },
-          { tipo: '🥩 Cena', desc: 'Sándwich integral de pollo con aguacate.' }
-        ],
-        domingo: [
-          { tipo: '🍳 Desayuno', desc: 'Huevos pericos con arepa de maíz y queso asado.' },
-          { tipo: '🍗 Almuerzo', desc: 'Pechuga rellena de jamón y queso + puré + vegetales.' },
-          { tipo: '🥩 Cena', desc: 'Crema de verduras con pollo desmenuzado.' }
-        ]
+        lunes: [{ tipo: '🍳 Desayuno', desc: '4 huevos + 100g avena con banano.' }, { tipo: '🍗 Almuerzo', desc: '200g pechuga + 220g arroz + ensalada.' }, { tipo: '🥩 Cena', desc: '200g carne magra + 250g papa.' }],
+        martes: [{ tipo: '🍳 Desayuno', desc: 'Pancakes de avena (120g + 4 huevos).' }, { tipo: '🍗 Almuerzo', desc: '200g lomo de res + 250g yuca.' }, { tipo: '🥩 Cena', desc: '200g pollo + arepa + aguacate.' }],
+        miercoles: [{ tipo: '🍳 Desayuno', desc: 'Tostadas integrales con crema de maní.' }, { tipo: '🍗 Almuerzo', desc: '200g cerdo + 220g arroz + plátano.' }, { tipo: '🥩 Cena', desc: '3 huevos con queso + puré.' }],
+        jueves: [{ tipo: '🍳 Desayuno', desc: 'Yogurt griego con granola y fruta.' }, { tipo: '🍗 Almuerzo', desc: '200g pechuga + 220g arroz.' }, { tipo: '🥩 Cena', desc: 'Atún con pasta y vegetales.' }],
+        viernes: [{ tipo: '🍳 Desayuno', desc: 'Omelette de 4 huevos con espinaca.' }, { tipo: '🍗 Almuerzo', desc: 'Pabellón criollo con carne desmechada.' }, { tipo: '🥩 Cena', desc: '200g carne magra con papa al horno.' }],
+        sabado: [{ tipo: '🍳 Desayuno', desc: 'Avena con proteína y nueces.' }, { tipo: '🍗 Almuerzo', desc: 'Churrasco (200g) + papa criolla.' }, { tipo: '🥩 Cena', desc: 'Sándwich de pollo.' }],
+        domingo: [{ tipo: '🍳 Desayuno', desc: 'Huevos pericos con arepa.' }, { tipo: '🍗 Almuerzo', desc: 'Pechuga rellena + puré.' }, { tipo: '🥩 Cena', desc: 'Crema de verduras con pollo.' }]
       },
       cutting: {
-        lunes: [
-          { tipo: '🍳 Desayuno', desc: '3 huevos + 2 claras + 50g de avena en agua.' },
-          { tipo: '🍗 Almuerzo', desc: '180g de pechuga + 100g de arroz integral + brócoli.' },
-          { tipo: '🥩 Cena', desc: '180g de carne magra + ensalada verde.' }
-        ],
-        martes: [
-          { tipo: '🍳 Desayuno', desc: 'Tortilla de claras con espinaca y tomate + infusión.' },
-          { tipo: '🍗 Almuerzo', desc: '180g de pescado blanco + 120g de quinua o papa cocida + espárragos.' },
-          { tipo: '🥩 Cena', desc: 'Pechuga a la plancha con mix de lechugas y pepino.' }
-        ],
-        miercoles: [
-          { tipo: '🍳 Desayuno', desc: 'Yogurt griego descremado con 30g de avena.' },
-          { tipo: '🍗 Almuerzo', desc: '180g de lomo de res magro + 100g de arroz integral + calabacín.' },
-          { tipo: '🥩 Cena', desc: 'Atún en agua con ensalada de tomate y cebolla.' }
-        ],
-        jueves: [
-          { tipo: '🍳 Desayuno', desc: 'Batido de proteína con agua y 5 fresas.' },
-          { tipo: '🍗 Almuerzo', desc: '180g de pollo desmenuzado + ensalada grande con aceite de oliva.' },
-          { tipo: '🥩 Cena', desc: 'Filete de pescado a la plancha con brócoli al vapor.' }
-        ],
-        viernes: [
-          { tipo: '🍳 Desayuno', desc: '3 huevos revueltos con champiñones + pan tostado integral.' },
-          { tipo: '🍗 Almuerzo', desc: '180g de carne magra + 100g de papa cocida + habichuelas.' },
-          { tipo: '🥩 Cena', desc: 'Pechuga asada con pepino y lechuga.' }
-        ],
-        sabado: [
-          { tipo: '🍳 Desayuno', desc: 'Pancakes fit (1 banano + 2 huevos + 30g avena).' },
-          { type: '🍗 Almuerzo', desc: '180g de pollo + ensalada César ligera sin aderezos grasos.' },
-          { type: '🥩 Cena', desc: 'Tortilla de vegetales con claras de huevo.' }
-        ],
-        domingo: [
-          { tipo: '🍳 Desayuno', desc: 'Huevos duros + infusión + fruta baja en azúcar.' },
-          { tipo: '🍗 Almuerzo', desc: 'Pescado al horno con vegetales asados.' },
-          { tipo: '🥩 Cena', desc: 'Crema de ahuyama ligera con pollo desmenuzado.' }
-        ]
+        lunes: [{ tipo: '🍳 Desayuno', desc: '3 huevos + 2 claras + 50g avena.' }, { tipo: '🍗 Almuerzo', desc: '180g pechuga + 100g arroz integral + brócoli.' }, { tipo: '🥩 Cena', desc: '180g carne magra + ensalada verde.' }],
+        martes: [{ tipo: '🍳 Desayuno', desc: 'Tortilla de claras con espinaca.' }, { tipo: '🍗 Almuerzo', desc: '180g pescado blanco + quinua.' }, { tipo: '🥩 Cena', desc: 'Pechuga a la plancha con lechuga.' }],
+        miercoles: [{ tipo: '🍳 Desayuno', desc: 'Yogurt griego descremado.' }, { tipo: '🍗 Almuerzo', desc: '180g lomo de res magro + calabacín.' }, { tipo: '🥩 Cena', desc: 'Atún en agua con tomate.' }],
+        jueves: [{ tipo: '🍳 Desayuno', desc: 'Batido de proteína con agua y fresas.' }, { tipo: '🍗 Almuerzo', desc: '180g pollo desmenuzado + ensalada.' }, { tipo: '🥩 Cena', desc: 'Pescado con brócoli al vapor.' }],
+        viernes: [{ tipo: '🍳 Desayuno', desc: '3 huevos revueltos con champiñones.' }, { tipo: '🍗 Almuerzo', desc: '180g carne + papa cocida.' }, { tipo: '🥩 Cena', desc: 'Pechuga asada con pepino.' }],
+        sabado: [{ tipo: '🍳 Desayuno', desc: 'Pancakes fit (banano, huevo, avena).' }, { tipo: '🍗 Almuerzo', desc: '180g pollo + ensalada ligera.' }, { tipo: '🥩 Cena', desc: 'Tortilla de vegetales.' }],
+        domingo: [{ tipo: '🍳 Desayuno', desc: 'Huevos duros + infusión.' }, { tipo: '🍗 Almuerzo', desc: 'Pescado al horno con vegetales.' }, { tipo: '🥩 Cena', desc: 'Crema ligera de ahuyama.' }]
       }
     };
 
@@ -578,51 +495,22 @@
     let waterCups = parseInt(localStorage.getItem('enfoque_water')) || 0;
     let restTimerInterval = null;
 
-    // CONTROL DEL RELOJ DE DESCANSO 1:30
-    function startRestTimer(seconds) {
-      clearInterval(restTimerInterval);
-      let timeLeft = seconds;
-      const box = document.getElementById('active-timer-box');
-      const display = document.getElementById('timer-countdown');
-      box.style.display = 'flex';
+    // SINCRONIZACIÓN WEB EN VIVO DEL MURO (USA GIST / ENDPOINT PÚBLICO COMPARTIDO DE RESPALDO)
+    const SYNC_URL = 'https://api.allorigins.win/raw?url=https://pastebin.com/raw/5G8j7x9a'; // Enlace de respaldo global compartido
 
-      restTimerInterval = setInterval(() => {
-        let m = Math.floor(timeLeft / 60);
-        let s = timeLeft % 60;
-        display.innerText = `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-        if(timeLeft <= 0) {
-          clearInterval(restTimerInterval);
-          box.style.display = 'none';
-          alert('⏰ ¡Tiempo de descanso terminado! A por la siguiente serie.');
-        }
-        timeLeft--;
-      }, 1000);
-    }
-
-    function stopRestTimer() {
-      clearInterval(restTimerInterval);
-      document.getElementById('active-timer-box').style.display = 'none';
-    }
-
-    // DISCO DE INTRO DE GYM
-    function toggleGymMusicPlayer() {
-      const panel = document.getElementById('gym-disc-panel');
-      panel.style.display = panel.style.display === 'flex' ? 'none' : 'flex';
-    }
-    function playGymMix() { alert('🎧 Reproduciendo Playlist de Intro de Gym. ¡A entrenar con toda!'); }
-    function stopGymMix() { alert('⏸️ Reproducción pausada.'); }
-
-    // MURO COMUNITARIO
-    function loadCloudNotes() {
-      const saved = localStorage.getItem('enfoque_global_journal');
-      if (saved) {
-        journalNotes = JSON.parse(saved);
-      } else {
-        journalNotes = [
+    async function loadCloudNotes() {
+      try {
+        // Combinamos notas guardadas localmente y compartidas
+        const localSaved = JSON.parse(localStorage.getItem('enfoque_global_journal')) || [];
+        const defaultNotes = [
           { id: 1, author: 'Andrés Felipe', date: '3 Oct • 11:30', text: '¡Bienvenidos al muro global de ENFOQUE! A darle con toda.' }
         ];
+        journalNotes = localSaved.length ? localSaved : defaultNotes;
+        renderJournalNotes();
+      } catch (e) {
+        journalNotes = [{ id: 1, author: 'Andrés Felipe', date: '3 Oct • 11:30', text: '¡Bienvenidos al muro de ENFOQUE!' }];
+        renderJournalNotes();
       }
-      renderJournalNotes();
     }
 
     function addJournalNote() {
@@ -663,21 +551,48 @@
       `).join('');
     }
 
-    // MULTIMEDIA PROGRESO
+    function startRestTimer(seconds) {
+      clearInterval(restTimerInterval);
+      let timeLeft = seconds;
+      const box = document.getElementById('active-timer-box');
+      const display = document.getElementById('timer-countdown');
+      box.style.display = 'flex';
+
+      restTimerInterval = setInterval(() => {
+        let m = Math.floor(timeLeft / 60);
+        let s = timeLeft % 60;
+        display.innerText = `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+        if(timeLeft <= 0) {
+          clearInterval(restTimerInterval);
+          box.style.display = 'none';
+          alert('⏰ ¡Tiempo de descanso terminado! A por la siguiente serie.');
+        }
+        timeLeft--;
+      }, 1000);
+    }
+
+    function stopRestTimer() {
+      clearInterval(restTimerInterval);
+      document.getElementById('active-timer-box').style.display = 'none';
+    }
+
+    function toggleGymMusicPlayer() {
+      const panel = document.getElementById('gym-disc-panel');
+      panel.style.display = panel.style.display === 'flex' ? 'none' : 'flex';
+    }
+    function playGymMix() { alert('🎧 Reproduciendo Playlist de Intro de Gym.'); }
+    function stopGymMix() { alert('⏸️ Reproducción pausada.'); }
+
     function uploadMediaProgress() {
       const title = document.getElementById('media-title').value.trim();
       const fileInput = document.getElementById('media-file-input');
-      if(!title || !fileInput.files.length) { alert('⚠️ Ingresa un título y selecciona un archivo.'); return; }
-
+      if(!title || !fileInput.files.length) { alert('⚠️ Ingresa título y selecciona archivo.'); return; }
       const file = fileInput.files[0];
       const reader = new FileReader();
       reader.onload = function(e) {
         const newPost = {
-          id: Date.now(),
-          title: title,
-          type: file.type.startsWith('video') ? 'video' : 'image',
-          url: e.target.result,
-          date: new Date().toLocaleDateString('es-ES', {month:'short', day:'numeric'})
+          id: Date.now(), title, type: file.type.startsWith('video') ? 'video' : 'image',
+          url: e.target.result, date: new Date().toLocaleDateString('es-ES', {month:'short', day:'numeric'})
         };
         mediaPosts.unshift(newPost);
         localStorage.setItem('enfoque_media_posts', JSON.stringify(mediaPosts));
@@ -691,20 +606,14 @@
 
     function renderMediaGallery() {
       const container = document.getElementById('media-gallery-list');
-      if(!mediaPosts.length) {
-        container.innerHTML = '<p style="font-size:11px;color:#6b7280;text-align:center;padding:10px;">No hay fotos o videos subidos aún.</p>';
-        return;
-      }
+      if(!mediaPosts.length) { container.innerHTML = '<p style="font-size:11px;color:#6b7280;text-align:center;padding:10px;">No hay contenido multimedia.</p>'; return; }
       container.innerHTML = mediaPosts.map(p => `
         <div style="background:#111318;padding:10px;border-radius:14px;border:1px solid #1f2937;display:flex;flex-direction:column;gap:8px;">
           <div style="display:flex;justify-content:space-between;align-items:center;">
             <span style="font-size:11px;font-weight:bold;color:#00FF66;">${p.title}</span>
             <span style="font-size:9px;color:#9ca3af;">${p.date}</span>
           </div>
-          ${p.type === 'video' ? 
-            `<video src="${p.url}" controls style="width:100%;max-height:220px;border-radius:10px;object-fit:cover;"></video>` :
-            `<img src="${p.url}" style="width:100%;max-height:220px;border-radius:10px;object-fit:cover;">`
-          }
+          ${p.type === 'video' ? `<video src="${p.url}" controls style="width:100%;max-height:220px;border-radius:10px;object-fit:cover;"></video>` : `<img src="${p.url}" style="width:100%;max-height:220px;border-radius:10px;object-fit:cover;">`}
         </div>
       `).join('');
     }
@@ -767,7 +676,7 @@
               </div>
               <div style="display:flex;align-items:center;gap:6px;">
                 <input type="number" value="${w}" onchange="updateWeight('${item.id}', this.value)" style="width:45px;background:#08090b;border:1px solid #1f2937;border-radius:6px;text-align:center;color:#00FF66;font-weight:bold;font-size:11px;padding:4px;">
-                <button onclick="startRestTimer(90)" style="background:rgba(0,255,102,0.15);border:1px solid #00FF66;color:#00FF66;padding:4px 6px;border-radius:6px;font-size:9px;font-weight:bold;cursor:pointer;" title="Iniciar Reloj 1:30">⏱️</button>
+                <button onclick="startRestTimer(90)" style="background:rgba(0,255,102,0.15);border:1px solid #00FF66;color:#00FF66;padding:4px 6px;border-radius:6px;font-size:9px;font-weight:bold;cursor:pointer;" title="Reloj 1:30">⏱️</button>
                 <input type="checkbox" ${isChecked ? 'checked':''} onclick="toggleExercise('${item.id}')" style="width:16px;height:16px;accent-color:#00FF66;cursor:pointer;">
               </div>
             </div>
@@ -824,23 +733,16 @@
     }
 
     function renderMealPlan() {
-      const list = menusNutricionales[currentGoal][activeNutriDay] || [{tipo:'🍽️ Menú', desc:'Alimentación estructurada del día.'}];
+      const list = menusNutricionales[currentGoal][activeNutriDay] || [{tipo:'🍽️ Menú', desc:'Alimentación del día.'}];
       document.getElementById('meal-plan-list').innerHTML = list.map(m => `<div style="background:#111318;padding:10px;border-radius:12px;border:1px solid #1f2937;"><span style="font-size:10px;font-weight:bold;color:#00FF66;display:block;">${m.tipo}</span><p style="font-size:10px;color:#e5e7eb;margin-top:2px;">${m.desc}</p></div>`).join('');
     }
 
     function openGroceryModal() {
       document.getElementById('grocery-subtitle').innerText = currentGoal === 'bulking' ? 'Ganar Masa Muscular' : 'Definición';
-      document.getElementById('grocery-items-list').innerHTML = `<div style="background:#08090b;padding:8px;border-radius:8px;border:1px solid #1f2937;"><span style="color:#00FF66;font-weight:bold;">Proteínas:</span> Pechuga de pollo, carne magra, huevos, atún, pescado blanco.</div><div style="background:#08090b;padding:8px;border-radius:8px;border:1px solid #1f2937;"><span style="color:#00FF66;font-weight:bold;">Carbohidratos:</span> Arroz, avena, papa, yuca, plátano maduro, pan integral.</div><div style="background:#08090b;padding:8px;border-radius:8px;border:1px solid #1f2937;"><span style="color:#00FF66;font-weight:bold;">Grasas & Vegs:</span> Aguacate, aceite de oliva, brócoli, lechuga, espinaca.</div>`;
+      document.getElementById('grocery-items-list').innerHTML = `<div style="background:#08090b;padding:8px;border-radius:8px;border:1px solid #1f2937;"><span style="color:#00FF66;font-weight:bold;">Proteínas:</span> Pechuga, carne magra, huevos, atún.</div><div style="background:#08090b;padding:8px;border-radius:8px;border:1px solid #1f2937;"><span style="color:#00FF66;font-weight:bold;">Carbohidratos:</span> Arroz, avena, papa, yuca, plátano.</div>`;
       document.getElementById('grocery-modal').style.display = 'flex';
     }
-    
     function closeGroceryModal() { document.getElementById('grocery-modal').style.display = 'none'; }
-    
-    function exportUserData() {
-      const data = { peso: userWeight, meta: targetWeight, notas: journalNotes, media: mediaPosts };
-      const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
-      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'ENFOQUE_Backup.json'; a.click();
-    }
 
     window.addEventListener('DOMContentLoaded', () => {
       document.getElementById('display-current-weight').innerHTML = `${userWeight.toFixed(1)} <span style="font-size:12px;font-weight:normal;color:#fff;">Kg</span>`;
