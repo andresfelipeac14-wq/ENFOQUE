@@ -150,13 +150,14 @@
         <div id="exercise-list" class="space-y-3"></div>
       </section>
 
-      <!-- ==================== SLIDE 3: EVOLUCIÓN DE PESO CORPORAL ==================== -->
-      <section id="slide-3" class="min-h-full p-5 space-y-4 snap-start pt-4 pb-24">
+      <!-- ==================== SLIDE 3: EVOLUCIÓN PESO + CALCULADORA 1RM ==================== -->
+      <section id="slide-3" class="min-h-full p-5 space-y-4 snap-start pt-4 pb-28">
         <div>
-          <h2 class="text-2xl font-black font-display text-white">Evolución de Peso</h2>
-          <p class="text-xs text-gray-400">Seguimiento corporal mensual</p>
+          <h2 class="text-2xl font-black font-display text-white">Evolución & Fuerza</h2>
+          <p class="text-xs text-gray-400">Seguimiento corporal y estimación de 1RM</p>
         </div>
 
+        <!-- Registro de Peso Corporal -->
         <div class="bg-cardBg p-4 rounded-3xl border border-gray-800 space-y-3">
           <span class="text-xs font-bold text-white block">Registrar Peso Corporal de Hoy</span>
           <div class="flex space-x-2">
@@ -178,18 +179,37 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-3 gap-2 text-center">
-          <div class="bg-cardBg p-3 rounded-2xl border border-gray-800">
-            <span class="text-[10px] text-gray-400 block">Masa Muscular</span>
-            <span class="text-sm font-bold text-brand">+2.4 Kg</span>
+        <!-- NOVEDAD 1: CALCULADORA 1RM (FUERZA MÁXIMA) -->
+        <div class="bg-cardBg p-4 rounded-3xl border border-gray-800 space-y-3">
+          <div class="flex items-center space-x-2">
+            <i data-lucide="zap" class="w-4 h-4 text-brand"></i>
+            <span class="text-xs font-extrabold text-white">Calculadora 1RM (Fuerza Máxima)</span>
           </div>
-          <div class="bg-cardBg p-3 rounded-2xl border border-gray-800">
-            <span class="text-[10px] text-gray-400 block">% Grasa</span>
-            <span class="text-sm font-bold text-white">14.2%</span>
+
+          <div class="grid grid-cols-2 gap-2">
+            <input type="number" id="input-1rm-weight" placeholder="Peso (kg)" class="bg-darkBg border border-gray-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand">
+            <input type="number" id="input-1rm-reps" placeholder="Repeticiones" class="bg-darkBg border border-gray-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand">
           </div>
-          <div class="bg-cardBg p-3 rounded-2xl border border-gray-800">
-            <span class="text-[10px] text-gray-400 block">IMC</span>
-            <span id="display-imc" class="text-sm font-bold text-white">23.8</span>
+
+          <button onclick="calculate1RM()" class="w-full bg-brand text-black font-extrabold py-2.5 rounded-xl text-xs active:scale-95 transition">
+            Calcular Fuerza Máxima
+          </button>
+
+          <div id="rm-results" class="hidden pt-2 border-t border-gray-800 space-y-2 text-xs">
+            <div class="flex justify-between items-center">
+              <span class="text-gray-400">1RM Estimado (100%):</span>
+              <span id="val-1rm-max" class="font-black text-brand text-sm">0 kg</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2 text-[11px] text-center">
+              <div class="bg-darkBg p-2 rounded-xl border border-gray-800">
+                <span class="text-gray-400 block">Hipertrofia (75%)</span>
+                <span id="val-1rm-hip" class="font-bold text-white">0 kg</span>
+              </div>
+              <div class="bg-darkBg p-2 rounded-xl border border-gray-800">
+                <span class="text-gray-400 block">Fuerza (85%)</span>
+                <span id="val-1rm-fuerza" class="font-bold text-white">0 kg</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -289,17 +309,29 @@
         </div>
       </section>
 
-      <!-- ==================== SLIDE 6: DIARIO ==================== -->
+      <!-- ==================== SLIDE 6: DIARIO + COPIA DE SEGURIDAD ==================== -->
       <section id="slide-6" class="min-h-full p-5 space-y-4 snap-start pt-4 pb-28">
         <div>
-          <h2 class="text-2xl font-black font-display text-white">Diario de Comentarios</h2>
-          <p class="text-xs text-gray-400">Registra tus sensaciones y marcas personales</p>
+          <h2 class="text-2xl font-black font-display text-white">Diario & Datos</h2>
+          <p class="text-xs text-gray-400">Comentarios y copia de seguridad</p>
         </div>
 
         <div class="space-y-2.5">
           <textarea id="note-input" rows="3" placeholder="Escribe un comentario con la fecha de hoy..." class="w-full bg-cardBg border border-gray-800 rounded-2xl p-3.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-brand"></textarea>
           <button onclick="addJournalNote()" class="w-full bg-brand text-black font-bold py-3 rounded-2xl text-xs active:scale-95 transition">
             Publicar Comentario
+          </button>
+        </div>
+
+        <!-- NOVEDAD 2: EXPORTAR DATOS/BACKUP -->
+        <div class="bg-cardBg p-3.5 rounded-2xl border border-gray-800 flex justify-between items-center text-xs">
+          <div>
+            <span class="font-bold text-white block">Respaldo de Datos</span>
+            <span class="text-[10px] text-gray-400">Guarda tu progreso en tu celular</span>
+          </div>
+          <button onclick="exportUserData()" class="bg-darkBg text-brand border border-brand/40 px-3 py-2 rounded-xl font-bold flex items-center space-x-1.5 active:scale-95 transition">
+            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            <span>Exportar</span>
           </button>
         </div>
 
@@ -361,6 +393,11 @@
 
   <script>
     lucide.createIcons();
+
+    // NOVEDAD 3: REGISTRO DE SERVICE WORKER PARA OFFLINE
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(err => console.log('SW error', err));
+    }
 
     const rutinas = {
       lunes: [
@@ -518,6 +555,37 @@
     let timerInterval = null;
     let timerSeconds = 90;
     let isTimerPaused = false;
+
+    function calculate1RM() {
+      const w = parseFloat(document.getElementById('input-1rm-weight').value);
+      const r = parseFloat(document.getElementById('input-1rm-reps').value);
+
+      if (w > 0 && r > 0) {
+        // Fórmula de Epley: W * (1 + r/30)
+        const rm = Math.round(w * (1 + r / 30));
+        document.getElementById('val-1rm-max').innerText = `${rm} kg`;
+        document.getElementById('val-1rm-hip').innerText = `${Math.round(rm * 0.75)} kg`;
+        document.getElementById('val-1rm-fuerza').innerText = `${Math.round(rm * 0.85)} kg`;
+        document.getElementById('rm-results').classList.remove('hidden');
+      }
+    }
+
+    function exportUserData() {
+      const data = {
+        peso: userWeight,
+        pesosEjercicios: weightsState,
+        completados: completedState,
+        diario: journalNotes,
+        agua: waterCups,
+        fecha: new Date().toLocaleDateString()
+      };
+
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `ENFOQUE_Respaldo_${new Date().toISOString().slice(0,10)}.json`;
+      a.click();
+    }
 
     function startRestTimer() {
       clearInterval(timerInterval);
