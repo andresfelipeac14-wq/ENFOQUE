@@ -47,15 +47,15 @@
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-    /* Animación del Banner Infinito estilo Gym Ticker */
-    @keyframes marquee {
+    /* Animación del Header Ticker */
+    @keyframes headerMarquee {
       0% { transform: translateX(0%); }
       100% { transform: translateX(-50%); }
     }
-    .animate-marquee {
+    .animate-header-marquee {
       display: flex;
       width: 200%;
-      animation: marquee 12s linear infinite;
+      animation: headerMarquee 8s linear infinite;
     }
   </style>
 </head>
@@ -64,21 +64,42 @@
   <!-- Contenedor Principal Estilo Smartphone -->
   <div class="w-full max-w-md bg-darkBg h-[100vh] sm:h-[844px] sm:rounded-[44px] shadow-2xl flex flex-col justify-between overflow-hidden relative border border-gray-800/80">
 
-    <!-- Header Fijo Superior -->
-    <header class="w-full px-5 pt-4 pb-3 flex justify-between items-center bg-darkBg/90 backdrop-blur-md border-b border-gray-800/80 z-30 shrink-0">
-      <div class="flex items-center space-x-2">
-        <div class="w-8 h-8 rounded-lg bg-black border border-brand/50 flex items-center justify-center p-1 overflow-hidden">
-          <img src="ENFOQUE_2.jpg" alt="Logo ENFOQUE" class="w-full h-full object-cover rounded-md">
+    <!-- HEADER SUPERIOR CORREGIDO CON BANNER DE GYM ANIMADO EN EL CENTRO -->
+    <header class="w-full px-4 pt-4 pb-3 flex justify-between items-center bg-darkBg/95 backdrop-blur-md border-b border-gray-800/80 z-30 shrink-0 space-x-2">
+      
+      <!-- LOGO CORREGIDO -->
+      <div class="flex items-center space-x-1.5 shrink-0">
+        <div class="w-7 h-7 rounded-lg bg-black border border-brand/60 flex items-center justify-center p-0.5 shadow-[0_0_10px_rgba(0,255,102,0.3)]">
+          <i data-lucide="dumbbell" class="w-4 h-4 text-brand"></i>
         </div>
-        <span class="font-display font-black text-xl italic tracking-wider text-white">EN<span class="text-brand">FOQUE</span></span>
+        <span class="font-display font-black text-base italic tracking-wider text-white">EN<span class="text-brand">FOQUE</span></span>
       </div>
 
-      <div class="flex items-center space-x-3">
-        <button class="w-9 h-9 bg-cardBg rounded-full flex items-center justify-center border border-gray-800 text-gray-300">
-          <i data-lucide="bell" class="w-4 h-4"></i>
+      <!-- ESPACIO CENTRAL: BANNER MARQUESINA CON MOVIMIENTO CONTINUO DE GYM -->
+      <div class="flex-1 overflow-hidden mx-1 rounded-full bg-darkBg border border-gray-800/80 py-1">
+        <div class="animate-header-marquee items-center space-x-4 text-brand font-black text-[10px] uppercase tracking-wider">
+          <div class="flex items-center space-x-3 shrink-0">
+            <span>🏋️ MÁS FUERZA</span>
+            <span>🔥 1:30 REST</span>
+            <span>⚡ ENFOQUE</span>
+            <span>💪 HIPERTROFIA</span>
+          </div>
+          <div class="flex items-center space-x-3 shrink-0">
+            <span>🏋️ MÁS FUERZA</span>
+            <span>🔥 1:30 REST</span>
+            <span>⚡ ENFOQUE</span>
+            <span>💪 HIPERTROFIA</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PERFIL & NOTIFICACIONES CORREGIDOS -->
+      <div class="flex items-center space-x-2 shrink-0">
+        <button class="w-8 h-8 bg-cardBg rounded-full flex items-center justify-center border border-gray-800 text-gray-300 active:scale-95 transition">
+          <i data-lucide="bell" class="w-3.5 h-3.5"></i>
         </button>
-        <div class="w-9 h-9 rounded-full border-2 border-brand overflow-hidden shadow-md">
-          <img src="ENFOQUE_2.jpg" alt="Perfil" class="w-full h-full object-cover">
+        <div class="w-8 h-8 rounded-full border-2 border-brand bg-cardBg flex items-center justify-center shadow-md">
+          <i data-lucide="user" class="w-4 h-4 text-brand"></i>
         </div>
       </div>
     </header>
@@ -163,14 +184,13 @@
         <div id="exercise-list" class="space-y-3"></div>
       </section>
 
-      <!-- ==================== SLIDE 3: EVOLUCIÓN PESO + META MÚSCULO + BANNER GYM ==================== -->
+      <!-- ==================== SLIDE 3: EVOLUCIÓN PESO + META MÚSCULO ==================== -->
       <section id="slide-3" class="min-h-full p-5 space-y-4 snap-start pt-4 pb-28">
         <div>
           <h2 class="text-2xl font-black font-display text-white">Evolución & Fuerza</h2>
           <p class="text-xs text-gray-400">Objetivos de músculo y estimación de 1RM</p>
         </div>
 
-        <!-- AJUSTE 1: REGISTRO DE PESO ACTUAL Y META MUSCULAR -->
         <div class="bg-cardBg p-4 rounded-3xl border border-gray-800 space-y-3">
           <span class="text-xs font-bold text-white block">Registra tu Progreso Corporal</span>
           <div class="grid grid-cols-2 gap-2">
@@ -188,7 +208,6 @@
           </button>
         </div>
 
-        <!-- Tarjeta Resumen con Resultados y Consejo Técnico -->
         <div class="bg-cardBg p-5 rounded-3xl border border-gray-800 space-y-3">
           <div class="flex justify-between items-center">
             <div>
@@ -201,36 +220,13 @@
             </div>
           </div>
 
-          <!-- Caja de Consejo Técnico Real -->
           <div id="advice-box" class="bg-darkBg p-3.5 rounded-2xl border border-brand/30 space-y-1">
             <span class="text-[11px] font-black text-brand uppercase tracking-wider block">💡 Estrategia de Enfoque Recomendada:</span>
-            <p id="advice-text" class="text-xs text-gray-200 leading-relaxed">
-              Para ganar 3.0 kg de masa muscular limpia, mantén un superávit calórico controlado de +300 a +400 Kcal al día, prioriza de 1.8g a 2.2g de proteína por kg y enfócate en la sobrecarga progresiva en tus ejercicios compuestos.
-            </p>
+            <p id="advice-text" class="text-xs text-gray-200 leading-relaxed"></p>
           </div>
         </div>
 
-        <!-- AJUSTE 2: BANNER ANIMADO ESTILO TICKER DE GYM (Reemplaza los círculos) -->
-        <div class="bg-cardBg rounded-2xl border border-gray-800 overflow-hidden py-3 relative">
-          <div class="animate-marquee items-center space-x-6 text-brand font-black text-xs uppercase tracking-widest">
-            <div class="flex items-center space-x-3 shrink-0">
-              <span>🏋️ ENFOQUE TOTAL</span>
-              <span>🔥 HIPERTROFIA</span>
-              <span>💪 SOBRECARGA PROGRESIVA</span>
-              <span>⚡ MÁXIMA POTENCIA</span>
-              <span>🍗 NUTRICIÓN DE ALTO RENDIMIENTO</span>
-            </div>
-            <div class="flex items-center space-x-3 shrink-0">
-              <span>🏋️ ENFOQUE TOTAL</span>
-              <span>🔥 HIPERTROFIA</span>
-              <span>💪 SOBRECARGA PROGRESIVA</span>
-              <span>⚡ MÁXIMA POTENCIA</span>
-              <span>🍗 NUTRICIÓN DE ALTO RENDIMIENTO</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- CALCULADORA 1RM (FUERZA MÁXIMA) -->
+        <!-- CALCULADORA 1RM -->
         <div class="bg-cardBg p-4 rounded-3xl border border-gray-800 space-y-3">
           <div class="flex items-center justify-between">
             <span class="text-xs font-extrabold text-white flex items-center space-x-1.5">
@@ -310,7 +306,6 @@
           </div>
         </div>
 
-        <!-- TRACKER DE AGUA DIARIO -->
         <div class="bg-cardBg p-4 rounded-3xl border border-gray-800 space-y-2.5">
           <div class="flex justify-between items-center">
             <div class="flex items-center space-x-2">
@@ -322,13 +317,11 @@
           <div class="grid grid-cols-6 gap-1.5" id="water-cups-container"></div>
         </div>
 
-        <!-- BOTÓN LISTA DE MERCADO -->
         <button onclick="openGroceryModal()" class="w-full bg-darkBg hover:bg-cardBg text-brand border border-brand/40 font-bold py-3 rounded-2xl text-xs flex items-center justify-center space-x-2 transition active:scale-95">
           <i data-lucide="shopping-cart" class="w-4 h-4"></i>
           <span>Ver Lista de Mercado Semanal</span>
         </button>
 
-        <!-- Navegador de Días para Alimentación -->
         <div class="space-y-2 pt-2">
           <span class="text-xs uppercase font-bold tracking-wider text-gray-400 block">Día de la Semana</span>
           <div class="flex space-x-1.5 overflow-x-auto no-scrollbar pb-1">
@@ -368,14 +361,13 @@
         </div>
       </section>
 
-      <!-- ==================== SLIDE 6: DIARIO + MURO SOCIAL (CON CAMPO NOMBRE OBLIGATORIO) ==================== -->
+      <!-- ==================== SLIDE 6: DIARIO + MURO SOCIAL ==================== -->
       <section id="slide-6" class="min-h-full p-5 space-y-4 snap-start pt-4 pb-28">
         <div>
           <h2 class="text-2xl font-black font-display text-white">Muro & Diario</h2>
           <p class="text-xs text-gray-400">Publica tus avances y marcas personales</p>
         </div>
 
-        <!-- AJUSTE 3: CASILLA OBLIGATORIA DE NOMBRE Y MENSAJE -->
         <div class="bg-cardBg p-4 rounded-3xl border border-gray-800 space-y-3">
           <span class="text-xs font-bold text-white block">Nuevo Comentario en el Muro</span>
           <div>
@@ -391,7 +383,6 @@
           </button>
         </div>
 
-        <!-- RESPALDO DE DATOS -->
         <div class="bg-cardBg p-3.5 rounded-2xl border border-gray-800 flex justify-between items-center text-xs">
           <div>
             <span class="font-bold text-white block">Respaldo de Datos</span>
@@ -403,7 +394,6 @@
           </button>
         </div>
 
-        <!-- MURO DE MENSAJES REGISTRADOS -->
         <div class="space-y-2">
           <span class="text-xs uppercase font-bold tracking-wider text-gray-400 block">Muro de la Comunidad</span>
           <div id="journal-list" class="space-y-2"></div>
@@ -628,7 +618,6 @@
     let timerSeconds = 90;
     let isTimerPaused = false;
 
-    // GUARDAR PESO ACTUAL, META DE MÚSCULO Y GENERAR CONSEJO TÉCNICO
     function saveTodayWeight() {
       const inputW = document.getElementById('input-weight');
       const inputTW = document.getElementById('input-target-weight');
@@ -666,7 +655,6 @@
       }
     }
 
-    // AÑADIR MENSAJE AL MURO SOCIAL CON CASILLA OBLIGATORIA
     function addJournalNote() {
       const authorInput = document.getElementById('note-author');
       const textInput = document.getElementById('note-input');
