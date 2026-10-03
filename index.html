@@ -5,12 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>ENFOQUE - Performance & Fitness</title>
 
-  <!-- PWA Metadata -->
+  <!-- PWA Metadata & Custom Icon Fix -->
   <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="ENFOQUE">
-  <link rel="apple-touch-icon" href="ENFOQUE_2.jpg">
-  <link rel="icon" type="image/jpeg" href="ENFOQUE_2.jpg">
+  <link rel="apple-touch-icon" sizes="180x180" href="ENFOQUE_2.jpg">
+  <link rel="icon" type="image/jpeg" sizes="32x32" href="ENFOQUE_2.jpg">
+  <link rel="shortcut icon" href="ENFOQUE_2.jpg">
   <link rel="manifest" href="manifest.json">
 
   <!-- Tailwind CSS CDN -->
@@ -44,6 +46,17 @@
     html { scroll-behavior: smooth; }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* Animación del Banner Infinito estilo Gym Ticker */
+    @keyframes marquee {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+      display: flex;
+      width: 200%;
+      animation: marquee 12s linear infinite;
+    }
   </style>
 </head>
 <body class="bg-black text-white font-sans flex justify-center items-center min-h-screen sm:py-4">
@@ -54,8 +67,8 @@
     <!-- Header Fijo Superior -->
     <header class="w-full px-5 pt-4 pb-3 flex justify-between items-center bg-darkBg/90 backdrop-blur-md border-b border-gray-800/80 z-30 shrink-0">
       <div class="flex items-center space-x-2">
-        <div class="w-8 h-8 rounded-lg bg-black border border-brand/50 flex items-center justify-center p-1">
-          <img src="ENFOQUE_2.jpg" alt="Logo ENFOQUE" class="w-full h-full object-contain">
+        <div class="w-8 h-8 rounded-lg bg-black border border-brand/50 flex items-center justify-center p-1 overflow-hidden">
+          <img src="ENFOQUE_2.jpg" alt="Logo ENFOQUE" class="w-full h-full object-cover rounded-md">
         </div>
         <span class="font-display font-black text-xl italic tracking-wider text-white">EN<span class="text-brand">FOQUE</span></span>
       </div>
@@ -150,36 +163,74 @@
         <div id="exercise-list" class="space-y-3"></div>
       </section>
 
-      <!-- ==================== SLIDE 3: EVOLUCIÓN PESO + CALCULADORA 1RM ==================== -->
+      <!-- ==================== SLIDE 3: EVOLUCIÓN PESO + META MÚSCULO + BANNER GYM ==================== -->
       <section id="slide-3" class="min-h-full p-5 space-y-4 snap-start pt-4 pb-28">
         <div>
           <h2 class="text-2xl font-black font-display text-white">Evolución & Fuerza</h2>
-          <p class="text-xs text-gray-400">Seguimiento corporal y estimación de 1RM</p>
+          <p class="text-xs text-gray-400">Objetivos de músculo y estimación de 1RM</p>
         </div>
 
-        <!-- Registro de Peso Corporal -->
+        <!-- AJUSTE 1: REGISTRO DE PESO ACTUAL Y META MUSCULAR -->
         <div class="bg-cardBg p-4 rounded-3xl border border-gray-800 space-y-3">
-          <span class="text-xs font-bold text-white block">Registrar Peso Corporal de Hoy</span>
-          <div class="flex space-x-2">
-            <input type="number" id="input-weight" placeholder="Ej. 78.5" step="0.1" class="flex-1 bg-darkBg border border-gray-800 rounded-2xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand">
-            <button onclick="saveTodayWeight()" class="bg-brand text-black font-extrabold px-5 py-2.5 rounded-2xl text-xs active:scale-95 transition">
-              Guardar
-            </button>
+          <span class="text-xs font-bold text-white block">Registra tu Progreso Corporal</span>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="text-[10px] text-gray-400 block mb-1">Tu Peso Actual (kg)</label>
+              <input type="number" id="input-weight" placeholder="Ej. 85.0" step="0.1" class="w-full bg-darkBg border border-gray-800 rounded-2xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-brand">
+            </div>
+            <div>
+              <label class="text-[10px] text-gray-400 block mb-1">Meta Músculo (kg)</label>
+              <input type="number" id="input-target-weight" placeholder="Ej. 88.0" step="0.1" class="w-full bg-darkBg border border-gray-800 rounded-2xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-brand">
+            </div>
+          </div>
+          <button onclick="saveTodayWeight()" class="w-full bg-brand text-black font-extrabold py-2.5 rounded-2xl text-xs active:scale-95 transition shadow-md shadow-brand/20">
+            Guardar y Calcular Estrategia
+          </button>
+        </div>
+
+        <!-- Tarjeta Resumen con Resultados y Consejo Técnico -->
+        <div class="bg-cardBg p-5 rounded-3xl border border-gray-800 space-y-3">
+          <div class="flex justify-between items-center">
+            <div>
+              <span class="text-xs text-gray-400 block">Peso Actual</span>
+              <p id="display-current-weight" class="text-3xl font-black font-display text-brand">85.0 <span class="text-sm font-normal text-white">Kg</span></p>
+            </div>
+            <div class="text-right">
+              <span class="text-xs text-gray-400 block">Meta Músculo</span>
+              <p id="display-target-weight" class="text-2xl font-black font-display text-white">88.0 Kg</p>
+            </div>
+          </div>
+
+          <!-- Caja de Consejo Técnico Real -->
+          <div id="advice-box" class="bg-darkBg p-3.5 rounded-2xl border border-brand/30 space-y-1">
+            <span class="text-[11px] font-black text-brand uppercase tracking-wider block">💡 Estrategia de Enfoque Recomendada:</span>
+            <p id="advice-text" class="text-xs text-gray-200 leading-relaxed">
+              Para ganar 3.0 kg de masa muscular limpia, mantén un superávit calórico controlado de +300 a +400 Kcal al día, prioriza de 1.8g a 2.2g de proteína por kg y enfócate en la sobrecarga progresiva en tus ejercicios compuestos.
+            </p>
           </div>
         </div>
 
-        <div class="bg-cardBg p-5 rounded-3xl border border-gray-800 flex justify-between items-center">
-          <div>
-            <span class="text-xs text-gray-400">Peso Actual</span>
-            <p id="display-current-weight" class="text-3xl font-black font-display text-brand">78.5 <span class="text-sm font-normal text-white">Kg</span></p>
-          </div>
-          <div class="text-right">
-            <span class="text-xs text-gray-400">Meta Corporal</span>
-            <p class="text-lg font-bold font-display text-white">82.0 Kg</p>
+        <!-- AJUSTE 2: BANNER ANIMADO ESTILO TICKER DE GYM (Reemplaza los círculos) -->
+        <div class="bg-cardBg rounded-2xl border border-gray-800 overflow-hidden py-3 relative">
+          <div class="animate-marquee items-center space-x-6 text-brand font-black text-xs uppercase tracking-widest">
+            <div class="flex items-center space-x-3 shrink-0">
+              <span>🏋️ ENFOQUE TOTAL</span>
+              <span>🔥 HIPERTROFIA</span>
+              <span>💪 SOBRECARGA PROGRESIVA</span>
+              <span>⚡ MÁXIMA POTENCIA</span>
+              <span>🍗 NUTRICIÓN DE ALTO RENDIMIENTO</span>
+            </div>
+            <div class="flex items-center space-x-3 shrink-0">
+              <span>🏋️ ENFOQUE TOTAL</span>
+              <span>🔥 HIPERTROFIA</span>
+              <span>💪 SOBRECARGA PROGRESIVA</span>
+              <span>⚡ MÁXIMA POTENCIA</span>
+              <span>🍗 NUTRICIÓN DE ALTO RENDIMIENTO</span>
+            </div>
           </div>
         </div>
 
-        <!-- CALCULADORA 1RM (FUERZA MÁXIMA) REFORZADA -->
+        <!-- CALCULADORA 1RM (FUERZA MÁXIMA) -->
         <div class="bg-cardBg p-4 rounded-3xl border border-gray-800 space-y-3">
           <div class="flex items-center justify-between">
             <span class="text-xs font-extrabold text-white flex items-center space-x-1.5">
@@ -203,7 +254,6 @@
             Calcular 1RM
           </button>
 
-          <!-- Resultados de 1RM -->
           <div id="rm-results" class="pt-3 border-t border-gray-800/80 space-y-2">
             <div class="flex justify-between items-center bg-darkBg p-2.5 rounded-xl border border-gray-800">
               <span class="text-xs text-gray-300 font-bold">1RM Máximo Estimado:</span>
@@ -318,17 +368,26 @@
         </div>
       </section>
 
-      <!-- ==================== SLIDE 6: DIARIO + RESPALDO ==================== -->
+      <!-- ==================== SLIDE 6: DIARIO + MURO SOCIAL (CON CAMPO NOMBRE OBLIGATORIO) ==================== -->
       <section id="slide-6" class="min-h-full p-5 space-y-4 snap-start pt-4 pb-28">
         <div>
-          <h2 class="text-2xl font-black font-display text-white">Diario & Datos</h2>
-          <p class="text-xs text-gray-400">Comentarios y copia de seguridad</p>
+          <h2 class="text-2xl font-black font-display text-white">Muro & Diario</h2>
+          <p class="text-xs text-gray-400">Publica tus avances y marcas personales</p>
         </div>
 
-        <div class="space-y-2.5">
-          <textarea id="note-input" rows="3" placeholder="Escribe un comentario con la fecha de hoy..." class="w-full bg-cardBg border border-gray-800 rounded-2xl p-3.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-brand"></textarea>
-          <button onclick="addJournalNote()" class="w-full bg-brand text-black font-bold py-3 rounded-2xl text-xs active:scale-95 transition">
-            Publicar Comentario
+        <!-- AJUSTE 3: CASILLA OBLIGATORIA DE NOMBRE Y MENSAJE -->
+        <div class="bg-cardBg p-4 rounded-3xl border border-gray-800 space-y-3">
+          <span class="text-xs font-bold text-white block">Nuevo Comentario en el Muro</span>
+          <div>
+            <label class="text-[10px] text-gray-400 block mb-1">Tu Nombre (Obligatorio)</label>
+            <input type="text" id="note-author" placeholder="Ej. Andrés Felipe" class="w-full bg-darkBg border border-gray-800 rounded-xl px-3.5 py-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-brand">
+          </div>
+          <div>
+            <label class="text-[10px] text-gray-400 block mb-1">Comentario / Logro (Obligatorio)</label>
+            <textarea id="note-input" rows="3" placeholder="Escribe tu logro o comentario..." class="w-full bg-darkBg border border-gray-800 rounded-2xl p-3.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-brand"></textarea>
+          </div>
+          <button onclick="addJournalNote()" class="w-full bg-brand text-black font-extrabold py-3 rounded-2xl text-xs active:scale-95 transition shadow-md shadow-brand/20">
+            Publicar en el Muro
           </button>
         </div>
 
@@ -344,7 +403,11 @@
           </button>
         </div>
 
-        <div id="journal-list" class="space-y-2"></div>
+        <!-- MURO DE MENSAJES REGISTRADOS -->
+        <div class="space-y-2">
+          <span class="text-xs uppercase font-bold tracking-wider text-gray-400 block">Muro de la Comunidad</span>
+          <div id="journal-list" class="space-y-2"></div>
+        </div>
       </section>
 
     </main>
@@ -554,7 +617,8 @@
     let activeDay = 'lunes';
     let activeNutriDay = 'lunes';
     let currentGoal = 'bulking';
-    let userWeight = parseFloat(localStorage.getItem('enfoque_user_weight')) || 78.5;
+    let userWeight = parseFloat(localStorage.getItem('enfoque_user_weight')) || 85.0;
+    let targetWeight = parseFloat(localStorage.getItem('enfoque_target_weight')) || 88.0;
     let weightsState = JSON.parse(localStorage.getItem('enfoque_weights')) || {};
     let completedState = JSON.parse(localStorage.getItem('enfoque_completed')) || {};
     let journalNotes = JSON.parse(localStorage.getItem('enfoque_journal')) || [];
@@ -564,7 +628,87 @@
     let timerSeconds = 90;
     let isTimerPaused = false;
 
-    // FUNCIÓN DE CALCULADORA DE 1RM DIRECTA
+    // GUARDAR PESO ACTUAL, META DE MÚSCULO Y GENERAR CONSEJO TÉCNICO
+    function saveTodayWeight() {
+      const inputW = document.getElementById('input-weight');
+      const inputTW = document.getElementById('input-target-weight');
+
+      const valW = parseFloat(inputW.value);
+      const valTW = parseFloat(inputTW.value);
+
+      if (valW) userWeight = valW;
+      if (valTW) targetWeight = valTW;
+
+      localStorage.setItem('enfoque_user_weight', userWeight);
+      localStorage.setItem('enfoque_target_weight', targetWeight);
+
+      document.getElementById('display-current-weight').innerHTML = `${userWeight.toFixed(1)} <span class="text-sm font-normal text-white">Kg</span>`;
+      document.getElementById('display-target-weight').innerText = `${targetWeight.toFixed(1)} Kg`;
+
+      inputW.value = '';
+      inputTW.value = '';
+
+      updateAdvice();
+      calculateMacros();
+    }
+
+    function updateAdvice() {
+      const textEl = document.getElementById('advice-text');
+      const diff = (targetWeight - userWeight).toFixed(1);
+
+      if (targetWeight > userWeight) {
+        textEl.innerText = `Para ganar ${diff} kg de masa muscular limpia, mantén un superávit calórico controlado (+300 a +400 Kcal al día), consume entre ${Math.round(userWeight * 2.0)}g y ${Math.round(userWeight * 2.2)}g de proteína diaria y enfócate en la sobrecarga progresiva de peso en tus ejercicios principales.`;
+      } else if (targetWeight < userWeight) {
+        const loss = Math.abs(diff);
+        textEl.innerText = `Para bajar ${loss} kg de grasa preservando tu masa muscular, mantén un déficit calórico moderado (-300 a -500 Kcal), eleva tu consumo de proteína a ${Math.round(userWeight * 2.2)}g al día y mantén la intensidad de tus cargas en el gimnasio.`;
+      } else {
+        textEl.innerText = `Estás exactamente en tu meta de ${targetWeight} kg. Enfócate en la recomposición corporal: mantén tus calorías de mantenimiento, alta ingesta proteica (${Math.round(userWeight * 2.0)}g) y busca aumentar las repeticiones y el peso en tus rutinas.`;
+      }
+    }
+
+    // AÑADIR MENSAJE AL MURO SOCIAL CON CASILLA OBLIGATORIA
+    function addJournalNote() {
+      const authorInput = document.getElementById('note-author');
+      const textInput = document.getElementById('note-input');
+
+      const author = authorInput.value.trim();
+      const text = textInput.value.trim();
+
+      if (!author || !text) {
+        alert('⚠️ Por favor ingresa tu NOMBRE y tu MENSAJE antes de publicar.');
+        return;
+      }
+
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
+      const timeStr = now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+
+      const note = { id: Date.now(), author: author, date: `${dateStr} • ${timeStr}`, text: text };
+      journalNotes.unshift(note);
+      localStorage.setItem('enfoque_journal', JSON.stringify(journalNotes));
+
+      textInput.value = '';
+      renderJournalNotes();
+    }
+
+    function renderJournalNotes() {
+      const container = document.getElementById('journal-list');
+      if (!journalNotes.length) {
+        container.innerHTML = '<p class="text-xs text-gray-500 italic text-center py-4">Aún no hay comentarios en el muro. ¡Sé el primero en escribir!</p>';
+        return;
+      }
+
+      container.innerHTML = journalNotes.map(n => `
+        <div class="bg-cardBg p-3.5 rounded-2xl border border-gray-800 space-y-1">
+          <div class="flex justify-between items-center">
+            <span class="text-xs font-extrabold text-brand">${n.author || 'Atleta ENFOQUE'}</span>
+            <span class="text-[10px] text-gray-400 font-medium">${n.date}</span>
+          </div>
+          <p class="text-xs text-gray-200 leading-relaxed">${n.text}</p>
+        </div>
+      `).join('');
+    }
+
     function calculate1RM() {
       const inputW = document.getElementById('input-1rm-weight');
       const inputR = document.getElementById('input-1rm-reps');
@@ -573,7 +717,6 @@
       const r = parseFloat(inputR ? inputR.value : 0);
 
       if (w > 0 && r > 0) {
-        // Fórmula de Epley: W * (1 + r / 30)
         const rm = Math.round(w * (1 + (r / 30)));
         const hipertrofia = Math.round(rm * 0.75);
         const fuerza = Math.round(rm * 0.85);
@@ -589,9 +732,10 @@
     function exportUserData() {
       const data = {
         peso: userWeight,
+        metaMusculo: targetWeight,
         pesosEjercicios: weightsState,
         completados: completedState,
-        diario: journalNotes,
+        muroComunidad: journalNotes,
         agua: waterCups,
         fecha: new Date().toLocaleDateString()
       };
@@ -728,18 +872,6 @@
       document.getElementById(slideId).scrollIntoView({ behavior: 'smooth' });
     }
 
-    function saveTodayWeight() {
-      const input = document.getElementById('input-weight');
-      const val = parseFloat(input.value);
-      if (val) {
-        userWeight = val;
-        localStorage.setItem('enfoque_user_weight', val);
-        document.getElementById('display-current-weight').innerHTML = `${val.toFixed(1)} <span class="text-sm font-normal text-white">Kg</span>`;
-        input.value = '';
-        calculateMacros();
-      }
-    }
-
     function setNutritionGoal(goal) {
       currentGoal = goal;
       const btnBulking = document.getElementById('btn-bulking');
@@ -849,37 +981,10 @@
       document.getElementById('nutri-fats').innerText = `${fatsGrams}g`;
     }
 
-    function addJournalNote() {
-      const input = document.getElementById('note-input');
-      const text = input.value.trim();
-      if (!text) return;
-
-      const dateStr = new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
-      const note = { id: Date.now(), date: dateStr, text: text };
-      journalNotes.unshift(note);
-      localStorage.setItem('enfoque_journal', JSON.stringify(journalNotes));
-      
-      input.value = '';
-      renderJournalNotes();
-    }
-
-    function renderJournalNotes() {
-      const container = document.getElementById('journal-list');
-      if (!journalNotes.length) {
-        container.innerHTML = '<p class="text-xs text-gray-500 italic text-center py-4">No hay entradas aún. ¡Escribe tu primer logro!</p>';
-        return;
-      }
-
-      container.innerHTML = journalNotes.map(n => `
-        <div class="bg-cardBg p-3.5 rounded-2xl border border-gray-800 space-y-1">
-          <span class="text-[10px] text-brand font-bold block">${n.date}</span>
-          <p class="text-xs text-gray-300">${n.text}</p>
-        </div>
-      `).join('');
-    }
-
     window.addEventListener('DOMContentLoaded', () => {
       document.getElementById('display-current-weight').innerHTML = `${userWeight.toFixed(1)} <span class="text-sm font-normal text-white">Kg</span>`;
+      document.getElementById('display-target-weight').innerText = `${targetWeight.toFixed(1)} Kg`;
+      updateAdvice();
       calculateMacros();
       renderExerciseList();
       renderMealPlan();
