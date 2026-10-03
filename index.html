@@ -179,35 +179,44 @@
           </div>
         </div>
 
-        <!-- NOVEDAD 1: CALCULADORA 1RM (FUERZA MÁXIMA) -->
+        <!-- CALCULADORA 1RM (FUERZA MÁXIMA) REFORZADA -->
         <div class="bg-cardBg p-4 rounded-3xl border border-gray-800 space-y-3">
-          <div class="flex items-center space-x-2">
-            <i data-lucide="zap" class="w-4 h-4 text-brand"></i>
-            <span class="text-xs font-extrabold text-white">Calculadora 1RM (Fuerza Máxima)</span>
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-extrabold text-white flex items-center space-x-1.5">
+              <span class="text-brand font-black">⚡</span>
+              <span>Calculadora 1RM (Fuerza Máxima)</span>
+            </span>
           </div>
 
           <div class="grid grid-cols-2 gap-2">
-            <input type="number" id="input-1rm-weight" placeholder="Peso (kg)" class="bg-darkBg border border-gray-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand">
-            <input type="number" id="input-1rm-reps" placeholder="Repeticiones" class="bg-darkBg border border-gray-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand">
+            <div>
+              <label class="text-[10px] text-gray-400 block mb-1">Peso Levantado (kg)</label>
+              <input type="number" id="input-1rm-weight" placeholder="Ej. 80" class="w-full bg-darkBg border border-gray-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand">
+            </div>
+            <div>
+              <label class="text-[10px] text-gray-400 block mb-1">Repeticiones</label>
+              <input type="number" id="input-1rm-reps" placeholder="Ej. 10" class="w-full bg-darkBg border border-gray-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand">
+            </div>
           </div>
 
-          <button onclick="calculate1RM()" class="w-full bg-brand text-black font-extrabold py-2.5 rounded-xl text-xs active:scale-95 transition">
-            Calcular Fuerza Máxima
+          <button onclick="calculate1RM()" class="w-full bg-brand text-black font-extrabold py-2.5 rounded-xl text-xs active:scale-95 transition shadow-md shadow-brand/20">
+            Calcular 1RM
           </button>
 
-          <div id="rm-results" class="hidden pt-2 border-t border-gray-800 space-y-2 text-xs">
-            <div class="flex justify-between items-center">
-              <span class="text-gray-400">1RM Estimado (100%):</span>
-              <span id="val-1rm-max" class="font-black text-brand text-sm">0 kg</span>
+          <!-- Resultados de 1RM -->
+          <div id="rm-results" class="pt-3 border-t border-gray-800/80 space-y-2">
+            <div class="flex justify-between items-center bg-darkBg p-2.5 rounded-xl border border-gray-800">
+              <span class="text-xs text-gray-300 font-bold">1RM Máximo Estimado:</span>
+              <span id="val-1rm-max" class="font-black text-brand text-base">-- kg</span>
             </div>
-            <div class="grid grid-cols-2 gap-2 text-[11px] text-center">
+            <div class="grid grid-cols-2 gap-2 text-center text-xs">
               <div class="bg-darkBg p-2 rounded-xl border border-gray-800">
-                <span class="text-gray-400 block">Hipertrofia (75%)</span>
-                <span id="val-1rm-hip" class="font-bold text-white">0 kg</span>
+                <span class="text-[10px] text-gray-400 block">Hipertrofia (75%)</span>
+                <span id="val-1rm-hip" class="font-bold text-white text-xs">-- kg</span>
               </div>
               <div class="bg-darkBg p-2 rounded-xl border border-gray-800">
-                <span class="text-gray-400 block">Fuerza (85%)</span>
-                <span id="val-1rm-fuerza" class="font-bold text-white">0 kg</span>
+                <span class="text-[10px] text-gray-400 block">Fuerza (85%)</span>
+                <span id="val-1rm-fuerza" class="font-bold text-white text-xs">-- kg</span>
               </div>
             </div>
           </div>
@@ -309,7 +318,7 @@
         </div>
       </section>
 
-      <!-- ==================== SLIDE 6: DIARIO + COPIA DE SEGURIDAD ==================== -->
+      <!-- ==================== SLIDE 6: DIARIO + RESPALDO ==================== -->
       <section id="slide-6" class="min-h-full p-5 space-y-4 snap-start pt-4 pb-28">
         <div>
           <h2 class="text-2xl font-black font-display text-white">Diario & Datos</h2>
@@ -323,7 +332,7 @@
           </button>
         </div>
 
-        <!-- NOVEDAD 2: EXPORTAR DATOS/BACKUP -->
+        <!-- RESPALDO DE DATOS -->
         <div class="bg-cardBg p-3.5 rounded-2xl border border-gray-800 flex justify-between items-center text-xs">
           <div>
             <span class="font-bold text-white block">Respaldo de Datos</span>
@@ -394,7 +403,6 @@
   <script>
     lucide.createIcons();
 
-    // NOVEDAD 3: REGISTRO DE SERVICE WORKER PARA OFFLINE
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js').catch(err => console.log('SW error', err));
     }
@@ -556,17 +564,25 @@
     let timerSeconds = 90;
     let isTimerPaused = false;
 
+    // FUNCIÓN DE CALCULADORA DE 1RM DIRECTA
     function calculate1RM() {
-      const w = parseFloat(document.getElementById('input-1rm-weight').value);
-      const r = parseFloat(document.getElementById('input-1rm-reps').value);
+      const inputW = document.getElementById('input-1rm-weight');
+      const inputR = document.getElementById('input-1rm-reps');
+      
+      const w = parseFloat(inputW ? inputW.value : 0);
+      const r = parseFloat(inputR ? inputR.value : 0);
 
       if (w > 0 && r > 0) {
-        // Fórmula de Epley: W * (1 + r/30)
-        const rm = Math.round(w * (1 + r / 30));
+        // Fórmula de Epley: W * (1 + r / 30)
+        const rm = Math.round(w * (1 + (r / 30)));
+        const hipertrofia = Math.round(rm * 0.75);
+        const fuerza = Math.round(rm * 0.85);
+
         document.getElementById('val-1rm-max').innerText = `${rm} kg`;
-        document.getElementById('val-1rm-hip').innerText = `${Math.round(rm * 0.75)} kg`;
-        document.getElementById('val-1rm-fuerza').innerText = `${Math.round(rm * 0.85)} kg`;
-        document.getElementById('rm-results').classList.remove('hidden');
+        document.getElementById('val-1rm-hip').innerText = `${hipertrofia} kg`;
+        document.getElementById('val-1rm-fuerza').innerText = `${fuerza} kg`;
+      } else {
+        alert('Por favor ingresa tanto el peso como las repeticiones.');
       }
     }
 
