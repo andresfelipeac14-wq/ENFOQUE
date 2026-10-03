@@ -11,6 +11,7 @@
   <meta name="apple-mobile-web-app-title" content="ENFOQUE">
   <link rel="apple-touch-icon" href="ENFOQUE_2.jpg">
   <link rel="icon" type="image/jpeg" href="ENFOQUE_2.jpg">
+  <link rel="manifest" href="manifest.json">
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -198,7 +199,7 @@
           <div class="grid grid-cols-3 gap-2 text-center text-xs">
             <div class="p-2 bg-darkBg rounded-xl border border-gray-800">
               <span id="nutri-protein" class="font-bold text-white block">157g</span>
-              <span class="text-[9px] text-gray-400">Proteína (2g/kg)</span>
+              <span class="text-[9px] text-gray-400">Proteína</span>
             </div>
             <div class="p-2 bg-darkBg rounded-xl border border-gray-800">
               <span id="nutri-carbs" class="font-bold text-white block">350g</span>
@@ -288,7 +289,6 @@
   <script>
     lucide.createIcons();
 
-    // Rutinas con nombres de enfoque muscular técnico
     const rutinas = {
       lunes: [
         { id: 'l1', nombre: 'Sentadilla Pesada con Barra', series: '4 x 8-10', baseWeight: 30, tip: 'Desciende rompiendo el paralelo.' },
@@ -408,7 +408,6 @@
       document.getElementById(slideId).scrollIntoView({ behavior: 'smooth' });
     }
 
-    // Guardar peso corporal y calcular macros dinámicos
     function saveTodayWeight() {
       const input = document.getElementById('input-weight');
       const val = parseFloat(input.value);
@@ -436,7 +435,6 @@
       calculateMacros();
     }
 
-    // Cálculo dinámico de Macros según el peso corporal
     function calculateMacros() {
       let proteinGrams = 0;
       let calories = 0;
