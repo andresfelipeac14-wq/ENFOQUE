@@ -3,450 +3,344 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>ENFOQUE • Fitness & Lifestyle</title>
-  <!-- Iconos Lucide -->
+  <title>ENFOQUE - Fitness & Performance</title>
+  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
-    /* Estilos generales y reseteo móvil */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    }
-    body, html {
-      width: 100%;
-      height: 100%;
-      background-color: #030712;
-      color: #f9fafb;
-      overflow: hidden;
-    }
-    /* Ocultar barra de desplazamiento en contenedores horizontales */
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    body, html { width: 100%; height: 100%; background: #050507; color: #fff; overflow: hidden; }
+    /* Ocultar barra de desplazamiento pero permitir scroll */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
 
-  <!-- CONTENEDOR PRINCIPAL TIPO APP SLIDER -->
-  <div id="app-container" style="display: flex; width: 100vw; height: 100vh; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;" class="no-scrollbar">
+  <!-- CONTENEDOR PRINCIPAL TIPO PWA / APP MÓVIL -->
+  <div style="max-width: 430px; height: 100vh; margin: 0 auto; background: #0b0c10; position: relative; display: flex; flex-direction: column; box-shadow: 0 0 25px rgba(0,0,0,0.8);">
 
-    <!-- ========================================== -->
-    <!-- SLIDE 1: INICIO / PORTADA                  -->
-    <!-- ========================================== -->
-    <section id="slide-1" style="flex: 0 0 100%; width: 100%; height: 100%; box-sizing: border-box; padding: 20px; overflow-y: auto; padding-bottom: 90px; scroll-snap-align: start; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: linear-gradient(135deg, #030712 0%, #111827 100%);">
-      <div style="max-width: 400px;">
-        <div style="width: 80px; height: 80px; background: rgba(16, 185, 129, 0.1); border-radius: 24px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; border: 1px solid rgba(16, 185, 129, 0.3);">
-          <i data-lucide="zap" style="width: 40px; height: 40px; color: #10b981;"></i>
-        </div>
-        <h1 style="font-size: 32px; font-weight: 900; color: #fff; margin-bottom: 10px; letter-spacing: -1px;">ENFOQUE</h1>
-        <p style="font-size: 14px; color: #9ca3af; margin-bottom: 30px; line-height: 1.5;">Tu sistema personal de alto rendimiento, entrenamiento, nutrición y disciplina diaria.</p>
-        
-        <button onclick="scrollToSlide('slide-3')" style="width: 100%; background: #10b981; color: #000; border: none; padding: 16px; border-radius: 14px; font-weight: 800; font-size: 15px; cursor: pointer; box-shadow: 0 8px 20px rgba(16,185,129,0.3); margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 8px;">
-          <span>Empezar Entrenamiento</span> <i data-lucide="arrow-right" style="width: 18px; height: 18px;"></i>
-        </button>
+    <!-- ÁREA DE DESPLAZAMIENTO DE SLIDES -->
+    <div id="scroll-container" class="no-scrollbar" style="flex: 1; overflow-y: scroll; scroll-snap-type: y mandatory; display: flex; flex-direction: column; scroll-behavior: smooth;">
 
-        <button onclick="toggleGymMusicPlayer()" style="width: 100%; background: #1f2937; color: #fff; border: 1px solid #374151; padding: 14px; border-radius: 14px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
-          <i data-lucide="headphones" style="width: 18px; height: 18px; color: #3b82f6;"></i> Abrir Reproductor Gym
-        </button>
-
-        <!-- Panel Oculto Reproductor -->
-        <div id="gym-disc-panel" style="display: none; margin-top: 15px; background: #111827; border: 1px solid #1f2937; border-radius: 14px; padding: 15px; flex-direction: column; gap: 10px;">
-          <div style="font-size: 12px; font-weight: bold; color: #9ca3af;">MIX PESADO • GYM INTRO 🎧</div>
-          <div style="display: flex; gap: 10px;">
-            <button onclick="playGymMix()" style="flex: 1; background: #3b82f6; color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 12px; cursor: pointer;">Reproducir</button>
-            <button onclick="stopGymMix()" style="flex: 1; background: #374151; color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 12px; cursor: pointer;">Detener</button>
+      <!-- SLIDE 1: INICIO -->
+      <section id="slide-1" style="height: 100%; width: 100%; flex-shrink: 0; scroll-snap-align: start; box-sizing: border-box; padding: 20px 16px 80px 16px; overflow-y: auto; background: #0b0c10;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <div>
+            <span style="font-size: 10px; font-weight: bold; color: #00FF66; letter-spacing: 1px;">SISTEMA ACTIVO</span>
+            <h1 style="font-size: 22px; font-weight: 900; color: #fff; margin: 0; letter-spacing: -0.5px;">ENFOQUE</h1>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================== -->
-    <!-- SLIDE 3: FUERZA / ENTRENAMIENTO            -->
-    <!-- ========================================== -->
-    <section id="slide-3" style="flex: 0 0 100%; width: 100%; height: 100%; box-sizing: border-box; padding: 20px; overflow-y: auto; padding-bottom: 90px; scroll-snap-align: start;">
-      <div style="max-width: 600px; margin: 0 auto;">
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
-          <h2 style="font-size: 20px; font-weight: 800; color: #ffffff; display: flex; align-items: center; gap: 8px;">
-            <i data-lucide="line-chart" style="color: #10b981; width: 24px; height: 24px;"></i> Registro de Fuerza
-          </h2>
-          <span style="font-size: 11px; background: rgba(16, 185, 129, 0.2); color: #34d399; padding: 4px 10px; border-radius: 20px; font-weight: 600;">Rutina Activa</span>
+          <div style="width: 32px; height: 32px; background: #13151a; border: 1px solid #1f2937; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; color: #00FF66;">AF</div>
         </div>
 
-        <div style="background: #111827; border: 1px solid #1f2937; border-radius: 16px; padding: 16px; margin-bottom: 15px;">
-          <h3 style="font-size: 15px; font-weight: bold; color: #fff; margin-bottom: 8px;">💪 Bloque Superior / Pecho & Tríceps</h3>
-          <p style="font-size: 12px; color: #9ca3af; margin-bottom: 12px;">Registra tus cargas máximas de la semana para asegurar sobrecarga progresiva.</p>
-          <div style="display: flex; flex-direction: column; gap: 8px;">
-            <div style="display: flex; justify-content: space-between; background: #1f2937; padding: 10px 12px; border-radius: 10px; font-size: 13px;">
-              <span>Press de Banca Plano</span>
-              <strong style="color: #10b981;">80 kg x 8 reps</strong>
-            </div>
-            <div style="display: flex; justify-content: space-between; background: #1f2937; padding: 10px 12px; border-radius: 10px; font-size: 13px;">
-              <span>Press Inclinado con Mancuernas</span>
-              <strong style="color: #10b981;">30 kg x 10 reps</strong>
-            </div>
+        <!-- Tarjeta de Control de Peso -->
+        <div style="background: #13151a; border: 1px solid #1f2937; border-radius: 14px; padding: 16px; margin-bottom: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <span style="font-size: 12px; font-weight: bold; color: #9ca3af;">Peso Actual</span>
+            <span id="display-current-weight" style="font-size: 18px; font-weight: 900; color: #00FF66;">78.5 <span style="font-size: 12px; font-weight: normal; color: #fff;">Kg</span></span>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================== -->
-    <!-- SLIDE 4: NUTRICIÓN Y PLANES NUTRICIONALES  -->
-    <!-- ========================================== -->
-    <section id="slide-4" style="flex: 0 0 100%; width: 100%; height: 100%; box-sizing: border-box; padding: 20px; overflow-y: auto; padding-bottom: 90px; scroll-snap-align: start;">
-      <div style="max-width: 600px; margin: 0 auto;">
-        
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
-          <h2 style="font-size: 20px; font-weight: 800; color: #ffffff; display: flex; align-items: center; gap: 8px;">
-            <i data-lucide="utensils" style="color: #10b981; width: 24px; height: 24px;"></i> Nutrición & Dietas
-          </h2>
-          <span style="font-size: 11px; background: rgba(16, 185, 129, 0.2); color: #34d399; padding: 4px 10px; border-radius: 20px; font-weight: 600;">Lunes a Domingo</span>
-        </div>
-
-        <!-- Selector de Objetivo -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
-          <button onclick="switchDietGoal('muscular')" id="btn-goal-muscular" style="padding: 12px; background: #10b981; color: #000; border: none; border-radius: 12px; font-weight: 800; font-size: 13px; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 12px rgba(16,185,129,0.3);">
-            💪 Ganar Masa Muscular
-          </button>
-          <button onclick="switchDietGoal('definicion')" id="btn-goal-definicion" style="padding: 12px; background: #1f2937; color: #9ca3af; border: 1px solid #374151; border-radius: 12px; font-weight: 800; font-size: 13px; cursor: pointer; transition: 0.3s;">
-            🔥 Adelgazar / Definir
-          </button>
-        </div>
-
-        <!-- Selector de Día de la Semana -->
-        <div style="display: flex; gap: 6px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 15px;" class="no-scrollbar">
-          <button onclick="setDietDay('Lunes')" class="diet-day-btn" data-day="Lunes" style="padding: 8px 14px; background: #10b981; color: #000; border: none; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap;">Lun</button>
-          <button onclick="setDietDay('Martes')" class="diet-day-btn" data-day="Martes" style="padding: 8px 14px; background: #1f2937; color: #9ca3af; border: 1px solid #374151; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap;">Mar</button>
-          <button onclick="setDietDay('Miércoles')" class="diet-day-btn" data-day="Miércoles" style="padding: 8px 14px; background: #1f2937; color: #9ca3af; border: 1px solid #374151; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap;">Mié</button>
-          <button onclick="setDietDay('Jueves')" class="diet-day-btn" data-day="Jueves" style="padding: 8px 14px; background: #1f2937; color: #9ca3af; border: 1px solid #374151; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap;">Jue</button>
-          <button onclick="setDietDay('Viernes')" class="diet-day-btn" data-day="Viernes" style="padding: 8px 14px; background: #1f2937; color: #9ca3af; border: 1px solid #374151; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap;">Vie</button>
-          <button onclick="setDietDay('Sábado')" class="diet-day-btn" data-day="Sábado" style="padding: 8px 14px; background: #1f2937; color: #9ca3af; border: 1px solid #374151; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap;">Sáb</button>
-          <button onclick="setDietDay('Domingo')" class="diet-day-btn" data-day="Domingo" style="padding: 8px 14px; background: #1f2937; color: #9ca3af; border: 1px solid #374151; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap;">Dom</button>
-        </div>
-
-        <!-- Contenedor del Menú Dinámico (Desayuno, Almuerzo, Pre-entreno, Merienda, Cena) -->
-        <div id="diet-content-container" style="display: flex; flex-direction: column; gap: 12px;">
-          <!-- Inyectado dinámicamente por JavaScript -->
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ========================================== -->
-    <!-- SLIDE 5: SUEÑO Y DESCANSO                  -->
-    <!-- ========================================== -->
-    <section id="slide-5" style="flex: 0 0 100%; width: 100%; height: 100%; box-sizing: border-box; padding: 20px; overflow-y: auto; padding-bottom: 90px; scroll-snap-align: start;">
-      <div style="max-width: 600px; margin: 0 auto;">
-        <h2 style="font-size: 20px; font-weight: 800; color: #ffffff; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
-          <i data-lucide="moon" style="color: #3b82f6; width: 24px; height: 24px;"></i> Control de Sueño
-        </h2>
-        <div style="background: #111827; border: 1px solid #1f2937; border-radius: 16px; padding: 16px;">
-          <p style="font-size: 13px; color: #9ca3af;">Registra tus horas de descanso nocturno para optimizar la síntesis de proteína y recuperación muscular.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================== -->
-    <!-- SLIDE 6: MULTIMEDIA / GALERÍA              -->
-    <!-- ========================================== -->
-    <section id="slide-6" style="flex: 0 0 100%; width: 100%; height: 100%; box-sizing: border-box; padding: 20px; overflow-y: auto; padding-bottom: 90px; scroll-snap-align: start;">
-      <div style="max-width: 600px; margin: 0 auto;">
-        <h2 style="font-size: 20px; font-weight: 800; color: #ffffff; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
-          <i data-lucide="image" style="color: #a855f7; width: 24px; height: 24px;"></i> Multimedia & Progreso
-        </h2>
-        <div style="background: #111827; border: 1px solid #1f2937; border-radius: 16px; padding: 16px;">
-          <p style="font-size: 13px; color: #9ca3af;">Tus fotos de transformación y registros visuales semanales.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================== -->
-    <!-- SLIDE 7: MURO / COMUNIDAD                  -->
-    <!-- ========================================== -->
-    <section id="slide-7" style="flex: 0 0 100%; width: 100%; height: 100%; box-sizing: border-box; padding: 20px; overflow-y: auto; padding-bottom: 90px; scroll-snap-align: start;">
-      <div style="max-width: 600px; margin: 0 auto;">
-        
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
-          <h2 style="font-size: 20px; font-weight: 800; color: #ffffff; display: flex; align-items: center; gap: 8px;">
-            <i data-lucide="message-square" style="color: #3b82f6; width: 24px; height: 24px;"></i> Muro ENFOQUE
-          </h2>
-          <span style="font-size: 11px; background: rgba(59, 130, 246, 0.2); color: #60a5fa; padding: 4px 10px; border-radius: 20px; font-weight: 600;">Comunidad</span>
-        </div>
-
-        <!-- Crear Publicación -->
-        <div style="background: #111827; border: 1px solid #1f2937; border-radius: 16px; padding: 15px; margin-bottom: 20px;">
-          <textarea id="wall-input-post" placeholder="¿Qué tal tu entrenamiento hoy, Andrés? Comparte tu progreso..." style="width: 100%; background: #1f2937; border: none; border-radius: 10px; padding: 12px; color: #fff; font-size: 13px; resize: none; height: 70px; outline: none; box-sizing: border-box;"></textarea>
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
-            <span style="font-size: 11px; color: #9ca3af;">🔥 Comparte tus marcas o fotos</span>
-            <button onclick="postToWall()" style="background: #3b82f6; color: white; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer;">Publicar</button>
+          <div style="display: flex; gap: 8px;">
+            <input type="number" id="input-weight" placeholder="Nuevo peso (kg)" step="0.1" style="flex: 1; background: #08090b; border: 1px solid #1f2937; border-radius: 8px; padding: 8px; color: #fff; font-size: 12px;">
+            <button onclick="saveTodayWeight()" style="background: #00FF66; color: #000; border: none; padding: 0 14px; border-radius: 8px; font-weight: bold; font-size: 11px; cursor: pointer;">Registrar</button>
           </div>
         </div>
 
-        <!-- Feed de Publicaciones -->
-        <div id="wall-posts-container" style="display: flex; flex-direction: column; gap: 12px;">
-          <div style="background: #111827; border: 1px solid #1f2937; border-radius: 16px; padding: 15px;">
-            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-              <div style="width: 32px; height: 32px; background: #3b82f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 13px; color: #fff;">AF</div>
-              <div>
-                <div style="font-size: 13px; font-weight: bold; color: #fff;">Andrés Felipe</div>
-                <div style="font-size: 10px; color: #9ca3af;">Hace 10 minutos</div>
+        <!-- Control de Hidratación -->
+        <div style="background: #13151a; border: 1px solid #1f2937; border-radius: 14px; padding: 16px; margin-bottom: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-size: 12px; font-weight: bold; color: #9ca3af;">Hidratación Diaria</span>
+            <span id="water-display" style="font-size: 12px; font-weight: bold; color: #00FF66;">0.0 / 3.0 L</span>
+          </div>
+          <div id="water-cups-container" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px;"></div>
+        </div>
+
+        <!-- Resumen Motivacional -->
+        <div style="background: linear-gradient(135deg, #13151a 0%, #0d0e12 100%); border: 1px solid #1f2937; border-radius: 14px; padding: 16px;">
+          <h3 style="font-size: 13px; font-weight: bold; color: #fff; margin-bottom: 6px;">Consejo del Día</h3>
+          <p id="advice-text" style="font-size: 11px; color: #9ca3af; line-height: 1.4; margin: 0;">La consistencia supera a la intensidad ocasional. Mantén tus macros limpios y ejecuta cada serie con rango completo.</p>
+        </div>
+      </section>
+
+      <!-- SLIDE 2: RUTINA -->
+      <section id="slide-2" style="height: 100%; width: 100%; flex-shrink: 0; scroll-snap-align: start; box-sizing: border-box; padding: 20px 16px 80px 16px; overflow-y: auto; background: #0b0c10;">
+        <h2 style="font-size: 20px; font-weight: 900; color: #fff; margin-bottom: 4px;">Rutina Activa</h2>
+        <p style="font-size: 11px; color: #9ca3af; margin-bottom: 16px;">Bloque de fuerza y sobrecarga progresiva</p>
+
+        <div style="background: #13151a; border: 1px solid #1f2937; border-radius: 12px; padding: 14px; margin-bottom: 12px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-size: 13px; font-weight: bold; color: #fff;">1. Press Inclinado con Mancuernas</span>
+            <span style="font-size: 10px; background: rgba(0,255,102,0.1); color: #00FF66; padding: 2px 6px; border-radius: 4px; font-weight: bold;">4 Series</span>
+          </div>
+          <p style="font-size: 11px; color: #9ca3af; margin: 0 0 10px 0;">Rango objetivo: 8-10 reps con máxima contracción.</p>
+          <button onclick="alert('¡Serie registrada con éxito!')" style="width: 100%; background: #1f2937; color: #00FF66; border: 1px solid #00FF66; padding: 8px; border-radius: 8px; font-size: 11px; font-weight: bold; cursor: pointer;">Marcar Ejercicio Completado</button>
+        </div>
+
+        <div style="background: #13151a; border: 1px solid #1f2937; border-radius: 12px; padding: 14px; margin-bottom: 12px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-size: 13px; font-weight: bold; color: #fff;">2. Aperturas en Polea Baja</span>
+            <span style="font-size: 10px; background: rgba(0,255,102,0.1); color: #00FF66; padding: 2px 6px; border-radius: 4px; font-weight: bold;">3 Series</span>
+          </div>
+          <p style="font-size: 11px; color: #9ca3af; margin: 0 0 10px 0;">Control excéntrico de 3 segundos por repetición.</p>
+          <button onclick="alert('¡Serie registrada con éxito!')" style="width: 100%; background: #1f2937; color: #00FF66; border: 1px solid #00FF66; padding: 8px; border-radius: 8px; font-size: 11px; font-weight: bold; cursor: pointer;">Marcar Ejercicio Completado</button>
+        </div>
+      </section>
+
+      <!-- SLIDE 3: FUERZA / 1RM -->
+      <section id="slide-3" style="height: 100%; width: 100%; flex-shrink: 0; scroll-snap-align: start; box-sizing: border-box; padding: 20px 16px 80px 16px; overflow-y: auto; background: #0b0c10;">
+        <h2 style="font-size: 20px; font-weight: 900; color: #fff; margin-bottom: 4px;">Calculadora 1RM</h2>
+        <p style="font-size: 11px; color: #9ca3af; margin-bottom: 16px;">Estima tu fuerza máxima (Fórmula de Epley)</p>
+
+        <div style="background: #13151a; border: 1px solid #1f2937; border-radius: 12px; padding: 16px;">
+          <div style="margin-bottom: 10px;">
+            <label style="font-size: 11px; color: #9ca3af; display: block; margin-bottom: 4px;">Peso levantado (Kg)</label>
+            <input type="number" id="input-1rm-weight" placeholder="Ej. 100" style="width: 100%; background: #08090b; border: 1px solid #1f2937; border-radius: 8px; padding: 8px; color: #fff; font-size: 12px;">
+          </div>
+          <div style="margin-bottom: 14px;">
+            <label style="font-size: 11px; color: #9ca3af; display: block; margin-bottom: 4px;">Repeticiones realizadas</label>
+            <input type="number" id="input-1rm-reps" placeholder="Ej. 5" style="width: 100%; background: #08090b; border: 1px solid #1f2937; border-radius: 8px; padding: 8px; color: #fff; font-size: 12px;">
+          </div>
+          <button onclick="calculate1RM()" style="width: 100%; background: #00FF66; color: #000; border: none; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 12px; cursor: pointer; margin-bottom: 12px;">Calcular 1RM</button>
+          
+          <div style="text-align: center; padding: 12px; background: #08090b; border-radius: 8px; border: 1px solid #1f2937;">
+            <span style="font-size: 11px; color: #9ca3af; display: block;">Tu 1RM Estimado:</span>
+            <span id="val-1rm-max" style="font-size: 22px; font-weight: 900; color: #00FF66;">-- kg</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 4: NUTRICIÓN -->
+      <section id="slide-4" style="height: 100%; width: 100%; flex-shrink: 0; scroll-snap-align: start; box-sizing: border-box; padding: 20px 16px 80px 16px; overflow-y: auto; background: #0b0c10;">
+        <h2 style="font-size: 20px; font-weight: 900; color: #fff; margin-bottom: 4px;">Nutrición & Macros</h2>
+        <p style="font-size: 11px; color: #9ca3af; margin-bottom: 16px;">Control calórico y abastecimiento</p>
+
+        <div style="display: flex; gap: 8px; margin-bottom: 14px;">
+          <button id="btn-bulking" onclick="setNutritionGoal('bulking')" style="flex: 1; background: #00FF66; color: #000; border: none; padding: 8px; border-radius: 8px; font-size: 11px; font-weight: bold; cursor: pointer;">Volumen</button>
+          <button id="btn-cutting" onclick="setNutritionGoal('cutting')" style="flex: 1; background: transparent; color: #9ca3af; border: 1px solid #1f2937; padding: 8px; border-radius: 8px; font-size: 11px; font-weight: bold; cursor: pointer;">Definición</button>
+        </div>
+
+        <div style="background: #13151a; border: 1px solid #1f2937; border-radius: 12px; padding: 16px; margin-bottom: 12px; text-align: center;">
+          <span style="font-size: 11px; color: #9ca3af; display: block;">Meta Calórica Diaria</span>
+          <span id="nutri-calories" style="font-size: 24px; font-weight: 900; color: #00FF66;">2,850 Kcal</span>
+        </div>
+
+        <button onclick="openGroceryModal()" style="width: 100%; background: #13151a; color: #fff; border: 1px solid #1f2937; padding: 10px; border-radius: 8px; font-size: 11px; font-weight: bold; cursor: pointer;">Ver Lista de Compras Recomendada</button>
+      </section>
+
+      <!-- SLIDE 5: SUEÑO Y RECUPERACIÓN -->
+      <section id="slide-5" style="height: 100%; width: 100%; flex-shrink: 0; scroll-snap-align: start; box-sizing: border-box; padding: 20px 16px 80px 16px; overflow-y: auto; background: #0b0c10;">
+        <h2 style="font-size: 20px; font-weight: 900; color: #fff; margin-bottom: 4px;">Sueño y Descanso</h2>
+        <p style="font-size: 11px; color: #9ca3af; margin-bottom: 16px;">Optimización de la síntesis proteica nocturna</p>
+
+        <div style="background: #13151a; border: 1px solid #1f2937; border-radius: 12px; padding: 16px; margin-bottom: 12px;">
+          <span style="font-size: 12px; font-weight: bold; color: #fff; display: block; margin-bottom: 6px;">Calidad de Sueño Anoche</span>
+          <p style="font-size: 11px; color: #9ca3af; margin-bottom: 10px;">Asegura un mínimo de 7.5 a 8 horas en ambiente oscuro y fresco para maximizar la producción natural de GH.</p>
+          <div style="display: flex; gap: 6px;">
+            <button onclick="alert('¡Registrado: Excelente descanso!')" style="flex: 1; background: #08090b; border: 1px solid #1f2937; color: #00FF66; padding: 8px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer;">⚡ Óptimo (8h+)</button>
+            <button onclick="alert('¡Registrado: Descanso moderado!')" style="flex: 1; background: #08090b; border: 1px solid #1f2937; color: #eab308; padding: 8px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer;">⚠️ Regular (6h)</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 6: MEDIA / MÚSICA -->
+      <section id="slide-6" style="height: 100%; width: 100%; flex-shrink: 0; scroll-snap-align: start; box-sizing: border-box; padding: 20px 16px 80px 16px; overflow-y: auto; background: #0b0c10;">
+        <h2 style="font-size: 20px; font-weight: 900; color: #fff; margin-bottom: 4px;">Media & Enfoque</h2>
+        <p style="font-size: 11px; color: #9ca3af; margin-bottom: 16px;">Audio motivacional para entrenamiento pesado</p>
+
+        <div style="background: #13151a; border: 1px solid #1f2937; border-radius: 12px; padding: 16px; text-align: center;">
+          <div style="width: 50px; height: 50px; background: rgba(0,255,102,0.1); border-radius: 50%; margin: 0 auto 10px auto; display: flex; align-items: center; justify-content: center; color: #00FF66;">
+            <i data-lucide="music" style="width: 24px; height: 24px;"></i>
+          </div>
+          <span style="font-size: 13px; font-weight: bold; color: #fff; display: block; margin-bottom: 4px;">Gym Heavy Bass Mix</span>
+          <span style="font-size: 10px; color: #9ca3af; display: block; margin-bottom: 14px;">Reggaeton & Phonk para rendimiento máximo</span>
+          <div style="display: flex; gap: 8px;">
+            <button onclick="playGymMix()" style="flex: 1; background: #00FF66; color: #000; border: none; padding: 8px; border-radius: 8px; font-size: 11px; font-weight: bold; cursor: pointer;">Reproducir</button>
+            <button onclick="stopGymMix()" style="flex: 1; background: #1f2937; color: #fff; border: none; padding: 8px; border-radius: 8px; font-size: 11px; font-weight: bold; cursor: pointer;">Pausar</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 7: MURO / COMUNIDAD -->
+      <section id="slide-7" style="height: 100%; width: 100%; flex-shrink: 0; scroll-snap-align: start; box-sizing: border-box; padding: 20px 16px 80px 16px; overflow-y: auto; background: #0b0c10;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <div>
+            <h2 style="font-size: 20px; font-weight: 900; color: #fff; margin: 0; letter-spacing: -0.5px;">Muro ENFOQUE</h2>
+            <p style="font-size: 11px; color: #9ca3af; margin: 2px 0 0 0;">Comunidad, registros y motivación diaria</p>
+          </div>
+          <button onclick="openNewPostModal()" style="background: #00FF66; color: #000; border: none; padding: 6px 12px; border-radius: 8px; font-weight: bold; font-size: 11px; cursor: pointer;">+ Publicar</button>
+        </div>
+
+        <!-- Feed de Mensajes / Posts -->
+        <div style="display: flex; flex-direction: column; gap: 12px;" id="wall-posts-container">
+          <!-- Post de Ejemplo 1 -->
+          <div style="background: #13151a; border: 1px solid #1f2937; border-radius: 12px; padding: 12px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <div style="width: 28px; height: 28px; background: #00FF66; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #000; font-size: 11px;">AF</div>
+                <div>
+                  <span style="font-size: 12px; font-weight: bold; color: #fff; display: block;">Andrés Felipe</span>
+                  <span style="font-size: 9px; color: #9ca3af;">Hoy, 06:30 AM</span>
+                </div>
               </div>
+              <span style="font-size: 9px; background: rgba(0,255,102,0.1); color: #00FF66; padding: 2px 6px; border-radius: 4px; font-weight: bold;">Entrenamiento</span>
             </div>
-            <p style="font-size: 13px; color: #d1d5db; margin: 0 0 10px 0;">¡Sesión de fuerza terminada con éxito! Dando el 100% en ENFOQUE 🚀💪</p>
-            <div style="display: flex; gap: 15px; font-size: 12px; color: #9ca3af; border-top: 1px solid #1f2937; padding-top: 8px;">
-              <span style="cursor: pointer; display: flex; align-items: center; gap: 4px;" onclick="likePost(this)"><i data-lucide="heart" style="width: 14px; height: 14px;"></i> <span>12</span></span>
+            <p style="font-size: 12px; color: #e5e7eb; margin: 0 0 8px 0; line-height: 1.4;">Sesión de fuerza completada con éxito. La sobrecarga progresiva no se negocia. ¡A darle con todo este fin de semana! 💪🔥</p>
+            <div style="display: flex; gap: 16px; font-size: 11px; color: #9ca3af; border-top: 1px solid #1f2937; padding-top: 8px;">
+              <span style="cursor: pointer; display: flex; align-items: center; gap: 4px;" onclick="likePost(this)">❤️ 12 Me gusta</span>
+              <span style="cursor: pointer; display: flex; align-items: center; gap: 4px;" onclick="alert('Sección de comentarios abierta')">💬 Comentar</span>
             </div>
           </div>
         </div>
+      </section>
 
-      </div>
-    </section>
+    </div>
+
+    <!-- NAVEGACIÓN INFERIOR FIJA -->
+    <nav style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(8,9,11,0.98); backdrop-filter: blur(12px); border-top: 1px solid #1f2937; padding: 8px 4px env(safe-area-inset-bottom, 8px); display: flex; justify-content: space-around; align-items: center; z-index: 40;">
+      <button onclick="scrollToSlide('slide-1')" style="background: none; border: none; color: #00FF66; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="home" style="width: 16px; height: 16px;"></i><span style="font-size: 9px; font-weight: bold;">Inicio</span></button>
+      <button onclick="scrollToSlide('slide-2')" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="dumbbell" style="width: 16px; height: 16px;"></i><span style="font-size: 9px; font-weight: bold;">Rutina</span></button>
+      <button onclick="scrollToSlide('slide-3')" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="line-chart" style="width: 16px; height: 16px;"></i><span style="font-size: 9px; font-weight: bold;">Fuerza</span></button>
+      <button onclick="scrollToSlide('slide-4')" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="utensils" style="width: 16px; height: 16px;"></i><span style="font-size: 9px; font-weight: bold;">Nutrición</span></button>
+      <button onclick="scrollToSlide('slide-5')" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="moon" style="width: 16px; height: 16px;"></i><span style="font-size: 9px; font-weight: bold;">Sueño</span></button>
+      <button onclick="scrollToSlide('slide-6')" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="video" style="width: 16px; height: 16px;"></i><span style="font-size: 9px; font-weight: bold;">Media</span></button>
+      <button onclick="scrollToSlide('slide-7')" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="globe" style="width: 16px; height: 16px;"></i><span style="font-size: 9px; font-weight: bold;">Muro</span></button>
+    </nav>
 
   </div>
 
-  <!-- BARRA DE NAVEGACIÓN INFERIOR FIJA -->
-  <nav style="position: fixed; bottom: 0; left: 0; width: 100%; height: 75px; background: rgba(17, 24, 39, 0.95); backdrop-filter: blur(10px); border-top: 1px solid #1f2937; display: flex; justify-content: space-around; align-items: center; z-index: 1000; padding-bottom: env(safe-area-inset-bottom);">
-    <button onclick="scrollToSlide('slide-1')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="home" style="width: 18px; height: 18px;"></i><span style="font-size: 9px; font-weight: bold;">Inicio</span></button>
-    <button onclick="scrollToSlide('slide-3')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="line-chart" style="width: 18px; height: 18px;"></i><span style="font-size: 9px; font-weight: bold;">Fuerza</span></button>
-    <button onclick="scrollToSlide('slide-4')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="utensils" style="width: 18px; height: 18px;"></i><span style="font-size: 9px; font-weight: bold;">Nutrición</span></button>
-    <button onclick="scrollToSlide('slide-5')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="moon" style="width: 18px; height: 18px;"></i><span style="font-size: 9px; font-weight: bold;">Sueño</span></button>
-    <button onclick="scrollToSlide('slide-6')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="image" style="width: 18px; height: 18px;"></i><span style="font-size: 9px; font-weight: bold;">Media</span></button>
-    <button onclick="scrollToSlide('slide-7')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="message-square" style="width: 18px; height: 18px;"></i><span style="font-size: 9px; font-weight: bold;">Muro</span></button>
-  </nav>
+  <!-- MODAL DE LISTA DE COMPRAS -->
+  <div id="grocery-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 100; align-items: center; justify-content: center; padding: 20px;">
+    <div style="background: #13151a; border: 1px solid #1f2937; border-radius: 14px; padding: 16px; width: 100%; max-width: 380px;">
+      <h3 style="font-size: 15px; font-weight: bold; color: #fff; margin-bottom: 4px;">Lista de Compras Óptima</h3>
+      <p id="grocery-subtitle" style="font-size: 11px; color: #9ca3af; margin-bottom: 12px;">Alimentos limpios para tu rendimiento</p>
+      <div id="grocery-items-list" style="display: flex; flex-direction: column; gap: 6px; font-size: 11px; color: #e5e7eb; margin-bottom: 14px;">
+        <div style="padding: 6px; background: #08090b; border-radius: 8px;">🥩 Pollo, Carne magra y Huevos</div>
+        <div style="padding: 6px; background: #08090b; border-radius: 8px;">🍚 Arroz, Avena y Papa</div>
+        <div style="padding: 6px; background: #08090b; border-radius: 8px;">🥑 Aguacate y Aceite de Oliva</div>
+        <div style="padding: 6px; background: #08090b; border-radius: 8px;">🥦 Brócoli, Espinaca y Verduras</div>
+      </div>
+      <button onclick="closeGroceryModal()" style="width: 100%; background: #00FF66; color: #000; border: none; padding: 8px; border-radius: 8px; font-weight: bold; font-size: 11px; cursor: pointer;">Cerrar</button>
+    </div>
+  </div>
 
-  <!-- SCRIPT GENERAL Y LÓGICA DE LA APLICACIÓN -->
+  <!-- SCRIPT DE FUNCIONALIDADES -->
   <script>
-    // Inicializar iconos de Lucide
     lucide.createIcons();
 
-    // Función para cambiar de slide fluidamente
     function scrollToSlide(slideId) {
+      const container = document.getElementById('scroll-container');
       const target = document.getElementById(slideId);
-      if (target) {
-        target.scrollIntoView({ behavior: 'smooth' });
+      if (container && target) {
+        container.scrollTo({
+          top: target.offsetTop,
+          behavior: 'smooth'
+        });
       }
     }
 
-    // Reproductor Gym
-    function toggleGymMusicPlayer() {
-      const panel = document.getElementById('gym-disc-panel');
-      panel.style.display = panel.style.display === 'none' ? 'flex' : 'none';
+    // Inicializar contenedores de agua (6 vasos = 3 Litros)
+    const waterContainer = document.getElementById('water-cups-container');
+    if(waterContainer) {
+      for(let i=1; i<=6; i++) {
+        const cup = document.createElement('div');
+        cup.style.cssText = "background: #08090b; border: 1px solid #1f2937; border-radius: 6px; height: 32px; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #00FF66; cursor: pointer; font-weight: bold;";
+        cup.innerText = `${(i*0.5).toFixed(1)}L`;
+        cup.onclick = function() {
+          document.getElementById('water-display').innerText = `${(i*0.5).toFixed(1)} / 3.0 L`;
+          alert(`¡Hidratación registrada: ${(i*0.5).toFixed(1)}L!`);
+        };
+        waterContainer.appendChild(cup);
+      }
+    }
+
+    function saveTodayWeight() {
+      const w = document.getElementById('input-weight').value;
+      if(w) {
+        document.getElementById('display-current-weight').innerHTML = `${w} <span style="font-size: 12px; font-weight: normal; color: #fff;">Kg</span>`;
+        document.getElementById('advice-text').innerText = "¡Peso actualizado con éxito! Mantén la sobrecarga progresiva y el consumo calórico limpio.";
+        alert("¡Progreso de peso guardado!");
+      } else {
+        alert("Por favor ingresa un valor válido.");
+      }
+    }
+
+    function calculate1RM() {
+      const weight = parseFloat(document.getElementById('input-1rm-weight').value);
+      const reps = parseInt(document.getElementById('input-1rm-reps').value);
+      if(weight && reps) {
+        const rm = Math.round(weight * (1 + reps / 30));
+        document.getElementById('val-1rm-max').innerText = `${rm} kg`;
+      } else {
+        alert("Ingresa peso y repeticiones válidas.");
+      }
+    }
+
+    function setNutritionGoal(goal) {
+      const btnB = document.getElementById('btn-bulking');
+      const btnC = document.getElementById('btn-cutting');
+      if(goal === 'bulking') {
+        btnB.style.background = '#00FF66';
+        btnB.style.color = '#000';
+        btnC.style.background = 'transparent';
+        btnC.style.color = '#9ca3af';
+        document.getElementById('nutri-calories').innerText = '2,850 Kcal';
+      } else {
+        btnC.style.background = '#00FF66';
+        btnC.style.color = '#000';
+        btnB.style.background = 'transparent';
+        btnB.style.color = '#9ca3af';
+        document.getElementById('nutri-calories').innerText = '2,200 Kcal';
+      }
+    }
+
+    function openGroceryModal() {
+      document.getElementById('grocery-modal').style.display = 'flex';
+    }
+
+    function closeGroceryModal() {
+      document.getElementById('grocery-modal').style.display = 'none';
     }
 
     function playGymMix() {
-      alert("Reproduciendo Mix Pesado • Gym Intro 🎧🔥");
+      alert("¡Reproduciendo Mix Pesado para entrenar con todo!");
     }
 
     function stopGymMix() {
-      alert("Reproductor detenido.");
+      alert("Mix pausado.");
     }
 
-    // Base de Datos de Nutrición (Lunes a Domingo para ambos objetivos)
-    const nutritionData = {
-      muscular: {
-        "Lunes": {
-          desayuno: "Huevos revueltos (3 enteros + 2 claras), 1 taza de avena con banano y mantequilla de maní.",
-          almuerzo: "250g de pechuga de pollo a la plancha, 2 tazas de arroz blanco, aguacate y ensalada fresca.",
-          preentreno: "Arroz con leche casero o tostadas con mermelada y un plátano maduro.",
-          merienda: "Batido de proteína en polvo con leche entera, 1 manzana y un puñado de almendras.",
-          cena: "200g de carne magra de res, puré de papa criolla o yuca, y vegetales salteados al wok."
-        },
-        "Martes": {
-          desayuno: "Tortilla de 3 huevos con espinaca y queso campesino, 2 tostadas de pan integral con aguacate.",
-          almuerzo: "250g de lomo de cerdo asado, pasta o espagueti con salsa de tomate natural y queso parmesano.",
-          preentreno: "Yogur griego con granola y arándanos.",
-          merienda: "Sándwich de pavo y queso con un vaso de jugo de fruta natural sin azúcar añadida.",
-          cena: "220g de filete de pescado (merluza o salmón), yuca cocida y ensalada de lechuga y tomate."
-        },
-        "Miércoles": {
-          desayuno: "Pancakes de avena y banano (3 unidades) con miel y un vaso de leche.",
-          almuerzo: "250g de carne desmechada, arroz blanco, fríjoles nutritivos y maduro asado.",
-          preentreno: "Arroz inflado con miel y un banano.",
-          merienda: "Batido de proteína con mantequilla de maní y leche.",
-          cena: "Pechuga de pollo desmenuzada en arepa asada grande con queso mozzarella light."
-        },
-        "Jueves": {
-          desayuno: "Huevos revueltos con tomate y cebolla, arepa de maíz con queso cuajada.",
-          almuerzo: "250g de pollo al horno, papas criollas al horno con especias y ensalada de repollo y zanahoria.",
-          preentreno: "Tostadas con crema de maní y rodajas de banano.",
-          merienda: "Yogur griego con frutos secos.",
-          cena: "Carne de res magra a la plancha, puré de papa y brócoli al vapor."
-        },
-        "Viernes": {
-          desayuno: "Bowl de avena cocida con leche, proteína en polvo, trozos de piña y nueces.",
-          almuerzo: "250g de churrasco o carne de res, patacones grandes y ensalada aguacate-tomate.",
-          preentreno: "Batido energizante de banano con avena y agua/leche.",
-          merienda: "Galletas de arroz con mantequilla de maní y queso crema.",
-          cena: "Pescado al horno con papas en casco y espinacas salteadas."
-        },
-        "Sábado": {
-          desayuno: "Huevos pericos (3), arepa asada con doble porción de queso y chocolate caliente en agua/leche.",
-          almuerzo: "Arroz con pollo casero bien servido, acompañado de maduro frito/asado y aguacate.",
-          preentreno: "Panquecas rápidas con miel y fruta.",
-          merienda: "Batido de proteína con leche y un puñado de frutos secos.",
-          cena: "Corte de carne magra a la parrilla, puré de ahuyama y ensalada verde."
-        },
-        "Domingo": {
-          desayuno: "Omelette relleno de queso y jamón de pavo, tostadas integrales con crema de maní.",
-          almuerzo: "Sancocho de pollo o res tradicional con buena porción de yuca, papa y carne.",
-          preentreno: "Yogur con cereales integrales y miel.",
-          merienda: "Batido recuperador post-descanso con banano y proteína.",
-          cena: "Wrap integral de pollo con vegetales frescos y salsa ligera de yogur."
-        }
-      },
-      definicion: {
-        "Lunes": {
-          desayuno: "Omelette de 3 claras y 1 huevo entero con espinaca y champiñones, café negro sin azúcar.",
-          almuerzo: "200g de pechuga de pollo a la plancha, 1 taza de arroz integral o quinua, abundante ensalada verde.",
-          preentreno: "1 manzana verde y un café negro o infusión sin azúcar.",
-          merienda: "Yogur griego 0% grasa con unas pocas moras o arándanos.",
-          cena: "200g de pescado blanco al horno con limón y espinacas salteadas en aceite de oliva."
-        },
-        "Martes": {
-          desayuno: "Batido de proteína con agua, espinaca, medio banano y hielo.",
-          almuerzo: "200g de carne de res magra, puré de ahuyama (zapallo) y ensalada de pepino y tomate.",
-          preentreno: "Tortitas de arroz (2 unidades) con una cucharada delgada de mantequilla de maní.",
-          merienda: "Queso fresco light con bastones de zanahoria y apio.",
-          cena: "Pechuga de pollo desmenuzada sobre cama de lechuga, tomate y vinagreta balsámica."
-        },
-        "Miércoles": {
-          desayuno: "Revuelto de 3 claras con tomate, cebolla y cilantro; infusión verde.",
-          almuerzo: "200g de lomo de cerdo magro, lentejas cocidas (porción moderada) y ensalada mixta.",
-          preentreno: "1 pera o manzana con canela.",
-          merienda: "Mix pequeño de frutos secos (sin sal, máx 20g).",
-          cena: "Tortilla de claras con espinaca y trocitos de pechuga de pollo."
-        },
-        "Jueves": {
-          desayuno: "Yogur griego light con 2 cucharadas de avena en hojuelas.",
-          almuerzo: "200g de filete de pescado blanco, papa cocida mediana y brócoli al vapor.",
-          preentreno: "Café negro y medio banano.",
-          merienda: "Batido de proteína con agua y hielo.",
-          cena: "Ensalada grande de atún en agua con huevo cocido, tomate, lechuga y aceite de oliva."
-        },
-        "Viernes": {
-          desayuno: "Huevos poché o cocidos (2) con rodajas de tomate y aguacate (porción pequeña).",
-          almuerzo: "200g de pollo asado, espárragos y ensalada verde con limón.",
-          preentreno: "Infusión verde y un puñado de arándanos secos.",
-          merienda: "Queso cottage o requesón con tomate picado.",
-          cena: "Crema de ahuyama o zapallo natural con trocitos de pechuga a la plancha."
-        },
-        "Sábado": {
-          desayuno: "Pancakes fit (1 clara, 20g de avena, estevia) cocinados a la sartén con banano.",
-          almuerzo: "200g de carne magra de res, yuca cocida (porción moderada) y ensalada de pepino.",
-          preentreno: "Manzana verde.",
-          merienda: "Yogur griego natural.",
-          cena: "Brochetas de pollo con pimentón y cebolla asadas al horno, con ensalada fresca."
-        },
-        "Domingo": {
-          desayuno: "Omelette de espinacas y champiñones con café o té.",
-          almuerzo: "200g de salmón o pescado azul a la plancha, ensalada César ligera (sin exceso de aderezo graso).",
-          preentreno: "Café negro sin azúcar.",
-          merienda: "Gelatina sin azúcar con trocitos de fruta.",
-          cena: "Sopa de verduras liviana con pollo desmenuzado."
-        }
-      }
-    };
-
-    let currentGoal = 'muscular';
-    let currentDay = 'Lunes';
-
-    function switchDietGoal(goal) {
-      currentGoal = goal;
-      document.getElementById('btn-goal-muscular').style.background = goal === 'muscular' ? '#10b981' : '#1f2937';
-      document.getElementById('btn-goal-muscular').style.color = goal === 'muscular' ? '#000' : '#9ca3af';
-      
-      document.getElementById('btn-goal-definicion').style.background = goal === 'definicion' ? '#ef4444' : '#1f2937';
-      document.getElementById('btn-goal-definicion').style.color = goal === 'definicion' ? '#fff' : '#9ca3af';
-      
-      renderDietMenu();
-    }
-
-    function setDietDay(day) {
-      currentDay = day;
-      document.querySelectorAll('.diet-day-btn').forEach(btn => {
-        if(btn.getAttribute('data-day') === day) {
-          btn.style.background = currentGoal === 'muscular' ? '#10b981' : '#ef4444';
-          btn.style.color = '#000';
-        } else {
-          btn.style.background = '#1f2937';
-          btn.style.color = '#9ca3af';
-        }
-      });
-      renderDietMenu();
-    }
-
-    function renderDietMenu() {
-      const container = document.getElementById('diet-content-container');
-      const menu = nutritionData[currentGoal][currentDay];
-      
-      container.innerHTML = `
-        <div style="background: #111827; border: 1px solid #1f2937; border-radius: 14px; padding: 14px; display: flex; align-items: flex-start; gap: 12px;">
-          <div style="background: rgba(16, 185, 129, 0.1); padding: 8px; border-radius: 10px; color: #10b981;"><i data-lucide="sunrise" style="width: 18px; height: 18px;"></i></div>
-          <div><div style="font-size: 11px; font-weight: bold; color: #9ca3af; text-transform: uppercase;">Desayuno</div><div style="font-size: 13px; color: #fff; margin-top: 2px;">${menu.desayuno}</div></div>
-        </div>
-
-        <div style="background: #111827; border: 1px solid #1f2937; border-radius: 14px; padding: 14px; display: flex; align-items: flex-start; gap: 12px;">
-          <div style="background: rgba(59, 130, 246, 0.1); padding: 8px; border-radius: 10px; color: #3b82f6;"><i data-lucide="sun" style="width: 18px; height: 18px;"></i></div>
-          <div><div style="font-size: 11px; font-weight: bold; color: #9ca3af; text-transform: uppercase;">Almuerzo</div><div style="font-size: 13px; color: #fff; margin-top: 2px;">${menu.almuerzo}</div></div>
-        </div>
-
-        <div style="background: #111827; border: 1px solid #1f2937; border-radius: 14px; padding: 14px; display: flex; align-items: flex-start; gap: 12px;">
-          <div style="background: rgba(245, 158, 11, 0.1); padding: 8px; border-radius: 10px; color: #f59e0b;"><i data-lucide="zap" style="width: 18px; height: 18px;"></i></div>
-          <div><div style="font-size: 11px; font-weight: bold; color: #9ca3af; text-transform: uppercase;">Pre-Entreno</div><div style="font-size: 13px; color: #fff; margin-top: 2px;">${menu.preentreno}</div></div>
-        </div>
-
-        <div style="background: #111827; border: 1px solid #1f2937; border-radius: 14px; padding: 14px; display: flex; align-items: flex-start; gap: 12px;">
-          <div style="background: rgba(168, 85, 247, 0.1); padding: 8px; border-radius: 10px; color: #a855f7;"><i data-lucide="coffee" style="width: 18px; height: 18px;"></i></div>
-          <div><div style="font-size: 11px; font-weight: bold; color: #9ca3af; text-transform: uppercase;">Merienda</div><div style="font-size: 13px; color: #fff; margin-top: 2px;">${menu.merienda}</div></div>
-        </div>
-
-        <div style="background: #111827; border: 1px solid #1f2937; border-radius: 14px; padding: 14px; display: flex; align-items: flex-start; gap: 12px;">
-          <div style="background: rgba(239, 68, 68, 0.1); padding: 8px; border-radius: 10px; color: #ef4444;"><i data-lucide="sunset" style="width: 18px; height: 18px;"></i></div>
-          <div><div style="font-size: 11px; font-weight: bold; color: #9ca3af; text-transform: uppercase;">Cena</div><div style="font-size: 13px; color: #fff; margin-top: 2px;">${menu.cena}</div></div>
-        </div>
-      `;
-      lucide.createIcons();
-    }
-
-    // Funciones del Muro
-    function postToWall() {
-      const text = document.getElementById('wall-input-post').value.trim();
-      if(!text) return;
-      
-      const container = document.getElementById('wall-posts-container');
-      const newPost = document.createElement('div');
-      newPost.style.cssText = "background: #111827; border: 1px solid #1f2937; border-radius: 16px; padding: 15px;";
-      newPost.innerHTML = `
-        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-          <div style="width: 32px; height: 32px; background: #3b82f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 13px; color: #fff;">AF</div>
-          <div>
-            <div style="font-size: 13px; font-weight: bold; color: #fff;">Andrés Felipe</div>
-            <div style="font-size: 10px; color: #9ca3af;">Justo ahora</div>
+    function openNewPostModal() {
+      const texto = prompt("¿Qué logro, marca o pensamiento de entrenamiento quieres compartir hoy en el Muro?");
+      if(texto && texto.trim() !== "") {
+        const container = document.getElementById('wall-posts-container');
+        const newPost = document.createElement('div');
+        newPost.style.cssText = "background: #13151a; border: 1px solid #1f2937; border-radius: 12px; padding: 12px; animation: fadeIn 0.3s ease;";
+        newPost.innerHTML = `
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="width: 28px; height: 28px; background: #00FF66; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #000; font-size: 11px;">AF</div>
+              <div>
+                <span style="font-size: 12px; font-weight: bold; color: #fff; display: block;">Andrés Felipe</span>
+                <span style="font-size: 9px; color: #9ca3af;">Justo ahora</span>
+              </div>
+            </div>
+            <span style="font-size: 9px; background: rgba(0,255,102,0.1); color: #00FF66; padding: 2px 6px; border-radius: 4px; font-weight: bold;">Progreso</span>
           </div>
-        </div>
-        <p style="font-size: 13px; color: #d1d5db; margin: 0 0 10px 0;">${text}</p>
-        <div style="display: flex; gap: 15px; font-size: 12px; color: #9ca3af; border-top: 1px solid #1f2937; padding-top: 8px;">
-          <span style="cursor: pointer; display: flex; align-items: center; gap: 4px;" onclick="likePost(this)"><i data-lucide="heart" style="width: 14px; height: 14px;"></i> <span>0</span></span>
-        </div>
-      `;
-      container.prepend(newPost);
-      document.getElementById('wall-input-post').value = '';
-      lucide.createIcons();
+          <p style="font-size: 12px; color: #e5e7eb; margin: 0 0 8px 0; line-height: 1.4;">${texto}</p>
+          <div style="display: flex; gap: 16px; font-size: 11px; color: #9ca3af; border-top: 1px solid #1f2937; padding-top: 8px;">
+            <span style="cursor: pointer; display: flex; align-items: center; gap: 4px;" onclick="likePost(this)">❤️ 1 Me gusta</span>
+            <span style="cursor: pointer; display: flex; align-items: center; gap: 4px;" onclick="alert('Sección de comentarios abierta')">💬 Comentar</span>
+          </div>
+        `;
+        container.prepend(newPost);
+      }
     }
 
-    function likePost(el) {
-      const span = el.querySelector('span');
-      span.textContent = parseInt(span.textContent) + 1;
-      el.style.color = '#ef4444';
+    function likePost(element) {
+      let currentLikes = parseInt(element.innerText.replace(/[^0-9]/g, '')) || 0;
+      currentLikes++;
+      element.innerHTML = `❤️ ${currentLikes} Me gusta`;
+      element.style.color = '#00FF66';
     }
-
-    // Inicializar por defecto al cargar la app
-    setDietDay('Lunes');
   </script>
 </body>
 </html>
