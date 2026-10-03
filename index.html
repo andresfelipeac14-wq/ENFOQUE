@@ -70,7 +70,7 @@
       </div>
     </header>
 
-    <!-- CONTENEDOR PRINCIPAL: 6 SLIDES VERTICALES CONTINUOS -->
+    <!-- CONTENEDOR PRINCIPAL: 6 SLIDES VERTICALES -->
     <main id="scroll-container" class="flex-1 overflow-y-auto no-scrollbar relative snap-y snap-mandatory">
 
       <!-- ==================== SLIDE 1: PORTADA ENFOQUE ==================== -->
@@ -86,7 +86,7 @@
         </div>
       </section>
 
-      <!-- ==================== SLIDE 2: RUTINA PERSONALIZADA ANDRÉS ==================== -->
+      <!-- ==================== SLIDE 2: RUTINA PERSONALIZADA ==================== -->
       <section id="slide-2" class="min-h-full p-5 space-y-4 snap-start pt-4 pb-24">
         <div class="flex justify-between items-center">
           <div>
@@ -96,7 +96,6 @@
           <span id="current-day-badge" class="text-xs bg-brand/10 text-brand px-3 py-1 rounded-full font-bold border border-brand/30">LUNES</span>
         </div>
 
-        <!-- Tira de Selección Día a Día -->
         <div class="space-y-2">
           <span class="text-xs uppercase font-bold tracking-wider text-gray-400 block">Seleccionar Día</span>
           <div class="flex space-x-2 overflow-x-auto no-scrollbar pb-1">
@@ -180,25 +179,27 @@
         </div>
       </section>
 
-      <!-- ==================== SLIDE 4: ALIMENTACIÓN DINÁMICA ==================== -->
-      <section id="slide-4" class="min-h-full p-5 space-y-4 snap-start pt-4 pb-24">
+      <!-- ==================== SLIDE 4: ALIMENTACIÓN DINÁMICA WOW (LUNES A DOMINGO) ==================== -->
+      <section id="slide-4" class="min-h-full p-5 space-y-4 snap-start pt-4 pb-28">
         <div>
-          <h2 class="text-2xl font-black font-display text-white">Alimentación Nutritiva</h2>
-          <p class="text-xs text-gray-400">Calculada automáticamente para tu peso</p>
+          <h2 class="text-2xl font-black font-display text-white">Plan Nutricional Pro</h2>
+          <p class="text-xs text-gray-400">Menú guiado de Lunes a Domingo según tu meta</p>
         </div>
 
+        <!-- Selector de Objetivo -->
         <div class="bg-cardBg p-1.5 rounded-2xl border border-gray-800 flex justify-between">
           <button id="btn-bulking" onclick="setNutritionGoal('bulking')" class="flex-1 py-2.5 rounded-xl font-bold text-xs bg-brand text-black transition">
             💪 Ganar Masa
           </button>
           <button id="btn-cutting" onclick="setNutritionGoal('cutting')" class="flex-1 py-2.5 rounded-xl font-bold text-xs text-gray-400 transition">
-            🔥 Definición
+            🔥 Definición / Quema
           </button>
         </div>
 
+        <!-- Resumen de Macros -->
         <div class="bg-cardBg p-4 rounded-3xl border border-gray-800 space-y-2">
           <div class="flex justify-between items-center">
-            <span class="text-xs text-gray-400">Totales Diarios Personalizados</span>
+            <span class="text-xs text-gray-400">Objetivo Calórico</span>
             <span id="nutri-calories" class="text-lg font-black font-display text-brand">2,850 Kcal</span>
           </div>
           <div class="grid grid-cols-3 gap-2 text-center text-xs">
@@ -216,6 +217,23 @@
             </div>
           </div>
         </div>
+
+        <!-- Navegador de Días para Alimentación -->
+        <div class="space-y-2">
+          <span class="text-xs uppercase font-bold tracking-wider text-gray-400 block">Día de la Semana</span>
+          <div class="flex space-x-1.5 overflow-x-auto no-scrollbar pb-1">
+            <button onclick="switchNutriDay('lunes', this)" class="nutri-day-btn active px-3.5 py-2 bg-brand text-black rounded-xl text-xs font-black">LUN</button>
+            <button onclick="switchNutriDay('martes', this)" class="nutri-day-btn px-3.5 py-2 bg-cardBg text-gray-400 border border-gray-800 rounded-xl text-xs font-bold">MAR</button>
+            <button onclick="switchNutriDay('miercoles', this)" class="nutri-day-btn px-3.5 py-2 bg-cardBg text-gray-400 border border-gray-800 rounded-xl text-xs font-bold">MIÉ</button>
+            <button onclick="switchNutriDay('jueves', this)" class="nutri-day-btn px-3.5 py-2 bg-cardBg text-gray-400 border border-gray-800 rounded-xl text-xs font-bold">JUE</button>
+            <button onclick="switchNutriDay('viernes', this)" class="nutri-day-btn px-3.5 py-2 bg-cardBg text-gray-400 border border-gray-800 rounded-xl text-xs font-bold">VIE</button>
+            <button onclick="switchNutriDay('sabado', this)" class="nutri-day-btn px-3.5 py-2 bg-cardBg text-gray-400 border border-gray-800 rounded-xl text-xs font-bold">SÁB</button>
+            <button onclick="switchNutriDay('domingo', this)" class="nutri-day-btn px-3.5 py-2 bg-cardBg text-gray-400 border border-gray-800 rounded-xl text-xs font-bold">DOM</button>
+          </div>
+        </div>
+
+        <!-- Contenedor del Menú Diario -->
+        <div id="meal-plan-list" class="space-y-3"></div>
       </section>
 
       <!-- ==================== SLIDE 5: DESCANSO ==================== -->
@@ -290,10 +308,11 @@
 
   </div>
 
-  <!-- LÓGICA DE RUTINAS REALES Y COMPLETAS DE ANDRÉS FELIPE -->
+  <!-- LÓGICA GENERAL -->
   <script>
     lucide.createIcons();
 
+    // Rutinas reales de Andrés
     const rutinas = {
       lunes: [
         { id: 'l1', nombre: 'Sentadilla Hacka', series: '4 x 8-12', baseWeight: 60, tip: '3 discos por lado • 1:30 min descanso' },
@@ -334,7 +353,100 @@
       ]
     };
 
+    // Plan nutricional detallado de Lunes a Domingo (Ganar Masa vs Definición)
+    const menusNutricionales = {
+      bulking: {
+        lunes: [
+          { tipo: '🍳 Desayuno', desc: '4 huevos enteros + 100g de avena en hojuelas con banano y canela.' },
+          { tipo: '🍗 Almuerzo', desc: '200g de pechuga de pollo a la plancha + 220g de arroz blanco/integral + ensalada verde con aceite de oliva.' },
+          { tipo: '🍌 Pre-Entreno', desc: '1 banano grande + 30g de mantequilla de maní + 1 vaso de leche o batido.' },
+          { tipo: '🥩 Cena', desc: '200g de carne magra de res + 250g de papa cocida/al horno.' }
+        ],
+        martes: [
+          { tipo: '🍳 Desayuno', desc: 'Arepa con queso + 4 huevos revueltos + 1 taza de chocolate en leche descremada.' },
+          { tipo: '🍗 Almuerzo', desc: '220g de carne desmechada o pollo + 200g de frijoles cocidos + 150g de arroz + tajada de maduro.' },
+          { tipo: '🥣 Snack', desc: 'Batido de proteína con 1 taza de avena, fresas y 1 cucharada de mantequilla de maní.' },
+          { tipo: '🐟 Cena', desc: '200g de filete de pescado o pollo + 200g de yuca o papa hervida.' }
+        ],
+        miercoles: [
+          { tipo: '🍳 Desayuno', desc: 'Pancakes de avena (100g avena + 4 claras + 1 huevo entero + miel) + fruta.' },
+          { tipo: '🍗 Almuerzo', desc: '220g de pechuga + 250g de pasta integral/blanca con salsa de tomate natural.' },
+          { tipo: '🍌 Pre-Entreno', desc: '2 tostadas integrales con aguacate + 3 lonchas de jamón pavo.' },
+          { tipo: '🥩 Cena', desc: '200g de carne de res + 200g de arroz blanco + puré de papa.' }
+        ],
+        jueves: [
+          { tipo: '🍳 Desayuno', desc: '4 huevos revueltos con espinaca y tomate + 2 tajadas de pan integral con mermelada.' },
+          { tipo: '🍗 Almuerzo', desc: '200g de pechuga a la parrilla + 220g de arroz con verduras + 100g de lentejas.' },
+          { tipo: '🥣 Snack', desc: 'Yogur griego entero con frutos secos (almendras/nueces) y 1 manzana.' },
+          { tipo: '🐟 Cena', desc: '200g de atún en agua o carne magra + 220g de papa cocida.' }
+        ],
+        viernes: [
+          { tipo: '🍳 Desayuno', desc: 'Tortilla de 4 huevos con queso mozzarella + 100g de avena cocida con miel.' },
+          { tipo: '🍗 Almuerzo', desc: '220g de carne de res a la plancha + 220g de arroz + ensalada fresca con aguacate.' },
+          { tipo: '🍌 Pre-Entreno', desc: '1 sándwich de pollo desmechado con pan integral.' },
+          { tipo: '🥩 Cena', desc: '200g de pechuga + 200g de camote/batata o yuca al horno.' }
+        ],
+        sabado: [
+          { tipo: '🍳 Desayuno', desc: 'Calentado ligero (arroz + frijol) con 3 huevos fritos/revueltos.' },
+          { tipo: '🍗 Almuerzo', desc: '250g de pechuga/carne asada + papa criolla salteada + ensalada.' },
+          { tipo: '🥣 Snack', desc: 'Batido hipercalórico casero (leche + avena + banano + mantequilla de maní).' },
+          { tipo: '🐟 Cena', desc: '200g de pescado blanco/salmón + 180g de arroz.' }
+        ],
+        domingo: [
+          { tipo: '🍳 Desayuno', desc: '4 huevos revueltos + 2 arepas pequeñas con queso fresco + café/té.' },
+          { tipo: '🍗 Almuerzo', desc: 'Comida libre estructurada (ej. Hamburguesa casera con buena carne o Sudado de carne con papa y yuca).' },
+          { tipo: '🍌 Snack', desc: 'Fruta fresca (kiwi/banano) + puñado de almendras.' },
+          { tipo: '🥩 Cena', desc: 'Omelette de 4 huevos con jamón de pavo y champiñones.' }
+        ]
+      },
+      cutting: {
+        lunes: [
+          { tipo: '🍳 Desayuno', desc: '3 huevos enteros + 2 claras + 50g de avena cocida en agua con canela.' },
+          { tipo: '🍗 Almuerzo', desc: '180g de pechuga a la plancha + 100g de arroz integral + vegetal al vapor (brócoli/espárragos).' },
+          { tipo: '🍌 Snack', desc: '1 manzana verde + 15g de almendras naturales.' },
+          { tipo: '🥩 Cena', desc: '180g de carne magra de res + ensalada grande mixta con limón y 1 cdta de aceite de oliva.' }
+        ],
+        martes: [
+          { tipo: '🍳 Desayuno', desc: 'Omelette de 4 claras + 1 huevo entero con espinaca + 1 tostada integral.' },
+          { tipo: '🍗 Almuerzo', desc: '180g de pechuga desmechada + 120g de papa cocida + ensalada de pepino y tomate.' },
+          { tipo: '🥣 Pre-Entreno', desc: '1 cup de proteína de suero + 1/2 banano.' },
+          { tipo: '🐟 Cena', desc: '200g de filete de pescado blanco al horno + verduras salteadas.' }
+        ],
+        miercoles: [
+          { tipo: '🍳 Desayuno', desc: '3 huevos cocidos + 1/2 arepa pequeña integral + café negro sin azúcar.' },
+          { tipo: '🍗 Almuerzo', desc: '180g de carne de res magra + 100g de lentejas cocidas + ensalada verde.' },
+          { tipo: '🍌 Snack', desc: '1 yogur griego descremado/sin azúcar + fresas.' },
+          { tipo: '🥩 Cena', desc: '180g de pechuga de pollo + 100g de camote/batata.' }
+        ],
+        jueves: [
+          { tipo: '🍳 Desayuno', desc: 'Pancakes proteicos (50g avena + 4 claras de huevo + canela).' },
+          { tipo: '🍗 Almuerzo', desc: '180g de pechuga a la parrilla + 100g de arroz blanco + vegetales al sartén.' },
+          { tipo: '🥣 Snack', desc: '1 lata de atún en agua con rodajas de pepino cohombro.' },
+          { tipo: '🐟 Cena', desc: '180g de filete de pescado + ensalada de espinaca y aguacate (30g).' }
+        ],
+        viernes: [
+          { tipo: '🍳 Desayuno', desc: '3 huevos revueltos con tomate y cebolla + 40g de avena en agua.' },
+          { tipo: '🍗 Almuerzo', desc: '180g de pechuga + 120g de yuca cocida + ensalada verde abundante.' },
+          { tipo: '🍌 Pre-Entreno', desc: '1 manzana + 1 espresso o café cargado.' },
+          { tipo: '🥩 Cena', desc: '180g de carne magra + salteado de champiñones y pimentón.' }
+        ],
+        sabado: [
+          { tipo: '🍳 Desayuno', desc: '4 claras + 1 huevo entero en tortilla con champiñones + 1 tostada integral.' },
+          { tipo: '🍗 Almuerzo', desc: '200g de pechuga al limón + 100g de papa al vapor + ensalada.' },
+          { tipo: '🥣 Snack', desc: 'Batido de proteína en agua.' },
+          { tipo: '🐟 Cena', desc: '180g de atún o pescado + ensalada fresca.' }
+        ],
+        domingo: [
+          { tipo: '🍳 Desayuno', desc: '3 huevos revueltos + 30g de queso bajo en grasa + café solo.' },
+          { tipo: '🍗 Almuerzo', desc: '180g de carne de res magra + 100g de arroz + verduras al vapor.' },
+          { tipo: '🍌 Snack', desc: '1 puñado pequeño de nueces o almendras.' },
+          { tipo: '🥩 Cena', desc: 'Consomé limpio de pollo con 150g de Pechuga desmechada y verduras.' }
+        ]
+      }
+    };
+
     let activeDay = 'lunes';
+    let activeNutriDay = 'lunes';
     let currentGoal = 'bulking';
     let userWeight = parseFloat(localStorage.getItem('enfoque_user_weight')) || 78.5;
     let weightsState = JSON.parse(localStorage.getItem('enfoque_weights')) || {};
@@ -449,6 +561,28 @@
         btnBulking.className = 'flex-1 py-2.5 rounded-xl font-bold text-xs text-gray-400 transition';
       }
       calculateMacros();
+      renderMealPlan();
+    }
+
+    function switchNutriDay(day, btn) {
+      activeNutriDay = day;
+      document.querySelectorAll('.nutri-day-btn').forEach(b => {
+        b.className = 'nutri-day-btn px-3.5 py-2 bg-cardBg text-gray-400 border border-gray-800 rounded-xl text-xs font-bold';
+      });
+      if(btn) btn.className = 'nutri-day-btn active px-3.5 py-2 bg-brand text-black rounded-xl text-xs font-black';
+      renderMealPlan();
+    }
+
+    function renderMealPlan() {
+      const container = document.getElementById('meal-plan-list');
+      const plan = menusNutricionales[currentGoal][activeNutriDay] || [];
+
+      container.innerHTML = plan.map(item => `
+        <div class="bg-cardBg p-3.5 rounded-2xl border border-gray-800 space-y-1">
+          <span class="text-xs font-black text-brand uppercase tracking-wider block">${item.tipo}</span>
+          <p class="text-xs text-gray-200 leading-relaxed">${item.desc}</p>
+        </div>
+      `).join('');
     }
 
     function calculateMacros() {
@@ -508,6 +642,7 @@
       document.getElementById('display-current-weight').innerHTML = `${userWeight.toFixed(1)} <span class="text-sm font-normal text-white">Kg</span>`;
       calculateMacros();
       renderExerciseList();
+      renderMealPlan();
       renderJournalNotes();
     });
   </script>
