@@ -1,346 +1,226 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>ENFOQUE - Fitness & Performance</title>
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-    body, html { width: 100%; height: 100%; background: #050507; color: #fff; overflow: hidden; }
-    /* Ocultar barra de desplazamiento pero permitir scroll */
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ENFOQUE</title>
+    <style>
+        :root {
+            --bg-color: #0d0f12;
+            --card-bg: #161a22;
+            --accent-green: #00ff66;
+            --text-main: #ffffff;
+            --text-muted: #8b949e;
+            --border-color: #30363d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 0 4px;
+        }
+
+        .header-title-container .sistema-activo {
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            color: var(--accent-green);
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .header-title-container h1 {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .user-badge {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-green);
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .card-value {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--accent-green);
+        }
+
+        .weight-input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .weight-input {
+            flex: 1;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px 16px;
+            color: var(--text-main);
+            font-size: 15px;
+            outline: none;
+        }
+
+        .weight-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .weight-input:focus {
+            border-color: var(--accent-green);
+        }
+
+        .btn-register {
+            background-color: var(--accent-green);
+            color: #000;
+            border: none;
+            border-radius: 10px;
+            padding: 0 20px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn-register:active {
+            opacity: 0.8;
+        }
+
+        .water-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 6px;
+        }
+
+        .water-btn {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px 0;
+            color: var(--text-main);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .water-btn.active {
+            background-color: var(--accent-green);
+            color: #000;
+            border-color: var(--accent-green);
+        }
+
+        .tip-text {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #c9d1d9;
+        }
+    </style>
 </head>
 <body>
 
-  <!-- CONTENEDOR PRINCIPAL TIPO PWA / APP MÓVIL -->
-  <div style="max-width: 430px; height: 100vh; margin: 0 auto; background: #0b0c10; position: relative; display: flex; flex-direction: column; box-shadow: 0 0 25px rgba(0,0,0,0.8);">
-
-    <!-- ÁREA DE DESPLAZAMIENTO DE SLIDES -->
-    <div id="scroll-container" class="no-scrollbar" style="flex: 1; overflow-y: scroll; scroll-snap-type: y mandatory; display: flex; flex-direction: column; scroll-behavior: smooth;">
-
-      <!-- SLIDE 1: INICIO -->
-      <section id="slide-1" style="height: 100%; width: 100%; flex-shrink: 0; scroll-snap-align: start; box-sizing: border-box; padding: 20px 16px 80px 16px; overflow-y: auto; background: #0b0c10;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-          <div>
-            <span style="font-size: 10px; font-weight: bold; color: #00FF66; letter-spacing: 1px;">SISTEMA ACTIVO</span>
-            <h1 style="font-size: 22px; font-weight: 900; color: #fff; margin: 0; letter-spacing: -0.5px;">ENFOQUE</h1>
-          </div>
-          <div style="width: 32px; height: 32px; background: #13151a; border: 1px solid #1f2937; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; color: #00FF66;">AF</div>
-        </div>
-
-        <!-- Tarjeta de Control de Peso -->
-        <div style="background: #13151a; border: 1px solid #1f2937; border-radius: 14px; padding: 16px; margin-bottom: 14px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <span style="font-size: 12px; font-weight: bold; color: #9ca3af;">Peso Actual</span>
-            <span id="display-current-weight" style="font-size: 18px; font-weight: 900; color: #00FF66;">78.5 <span style="font-size: 12px; font-weight: normal; color: #fff;">Kg</span></span>
-          </div>
-          <div style="display: flex; gap: 8px;">
-            <input type="number" id="input-weight" placeholder="Nuevo peso (kg)" step="0.1" style="flex: 1; background: #08090b; border: 1px solid #1f2937; border-radius: 8px; padding: 8px; color: #fff; font-size: 12px;">
-            <button onclick="saveTodayWeight()" style="background: #00FF66; color: #000; border: none; padding: 0 14px; border-radius: 8px; font-weight: bold; font-size: 11px; cursor: pointer;">Registrar</button>
-          </div>
-        </div>
-
-        <!-- Control de Hidratación -->
-        <div style="background: #13151a; border: 1px solid #1f2937; border-radius: 14px; padding: 16px; margin-bottom: 14px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-            <span style="font-size: 12px; font-weight: bold; color: #9ca3af;">Hidratación Diaria</span>
-            <span id="water-display" style="font-size: 12px; font-weight: bold; color: #00FF66;">0.0 / 3.0 L</span>
-          </div>
-          <div id="water-cups-container" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px;"></div>
-        </div>
-
-        <!-- Resumen Motivacional -->
-        <div style="background: linear-gradient(135deg, #13151a 0%, #0d0e12 100%); border: 1px solid #1f2937; border-radius: 14px; padding: 16px;">
-          <h3 style="font-size: 13px; font-weight: bold; color: #fff; margin-bottom: 6px;">Consejo del Día</h3>
-          <p id="advice-text" style="font-size: 11px; color: #9ca3af; line-height: 1.4; margin: 0;">La consistencia supera a la intensidad ocasional. Mantén tus macros limpios y ejecuta cada serie con rango completo.</p>
-        </div>
-      </section>
-
-      <!-- SLIDE 2: RUTINA -->
-      <section id="slide-2" style="height: 100%; width: 100%; flex-shrink: 0; scroll-snap-align: start; box-sizing: border-box; padding: 20px 16px 80px 16px; overflow-y: auto; background: #0b0c10;">
-        <h2 style="font-size: 20px; font-weight: 900; color: #fff; margin-bottom: 4px;">Rutina Activa</h2>
-        <p style="font-size: 11px; color: #9ca3af; margin-bottom: 16px;">Bloque de fuerza y sobrecarga progresiva</p>
-
-        <div style="background: #13151a; border: 1px solid #1f2937; border-radius: 12px; padding: 14px; margin-bottom: 12px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-            <span style="font-size: 13px; font-weight: bold; color: #fff;">1. Press Inclinado con Mancuernas</span>
-            <span style="font-size: 10px; background: rgba(0,255,102,0.1); color: #00FF66; padding: 2px 6px; border-radius: 4px; font-weight: bold;">4 Series</span>
-          </div>
-          <p style="font-size: 11px; color: #9ca3af; margin: 0 0 10px 0;">Rango objetivo: 8-10 reps con máxima contracción.</p>
-          <button onclick="alert('¡Serie registrada con éxito!')" style="width: 100%; background: #1f2937; color: #00FF66; border: 1px solid #00FF66; padding: 8px; border-radius: 8px; font-size: 11px; font-weight: bold; cursor: pointer;">Marcar Ejercicio Completado</button>
-        </div>
-
-        <div style="background: #13151a; border: 1px solid #1f2937; border-radius: 12px; padding: 14px; margin-bottom: 12px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-            <span style="font-size: 13px; font-weight: bold; color: #fff;">2. Aperturas en Polea Baja</span>
-            <span style="font-size: 10px; background: rgba(0,255,102,0.1); color: #00FF66; padding: 2px 6px; border-radius: 4px; font-weight: bold;">3 Series</span>
-          </div>
-          <p style="font-size: 11px; color: #9ca3af; margin: 0 0 10px 0;">Control excéntrico de 3 segundos por repetición.</p>
-          <button onclick="alert('¡Serie registrada con éxito!')" style="width: 100%; background: #1f2937; color: #00FF66; border: 1px solid #00FF66; padding: 8px; border-radius: 8px; font-size: 11px; font-weight: bold; cursor: pointer;">Marcar Ejercicio Completado</button>
-        </div>
-      </section>
-
-      <!-- SLIDE 3: FUERZA / 1RM -->
-      <section id="slide-3" style="height: 100%; width: 100%; flex-shrink: 0; scroll-snap-align: start; box-sizing: border-box; padding: 20px 16px 80px 16px; overflow-y: auto; background: #0b0c10;">
-        <h2 style="font-size: 20px; font-weight: 900; color: #fff; margin-bottom: 4px;">Calculadora 1RM</h2>
-        <p style="font-size: 11px; color: #9ca3af; margin-bottom: 16px;">Estima tu fuerza máxima (Fórmula de Epley)</p>
-
-        <div style="background: #13151a; border: 1px solid #1f2937; border-radius: 12px; padding: 16px;">
-          <div style="margin-bottom: 10px;">
-            <label style="font-size: 11px; color: #9ca3af; display: block; margin-bottom: 4px;">Peso levantado (Kg)</label>
-            <input type="number" id="input-1rm-weight" placeholder="Ej. 100" style="width: 100%; background: #08090b; border: 1px solid #1f2937; border-radius: 8px; padding: 8px; color: #fff; font-size: 12px;">
-          </div>
-          <div style="margin-bottom: 14px;">
-            <label style="font-size: 11px; color: #9ca3af; display: block; margin-bottom: 4px;">Repeticiones realizadas</label>
-            <input type="number" id="input-1rm-reps" placeholder="Ej. 5" style="width: 100%; background: #08090b; border: 1px solid #1f2937; border-radius: 8px; padding: 8px; color: #fff; font-size: 12px;">
-          </div>
-          <button onclick="calculate1RM()" style="width: 100%; background: #00FF66; color: #000; border: none; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 12px; cursor: pointer; margin-bottom: 12px;">Calcular 1RM</button>
-          
-          <div style="text-align: center; padding: 12px; background: #08090b; border-radius: 8px; border: 1px solid #1f2937;">
-            <span style="font-size: 11px; color: #9ca3af; display: block;">Tu 1RM Estimado:</span>
-            <span id="val-1rm-max" style="font-size: 22px; font-weight: 900; color: #00FF66;">-- kg</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- SLIDE 4: NUTRICIÓN -->
-      <section id="slide-4" style="height: 100%; width: 100%; flex-shrink: 0; scroll-snap-align: start; box-sizing: border-box; padding: 20px 16px 80px 16px; overflow-y: auto; background: #0b0c10;">
-        <h2 style="font-size: 20px; font-weight: 900; color: #fff; margin-bottom: 4px;">Nutrición & Macros</h2>
-        <p style="font-size: 11px; color: #9ca3af; margin-bottom: 16px;">Control calórico y abastecimiento</p>
-
-        <div style="display: flex; gap: 8px; margin-bottom: 14px;">
-          <button id="btn-bulking" onclick="setNutritionGoal('bulking')" style="flex: 1; background: #00FF66; color: #000; border: none; padding: 8px; border-radius: 8px; font-size: 11px; font-weight: bold; cursor: pointer;">Volumen</button>
-          <button id="btn-cutting" onclick="setNutritionGoal('cutting')" style="flex: 1; background: transparent; color: #9ca3af; border: 1px solid #1f2937; padding: 8px; border-radius: 8px; font-size: 11px; font-weight: bold; cursor: pointer;">Definición</button>
-        </div>
-
-        <div style="background: #13151a; border: 1px solid #1f2937; border-radius: 12px; padding: 16px; margin-bottom: 12px; text-align: center;">
-          <span style="font-size: 11px; color: #9ca3af; display: block;">Meta Calórica Diaria</span>
-          <span id="nutri-calories" style="font-size: 24px; font-weight: 900; color: #00FF66;">2,850 Kcal</span>
-        </div>
-
-        <button onclick="openGroceryModal()" style="width: 100%; background: #13151a; color: #fff; border: 1px solid #1f2937; padding: 10px; border-radius: 8px; font-size: 11px; font-weight: bold; cursor: pointer;">Ver Lista de Compras Recomendada</button>
-      </section>
-
-      <!-- SLIDE 5: SUEÑO Y RECUPERACIÓN -->
-      <section id="slide-5" style="height: 100%; width: 100%; flex-shrink: 0; scroll-snap-align: start; box-sizing: border-box; padding: 20px 16px 80px 16px; overflow-y: auto; background: #0b0c10;">
-        <h2 style="font-size: 20px; font-weight: 900; color: #fff; margin-bottom: 4px;">Sueño y Descanso</h2>
-        <p style="font-size: 11px; color: #9ca3af; margin-bottom: 16px;">Optimización de la síntesis proteica nocturna</p>
-
-        <div style="background: #13151a; border: 1px solid #1f2937; border-radius: 12px; padding: 16px; margin-bottom: 12px;">
-          <span style="font-size: 12px; font-weight: bold; color: #fff; display: block; margin-bottom: 6px;">Calidad de Sueño Anoche</span>
-          <p style="font-size: 11px; color: #9ca3af; margin-bottom: 10px;">Asegura un mínimo de 7.5 a 8 horas en ambiente oscuro y fresco para maximizar la producción natural de GH.</p>
-          <div style="display: flex; gap: 6px;">
-            <button onclick="alert('¡Registrado: Excelente descanso!')" style="flex: 1; background: #08090b; border: 1px solid #1f2937; color: #00FF66; padding: 8px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer;">⚡ Óptimo (8h+)</button>
-            <button onclick="alert('¡Registrado: Descanso moderado!')" style="flex: 1; background: #08090b; border: 1px solid #1f2937; color: #eab308; padding: 8px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer;">⚠️ Regular (6h)</button>
-          </div>
-        </div>
-      </section>
-
-      <!-- SLIDE 6: MEDIA / MÚSICA -->
-      <section id="slide-6" style="height: 100%; width: 100%; flex-shrink: 0; scroll-snap-align: start; box-sizing: border-box; padding: 20px 16px 80px 16px; overflow-y: auto; background: #0b0c10;">
-        <h2 style="font-size: 20px; font-weight: 900; color: #fff; margin-bottom: 4px;">Media & Enfoque</h2>
-        <p style="font-size: 11px; color: #9ca3af; margin-bottom: 16px;">Audio motivacional para entrenamiento pesado</p>
-
-        <div style="background: #13151a; border: 1px solid #1f2937; border-radius: 12px; padding: 16px; text-align: center;">
-          <div style="width: 50px; height: 50px; background: rgba(0,255,102,0.1); border-radius: 50%; margin: 0 auto 10px auto; display: flex; align-items: center; justify-content: center; color: #00FF66;">
-            <i data-lucide="music" style="width: 24px; height: 24px;"></i>
-          </div>
-          <span style="font-size: 13px; font-weight: bold; color: #fff; display: block; margin-bottom: 4px;">Gym Heavy Bass Mix</span>
-          <span style="font-size: 10px; color: #9ca3af; display: block; margin-bottom: 14px;">Reggaeton & Phonk para rendimiento máximo</span>
-          <div style="display: flex; gap: 8px;">
-            <button onclick="playGymMix()" style="flex: 1; background: #00FF66; color: #000; border: none; padding: 8px; border-radius: 8px; font-size: 11px; font-weight: bold; cursor: pointer;">Reproducir</button>
-            <button onclick="stopGymMix()" style="flex: 1; background: #1f2937; color: #fff; border: none; padding: 8px; border-radius: 8px; font-size: 11px; font-weight: bold; cursor: pointer;">Pausar</button>
-          </div>
-        </div>
-      </section>
-
-      <!-- SLIDE 7: MURO / COMUNIDAD -->
-      <section id="slide-7" style="height: 100%; width: 100%; flex-shrink: 0; scroll-snap-align: start; box-sizing: border-box; padding: 20px 16px 80px 16px; overflow-y: auto; background: #0b0c10;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-          <div>
-            <h2 style="font-size: 20px; font-weight: 900; color: #fff; margin: 0; letter-spacing: -0.5px;">Muro ENFOQUE</h2>
-            <p style="font-size: 11px; color: #9ca3af; margin: 2px 0 0 0;">Comunidad, registros y motivación diaria</p>
-          </div>
-          <button onclick="openNewPostModal()" style="background: #00FF66; color: #000; border: none; padding: 6px 12px; border-radius: 8px; font-weight: bold; font-size: 11px; cursor: pointer;">+ Publicar</button>
-        </div>
-
-        <!-- Feed de Mensajes / Posts -->
-        <div style="display: flex; flex-direction: column; gap: 12px;" id="wall-posts-container">
-          <!-- Post de Ejemplo 1 -->
-          <div style="background: #13151a; border: 1px solid #1f2937; border-radius: 12px; padding: 12px;">
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-              <div style="display: flex; align-items: center; gap: 8px;">
-                <div style="width: 28px; height: 28px; background: #00FF66; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #000; font-size: 11px;">AF</div>
-                <div>
-                  <span style="font-size: 12px; font-weight: bold; color: #fff; display: block;">Andrés Felipe</span>
-                  <span style="font-size: 9px; color: #9ca3af;">Hoy, 06:30 AM</span>
-                </div>
-              </div>
-              <span style="font-size: 9px; background: rgba(0,255,102,0.1); color: #00FF66; padding: 2px 6px; border-radius: 4px; font-weight: bold;">Entrenamiento</span>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="header-title-container">
+                <div class="sistema-activo">SISTEMA ACTIVO</div>
+                <h1>ENFOQUE</h1>
             </div>
-            <p style="font-size: 12px; color: #e5e7eb; margin: 0 0 8px 0; line-height: 1.4;">Sesión de fuerza completada con éxito. La sobrecarga progresiva no se negocia. ¡A darle con todo este fin de semana! 💪🔥</p>
-            <div style="display: flex; gap: 16px; font-size: 11px; color: #9ca3af; border-top: 1px solid #1f2937; padding-top: 8px;">
-              <span style="cursor: pointer; display: flex; align-items: center; gap: 4px;" onclick="likePost(this)">❤️ 12 Me gusta</span>
-              <span style="cursor: pointer; display: flex; align-items: center; gap: 4px;" onclick="alert('Sección de comentarios abierta')">💬 Comentar</span>
-            </div>
-          </div>
-        </div>
-      </section>
+            <div class="user-badge">AF</div>
+        </header>
 
+        <!-- Peso Actual -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-title">Peso Actual</span>
+                <span class="card-value">78.5 Kg</span>
+            </div>
+            <div class="weight-input-group">
+                <input type="number" step="0.1" class="weight-input" placeholder="Nuevo peso (kg)">
+                <button class="btn-register">Registrar</button>
+            </div>
+        </div>
+
+        <!-- Hidratación Diaria -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-title">Hidratación Diaria</span>
+                <span class="card-value" style="font-size: 16px;">0.0 / 3.0 L</span>
+            </div>
+            <div class="water-grid">
+                <button class="water-btn">0.5L</button>
+                <button class="water-btn">1.0L</button>
+                <button class="water-btn">1.5L</button>
+                <button class="water-btn">2.0L</button>
+                <button class="water-btn">2.5L</button>
+                <button class="water-btn">3.0L</button>
+            </div>
+        </div>
+
+        <!-- Consejo del Día -->
+        <div class="card">
+            <div class="card-header" style="margin-bottom: 10px;">
+                <span class="card-title">Consejo del Día</span>
+            </div>
+            <p class="tip-text">
+                La consistencia supera a la intensidad ocasional. Mantén tus macros limpios y ejecuta cada serie con rango completo.
+            </p>
+        </div>
     </div>
 
-    <!-- NAVEGACIÓN INFERIOR FIJA -->
-    <nav style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(8,9,11,0.98); backdrop-filter: blur(12px); border-top: 1px solid #1f2937; padding: 8px 4px env(safe-area-inset-bottom, 8px); display: flex; justify-content: space-around; align-items: center; z-index: 40;">
-      <button onclick="scrollToSlide('slide-1')" style="background: none; border: none; color: #00FF66; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="home" style="width: 16px; height: 16px;"></i><span style="font-size: 9px; font-weight: bold;">Inicio</span></button>
-      <button onclick="scrollToSlide('slide-2')" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="dumbbell" style="width: 16px; height: 16px;"></i><span style="font-size: 9px; font-weight: bold;">Rutina</span></button>
-      <button onclick="scrollToSlide('slide-3')" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="line-chart" style="width: 16px; height: 16px;"></i><span style="font-size: 9px; font-weight: bold;">Fuerza</span></button>
-      <button onclick="scrollToSlide('slide-4')" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="utensils" style="width: 16px; height: 16px;"></i><span style="font-size: 9px; font-weight: bold;">Nutrición</span></button>
-      <button onclick="scrollToSlide('slide-5')" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="moon" style="width: 16px; height: 16px;"></i><span style="font-size: 9px; font-weight: bold;">Sueño</span></button>
-      <button onclick="scrollToSlide('slide-6')" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="video" style="width: 16px; height: 16px;"></i><span style="font-size: 9px; font-weight: bold;">Media</span></button>
-      <button onclick="scrollToSlide('slide-7')" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="globe" style="width: 16px; height: 16px;"></i><span style="font-size: 9px; font-weight: bold;">Muro</span></button>
-    </nav>
-
-  </div>
-
-  <!-- MODAL DE LISTA DE COMPRAS -->
-  <div id="grocery-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 100; align-items: center; justify-content: center; padding: 20px;">
-    <div style="background: #13151a; border: 1px solid #1f2937; border-radius: 14px; padding: 16px; width: 100%; max-width: 380px;">
-      <h3 style="font-size: 15px; font-weight: bold; color: #fff; margin-bottom: 4px;">Lista de Compras Óptima</h3>
-      <p id="grocery-subtitle" style="font-size: 11px; color: #9ca3af; margin-bottom: 12px;">Alimentos limpios para tu rendimiento</p>
-      <div id="grocery-items-list" style="display: flex; flex-direction: column; gap: 6px; font-size: 11px; color: #e5e7eb; margin-bottom: 14px;">
-        <div style="padding: 6px; background: #08090b; border-radius: 8px;">🥩 Pollo, Carne magra y Huevos</div>
-        <div style="padding: 6px; background: #08090b; border-radius: 8px;">🍚 Arroz, Avena y Papa</div>
-        <div style="padding: 6px; background: #08090b; border-radius: 8px;">🥑 Aguacate y Aceite de Oliva</div>
-        <div style="padding: 6px; background: #08090b; border-radius: 8px;">🥦 Brócoli, Espinaca y Verduras</div>
-      </div>
-      <button onclick="closeGroceryModal()" style="width: 100%; background: #00FF66; color: #000; border: none; padding: 8px; border-radius: 8px; font-weight: bold; font-size: 11px; cursor: pointer;">Cerrar</button>
-    </div>
-  </div>
-
-  <!-- SCRIPT DE FUNCIONALIDADES -->
-  <script>
-    lucide.createIcons();
-
-    function scrollToSlide(slideId) {
-      const container = document.getElementById('scroll-container');
-      const target = document.getElementById(slideId);
-      if (container && target) {
-        container.scrollTo({
-          top: target.offsetTop,
-          behavior: 'smooth'
-        });
-      }
-    }
-
-    // Inicializar contenedores de agua (6 vasos = 3 Litros)
-    const waterContainer = document.getElementById('water-cups-container');
-    if(waterContainer) {
-      for(let i=1; i<=6; i++) {
-        const cup = document.createElement('div');
-        cup.style.cssText = "background: #08090b; border: 1px solid #1f2937; border-radius: 6px; height: 32px; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #00FF66; cursor: pointer; font-weight: bold;";
-        cup.innerText = `${(i*0.5).toFixed(1)}L`;
-        cup.onclick = function() {
-          document.getElementById('water-display').innerText = `${(i*0.5).toFixed(1)} / 3.0 L`;
-          alert(`¡Hidratación registrada: ${(i*0.5).toFixed(1)}L!`);
-        };
-        waterContainer.appendChild(cup);
-      }
-    }
-
-    function saveTodayWeight() {
-      const w = document.getElementById('input-weight').value;
-      if(w) {
-        document.getElementById('display-current-weight').innerHTML = `${w} <span style="font-size: 12px; font-weight: normal; color: #fff;">Kg</span>`;
-        document.getElementById('advice-text').innerText = "¡Peso actualizado con éxito! Mantén la sobrecarga progresiva y el consumo calórico limpio.";
-        alert("¡Progreso de peso guardado!");
-      } else {
-        alert("Por favor ingresa un valor válido.");
-      }
-    }
-
-    function calculate1RM() {
-      const weight = parseFloat(document.getElementById('input-1rm-weight').value);
-      const reps = parseInt(document.getElementById('input-1rm-reps').value);
-      if(weight && reps) {
-        const rm = Math.round(weight * (1 + reps / 30));
-        document.getElementById('val-1rm-max').innerText = `${rm} kg`;
-      } else {
-        alert("Ingresa peso y repeticiones válidas.");
-      }
-    }
-
-    function setNutritionGoal(goal) {
-      const btnB = document.getElementById('btn-bulking');
-      const btnC = document.getElementById('btn-cutting');
-      if(goal === 'bulking') {
-        btnB.style.background = '#00FF66';
-        btnB.style.color = '#000';
-        btnC.style.background = 'transparent';
-        btnC.style.color = '#9ca3af';
-        document.getElementById('nutri-calories').innerText = '2,850 Kcal';
-      } else {
-        btnC.style.background = '#00FF66';
-        btnC.style.color = '#000';
-        btnB.style.background = 'transparent';
-        btnB.style.color = '#9ca3af';
-        document.getElementById('nutri-calories').innerText = '2,200 Kcal';
-      }
-    }
-
-    function openGroceryModal() {
-      document.getElementById('grocery-modal').style.display = 'flex';
-    }
-
-    function closeGroceryModal() {
-      document.getElementById('grocery-modal').style.display = 'none';
-    }
-
-    function playGymMix() {
-      alert("¡Reproduciendo Mix Pesado para entrenar con todo!");
-    }
-
-    function stopGymMix() {
-      alert("Mix pausado.");
-    }
-
-    function openNewPostModal() {
-      const texto = prompt("¿Qué logro, marca o pensamiento de entrenamiento quieres compartir hoy en el Muro?");
-      if(texto && texto.trim() !== "") {
-        const container = document.getElementById('wall-posts-container');
-        const newPost = document.createElement('div');
-        newPost.style.cssText = "background: #13151a; border: 1px solid #1f2937; border-radius: 12px; padding: 12px; animation: fadeIn 0.3s ease;";
-        newPost.innerHTML = `
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <div style="width: 28px; height: 28px; background: #00FF66; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #000; font-size: 11px;">AF</div>
-              <div>
-                <span style="font-size: 12px; font-weight: bold; color: #fff; display: block;">Andrés Felipe</span>
-                <span style="font-size: 9px; color: #9ca3af;">Justo ahora</span>
-              </div>
-            </div>
-            <span style="font-size: 9px; background: rgba(0,255,102,0.1); color: #00FF66; padding: 2px 6px; border-radius: 4px; font-weight: bold;">Progreso</span>
-          </div>
-          <p style="font-size: 12px; color: #e5e7eb; margin: 0 0 8px 0; line-height: 1.4;">${texto}</p>
-          <div style="display: flex; gap: 16px; font-size: 11px; color: #9ca3af; border-top: 1px solid #1f2937; padding-top: 8px;">
-            <span style="cursor: pointer; display: flex; align-items: center; gap: 4px;" onclick="likePost(this)">❤️ 1 Me gusta</span>
-            <span style="cursor: pointer; display: flex; align-items: center; gap: 4px;" onclick="alert('Sección de comentarios abierta')">💬 Comentar</span>
-          </div>
-        `;
-        container.prepend(newPost);
-      }
-    }
-
-    function likePost(element) {
-      let currentLikes = parseInt(element.innerText.replace(/[^0-9]/g, '')) || 0;
-      currentLikes++;
-      element.innerHTML = `❤️ ${currentLikes} Me gusta`;
-      element.style.color = '#00FF66';
-    }
-  </script>
 </body>
 </html>
