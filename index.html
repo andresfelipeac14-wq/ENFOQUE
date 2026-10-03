@@ -2,789 +2,451 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>ENFOQUE - Performance & Fitness</title>
-
-  <!-- PWA Metadata ajustada como app nativa -->
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="ENFOQUE">
-  <link rel="apple-touch-icon" sizes="180x180" href="ENFOQUE_2.jpg">
-  <link rel="icon" type="image/jpeg" sizes="32x32" href="ENFOQUE_2.jpg">
-  <link rel="shortcut icon" href="ENFOQUE_2.jpg">
-  <link rel="manifest" href="manifest.json">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;0,900;1,900&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <!-- Lucide Icons -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ENFOQUE • Fitness & Lifestyle</title>
+  <!-- Iconos Lucide -->
   <script src="https://unpkg.com/lucide@latest"></script>
-
-  <!-- Firebase SDK (Para sincronización global en la nube) -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-    // TODO: Aquí pondremos tus credenciales gratuitas de Firebase en el siguiente paso
-  </script>
-
-  <!-- CSS NATIVO AJUSTADO TIPO APP -->
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-    html { scroll-behavior: smooth; font-family: 'Outfit', sans-serif; background-color: #000; color: #fff; height: 100%; }
-    body { display: flex; justify-content: center; align-items: center; height: 100vh; height: 100dvh; overflow: hidden; background: #000; }
-    
-    .app-container {
+    /* Estilos generales y reseteo móvil */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    body, html {
       width: 100%;
-      max-width: 440px;
-      height: 100vh;
-      height: 100dvh;
-      background-color: #08090b;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      height: 100%;
+      background-color: #030712;
+      color: #f9fafb;
       overflow: hidden;
-      position: relative;
-      border: 1px solid rgba(255,255,255,0.1);
     }
-    @media (min-width: 640px) {
-      .app-container { height: 844px; border-radius: 44px; box-shadow: 0 25px 50px rgba(0,0,0,0.8); }
+    /* Ocultar barra de desplazamiento en contenedores horizontales */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
     }
-
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-    #scroll-container {
-      scroll-snap-type: y mandatory;
-      overflow-y: scroll;
-      -webkit-overflow-scrolling: touch;
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
     }
-
-    @keyframes gymTicker {
-      0% { transform: translateX(0%); }
-      100% { transform: translateX(-50%); }
-    }
-    .animate-gym-ticker {
-      display: flex;
-      width: 200%;
-      animation: gymTicker 10s linear infinite;
-    }
-
-    .bg-black { background-color: #000; }
-    .bg-dark { background-color: #08090b; }
-    .bg-card { background-color: #111318; }
-    .text-brand { color: #00FF66; }
-    .bg-brand { background-color: #00FF66; color: #000; }
-    .font-display { font-family: 'Montserrat', sans-serif; }
   </style>
 </head>
 <body>
 
-  <div class="app-container">
+  <!-- CONTENEDOR PRINCIPAL TIPO APP SLIDER -->
+  <div id="app-container" style="display: flex; width: 100vw; height: 100vh; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;" class="no-scrollbar">
 
-    <!-- HEADER SUPERIOR -->
-    <header style="width: 100%; padding: 14px 16px 10px 16px; background: rgba(8,9,11,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #1f2937; z-index: 30; flex-shrink: 0;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-        <span class="font-display font-black text-xl italic tracking-wider" style="font-style: italic;">EN<span class="text-brand">FOQUE</span></span>
-        <div style="display: flex; gap: 8px; align-items: center;">
-          <button onclick="toggleGymMusicPlayer()" style="background: rgba(0,255,102,0.15); border: 1px solid rgba(0,255,102,0.4); color: #00FF66; padding: 4px 8px; border-radius: 8px; font-size: 10px; font-weight: 900; cursor: pointer; display: flex; align-items: center; gap: 4px;">
-            <i data-lucide="disc" style="width: 14px; height: 14px;"></i> Disco Intro
+    <!-- ========================================== -->
+    <!-- SLIDE 1: INICIO / PORTADA                  -->
+    <!-- ========================================== -->
+    <section id="slide-1" style="flex: 0 0 100%; width: 100%; height: 100%; box-sizing: border-box; padding: 20px; overflow-y: auto; padding-bottom: 90px; scroll-snap-align: start; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: linear-gradient(135deg, #030712 0%, #111827 100%);">
+      <div style="max-width: 400px;">
+        <div style="width: 80px; height: 80px; background: rgba(16, 185, 129, 0.1); border-radius: 24px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; border: 1px solid rgba(16, 185, 129, 0.3);">
+          <i data-lucide="zap" style="width: 40px; height: 40px; color: #10b981;"></i>
+        </div>
+        <h1 style="font-size: 32px; font-weight: 900; color: #fff; margin-bottom: 10px; letter-spacing: -1px;">ENFOQUE</h1>
+        <p style="font-size: 14px; color: #9ca3af; margin-bottom: 30px; line-height: 1.5;">Tu sistema personal de alto rendimiento, entrenamiento, nutrición y disciplina diaria.</p>
+        
+        <button onclick="scrollToSlide('slide-3')" style="width: 100%; background: #10b981; color: #000; border: none; padding: 16px; border-radius: 14px; font-weight: 800; font-size: 15px; cursor: pointer; box-shadow: 0 8px 20px rgba(16,185,129,0.3); margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+          <span>Empezar Entrenamiento</span> <i data-lucide="arrow-right" style="width: 18px; height: 18px;"></i>
+        </button>
+
+        <button onclick="toggleGymMusicPlayer()" style="width: 100%; background: #1f2937; color: #fff; border: 1px solid #374151; padding: 14px; border-radius: 14px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
+          <i data-lucide="headphones" style="width: 18px; height: 18px; color: #3b82f6;"></i> Abrir Reproductor Gym
+        </button>
+
+        <!-- Panel Oculto Reproductor -->
+        <div id="gym-disc-panel" style="display: none; margin-top: 15px; background: #111827; border: 1px solid #1f2937; border-radius: 14px; padding: 15px; flex-direction: column; gap: 10px;">
+          <div style="font-size: 12px; font-weight: bold; color: #9ca3af;">MIX PESADO • GYM INTRO 🎧</div>
+          <div style="display: flex; gap: 10px;">
+            <button onclick="playGymMix()" style="flex: 1; background: #3b82f6; color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 12px; cursor: pointer;">Reproducir</button>
+            <button onclick="stopGymMix()" style="flex: 1; background: #374151; color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 12px; cursor: pointer;">Detener</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SLIDE 3: FUERZA / ENTRENAMIENTO            -->
+    <!-- ========================================== -->
+    <section id="slide-3" style="flex: 0 0 100%; width: 100%; height: 100%; box-sizing: border-box; padding: 20px; overflow-y: auto; padding-bottom: 90px; scroll-snap-align: start;">
+      <div style="max-width: 600px; margin: 0 auto;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+          <h2 style="font-size: 20px; font-weight: 800; color: #ffffff; display: flex; align-items: center; gap: 8px;">
+            <i data-lucide="line-chart" style="color: #10b981; width: 24px; height: 24px;"></i> Registro de Fuerza
+          </h2>
+          <span style="font-size: 11px; background: rgba(16, 185, 129, 0.2); color: #34d399; padding: 4px 10px; border-radius: 20px; font-weight: 600;">Rutina Activa</span>
+        </div>
+
+        <div style="background: #111827; border: 1px solid #1f2937; border-radius: 16px; padding: 16px; margin-bottom: 15px;">
+          <h3 style="font-size: 15px; font-weight: bold; color: #fff; margin-bottom: 8px;">💪 Bloque Superior / Pecho & Tríceps</h3>
+          <p style="font-size: 12px; color: #9ca3af; margin-bottom: 12px;">Registra tus cargas máximas de la semana para asegurar sobrecarga progresiva.</p>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <div style="display: flex; justify-content: space-between; background: #1f2937; padding: 10px 12px; border-radius: 10px; font-size: 13px;">
+              <span>Press de Banca Plano</span>
+              <strong style="color: #10b981;">80 kg x 8 reps</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; background: #1f2937; padding: 10px 12px; border-radius: 10px; font-size: 13px;">
+              <span>Press Inclinado con Mancuernas</span>
+              <strong style="color: #10b981;">30 kg x 10 reps</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SLIDE 4: NUTRICIÓN Y PLANES NUTRICIONALES  -->
+    <!-- ========================================== -->
+    <section id="slide-4" style="flex: 0 0 100%; width: 100%; height: 100%; box-sizing: border-box; padding: 20px; overflow-y: auto; padding-bottom: 90px; scroll-snap-align: start;">
+      <div style="max-width: 600px; margin: 0 auto;">
+        
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+          <h2 style="font-size: 20px; font-weight: 800; color: #ffffff; display: flex; align-items: center; gap: 8px;">
+            <i data-lucide="utensils" style="color: #10b981; width: 24px; height: 24px;"></i> Nutrición & Dietas
+          </h2>
+          <span style="font-size: 11px; background: rgba(16, 185, 129, 0.2); color: #34d399; padding: 4px 10px; border-radius: 20px; font-weight: 600;">Lunes a Domingo</span>
+        </div>
+
+        <!-- Selector de Objetivo -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
+          <button onclick="switchDietGoal('muscular')" id="btn-goal-muscular" style="padding: 12px; background: #10b981; color: #000; border: none; border-radius: 12px; font-weight: 800; font-size: 13px; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 12px rgba(16,185,129,0.3);">
+            💪 Ganar Masa Muscular
           </button>
-          <span class="text-xs font-black bg-brand" style="background: rgba(0,255,102,0.1); color: #00FF66; padding: 4px 10px; border-radius: 9999px; border: 1px solid rgba(0,255,102,0.3);">PRO ATHLETE</span>
-        </div>
-      </div>
-
-      <!-- DISCO DE INTRO -->
-      <div id="gym-disc-panel" style="display: none; background: #111318; border: 1px solid #00FF66; border-radius: 12px; padding: 10px; margin-bottom: 8px; align-items: center; justify-content: space-between;">
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <div style="width: 28px; height: 28px; border-radius: 50%; background: #00FF66; display: flex; align-items: center; justify-content: center; color: #000; font-weight: bold;">💿</div>
-          <div>
-            <span style="font-size: 11px; font-weight: 900; color: #fff; display: block;">Mix Pesado • Gym Intro</span>
-            <span style="font-size: 9px; color: #00FF66;">Modo Motivación Activado</span>
-          </div>
-        </div>
-        <div style="display: flex; gap: 6px;">
-          <button onclick="playGymMix()" style="background: #00FF66; color: #000; border: none; padding: 6px 10px; border-radius: 8px; font-size: 10px; font-weight: 900; cursor: pointer;">Reproducir</button>
-          <button onclick="stopGymMix()" style="background: #1f2937; color: #fff; border: none; padding: 6px 8px; border-radius: 8px; font-size: 10px; cursor: pointer;">Parar</button>
-        </div>
-      </div>
-
-      <!-- BANNER -->
-      <div style="width: 100%; overflow: hidden; border-radius: 10px; background: #111318; border: 1px solid rgba(0,255,102,0.3); padding: 6px 0;">
-        <div class="animate-gym-ticker text-brand font-black text-xs uppercase" style="display: flex; align-items: center; gap: 24px;">
-          <div style="display: flex; gap: 24px; white-space: nowrap;">
-            <span>🏋️ SQUAT HACKA</span><span>⚡ SOBRECARGA</span><span>💪 HIPERTROFIA</span><span>🔥 1RM MAX</span><span>⏱️ 1:30 REST</span><span>🍗 PROTEÍNA</span>
-          </div>
-          <div style="display: flex; gap: 24px; white-space: nowrap;">
-            <span>🏋️ SQUAT HACKA</span><span>⚡ SOBRECARGA</span><span>💪 HIPERTROFIA</span><span>🔥 1RM MAX</span><span>⏱️ 1:30 REST</span><span>🍗 PROTEÍNA</span>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <!-- CONTENEDOR DE SLIDES -->
-    <main id="scroll-container" class="no-scrollbar" style="flex: 1; overflow-y: auto; position: relative;">
-
-      <!-- SLIDE 1: PORTADA -->
-      <section id="slide-1" style="height: 100%; min-height: 100%; scroll-snap-align: start; position: relative; display: flex; flex-direction: column; justify-content: flex-end; padding: 24px; overflow: hidden; background: #000;">
-        <img src="portada.jpg" alt="Portada ENFOQUE" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;">
-        <div style="position: absolute; inset-x: 0; bottom: 0; height: 160px; background: linear-gradient(to top, #000, transparent); z-index: 10; pointer-events: none;"></div>
-        <div style="position: relative; z-index: 20; width: 100%; text-align: center; padding-bottom: 20px;">
-          <button onclick="scrollToSlide('slide-2')" style="width: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); color: #00FF66; font-weight: 900; padding: 14px; border-radius: 9999px; display: flex; align-items: center; justify-content: center; gap: 8px; border: 2px solid #00FF66; cursor: pointer;">
-            <span style="font-size: 12px; text-transform: uppercase; color: #fff;">ENTRAR A RUTINAS</span>
-            <i data-lucide="chevron-down" style="width: 20px; height: 20px;"></i>
+          <button onclick="switchDietGoal('definicion')" id="btn-goal-definicion" style="padding: 12px; background: #1f2937; color: #9ca3af; border: 1px solid #374151; border-radius: 12px; font-weight: 800; font-size: 13px; cursor: pointer; transition: 0.3s;">
+            🔥 Adelgazar / Definir
           </button>
         </div>
-      </section>
 
-      <!-- SLIDE 2: RUTINAS -->
-      <section id="slide-2" style="height: 100%; min-height: 100%; scroll-snap-align: start; padding: 20px; display: flex; flex-direction: column; gap: 14px; overflow-y: auto;" class="no-scrollbar">
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;">
-          <div>
-            <h2 class="font-display" style="font-size: 22px; font-weight: 900;">Mi Rutina Semanal</h2>
-            <p style="font-size: 11px; color: #9ca3af;">Rutina pro con temporizador de 1:30</p>
-          </div>
-          <span id="current-day-badge" style="font-size: 10px; background: rgba(0,255,102,0.1); color: #00FF66; padding: 4px 10px; border-radius: 9999px; font-weight: 700; border: 1px solid rgba(0,255,102,0.3);">LUNES</span>
+        <!-- Selector de Día de la Semana -->
+        <div style="display: flex; gap: 6px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 15px;" class="no-scrollbar">
+          <button onclick="setDietDay('Lunes')" class="diet-day-btn" data-day="Lunes" style="padding: 8px 14px; background: #10b981; color: #000; border: none; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap;">Lun</button>
+          <button onclick="setDietDay('Martes')" class="diet-day-btn" data-day="Martes" style="padding: 8px 14px; background: #1f2937; color: #9ca3af; border: 1px solid #374151; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap;">Mar</button>
+          <button onclick="setDietDay('Miércoles')" class="diet-day-btn" data-day="Miércoles" style="padding: 8px 14px; background: #1f2937; color: #9ca3af; border: 1px solid #374151; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap;">Mié</button>
+          <button onclick="setDietDay('Jueves')" class="diet-day-btn" data-day="Jueves" style="padding: 8px 14px; background: #1f2937; color: #9ca3af; border: 1px solid #374151; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap;">Jue</button>
+          <button onclick="setDietDay('Viernes')" class="diet-day-btn" data-day="Viernes" style="padding: 8px 14px; background: #1f2937; color: #9ca3af; border: 1px solid #374151; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap;">Vie</button>
+          <button onclick="setDietDay('Sábado')" class="diet-day-btn" data-day="Sábado" style="padding: 8px 14px; background: #1f2937; color: #9ca3af; border: 1px solid #374151; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap;">Sáb</button>
+          <button onclick="setDietDay('Domingo')" class="diet-day-btn" data-day="Domingo" style="padding: 8px 14px; background: #1f2937; color: #9ca3af; border: 1px solid #374151; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap;">Dom</button>
         </div>
 
-        <div id="active-timer-box" style="display: none; background: #00FF66; color: #000; padding: 10px 14px; border-radius: 14px; justify-content: space-between; align-items: center; flex-shrink: 0; font-weight: 900;">
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <i data-lucide="timer" style="width: 18px; height: 18px;"></i>
-            <span style="font-size: 12px;">DESCANSO: <span id="timer-countdown" style="font-size: 16px;">01:30</span></span>
-          </div>
-          <button onclick="stopRestTimer()" style="background: #000; color: #fff; border: none; padding: 4px 10px; border-radius: 8px; font-size: 10px; cursor: pointer;">Cerrar</button>
+        <!-- Contenedor del Menú Dinámico (Desayuno, Almuerzo, Pre-entreno, Merienda, Cena) -->
+        <div id="diet-content-container" style="display: flex; flex-direction: column; gap: 12px;">
+          <!-- Inyectado dinámicamente por JavaScript -->
         </div>
 
-        <div style="flex-shrink: 0;">
-          <span style="font-size: 10px; text-transform: uppercase; font-weight: 700; color: #9ca3af; display: block; margin-bottom: 4px;">Seleccionar Día</span>
-          <div class="no-scrollbar" style="display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px;">
-            <button onclick="switchRoutineDay('lunes', this)" class="routine-day-btn" style="flex-shrink: 0; padding: 8px 14px; background: #00FF66; color: #000; border-radius: 12px; border: none; font-weight: 900; text-align: center; cursor: pointer;"><span style="font-size: 10px; display: block;">LUNES</span><span style="font-size: 8px;">Cuádriceps</span></button>
-            <button onclick="switchRoutineDay('martes', this)" class="routine-day-btn" style="flex-shrink: 0; padding: 8px 14px; background: #111318; color: #9ca3af; border-radius: 12px; border: 1px solid #1f2937; font-weight: 700; text-align: center; cursor: pointer;"><span style="font-size: 10px; display: block;">MARTES</span><span style="font-size: 8px;">Espalda/Bícep</span></button>
-            <button onclick="switchRoutineDay('miercoles', this)" class="routine-day-btn" style="flex-shrink: 0; padding: 8px 14px; background: #111318; color: #9ca3af; border-radius: 12px; border: 1px solid #1f2937; font-weight: 700; text-align: center; cursor: pointer;"><span style="font-size: 10px; display: block;">MIÉRCOLES</span><span style="font-size: 8px;">Femoral/Hombro</span></button>
-            <button onclick="switchRoutineDay('jueves', this)" class="routine-day-btn" style="flex-shrink: 0; padding: 8px 14px; background: #111318; color: #9ca3af; border-radius: 12px; border: 1px solid #1f2937; font-weight: 700; text-align: center; cursor: pointer;"><span style="font-size: 10px; display: block;">JUEVES</span><span style="font-size: 8px;">Pecho/Trícep</span></button>
-            <button onclick="switchRoutineDay('viernes', this)" class="routine-day-btn" style="flex-shrink: 0; padding: 8px 14px; background: #111318; color: #9ca3af; border-radius: 12px; border: 1px solid #1f2937; font-weight: 700; text-align: center; cursor: pointer;"><span style="font-size: 10px; display: block;">VIERNES</span><span style="font-size: 8px;">Pierna Comp.</span></button>
-          </div>
-        </div>
-
-        <div style="background: #111318; padding: 10px; border-radius: 14px; border: 1px solid #1f2937; flex-shrink: 0;">
-          <div style="display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 4px;">
-            <span style="color: #9ca3af;">Progreso del Día</span>
-            <span id="progress-percent" style="font-weight: 700; color: #00FF66;">0%</span>
-          </div>
-          <div style="width: 100%; background: #08090b; height: 8px; border-radius: 9999px; overflow: hidden; border: 1px solid #1f2937;">
-            <div id="progress-bar-fill" style="background: #00FF66; height: 100%; width: 0%; transition: width 0.3s;"></div>
-          </div>
-        </div>
-
-        <div id="exercise-list" style="display: flex; flex-direction: column; gap: 8px; padding-bottom: 40px;"></div>
-      </section>
-
-      <!-- SLIDE 3: FUERZA & 1RM -->
-      <section id="slide-3" style="height: 100%; min-height: 100%; scroll-snap-align: start; padding: 20px; display: flex; flex-direction: column; gap: 14px; overflow-y: auto;" class="no-scrollbar">
-        <div>
-          <h2 class="font-display" style="font-size: 22px; font-weight: 900;">Evolución & Fuerza</h2>
-          <p style="font-size: 11px; color: #9ca3af;">Objetivos de músculo y 1RM</p>
-        </div>
-
-        <div style="background: #111318; padding: 14px; border-radius: 18px; border: 1px solid #1f2937; display: flex; flex-direction: column; gap: 10px;">
-          <span style="font-size: 11px; font-weight: 700;">Registra tu Progreso Corporal</span>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-            <div>
-              <label style="font-size: 9px; color: #9ca3af; display: block; margin-bottom: 2px;">Peso Actual (kg)</label>
-              <input type="number" id="input-weight" placeholder="Ej. 85.0" step="0.1" style="width: 100%; background: #08090b; border: 1px solid #1f2937; border-radius: 10px; padding: 8px; font-size: 11px; color: #fff; outline: none;">
-            </div>
-            <div>
-              <label style="font-size: 9px; color: #9ca3af; display: block; margin-bottom: 2px;">Meta Músculo (kg)</label>
-              <input type="number" id="input-target-weight" placeholder="Ej. 88.0" step="0.1" style="width: 100%; background: #08090b; border: 1px solid #1f2937; border-radius: 10px; padding: 8px; font-size: 11px; color: #fff; outline: none;">
-            </div>
-          </div>
-          <button onclick="saveTodayWeight()" style="width: 100%; background: #00FF66; color: #000; font-weight: 900; padding: 10px; border-radius: 10px; border: none; font-size: 11px; cursor: pointer;">Guardar y Calcular Estrategia</button>
-        </div>
-
-        <div style="background: #111318; padding: 14px; border-radius: 18px; border: 1px solid #1f2937; display: flex; flex-direction: column; gap: 10px;">
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <div>
-              <span style="font-size: 10px; color: #9ca3af; display: block;">Peso Actual</span>
-              <p id="display-current-weight" class="font-display" style="font-size: 24px; font-weight: 900; color: #00FF66;">85.0 <span style="font-size: 12px; font-weight: normal; color: #fff;">Kg</span></p>
-            </div>
-            <div style="text-align: right;">
-              <span style="font-size: 10px; color: #9ca3af; display: block;">Meta Músculo</span>
-              <p id="display-target-weight" class="font-display" style="font-size: 20px; font-weight: 900;">88.0 Kg</p>
-            </div>
-          </div>
-          <div id="advice-box" style="background: #08090b; padding: 10px; border-radius: 12px; border: 1px solid rgba(0,255,102,0.3);">
-            <span style="font-size: 10px; font-weight: 900; color: #00FF66; text-transform: uppercase; display: block; margin-bottom: 2px;">💡 Estrategia de Enfoque:</span>
-            <p id="advice-text" style="font-size: 10px; color: #e5e7eb; line-height: 1.3;"></p>
-          </div>
-        </div>
-
-        <div style="background: #111318; padding: 14px; border-radius: 18px; border: 1px solid #1f2937; display: flex; flex-direction: column; gap: 10px; padding-bottom: 40px;">
-          <span style="font-size: 11px; font-weight: 900; color: #fff;">⚡ Calculadora 1RM (Fuerza Máxima)</span>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-            <div>
-              <label style="font-size: 9px; color: #9ca3af; display: block; margin-bottom: 2px;">Peso (kg)</label>
-              <input type="number" id="input-1rm-weight" placeholder="Ej. 80" style="width: 100%; background: #08090b; border: 1px solid #1f2937; border-radius: 8px; padding: 8px; font-size: 11px; color: #fff; outline: none;">
-            </div>
-            <div>
-              <label style="font-size: 9px; color: #9ca3af; display: block; margin-bottom: 2px;">Repeticiones</label>
-              <input type="number" id="input-1rm-reps" placeholder="Ej. 10" style="width: 100%; background: #08090b; border: 1px solid #1f2937; border-radius: 8px; padding: 8px; font-size: 11px; color: #fff; outline: none;">
-            </div>
-          </div>
-          <button onclick="calculate1RM()" style="width: 100%; background: #00FF66; color: #000; font-weight: 900; padding: 8px; border-radius: 8px; border: none; font-size: 11px; cursor: pointer;">Calcular 1RM</button>
-          <div style="display: flex; justify-content: space-between; align-items: center; background: #08090b; padding: 8px; border-radius: 8px; border: 1px solid #1f2937;">
-            <span style="font-size: 10px; color: #d1d5db; font-weight: 700;">1RM Estimado:</span>
-            <span id="val-1rm-max" class="font-display" style="font-weight: 900; color: #00FF66; font-size: 14px;">-- kg</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- SLIDE 4: NUTRICIÓN -->
-      <section id="slide-4" style="height: 100%; min-height: 100%; scroll-snap-align: start; padding: 20px; display: flex; flex-direction: column; gap: 14px; overflow-y: auto;" class="no-scrollbar">
-        <div>
-          <h2 class="font-display" style="font-size: 22px; font-weight: 900;">Plan Nutricional Pro</h2>
-          <p style="font-size: 11px; color: #9ca3af;">Menú completo Lunes a Domingo, agua y mercado</p>
-        </div>
-
-        <div style="background: #111318; padding: 6px; border-radius: 14px; border: 1px solid #1f2937; display: flex; gap: 4px;">
-          <button id="btn-bulking" onclick="setNutritionGoal('bulking')" style="flex: 1; padding: 8px; border-radius: 10px; font-weight: 700; font-size: 10px; background: #00FF66; color: #000; border: none; cursor: pointer;">💪 Ganar Masa</button>
-          <button id="btn-cutting" onclick="setNutritionGoal('cutting')" style="flex: 1; padding: 8px; border-radius: 10px; font-weight: 700; font-size: 10px; background: transparent; color: #9ca3af; border: none; cursor: pointer;">🔥 Definición</button>
-        </div>
-
-        <div style="background: #111318; padding: 12px; border-radius: 18px; border: 1px solid #1f2937; display: flex; flex-direction: column; gap: 8px;">
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-size: 11px; color: #9ca3af;">Objetivo Calórico</span>
-            <span id="nutri-calories" class="font-display" style="font-size: 16px; font-weight: 900; color: #00FF66;">2,850 Kcal</span>
-          </div>
-          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; text-align: center; font-size: 10px;">
-            <div style="background: #08090b; padding: 6px; border-radius: 8px; border: 1px solid #1f2937;"><span id="nutri-protein" style="font-weight: bold; color: #fff; display: block;">157g</span><span style="font-size: 8px; color: #9ca3af;">Proteína</span></div>
-            <div style="background: #08090b; padding: 6px; border-radius: 8px; border: 1px solid #1f2937;"><span id="nutri-carbs" style="font-weight: bold; color: #fff; display: block;">350g</span><span style="font-size: 8px; color: #9ca3af;">Carbs</span></div>
-            <div style="background: #08090b; padding: 6px; border-radius: 8px; border: 1px solid #1f2937;"><span id="nutri-fats" style="font-weight: bold; color: #fff; display: block;">75g</span><span style="font-size: 8px; color: #9ca3af;">Grasas</span></div>
-          </div>
-        </div>
-
-        <div style="background: #111318; padding: 12px; border-radius: 18px; border: 1px solid #1f2937; display: flex; flex-direction: column; gap: 8px;">
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-size: 11px; font-weight: 900; color: #fff;">💧 Consumo de Agua</span>
-            <span id="water-display" style="font-size: 11px; font-weight: 900; color: #00FF66;">0.0 / 3.0 L</span>
-          </div>
-          <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px;" id="water-cups-container"></div>
-        </div>
-
-        <button onclick="openGroceryModal()" style="width: 100%; background: #111318; color: #00FF66; border: 1px solid rgba(0,255,102,0.4); font-weight: 800; padding: 10px; border-radius: 14px; font-size: 11px; cursor: pointer;">Ver Lista de Mercado Semanal</button>
-
-        <div style="display: flex; gap: 4px; overflow-x: auto;" class="no-scrollbar">
-          <button onclick="switchNutriDay('lunes', this)" class="nutri-day-btn" style="padding: 6px 12px; background: #00FF66; color: #000; border-radius: 8px; font-size: 10px; font-weight: 900; border: none; cursor: pointer;">LUN</button>
-          <button onclick="switchNutriDay('martes', this)" class="nutri-day-btn" style="padding: 6px 12px; background: #111318; color: #9ca3af; border-radius: 8px; font-size: 10px; font-weight: 700; border: 1px solid #1f2937; cursor: pointer;">MAR</button>
-          <button onclick="switchNutriDay('miercoles', this)" class="nutri-day-btn" style="padding: 6px 12px; background: #111318; color: #9ca3af; border-radius: 8px; font-size: 10px; font-weight: 700; border: 1px solid #1f2937; cursor: pointer;">MIÉ</button>
-          <button onclick="switchNutriDay('jueves', this)" class="nutri-day-btn" style="padding: 6px 12px; background: #111318; color: #9ca3af; border-radius: 8px; font-size: 10px; font-weight: 700; border: 1px solid #1f2937; cursor: pointer;">JUE</button>
-          <button onclick="switchNutriDay('viernes', this)" class="nutri-day-btn" style="padding: 6px 12px; background: #111318; color: #9ca3af; border-radius: 8px; font-size: 10px; font-weight: 700; border: 1px solid #1f2937; cursor: pointer;">VIE</button>
-          <button onclick="switchNutriDay('sabado', this)" class="nutri-day-btn" style="padding: 6px 12px; background: #111318; color: #9ca3af; border-radius: 8px; font-size: 10px; font-weight: 700; border: 1px solid #1f2937; cursor: pointer;">SÁB</button>
-          <button onclick="switchNutriDay('domingo', this)" class="nutri-day-btn" style="padding: 6px 12px; background: #111318; color: #9ca3af; border-radius: 8px; font-size: 10px; font-weight: 700; border: 1px solid #1f2937; cursor: pointer;">DOM</button>
-        </div>
-
-        <div id="meal-plan-list" style="display: flex; flex-direction: column; gap: 8px; padding-bottom: 40px;"></div>
-      </section>
-
-      <!-- SLIDE 5: SUEÑO -->
-      <section id="slide-5" style="height: 100%; min-height: 100%; scroll-snap-align: start; padding: 20px; display: flex; flex-direction: column; gap: 14px; overflow-y: auto;" class="no-scrollbar">
-        <div>
-          <h2 class="font-display" style="font-size: 22px; font-weight: 900;">Sueño & Descanso</h2>
-          <p style="font-size: 11px; color: #9ca3af;">Recuperación muscular nocturna</p>
-        </div>
-        <div style="background: #111318; padding: 24px; border-radius: 20px; border: 1px solid #1f2937; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 14px;">
-          <div style="width: 70px; height: 70px; border-radius: 50%; border: 4px solid rgba(0,255,102,0.3); border-top-color: #00FF66; display: flex; align-items: center; justify-content: center;">
-            <i data-lucide="moon" style="width: 28px; height: 28px; color: #00FF66;"></i>
-          </div>
-          <div>
-            <span style="font-size: 11px; color: #9ca3af;">Recordatorio Diario de Sueño</span>
-            <h3 class="font-display" style="font-size: 24px; font-weight: 900; margin-top: 4px;">10:00 PM</h3>
-            <p style="font-size: 11px; color: #00FF66; font-weight: bold; margin-top: 2px;">Alarma Activada</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- SLIDE 6: PROGRESO MULTIMEDIA -->
-      <section id="slide-6" style="height: 100%; min-height: 100%; scroll-snap-align: start; padding: 20px; display: flex; flex-direction: column; gap: 14px; overflow-y: auto;" class="no-scrollbar">
-        <div>
-          <h2 class="font-display" style="font-size: 22px; font-weight: 900;">Progreso Multimedia</h2>
-          <p style="font-size: 11px; color: #9ca3af;">Sube fotos y videos de tus entrenamientos</p>
-        </div>
-
-        <div style="background: #111318; padding: 14px; border-radius: 18px; border: 1px solid #1f2937; display: flex; flex-direction: column; gap: 10px;">
-          <span style="font-size: 11px; font-weight: 700;">Subir Foto o Video de Progreso</span>
-          <div>
-            <label style="font-size: 9px; color: #9ca3af; display: block; margin-bottom: 2px;">Título / Ejercicio</label>
-            <input type="text" id="media-title" placeholder="Ej. Sentadilla con 120kg" style="width: 100%; background: #08090b; border: 1px solid #1f2937; border-radius: 10px; padding: 8px; font-size: 11px; color: #fff; outline: none;">
-          </div>
-          <div>
-            <label style="font-size: 9px; color: #9ca3af; display: block; margin-bottom: 2px;">Seleccionar Archivo (Foto / Video)</label>
-            <input type="file" id="media-file-input" accept="image/*,video/*" style="width: 100%; background: #08090b; border: 1px solid #1f2937; border-radius: 10px; padding: 8px; font-size: 10px; color: #fff;">
-          </div>
-          <button onclick="uploadMediaProgress()" style="width: 100%; background: #00FF66; color: #000; font-weight: 900; padding: 10px; border-radius: 10px; border: none; font-size: 11px; cursor: pointer;">Publicar en Progreso</button>
-        </div>
-
-        <div>
-          <span style="font-size: 10px; text-transform: uppercase; font-weight: 700; color: #9ca3af; display: block; margin-bottom: 8px;">Galería de Entrenamientos</span>
-          <div id="media-gallery-list" style="display: flex; flex-direction: column; gap: 10px; padding-bottom: 40px;"></div>
-        </div>
-      </section>
-
-      <!-- SLIDE 7: MURO COMUNITARIO GLOBAL -->
-      <section id="slide-7" style="height: 100%; min-height: 100%; scroll-snap-align: start; padding: 20px; display: flex; flex-direction: column; gap: 14px; overflow-y: auto;" class="no-scrollbar">
-        <div>
-          <h2 class="font-display" style="font-size: 22px; font-weight: 900;">Muro & Diario</h2>
-          <p style="font-size: 11px; color: #9ca3af;">Muro comunitario sincronizado en la nube</p>
-        </div>
-
-        <div style="background: #111318; padding: 14px; border-radius: 18px; border: 1px solid #1f2937; display: flex; flex-direction: column; gap: 10px;">
-          <span id="form-title-label" style="font-size: 11px; font-weight: 700;">Nuevo Comentario Global</span>
-          <input type="hidden" id="edit-note-id" value="">
-          <div>
-            <label style="font-size: 9px; color: #9ca3af; display: block; margin-bottom: 2px;">Tu Nombre o el de tu Amigo</label>
-            <input type="text" id="note-author" placeholder="Ej. Andrés Felipe / Amigo" style="width: 100%; background: #08090b; border: 1px solid #1f2937; border-radius: 10px; padding: 8px; font-size: 11px; color: #fff; outline: none;">
-          </div>
-          <div>
-            <label style="font-size: 9px; color: #9ca3af; display: block; margin-bottom: 2px;">Comentario / Logro</label>
-            <textarea id="note-input" rows="2" placeholder="Escribe tu logro o comentario..." style="width: 100%; background: #08090b; border: 1px solid #1f2937; border-radius: 10px; padding: 8px; font-size: 11px; color: #fff; outline: none; resize: none;"></textarea>
-          </div>
-          <div style="display: flex; gap: 6px;">
-            <button id="btn-publish-note" onclick="saveJournalNote()" style="flex: 1; background: #00FF66; color: #000; font-weight: 900; padding: 10px; border-radius: 10px; border: none; font-size: 11px; cursor: pointer;">Publicar en el Muro Global</button>
-            <button id="btn-cancel-edit" onclick="cancelEditNote()" style="display: none; background: #1f2937; color: #fff; font-weight: bold; padding: 10px; border-radius: 10px; border: none; font-size: 11px; cursor: pointer;">Cancelar</button>
-          </div>
-        </div>
-
-        <div>
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-            <span style="font-size: 10px; text-transform: uppercase; font-weight: 700; color: #9ca3af;">Muro en la Nube (En Vivo)</span>
-            <button onclick="loadCloudNotes()" style="background: none; border: none; color: #00FF66; font-size: 10px; font-weight: bold; cursor: pointer;">🔄 Actualizar</button>
-          </div>
-          <div id="journal-list" style="display: flex; flex-direction: column; gap: 8px; padding-bottom: 40px;"></div>
-        </div>
-      </section>
-
-    </main>
-
-    <!-- MODAL MERCADO -->
-    <div id="grocery-modal" style="display: none; position: absolute; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 50; padding: 20px; align-items: center; justify-content: center;">
-      <div style="background: #111318; border: 1px solid #1f2937; width: 100%; max-height: 80vh; border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 12px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1f2937; padding-bottom: 10px;">
-          <div>
-            <h3 class="font-display" style="font-size: 15px; font-weight: 900;">Lista de Mercado Semanal</h3>
-            <p id="grocery-subtitle" style="font-size: 10px; color: #00FF66; font-weight: bold;"></p>
-          </div>
-          <button onclick="closeGroceryModal()" style="width: 28px; height: 28px; border-radius: 50%; background: #08090b; border: 1px solid #1f2937; color: #9ca3af; cursor: pointer;">✕</button>
-        </div>
-        <div id="grocery-items-list" class="no-scrollbar" style="overflow-y: auto; display: flex; flex-direction: column; gap: 8px; font-size: 11px;"></div>
-        <button onclick="closeGroceryModal()" style="width: 100%; background: #00FF66; color: #000; font-weight: bold; padding: 10px; border-radius: 12px; border: none; cursor: pointer;">Cerrar</button>
       </div>
-    </div>
+    </section>
 
-    <!-- NAVEGACIÓN INFERIOR FIJA -->
-    <nav style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(8,9,11,0.98); backdrop-filter: blur(12px); border-top: 1px solid #1f2937; padding: 8px 4px env(safe-area-inset-bottom, 8px); display: flex; justify-content: space-around; align-items: center; z-index: 40;">
-      <button onclick="scrollToSlide('slide-1')" class="nav-btn" style="background: none; border: none; color: #00FF66; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="home" style="width: 16px; height: 16px;"></i><span style="font-size: 9px; font-weight: bold;">Inicio</span></button>
-      <button onclick="scrollToSlide('slide-2')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="dumbbell" style="width: 16px; height: 16px;"></i><span style="font-size: 9px; font-weight: bold;">Rutina</span></button>
-      <button onclick="scrollToSlide('slide-3')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="line-chart" style="width: 16px; height: 16px;"></i><span style="font-size: 9px; font-weight: bold;">Fuerza</span></button>
-      <button onclick="scrollToSlide('slide-4')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="apple" style="width: 16px; height: 16px;"></i><span style="font-size: 9px; font-weight: bold;">Nutrición</span></button>
-      <button onclick="scrollToSlide('slide-5')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="moon" style="width: 16px; height: 16px;"></i><span style="font-size: 9px; font-weight: bold;">Sueño</span></button>
-      <button onclick="scrollToSlide('slide-6')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="video" style="width: 16px; height: 16px;"></i><span style="font-size: 9px; font-weight: bold;">Progreso</span></button>
-      <button onclick="scrollToSlide('slide-7')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="message-square" style="width: 16px; height: 16px;"></i><span style="font-size: 9px; font-weight: bold;">Muro</span></button>
-    </nav>
+    <!-- ========================================== -->
+    <!-- SLIDE 5: SUEÑO Y DESCANSO                  -->
+    <!-- ========================================== -->
+    <section id="slide-5" style="flex: 0 0 100%; width: 100%; height: 100%; box-sizing: border-box; padding: 20px; overflow-y: auto; padding-bottom: 90px; scroll-snap-align: start;">
+      <div style="max-width: 600px; margin: 0 auto;">
+        <h2 style="font-size: 20px; font-weight: 800; color: #ffffff; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+          <i data-lucide="moon" style="color: #3b82f6; width: 24px; height: 24px;"></i> Control de Sueño
+        </h2>
+        <div style="background: #111827; border: 1px solid #1f2937; border-radius: 16px; padding: 16px;">
+          <p style="font-size: 13px; color: #9ca3af;">Registra tus horas de descanso nocturno para optimizar la síntesis de proteína y recuperación muscular.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SLIDE 6: MULTIMEDIA / GALERÍA              -->
+    <!-- ========================================== -->
+    <section id="slide-6" style="flex: 0 0 100%; width: 100%; height: 100%; box-sizing: border-box; padding: 20px; overflow-y: auto; padding-bottom: 90px; scroll-snap-align: start;">
+      <div style="max-width: 600px; margin: 0 auto;">
+        <h2 style="font-size: 20px; font-weight: 800; color: #ffffff; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+          <i data-lucide="image" style="color: #a855f7; width: 24px; height: 24px;"></i> Multimedia & Progreso
+        </h2>
+        <div style="background: #111827; border: 1px solid #1f2937; border-radius: 16px; padding: 16px;">
+          <p style="font-size: 13px; color: #9ca3af;">Tus fotos de transformación y registros visuales semanales.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SLIDE 7: MURO / COMUNIDAD                  -->
+    <!-- ========================================== -->
+    <section id="slide-7" style="flex: 0 0 100%; width: 100%; height: 100%; box-sizing: border-box; padding: 20px; overflow-y: auto; padding-bottom: 90px; scroll-snap-align: start;">
+      <div style="max-width: 600px; margin: 0 auto;">
+        
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+          <h2 style="font-size: 20px; font-weight: 800; color: #ffffff; display: flex; align-items: center; gap: 8px;">
+            <i data-lucide="message-square" style="color: #3b82f6; width: 24px; height: 24px;"></i> Muro ENFOQUE
+          </h2>
+          <span style="font-size: 11px; background: rgba(59, 130, 246, 0.2); color: #60a5fa; padding: 4px 10px; border-radius: 20px; font-weight: 600;">Comunidad</span>
+        </div>
+
+        <!-- Crear Publicación -->
+        <div style="background: #111827; border: 1px solid #1f2937; border-radius: 16px; padding: 15px; margin-bottom: 20px;">
+          <textarea id="wall-input-post" placeholder="¿Qué tal tu entrenamiento hoy, Andrés? Comparte tu progreso..." style="width: 100%; background: #1f2937; border: none; border-radius: 10px; padding: 12px; color: #fff; font-size: 13px; resize: none; height: 70px; outline: none; box-sizing: border-box;"></textarea>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+            <span style="font-size: 11px; color: #9ca3af;">🔥 Comparte tus marcas o fotos</span>
+            <button onclick="postToWall()" style="background: #3b82f6; color: white; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer;">Publicar</button>
+          </div>
+        </div>
+
+        <!-- Feed de Publicaciones -->
+        <div id="wall-posts-container" style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="background: #111827; border: 1px solid #1f2937; border-radius: 16px; padding: 15px;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+              <div style="width: 32px; height: 32px; background: #3b82f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 13px; color: #fff;">AF</div>
+              <div>
+                <div style="font-size: 13px; font-weight: bold; color: #fff;">Andrés Felipe</div>
+                <div style="font-size: 10px; color: #9ca3af;">Hace 10 minutos</div>
+              </div>
+            </div>
+            <p style="font-size: 13px; color: #d1d5db; margin: 0 0 10px 0;">¡Sesión de fuerza terminada con éxito! Dando el 100% en ENFOQUE 🚀💪</p>
+            <div style="display: flex; gap: 15px; font-size: 12px; color: #9ca3af; border-top: 1px solid #1f2937; padding-top: 8px;">
+              <span style="cursor: pointer; display: flex; align-items: center; gap: 4px;" onclick="likePost(this)"><i data-lucide="heart" style="width: 14px; height: 14px;"></i> <span>12</span></span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
 
   </div>
 
+  <!-- BARRA DE NAVEGACIÓN INFERIOR FIJA -->
+  <nav style="position: fixed; bottom: 0; left: 0; width: 100%; height: 75px; background: rgba(17, 24, 39, 0.95); backdrop-filter: blur(10px); border-top: 1px solid #1f2937; display: flex; justify-content: space-around; align-items: center; z-index: 1000; padding-bottom: env(safe-area-inset-bottom);">
+    <button onclick="scrollToSlide('slide-1')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="home" style="width: 18px; height: 18px;"></i><span style="font-size: 9px; font-weight: bold;">Inicio</span></button>
+    <button onclick="scrollToSlide('slide-3')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="line-chart" style="width: 18px; height: 18px;"></i><span style="font-size: 9px; font-weight: bold;">Fuerza</span></button>
+    <button onclick="scrollToSlide('slide-4')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="utensils" style="width: 18px; height: 18px;"></i><span style="font-size: 9px; font-weight: bold;">Nutrición</span></button>
+    <button onclick="scrollToSlide('slide-5')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="moon" style="width: 18px; height: 18px;"></i><span style="font-size: 9px; font-weight: bold;">Sueño</span></button>
+    <button onclick="scrollToSlide('slide-6')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="image" style="width: 18px; height: 18px;"></i><span style="font-size: 9px; font-weight: bold;">Media</span></button>
+    <button onclick="scrollToSlide('slide-7')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="message-square" style="width: 18px; height: 18px;"></i><span style="font-size: 9px; font-weight: bold;">Muro</span></button>
+  </nav>
+
+  <!-- SCRIPT GENERAL Y LÓGICA DE LA APLICACIÓN -->
   <script>
+    // Inicializar iconos de Lucide
     lucide.createIcons();
 
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js').catch(err => console.log('SW error', err));
-    }
-
-    const rutinas = {
-      lunes: [
-        { id: 'l1', nombre: 'Sentadilla Hacka (3 discos)', series: '4 x 8-12', baseWeight: 60, tip: '1:30 min descanso' },
-        { id: 'l2', nombre: 'Búlgaras', series: '3 series', baseWeight: 15, tip: '15 kg 2 mancuernas' },
-        { id: 'l3', nombre: 'Prensa (Dropset 10-10-10)', series: '3 series', baseWeight: 60, tip: 'Bajando peso 3 platos' },
-        { id: 'l4', nombre: 'Extensión (Dropset)', series: '3 series', baseWeight: 50, tip: 'Igual que la prensa' },
-        { id: 'l5', nombre: 'Abductores', series: '3 series', baseWeight: 45, tip: 'Máquina cerrando' }
-      ],
-      martes: [
-        { id: 'm1', nombre: 'Jalón al Pecho', series: '4 series', baseWeight: 45, tip: '45 kg' },
-        { id: 'm2', nombre: 'Remo Supino Barra', series: '3 series', baseWeight: 50, tip: '50 kg' },
-        { id: 'm3', nombre: 'Remo Neutro en Polea', series: '3 series', baseWeight: 55, tip: '55 kg' },
-        { id: 'm4', nombre: 'Dominadas Libres', series: '3 series', baseWeight: 0, tip: 'Al fallo' },
-        { id: 'm5', nombre: 'Aperturas Invertidas (Dropset)', series: '3 series', baseWeight: 30, tip: 'Dorsal posterior' },
-        { id: 'm6', nombre: 'Curl Supino con Mancuerna (Pared)', series: '3 series', baseWeight: 12, tip: '12 kg' },
-        { id: 'm7', nombre: 'Curl Martillo al Hombro', series: '3 series', baseWeight: 15, tip: '15 kg' }
-      ],
-      miercoles: [
-        { id: 'mi1', nombre: 'Peso Muerto (Femoral)', series: '4 x 8-12', baseWeight: 75, tip: '70-80 kg' },
-        { id: 'mi2', nombre: 'Isquio Acostado + Femoral Sentado', series: '3 series', baseWeight: 45, tip: 'Bi-serie' },
-        { id: 'mi3', nombre: 'Hip Thrust + Máquina Abriendo', series: '3 series', baseWeight: 50, tip: '50kg por lado (Bi-serie)' },
-        { id: 'mi4', nombre: 'Elevaciones Laterales', series: '3 series', baseWeight: 10, tip: '10 kg' },
-        { id: 'mi5', nombre: 'Press Militar Pesado', series: '3 series', baseWeight: 60, tip: '60 kg' }
-      ],
-      jueves: [
-        { id: 'j1', nombre: 'Press Plano con Barra', series: '4 series', baseWeight: 40, tip: '20kg por lado' },
-        { id: 'j2', nombre: 'Press Inclinado con Mancuernas', series: '3 series', baseWeight: 27, tip: '25-30 kg' },
-        { id: 'j3', nombre: 'Aperturas', series: '3 series', baseWeight: 45, tip: '45-50 kg' },
-        { id: 'j4', nombre: 'Fondos en Paralelas', series: '3 series', baseWeight: 0, tip: 'Al fallo' },
-        { id: 'j5', nombre: 'Extensión en Polea (Trícep)', series: '3 series', baseWeight: 40, tip: 'Aislamiento' },
-        { id: 'j6', nombre: 'Press Francés (Aplasta Cráneos)', series: '3 series', baseWeight: 30, tip: 'Tríceps' }
-      ],
-      viernes: [
-        { id: 'v1', nombre: 'Sentadilla Libre', series: '4 series', baseWeight: 60, tip: 'Fuerza global' },
-        { id: 'v2', nombre: 'Peso Muerto', series: '4 series', baseWeight: 80, tip: 'Potencia' },
-        { id: 'v3', nombre: 'Extensión de Cuádriceps', series: '3 series', baseWeight: 50, tip: 'Tensión' },
-        { id: 'v4', nombre: 'Isquios Acostado', series: '3 series', baseWeight: 40, tip: 'Femoral' }
-      ]
-    };
-
-    const menusNutricionales = {
-      bulking: {
-        lunes: [{ tipo: '🍳 Desayuno', desc: '4 huevos + 100g avena con banano.' }, { tipo: '🍗 Almuerzo', desc: '200g pechuga + 220g arroz + ensalada.' }, { tipo: '🥩 Cena', desc: '200g carne magra + 250g papa.' }],
-        martes: [{ tipo: '🍳 Desayuno', desc: 'Pancakes de avena (120g + 4 huevos).' }, { tipo: '🍗 Almuerzo', desc: '200g lomo de res + 250g yuca.' }, { tipo: '🥩 Cena', desc: '200g pollo + arepa + aguacate.' }],
-        miercoles: [{ tipo: '🍳 Desayuno', desc: 'Tostadas integrales con crema de maní.' }, { tipo: '🍗 Almuerzo', desc: '200g cerdo + 220g arroz + plátano.' }, { tipo: '🥩 Cena', desc: '3 huevos con queso + puré.' }],
-        jueves: [{ tipo: '🍳 Desayuno', desc: 'Yogurt griego con granola y fruta.' }, { tipo: '🍗 Almuerzo', desc: '200g pechuga + 220g arroz.' }, { tipo: '🥩 Cena', desc: 'Atún con pasta y vegetales.' }],
-        viernes: [{ tipo: '🍳 Desayuno', desc: 'Omelette de 4 huevos con espinaca.' }, { tipo: '🍗 Almuerzo', desc: 'Pabellón criollo con carne desmechada.' }, { tipo: '🥩 Cena', desc: '200g carne magra con papa al horno.' }],
-        sabado: [{ tipo: '🍳 Desayuno', desc: 'Avena con proteína y nueces.' }, { tipo: '🍗 Almuerzo', desc: 'Churrasco (200g) + papa criolla.' }, { tipo: '🥩 Cena', desc: 'Sándwich de pollo.' }],
-        domingo: [{ tipo: '🍳 Desayuno', desc: 'Huevos pericos con arepa.' }, { tipo: '🍗 Almuerzo', desc: 'Pechuga rellena + puré.' }, { tipo: '🥩 Cena', desc: 'Crema de verduras con pollo.' }]
-      },
-      cutting: {
-        lunes: [{ tipo: '🍳 Desayuno', desc: '3 huevos + 2 claras + 50g avena.' }, { tipo: '🍗 Almuerzo', desc: '180g pechuga + 100g arroz integral + brócoli.' }, { tipo: '🥩 Cena', desc: '180g carne magra + ensalada verde.' }],
-        martes: [{ tipo: '🍳 Desayuno', desc: 'Tortilla de claras con espinaca.' }, { tipo: '🍗 Almuerzo', desc: '180g pescado blanco + quinua.' }, { tipo: '🥩 Cena', desc: 'Pechuga a la plancha con lechuga.' }],
-        miercoles: [{ tipo: '🍳 Desayuno', desc: 'Yogurt griego descremado.' }, { tipo: '🍗 Almuerzo', desc: '180g lomo de res magro + calabacín.' }, { tipo: '🥩 Cena', desc: 'Atún en agua con tomate.' }],
-        jueves: [{ tipo: '🍳 Desayuno', desc: 'Batido de proteína con agua y fresas.' }, { tipo: '🍗 Almuerzo', desc: '180g pollo desmenuzado + ensalada.' }, { tipo: '🥩 Cena', desc: 'Pescado con brócoli al vapor.' }],
-        viernes: [{ tipo: '🍳 Desayuno', desc: '3 huevos revueltos con champiñones.' }, { tipo: '🍗 Almuerzo', desc: '180g carne + papa cocida.' }, { tipo: '🥩 Cena', desc: 'Pechuga asada con pepino.' }],
-        sabado: [{ tipo: '🍳 Desayuno', desc: 'Pancakes fit (banano, huevo, avena).' }, { tipo: '🍗 Almuerzo', desc: '180g pollo + ensalada ligera.' }, { tipo: '🥩 Cena', desc: 'Tortilla de vegetales.' }],
-        domingo: [{ tipo: '🍳 Desayuno', desc: 'Huevos duros + infusión.' }, { tipo: '🍗 Almuerzo', desc: 'Pescado al horno con vegetales.' }, { tipo: '🥩 Cena', desc: 'Crema ligera de ahuyama.' }]
-      }
-    };
-
-    let activeDay = 'lunes';
-    let activeNutriDay = 'lunes';
-    let currentGoal = 'bulking';
-    let userWeight = parseFloat(localStorage.getItem('enfoque_user_weight')) || 85.0;
-    let targetWeight = parseFloat(localStorage.getItem('enfoque_target_weight')) || 88.0;
-    let weightsState = JSON.parse(localStorage.getItem('enfoque_weights')) || {};
-    let completedState = JSON.parse(localStorage.getItem('enfoque_completed')) || {};
-    let journalNotes = [];
-    let mediaPosts = JSON.parse(localStorage.getItem('enfoque_media_posts')) || [];
-    let waterCups = parseInt(localStorage.getItem('enfoque_water')) || 0;
-    let restTimerInterval = null;
-
-    // SIMULACIÓN DE RESPALDO EN LÍNEA LOCAL HASTA CONECTAR FIREBASE
-    function loadCloudNotes() {
-      const saved = localStorage.getItem('enfoque_global_journal');
-      if (saved) {
-        journalNotes = JSON.parse(saved);
-      } else {
-        journalNotes = [
-          { id: 1, author: 'Andrés Felipe', date: '3 Oct • 11:30', text: '¡Bienvenidos al muro global de ENFOQUE! A darle con toda.' }
-        ];
-      }
-      renderJournalNotes();
-    }
-
-    function saveJournalNote() {
-      const editId = document.getElementById('edit-note-id').value;
-      const authorInput = document.getElementById('note-author');
-      const textInput = document.getElementById('note-input');
-      const author = authorInput.value.trim();
-      const text = textInput.value.trim();
-
-      if(!author || !text) { 
-        alert('⚠️ Ingresa tu nombre y mensaje.'); 
-        return; 
-      }
-      
-      const now = new Date();
-      const dateStr = `${now.toLocaleDateString('es-ES', {month:'short', day:'numeric'})} • ${now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
-
-      if (editId) {
-        const note = journalNotes.find(n => n.id == editId);
-        if (note) {
-          note.author = author;
-          note.text = text;
-          note.date = dateStr + ' (Editado)';
-        }
-        cancelEditNote();
-        alert('✏️ ¡Comentario actualizado con éxito!');
-      } else {
-        const newNote = {
-          id: Date.now(),
-          author: author,
-          date: dateStr,
-          text: text
-        };
-        journalNotes.unshift(newNote);
-        alert('🚀 ¡Comentario publicado con éxito!');
-      }
-
-      localStorage.setItem('enfoque_global_journal', JSON.stringify(journalNotes));
-      authorInput.value = '';
-      textInput.value = '';
-      renderJournalNotes();
-    }
-
-    function editJournalNote(id) {
-      const note = journalNotes.find(n => n.id == id);
-      if (!note) return;
-      document.getElementById('edit-note-id').value = note.id;
-      document.getElementById('note-author').value = note.author;
-      document.getElementById('note-input').value = note.text;
-      document.getElementById('form-title-label').innerText = 'Editar Comentario';
-      document.getElementById('btn-publish-note').innerText = 'Guardar Cambios';
-      document.getElementById('btn-cancel-edit').style.display = 'block';
-      document.getElementById('slide-7').scrollTo({top: 0, behavior: 'smooth'});
-    }
-
-    function cancelEditNote() {
-      document.getElementById('edit-note-id').value = '';
-      document.getElementById('note-author').value = '';
-      document.getElementById('note-input').value = '';
-      document.getElementById('form-title-label').innerText = 'Nuevo Comentario Global';
-      document.getElementById('btn-publish-note').innerText = 'Publicar en el Muro Global';
-      document.getElementById('btn-cancel-edit').style.display = 'none';
-    }
-
-    function deleteJournalNote(id) {
-      if(confirm('¿Estás seguro de eliminar este comentario?')) {
-        journalNotes = journalNotes.filter(n => n.id != id);
-        localStorage.setItem('enfoque_global_journal', JSON.stringify(journalNotes));
-        renderJournalNotes();
+    // Función para cambiar de slide fluidamente
+    function scrollToSlide(slideId) {
+      const target = document.getElementById(slideId);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
       }
     }
 
-    function renderJournalNotes() {
-      const container = document.getElementById('journal-list');
-      if(!journalNotes.length) { 
-        container.innerHTML = '<p style="font-size:11px;color:#6b7280;text-align:center;padding:10px;">Sin comentarios aún.</p>'; 
-        return; 
-      }
-      
-      container.innerHTML = journalNotes.map(n => `
-        <div style="background:#111318;padding:12px;border-radius:14px;border:1px solid #1f2937; margin-bottom: 8px;">
-          <div style="display:flex;justify-content:space-between;margin-bottom:4px;align-items:center;">
-            <span style="font-size:11px;font-weight:bold;color:#00FF66;">${escapeHtml(n.author)}</span>
-            <div style="display:flex;gap:6px;align-items:center;">
-              <span style="font-size:9px;color:#9ca3af;">${n.date}</span>
-              <button onclick="editJournalNote(${n.id})" style="background:none;border:none;color:#00FF66;font-size:10px;cursor:pointer;" title="Editar">✏️</button>
-              <button onclick="deleteJournalNote(${n.id})" style="background:none;border:none;color:#ef4444;font-size:10px;cursor:pointer;" title="Eliminar">🗑️</button>
-            </div>
-          </div>
-          <p style="font-size:11px;color:#e5e7eb;line-height:1.4; word-break: break-word;">${escapeHtml(n.text)}</p>
-        </div>
-      `).join('');
-    }
-
-    function escapeHtml(text) {
-      if (!text) return '';
-      return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-    }
-
-    function startRestTimer(seconds) {
-      clearInterval(restTimerInterval);
-      let timeLeft = seconds;
-      const box = document.getElementById('active-timer-box');
-      const display = document.getElementById('timer-countdown');
-      box.style.display = 'flex';
-
-      restTimerInterval = setInterval(() => {
-        let m = Math.floor(timeLeft / 60);
-        let s = timeLeft % 60;
-        display.innerText = `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-        if(timeLeft <= 0) {
-          clearInterval(restTimerInterval);
-          box.style.display = 'none';
-          alert('⏰ ¡Tiempo de descanso terminado! A por la siguiente serie.');
-        }
-        timeLeft--;
-      }, 1000);
-    }
-
-    function stopRestTimer() {
-      clearInterval(restTimerInterval);
-      document.getElementById('active-timer-box').style.display = 'none';
-    }
-
+    // Reproductor Gym
     function toggleGymMusicPlayer() {
       const panel = document.getElementById('gym-disc-panel');
-      panel.style.display = panel.style.display === 'flex' ? 'none' : 'flex';
-    }
-    function playGymMix() { alert('🎧 Reproduciendo Playlist de Intro de Gym.'); }
-    function stopGymMix() { alert('⏸️ Reproducción pausada.'); }
-
-    function uploadMediaProgress() {
-      const title = document.getElementById('media-title').value.trim();
-      const fileInput = document.getElementById('media-file-input');
-      if(!title || !fileInput.files.length) { alert('⚠️ Ingresa título y selecciona archivo.'); return; }
-      const file = fileInput.files[0];
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const newPost = {
-          id: Date.now(), title, type: file.type.startsWith('video') ? 'video' : 'image',
-          url: e.target.result, date: new Date().toLocaleDateString('es-ES', {month:'short', day:'numeric'})
-        };
-        mediaPosts.unshift(newPost);
-        localStorage.setItem('enfoque_media_posts', JSON.stringify(mediaPosts));
-        document.getElementById('media-title').value = '';
-        fileInput.value = '';
-        renderMediaGallery();
-        alert('📸 ¡Multimedia subida con éxito!');
-      };
-      reader.readAsDataURL(file);
+      panel.style.display = panel.style.display === 'none' ? 'flex' : 'none';
     }
 
-    function renderMediaGallery() {
-      const container = document.getElementById('media-gallery-list');
-      if(!mediaPosts.length) { container.innerHTML = '<p style="font-size:11px;color:#6b7280;text-align:center;padding:10px;">No hay contenido multimedia.</p>'; return; }
-      container.innerHTML = mediaPosts.map(p => `
-        <div style="background:#111318;padding:10px;border-radius:14px;border:1px solid #1f2937;display:flex;flex-direction:column;gap:8px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;">
-            <span style="font-size:11px;font-weight:bold;color:#00FF66;">${p.title}</span>
-            <span style="font-size:9px;color:#9ca3af;">${p.date}</span>
-          </div>
-          ${p.type === 'video' ? `<video src="${p.url}" controls style="width:100%;max-height:220px;border-radius:10px;object-fit:cover;"></video>` : `<img src="${p.url}" style="width:100%;max-height:220px;border-radius:10px;object-fit:cover;">`}
-        </div>
-      `).join('');
+    function playGymMix() {
+      alert("Reproduciendo Mix Pesado • Gym Intro 🎧🔥");
     }
 
-    function saveTodayWeight() {
-      const w = parseFloat(document.getElementById('input-weight').value);
-      const tw = parseFloat(document.getElementById('input-target-weight').value);
-      if(w) userWeight = w;
-      if(tw) targetWeight = tw;
-      localStorage.setItem('enfoque_user_weight', userWeight);
-      localStorage.setItem('enfoque_target_weight', targetWeight);
-      document.getElementById('display-current-weight').innerHTML = `${userWeight.toFixed(1)} <span style="font-size:12px;font-weight:normal;color:#fff;">Kg</span>`;
-      document.getElementById('display-target-weight').innerText = `${targetWeight.toFixed(1)} Kg`;
-      document.getElementById('input-weight').value = '';
-      document.getElementById('input-target-weight').value = '';
-      updateAdvice();
+    function stopGymMix() {
+      alert("Reproductor detenido.");
     }
 
-    function updateAdvice() {
-      const diff = (targetWeight - userWeight).toFixed(1);
-      const el = document.getElementById('advice-text');
-      if(targetWeight > userWeight) {
-        el.innerText = `Para ganar ${diff} kg de masa muscular, mantén superávit de +300 Kcal y consume ${Math.round(userWeight * 2.0)}g - ${Math.round(userWeight * 2.2)}g de proteína.`;
-      } else {
-        el.innerText = `Para definir, mantén déficit calórico y proteína alta a ${Math.round(userWeight * 2.2)}g diarios.`;
+    // Base de Datos de Nutrición (Lunes a Domingo para ambos objetivos)
+    const nutritionData = {
+      muscular: {
+        "Lunes": {
+          desayuno: "Huevos revueltos (3 enteros + 2 claras), 1 taza de avena con banano y mantequilla de maní.",
+          almuerzo: "250g de pechuga de pollo a la plancha, 2 tazas de arroz blanco, aguacate y ensalada fresca.",
+          preentreno: "Arroz con leche casero o tostadas con mermelada y un plátano maduro.",
+          merienda: "Batido de proteína en polvo con leche entera, 1 manzana y un puñado de almendras.",
+          cena: "200g de carne magra de res, puré de papa criolla o yuca, y vegetales salteados al wok."
+        },
+        "Martes": {
+          desayuno: "Tortilla de 3 huevos con espinaca y queso campesino, 2 tostadas de pan integral con aguacate.",
+          almuerzo: "250g de lomo de cerdo asado, pasta o espagueti con salsa de tomate natural y queso parmesano.",
+          preentreno: "Yogur griego con granola y arándanos.",
+          merienda: "Sándwich de pavo y queso con un vaso de jugo de fruta natural sin azúcar añadida.",
+          cena: "220g de filete de pescado (merluza o salmón), yuca cocida y ensalada de lechuga y tomate."
+        },
+        "Miércoles": {
+          desayuno: "Pancakes de avena y banano (3 unidades) con miel y un vaso de leche.",
+          almuerzo: "250g de carne desmechada, arroz blanco, fríjoles nutritivos y maduro asado.",
+          preentreno: "Arroz inflado con miel y un banano.",
+          merienda: "Batido de proteína con mantequilla de maní y leche.",
+          cena: "Pechuga de pollo desmenuzada en arepa asada grande con queso mozzarella light."
+        },
+        "Jueves": {
+          desayuno: "Huevos revueltos con tomate y cebolla, arepa de maíz con queso cuajada.",
+          almuerzo: "250g de pollo al horno, papas criollas al horno con especias y ensalada de repollo y zanahoria.",
+          preentreno: "Tostadas con crema de maní y rodajas de banano.",
+          merienda: "Yogur griego con frutos secos.",
+          cena: "Carne de res magra a la plancha, puré de papa y brócoli al vapor."
+        },
+        "Viernes": {
+          desayuno: "Bowl de avena cocida con leche, proteína en polvo, trozos de piña y nueces.",
+          almuerzo: "250g de churrasco o carne de res, patacones grandes y ensalada aguacate-tomate.",
+          preentreno: "Batido energizante de banano con avena y agua/leche.",
+          merienda: "Galletas de arroz con mantequilla de maní y queso crema.",
+          cena: "Pescado al horno con papas en casco y espinacas salteadas."
+        },
+        "Sábado": {
+          desayuno: "Huevos pericos (3), arepa asada con doble porción de queso y chocolate caliente en agua/leche.",
+          almuerzo: "Arroz con pollo casero bien servido, acompañado de maduro frito/asado y aguacate.",
+          preentreno: "Panquecas rápidas con miel y fruta.",
+          merienda: "Batido de proteína con leche y un puñado de frutos secos.",
+          cena: "Corte de carne magra a la parrilla, puré de ahuyama y ensalada verde."
+        },
+        "Domingo": {
+          desayuno: "Omelette relleno de queso y jamón de pavo, tostadas integrales con crema de maní.",
+          almuerzo: "Sancocho de pollo o res tradicional con buena porción de yuca, papa y carne.",
+          preentreno: "Yogur con cereales integrales y miel.",
+          merienda: "Batido recuperador post-descanso con banano y proteína.",
+          cena: "Wrap integral de pollo con vegetales frescos y salsa ligera de yogur."
+        }
+      },
+      definicion: {
+        "Lunes": {
+          desayuno: "Omelette de 3 claras y 1 huevo entero con espinaca y champiñones, café negro sin azúcar.",
+          almuerzo: "200g de pechuga de pollo a la plancha, 1 taza de arroz integral o quinua, abundante ensalada verde.",
+          preentreno: "1 manzana verde y un café negro o infusión sin azúcar.",
+          merienda: "Yogur griego 0% grasa con unas pocas moras o arándanos.",
+          cena: "200g de pescado blanco al horno con limón y espinacas salteadas en aceite de oliva."
+        },
+        "Martes": {
+          desayuno: "Batido de proteína con agua, espinaca, medio banano y hielo.",
+          almuerzo: "200g de carne de res magra, puré de ahuyama (zapallo) y ensalada de pepino y tomate.",
+          preentreno: "Tortitas de arroz (2 unidades) con una cucharada delgada de mantequilla de maní.",
+          merienda: "Queso fresco light con bastones de zanahoria y apio.",
+          cena: "Pechuga de pollo desmenuzada sobre cama de lechuga, tomate y vinagreta balsámica."
+        },
+        "Miércoles": {
+          desayuno: "Revuelto de 3 claras con tomate, cebolla y cilantro; infusión verde.",
+          almuerzo: "200g de lomo de cerdo magro, lentejas cocidas (porción moderada) y ensalada mixta.",
+          preentreno: "1 pera o manzana con canela.",
+          merienda: "Mix pequeño de frutos secos (sin sal, máx 20g).",
+          cena: "Tortilla de claras con espinaca y trocitos de pechuga de pollo."
+        },
+        "Jueves": {
+          desayuno: "Yogur griego light con 2 cucharadas de avena en hojuelas.",
+          almuerzo: "200g de filete de pescado blanco, papa cocida mediana y brócoli al vapor.",
+          preentreno: "Café negro y medio banano.",
+          merienda: "Batido de proteína con agua y hielo.",
+          cena: "Ensalada grande de atún en agua con huevo cocido, tomate, lechuga y aceite de oliva."
+        },
+        "Viernes": {
+          desayuno: "Huevos poché o cocidos (2) con rodajas de tomate y aguacate (porción pequeña).",
+          almuerzo: "200g de pollo asado, espárragos y ensalada verde con limón.",
+          preentreno: "Infusión verde y un puñado de arándanos secos.",
+          merienda: "Queso cottage o requesón con tomate picado.",
+          cena: "Crema de ahuyama o zapallo natural con trocitos de pechuga a la plancha."
+        },
+        "Sábado": {
+          desayuno: "Pancakes fit (1 clara, 20g de avena, estevia) cocinados a la sartén con banano.",
+          almuerzo: "200g de carne magra de res, yuca cocida (porción moderada) y ensalada de pepino.",
+          preentreno: "Manzana verde.",
+          merienda: "Yogur griego natural.",
+          cena: "Brochetas de pollo con pimentón y cebolla asadas al horno, con ensalada fresca."
+        },
+        "Domingo": {
+          desayuno: "Omelette de espinacas y champiñones con café o té.",
+          almuerzo: "200g de salmón o pescado azul a la plancha, ensalada César ligera (sin exceso de aderezo graso).",
+          preentreno: "Café negro sin azúcar.",
+          merienda: "Gelatina sin azúcar con trocitos de fruta.",
+          cena: "Sopa de verduras liviana con pollo desmenuzado."
+        }
       }
+    };
+
+    let currentGoal = 'muscular';
+    let currentDay = 'Lunes';
+
+    function switchDietGoal(goal) {
+      currentGoal = goal;
+      document.getElementById('btn-goal-muscular').style.background = goal === 'muscular' ? '#10b981' : '#1f2937';
+      document.getElementById('btn-goal-muscular').style.color = goal === 'muscular' ? '#000' : '#9ca3af';
+      
+      document.getElementById('btn-goal-definicion').style.background = goal === 'definicion' ? '#ef4444' : '#1f2937';
+      document.getElementById('btn-goal-definicion').style.color = goal === 'definicion' ? '#fff' : '#9ca3af';
+      
+      renderDietMenu();
     }
 
-    function calculate1RM() {
-      const w = parseFloat(document.getElementById('input-1rm-weight').value);
-      const r = parseFloat(document.getElementById('input-1rm-reps').value);
-      if(w > 0 && r > 0) {
-        const rm = Math.round(w * (1 + (r / 30)));
-        document.getElementById('val-1rm-max').innerText = `${rm} kg`;
-      } else { alert('Ingresa peso y repeticiones.'); }
-    }
-
-    function switchRoutineDay(day, btn) {
-      activeDay = day;
-      document.querySelectorAll('.routine-day-btn').forEach(b => {
-        b.style.background = '#111318'; b.style.color = '#9ca3af'; b.style.fontWeight = '700'; b.style.border = '1px solid #1f2937';
+    function setDietDay(day) {
+      currentDay = day;
+      document.querySelectorAll('.diet-day-btn').forEach(btn => {
+        if(btn.getAttribute('data-day') === day) {
+          btn.style.background = currentGoal === 'muscular' ? '#10b981' : '#ef4444';
+          btn.style.color = '#000';
+        } else {
+          btn.style.background = '#1f2937';
+          btn.style.color = '#9ca3af';
+        }
       });
-      btn.style.background = '#00FF66'; btn.style.color = '#000'; btn.style.fontWeight = '900'; btn.style.border = 'none';
-      document.getElementById('current-day-badge').innerText = day.toUpperCase();
-      renderExerciseList();
+      renderDietMenu();
     }
 
-    function renderExerciseList() {
-      const container = document.getElementById('exercise-list');
-      const list = rutinas[activeDay] || [];
-      container.innerHTML = list.map(item => {
-        const isChecked = !!completedState[item.id];
-        const w = weightsState[item.id] !== undefined ? weightsState[item.id] : item.baseWeight;
-        return `
-          <div style="background:#111318;padding:12px;border-radius:14px;border:1px solid #1f2937;display:flex;flex-direction:column;gap:6px;">
-            <div style="display:flex;justify-content:space-between;align-items:center;">
-              <div>
-                <h4 style="font-size:11px;font-weight:bold;color:${isChecked ? '#6b7280':'#fff'};text-decoration:${isChecked?'line-through':'none'}">${item.nombre}</h4>
-                <p style="font-size:9px;color:#9ca3af;">${item.series} • ${item.tip}</p>
-              </div>
-              <div style="display:flex;align-items:center;gap:6px;">
-                <input type="number" value="${w}" onchange="updateWeight('${item.id}', this.value)" style="width:45px;background:#08090b;border:1px solid #1f2937;border-radius:6px;text-align:center;color:#00FF66;font-weight:bold;font-size:11px;padding:4px;">
-                <button onclick="startRestTimer(90)" style="background:rgba(0,255,102,0.15);border:1px solid #00FF66;color:#00FF66;padding:4px 6px;border-radius:6px;font-size:9px;font-weight:bold;cursor:pointer;" title="Reloj 1:30">⏱️</button>
-                <input type="checkbox" ${isChecked ? 'checked':''} onclick="toggleExercise('${item.id}')" style="width:16px;height:16px;accent-color:#00FF66;cursor:pointer;">
-              </div>
-            </div>
+    function renderDietMenu() {
+      const container = document.getElementById('diet-content-container');
+      const menu = nutritionData[currentGoal][currentDay];
+      
+      container.innerHTML = `
+        <div style="background: #111827; border: 1px solid #1f2937; border-radius: 14px; padding: 14px; display: flex; align-items: flex-start; gap: 12px;">
+          <div style="background: rgba(16, 185, 129, 0.1); padding: 8px; border-radius: 10px; color: #10b981;"><i data-lucide="sunrise" style="width: 18px; height: 18px;"></i></div>
+          <div><div style="font-size: 11px; font-weight: bold; color: #9ca3af; text-transform: uppercase;">Desayuno</div><div style="font-size: 13px; color: #fff; margin-top: 2px;">${menu.desayuno}</div></div>
+        </div>
+
+        <div style="background: #111827; border: 1px solid #1f2937; border-radius: 14px; padding: 14px; display: flex; align-items: flex-start; gap: 12px;">
+          <div style="background: rgba(59, 130, 246, 0.1); padding: 8px; border-radius: 10px; color: #3b82f6;"><i data-lucide="sun" style="width: 18px; height: 18px;"></i></div>
+          <div><div style="font-size: 11px; font-weight: bold; color: #9ca3af; text-transform: uppercase;">Almuerzo</div><div style="font-size: 13px; color: #fff; margin-top: 2px;">${menu.almuerzo}</div></div>
+        </div>
+
+        <div style="background: #111827; border: 1px solid #1f2937; border-radius: 14px; padding: 14px; display: flex; align-items: flex-start; gap: 12px;">
+          <div style="background: rgba(245, 158, 11, 0.1); padding: 8px; border-radius: 10px; color: #f59e0b;"><i data-lucide="zap" style="width: 18px; height: 18px;"></i></div>
+          <div><div style="font-size: 11px; font-weight: bold; color: #9ca3af; text-transform: uppercase;">Pre-Entreno</div><div style="font-size: 13px; color: #fff; margin-top: 2px;">${menu.preentreno}</div></div>
+        </div>
+
+        <div style="background: #111827; border: 1px solid #1f2937; border-radius: 14px; padding: 14px; display: flex; align-items: flex-start; gap: 12px;">
+          <div style="background: rgba(168, 85, 247, 0.1); padding: 8px; border-radius: 10px; color: #a855f7;"><i data-lucide="coffee" style="width: 18px; height: 18px;"></i></div>
+          <div><div style="font-size: 11px; font-weight: bold; color: #9ca3af; text-transform: uppercase;">Merienda</div><div style="font-size: 13px; color: #fff; margin-top: 2px;">${menu.merienda}</div></div>
+        </div>
+
+        <div style="background: #111827; border: 1px solid #1f2937; border-radius: 14px; padding: 14px; display: flex; align-items: flex-start; gap: 12px;">
+          <div style="background: rgba(239, 68, 68, 0.1); padding: 8px; border-radius: 10px; color: #ef4444;"><i data-lucide="sunset" style="width: 18px; height: 18px;"></i></div>
+          <div><div style="font-size: 11px; font-weight: bold; color: #9ca3af; text-transform: uppercase;">Cena</div><div style="font-size: 13px; color: #fff; margin-top: 2px;">${menu.cena}</div></div>
+        </div>
+      `;
+      lucide.createIcons();
+    }
+
+    // Funciones del Muro
+    function postToWall() {
+      const text = document.getElementById('wall-input-post').value.trim();
+      if(!text) return;
+      
+      const container = document.getElementById('wall-posts-container');
+      const newPost = document.createElement('div');
+      newPost.style.cssText = "background: #111827; border: 1px solid #1f2937; border-radius: 16px; padding: 15px;";
+      newPost.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+          <div style="width: 32px; height: 32px; background: #3b82f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 13px; color: #fff;">AF</div>
+          <div>
+            <div style="font-size: 13px; font-weight: bold; color: #fff;">Andrés Felipe</div>
+            <div style="font-size: 10px; color: #9ca3af;">Justo ahora</div>
           </div>
-        `;
-      }).join('');
-      updateProgressBar();
+        </div>
+        <p style="font-size: 13px; color: #d1d5db; margin: 0 0 10px 0;">${text}</p>
+        <div style="display: flex; gap: 15px; font-size: 12px; color: #9ca3af; border-top: 1px solid #1f2937; padding-top: 8px;">
+          <span style="cursor: pointer; display: flex; align-items: center; gap: 4px;" onclick="likePost(this)"><i data-lucide="heart" style="width: 14px; height: 14px;"></i> <span>0</span></span>
+        </div>
+      `;
+      container.prepend(newPost);
+      document.getElementById('wall-input-post').value = '';
+      lucide.createIcons();
     }
 
-    function updateWeight(id, val) { weightsState[id] = parseFloat(val)||0; localStorage.setItem('enfoque_weights', JSON.stringify(weightsState)); }
-    function toggleExercise(id) { completedState[id] = !completedState[id]; localStorage.setItem('enfoque_completed', JSON.stringify(completedState)); renderExerciseList(); }
-    function updateProgressBar() {
-      const list = rutinas[activeDay] || [];
-      if(!list.length) return;
-      const count = list.filter(i => completedState[i.id]).length;
-      const pct = Math.round((count / list.length)*100);
-      document.getElementById('progress-percent').innerText = `${pct}%`;
-      document.getElementById('progress-bar-fill').style.width = `${pct}%`;
+    function likePost(el) {
+      const span = el.querySelector('span');
+      span.textContent = parseInt(span.textContent) + 1;
+      el.style.color = '#ef4444';
     }
 
-    function toggleWaterCup(i) {
-      waterCups = (waterCups === i + 1) ? i : i + 1;
-      localStorage.setItem('enfoque_water', waterCups);
-      renderWaterTracker();
-    }
-
-    function renderWaterTracker() {
-      const container = document.getElementById('water-cups-container');
-      let html = '';
-      for(let i=0; i<6; i++) {
-        const filled = i < waterCups;
-        html += `<button onclick="toggleWaterCup(${i})" style="height:28px;border-radius:6px;border:1px solid ${filled?'#00FF66':'#1f2937'};background:${filled?'#00FF66':'#08090b'};color:${filled?'#000':'#6b7280'};font-size:8px;font-weight:bold;cursor:pointer;">500ml</button>`;
-      }
-      container.innerHTML = html;
-      document.getElementById('water-display').innerText = `${(waterCups*0.5).toFixed(1)} / 3.0 L`;
-    }
-
-    function scrollToSlide(id) { document.getElementById(id).scrollIntoView({behavior:'smooth'}); }
-    
-    function setNutritionGoal(g) { 
-      currentGoal = g; 
-      document.getElementById('btn-bulking').style.background = g === 'bulking' ? '#00FF66' : 'transparent';
-      document.getElementById('btn-bulking').style.color = g === 'bulking' ? '#000' : '#9ca3af';
-      document.getElementById('btn-cutting').style.background = g === 'cutting' ? '#00FF66' : 'transparent';
-      document.getElementById('btn-cutting').style.color = g === 'cutting' ? '#000' : '#9ca3af';
-      renderMealPlan(); 
-    }
-
-    function switchNutriDay(d, btn) {
-      activeNutriDay = d;
-      document.querySelectorAll('.nutri-day-btn').forEach(b => { b.style.background='#111318'; b.style.color='#9ca3af'; b.style.border='1px solid #1f2937'; });
-      btn.style.background='#00FF66'; btn.style.color='#000'; btn.style.border='none';
-      renderMealPlan();
-    }
-
-    function renderMealPlan() {
-      const list = menusNutricionales[currentGoal][activeNutriDay] || [{tipo:'🍽️ Menú', desc:'Alimentación del día.'}];
-      document.getElementById('meal-plan-list').innerHTML = list.map(m => `<div style="background:#111318;padding:10px;border-radius:12px;border:1px solid #1f2937;"><span style="font-size:10px;font-weight:bold;color:#00FF66;display:block;">${m.tipo}</span><p style="font-size:10px;color:#e5e7eb;margin-top:2px;">${m.desc}</p></div>`).join('');
-    }
-
-    function openGroceryModal() {
-      document.getElementById('grocery-subtitle').innerText = currentGoal === 'bulking' ? 'Ganar Masa Muscular' : 'Definición';
-      document.getElementById('grocery-items-list').innerHTML = `<div style="background:#08090b;padding:8px;border-radius:8px;border:1px solid #1f2937;"><span style="color:#00FF66;font-weight:bold;">Proteínas:</span> Pechuga, carne magra, huevos, atún.</div><div style="background:#08090b;padding:8px;border-radius:8px;border:1px solid #1f2937;"><span style="color:#00FF66;font-weight:bold;">Carbohidratos:</span> Arroz, avena, papa, yuca, plátano.</div>`;
-      document.getElementById('grocery-modal').style.display = 'flex';
-    }
-    function closeGroceryModal() { document.getElementById('grocery-modal').style.display = 'none'; }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('display-current-weight').innerHTML = `${userWeight.toFixed(1)} <span style="font-size:12px;font-weight:normal;color:#fff;">Kg</span>`;
-      document.getElementById('display-target-weight').innerText = `${targetWeight.toFixed(1)} Kg`;
-      updateAdvice();
-      renderExerciseList();
-      renderMealPlan();
-      renderWaterTracker();
-      loadCloudNotes();
-      renderMediaGallery();
-    });
+    // Inicializar por defecto al cargar la app
+    setDietDay('Lunes');
   </script>
 </body>
 </html>
