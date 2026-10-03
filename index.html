@@ -45,7 +45,14 @@
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-    /* Animación Banner Gym */
+    /* Control de desplazamiento de slides estable */
+    #scroll-container {
+      scroll-snap-type: y mandatory;
+      overflow-y: scroll;
+      -webkit-overflow-scrolling: touch;
+      scroll-padding-top: 0px;
+    }
+
     @keyframes gymTicker {
       0% { transform: translateX(0%); }
       100% { transform: translateX(-50%); }
@@ -70,10 +77,30 @@
   <div class="app-container">
 
     <!-- HEADER SUPERIOR BLINDADO -->
-    <header style="width: 100%; padding: 16px 16px 10px 16px; background: rgba(8,9,11,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #1f2937; z-index: 30; flex-shrink: 0;">
+    <header style="width: 100%; padding: 14px 16px 10px 16px; background: rgba(8,9,11,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #1f2937; z-index: 30; flex-shrink: 0;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
         <span class="font-display font-black text-xl italic tracking-wider" style="font-style: italic;">EN<span class="text-brand">FOQUE</span></span>
-        <span class="text-xs font-black bg-brand" style="background: rgba(0,255,102,0.1); color: #00FF66; padding: 4px 10px; border-radius: 9999px; border: 1px solid rgba(0,255,102,0.3);">PRO ATHLETE</span>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <button onclick="toggleGymMusicPlayer()" style="background: rgba(0,255,102,0.15); border: 1px solid rgba(0,255,102,0.4); color: #00FF66; padding: 4px 8px; border-radius: 8px; font-size: 10px; font-weight: 900; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+            <i data-lucide="disc" style="width: 14px; height: 14px;"></i> Disco Intro
+          </button>
+          <span class="text-xs font-black bg-brand" style="background: rgba(0,255,102,0.1); color: #00FF66; padding: 4px 10px; border-radius: 9999px; border: 1px solid rgba(0,255,102,0.3);">PRO ATHLETE</span>
+        </div>
+      </div>
+
+      <!-- REPRODUCTOR / DISCO DE INTRO DE GYM (OCULTO/VISIBLE) -->
+      <div id="gym-disc-panel" style="display: none; background: #111318; border: 1px solid #00FF66; border-radius: 12px; padding: 10px; margin-bottom: 8px; align-items: center; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div id="disc-icon-spin" style="width: 28px; height: 28px; border-radius: 50%; background: #00FF66; display: flex; align-items: center; justify-content: center; color: #000; font-weight: bold;">💿</div>
+          <div>
+            <span style="font-size: 11px; font-weight: 900; color: #fff; display: block;">Mix Pesado • Gym Intro</span>
+            <span style="font-size: 9px; color: #00FF66;">Modo Motivación Activado</span>
+          </div>
+        </div>
+        <div style="display: flex; gap: 6px;">
+          <button onclick="playGymMix()" style="background: #00FF66; color: #000; border: none; padding: 6px 10px; border-radius: 8px; font-size: 10px; font-weight: 900; cursor: pointer;">Reproducir</button>
+          <button onclick="stopGymMix()" style="background: #1f2937; color: #fff; border: none; padding: 6px 8px; border-radius: 8px; font-size: 10px; cursor: pointer;">Parar</button>
+        </div>
       </div>
 
       <!-- BANNER DE VECTORES DE GYM EN MOVIMIENTO -->
@@ -99,251 +126,272 @@
       </div>
     </header>
 
-    <!-- BARRA DE TEMPORIZADOR DE DESCANSO FLOTANTE -->
-    <div id="timer-bar" style="display: none; position: absolute; top: 75px; left: 16px; right: 16px; background: #00FF66; color: #000; padding: 12px; border-radius: 16px; z-index: 40; justify-content: space-between; align-items: center; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
-      <div style="display: flex; align-items: center; gap: 8px;">
-        <i data-lucide="timer" style="width: 20px; height: 20px;"></i>
-        <div>
-          <span style="font-size: 10px; font-weight: 900; text-transform: uppercase; display: block; line-height: 1;">Descanso en Curso</span>
-          <span id="timer-display" class="font-display" style="font-size: 20px; font-weight: 900;">01:30</span>
-        </div>
-      </div>
-      <div style="display: flex; gap: 6px;">
-        <button onclick="toggleTimerPause()" id="btn-timer-pause" style="background: rgba(0,0,0,0.1); border: none; padding: 6px 10px; border-radius: 10px; font-size: 11px; font-weight: 800; cursor: pointer;">Pausa</button>
-        <button onclick="stopTimer()" style="background: #000; color: #fff; border: none; padding: 6px 10px; border-radius: 10px; font-size: 11px; font-weight: 800; cursor: pointer;">Cerrar</button>
-      </div>
-    </div>
-
-    <!-- CONTENEDOR PRINCIPAL: SLIDES -->
-    <main id="scroll-container" class="no-scrollbar" style="flex: 1; overflow-y: auto; position: relative; scroll-snap-type: y mandatory;">
+    <!-- CONTENEDOR PRINCIPAL: SLIDES (Con scroll-snap estable) -->
+    <main id="scroll-container" class="no-scrollbar" style="flex: 1; overflow-y: auto; position: relative;">
 
       <!-- SLIDE 1: PORTADA -->
-      <section id="slide-1" style="min-height: 100%; scroll-snap-align: start; position: relative; display: flex; flex-direction: column; justify-content: flex-end; padding: 24px; overflow: hidden; background: #000;">
+      <section id="slide-1" style="height: 100%; min-height: 100%; scroll-snap-align: start; scroll-snap-stop: always; position: relative; display: flex; flex-direction: column; justify-content: flex-end; padding: 24px; overflow: hidden; background: #000;">
         <img src="portada.jpg" alt="Portada ENFOQUE" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;">
         <div style="position: absolute; inset-x: 0; bottom: 0; height: 160px; background: linear-gradient(to top, #000, transparent); z-index: 10; pointer-events: none;"></div>
 
         <div style="position: relative; z-index: 20; width: 100%; text-align: center; padding-bottom: 20px;">
           <button onclick="scrollToSlide('slide-2')" style="width: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); color: #00FF66; font-weight: 900; padding: 14px; border-radius: 9999px; display: flex; align-items: center; justify-content: center; gap: 8px; border: 2px solid #00FF66; cursor: pointer;">
-            <span style="font-size: 12px; text-transform: uppercase; color: #fff;">DESLIZA</span>
+            <span style="font-size: 12px; text-transform: uppercase; color: #fff;">DESLIZA A RUTINAS</span>
             <i data-lucide="chevron-down" style="width: 20px; height: 20px;"></i>
           </button>
         </div>
       </section>
 
-      <!-- SLIDE 2: RUTINA -->
-      <section id="slide-2" style="min-height: 100%; scroll-snap-align: start; padding: 20px; display: flex; flex-direction: column; gap: 16px; padding-bottom: 100px;">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
+      <!-- SLIDE 2: RUTINA + RELOJES RESTAURADOS -->
+      <section id="slide-2" style="height: 100%; min-height: 100%; scroll-snap-align: start; scroll-snap-stop: always; padding: 20px; display: flex; flex-direction: column; gap: 14px; overflow-y: auto;" class="no-scrollbar">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;">
           <div>
-            <h2 class="font-display" style="font-size: 24px; font-weight: 900;">Mi Rutina Semanal</h2>
-            <p style="font-size: 12px; color: #9ca3af;">Progreso, cargas y temporizador</p>
+            <h2 class="font-display" style="font-size: 22px; font-weight: 900;">Mi Rutina Semanal</h2>
+            <p style="font-size: 11px; color: #9ca3af;">Progreso, cargas y temporizador</p>
           </div>
-          <span id="current-day-badge" style="font-size: 11px; background: rgba(0,255,102,0.1); color: #00FF66; padding: 4px 12px; border-radius: 9999px; font-weight: 700; border: 1px solid rgba(0,255,102,0.3);">LUNES</span>
-        </div>
-
-        <div>
-          <span style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: #9ca3af; display: block; margin-bottom: 6px;">Seleccionar Día</span>
-          <div class="no-scrollbar" style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px;">
-            <button onclick="switchRoutineDay('lunes', this)" class="routine-day-btn" style="flex-shrink: 0; padding: 10px 16px; background: #00FF66; color: #000; border-radius: 16px; border: none; font-weight: 900; text-align: center; cursor: pointer;">
-              <span style="font-size: 11px; display: block;">LUNES</span>
-              <span style="font-size: 9px;">Cuádriceps</span>
+          <div style="display: flex; gap: 6px; align-items: center;">
+            <button onclick="startRestTimer(90)" style="background: rgba(0,255,102,0.15); border: 1px solid #00FF66; color: #00FF66; padding: 6px 10px; border-radius: 10px; font-size: 10px; font-weight: 900; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+              <i data-lucide="timer" style="width: 14px; height: 14px;"></i> ⏱️ 1:30 Reloj
             </button>
-            <button onclick="switchRoutineDay('martes', this)" class="routine-day-btn" style="flex-shrink: 0; padding: 10px 16px; background: #111318; color: #9ca3af; border-radius: 16px; border: 1px solid #1f2937; font-weight: 700; text-align: center; cursor: pointer;">
-              <span style="font-size: 11px; display: block;">MARTES</span>
-              <span style="font-size: 9px;">Espalda</span>
-            </button>
-            <button onclick="switchRoutineDay('miercoles', this)" class="routine-day-btn" style="flex-shrink: 0; padding: 10px 16px; background: #111318; color: #9ca3af; border-radius: 16px; border: 1px solid #1f2937; font-weight: 700; text-align: center; cursor: pointer;">
-              <span style="font-size: 11px; display: block;">MIÉRCOLES</span>
-              <span style="font-size: 9px;">Isquio</span>
-            </button>
-            <button onclick="switchRoutineDay('jueves', this)" class="routine-day-btn" style="flex-shrink: 0; padding: 10px 16px; background: #111318; color: #9ca3af; border-radius: 16px; border: 1px solid #1f2937; font-weight: 700; text-align: center; cursor: pointer;">
-              <span style="font-size: 11px; display: block;">JUEVES</span>
-              <span style="font-size: 9px;">Pecho</span>
-            </button>
-            <button onclick="switchRoutineDay('viernes', this)" class="routine-day-btn" style="flex-shrink: 0; padding: 10px 16px; background: #111318; color: #9ca3af; border-radius: 16px; border: 1px solid #1f2937; font-weight: 700; text-align: center; cursor: pointer;">
-              <span style="font-size: 11px; display: block;">VIERNES</span>
-              <span style="font-size: 9px;">Pierna</span>
-            </button>
+            <span id="current-day-badge" style="font-size: 10px; background: rgba(0,255,102,0.1); color: #00FF66; padding: 4px 10px; border-radius: 9999px; font-weight: 700; border: 1px solid rgba(0,255,102,0.3);">LUNES</span>
           </div>
         </div>
 
-        <div style="background: #111318; padding: 14px; border-radius: 16px; border: 1px solid #1f2937;">
-          <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+        <!-- RELOJ / CRONÓMETRO ACTIVO VISIBLE -->
+        <div id="active-timer-box" style="display: none; background: #00FF66; color: #000; padding: 10px 14px; border-radius: 14px; justify-content: space-between; align-items: center; flex-shrink: 0; font-weight: 900;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <i data-lucide="timer" style="width: 18px; height: 18px;"></i>
+            <span style="font-size: 12px;">DESCANSO: <span id="timer-countdown" style="font-size: 16px;">01:30</span></span>
+          </div>
+          <button onclick="stopRestTimer()" style="background: #000; color: #fff; border: none; padding: 4px 10px; border-radius: 8px; font-size: 10px; cursor: pointer;">Cerrar</button>
+        </div>
+
+        <div style="flex-shrink: 0;">
+          <span style="font-size: 10px; text-transform: uppercase; font-weight: 700; color: #9ca3af; display: block; margin-bottom: 4px;">Seleccionar Día</span>
+          <div class="no-scrollbar" style="display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px;">
+            <button onclick="switchRoutineDay('lunes', this)" class="routine-day-btn" style="flex-shrink: 0; padding: 8px 14px; background: #00FF66; color: #000; border-radius: 12px; border: none; font-weight: 900; text-align: center; cursor: pointer;">
+              <span style="font-size: 10px; display: block;">LUNES</span>
+              <span style="font-size: 8px;">Cuádriceps</span>
+            </button>
+            <button onclick="switchRoutineDay('martes', this)" class="routine-day-btn" style="flex-shrink: 0; padding: 8px 14px; background: #111318; color: #9ca3af; border-radius: 12px; border: 1px solid #1f2937; font-weight: 700; text-align: center; cursor: pointer;">
+              <span style="font-size: 10px; display: block;">MARTES</span>
+              <span style="font-size: 8px;">Espalda</span>
+            </button>
+            <button onclick="switchRoutineDay('miercoles', this)" class="routine-day-btn" style="flex-shrink: 0; padding: 8px 14px; background: #111318; color: #9ca3af; border-radius: 12px; border: 1px solid #1f2937; font-weight: 700; text-align: center; cursor: pointer;">
+              <span style="font-size: 10px; display: block;">MIÉRCOLES</span>
+              <span style="font-size: 8px;">Isquio</span>
+            </button>
+            <button onclick="switchRoutineDay('jueves', this)" class="routine-day-btn" style="flex-shrink: 0; padding: 8px 14px; background: #111318; color: #9ca3af; border-radius: 12px; border: 1px solid #1f2937; font-weight: 700; text-align: center; cursor: pointer;">
+              <span style="font-size: 10px; display: block;">JUEVES</span>
+              <span style="font-size: 8px;">Pecho</span>
+            </button>
+            <button onclick="switchRoutineDay('viernes', this)" class="routine-day-btn" style="flex-shrink: 0; padding: 8px 14px; background: #111318; color: #9ca3af; border-radius: 12px; border: 1px solid #1f2937; font-weight: 700; text-align: center; cursor: pointer;">
+              <span style="font-size: 10px; display: block;">VIERNES</span>
+              <span style="font-size: 8px;">Pierna</span>
+            </button>
+          </div>
+        </div>
+
+        <div style="background: #111318; padding: 10px; border-radius: 14px; border: 1px solid #1f2937; flex-shrink: 0;">
+          <div style="display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 4px;">
             <span style="color: #9ca3af;">Progreso del Día</span>
             <span id="progress-percent" style="font-weight: 700; color: #00FF66;">0%</span>
           </div>
-          <div style="width: 100%; background: #08090b; height: 10px; border-radius: 9999px; overflow: hidden; border: 1px solid #1f2937;">
+          <div style="width: 100%; background: #08090b; height: 8px; border-radius: 9999px; overflow: hidden; border: 1px solid #1f2937;">
             <div id="progress-bar-fill" style="background: #00FF66; height: 100%; width: 0%; transition: width 0.3s;"></div>
           </div>
         </div>
 
-        <div id="exercise-list" style="display: flex; flex-direction: column; gap: 12px;"></div>
+        <div id="exercise-list" style="display: flex; flex-direction: column; gap: 8px; padding-bottom: 40px;"></div>
       </section>
 
       <!-- SLIDE 3: EVOLUCIÓN PESO & 1RM -->
-      <section id="slide-3" style="min-height: 100%; scroll-snap-align: start; padding: 20px; display: flex; flex-direction: column; gap: 16px; padding-bottom: 100px;">
+      <section id="slide-3" style="height: 100%; min-height: 100%; scroll-snap-align: start; scroll-snap-stop: always; padding: 20px; display: flex; flex-direction: column; gap: 14px; overflow-y: auto;" class="no-scrollbar">
         <div>
-          <h2 class="font-display" style="font-size: 24px; font-weight: 900;">Evolución & Fuerza</h2>
-          <p style="font-size: 12px; color: #9ca3af;">Objetivos de músculo y 1RM</p>
+          <h2 class="font-display" style="font-size: 22px; font-weight: 900;">Evolución & Fuerza</h2>
+          <p style="font-size: 11px; color: #9ca3af;">Objetivos de músculo y 1RM</p>
         </div>
 
-        <div style="background: #111318; padding: 16px; border-radius: 20px; border: 1px solid #1f2937; display: flex; flex-direction: column; gap: 12px;">
-          <span style="font-size: 12px; font-weight: 700;">Registra tu Progreso Corporal</span>
+        <div style="background: #111318; padding: 14px; border-radius: 18px; border: 1px solid #1f2937; display: flex; flex-direction: column; gap: 10px;">
+          <span style="font-size: 11px; font-weight: 700;">Registra tu Progreso Corporal</span>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
             <div>
-              <label style="font-size: 10px; color: #9ca3af; display: block; margin-bottom: 4px;">Peso Actual (kg)</label>
-              <input type="number" id="input-weight" placeholder="Ej. 85.0" step="0.1" style="width: 100%; background: #08090b; border: 1px solid #1f2937; border-radius: 12px; padding: 10px; font-size: 12px; color: #fff; outline: none;">
+              <label style="font-size: 9px; color: #9ca3af; display: block; margin-bottom: 2px;">Peso Actual (kg)</label>
+              <input type="number" id="input-weight" placeholder="Ej. 85.0" step="0.1" style="width: 100%; background: #08090b; border: 1px solid #1f2937; border-radius: 10px; padding: 8px; font-size: 11px; color: #fff; outline: none;">
             </div>
             <div>
-              <label style="font-size: 10px; color: #9ca3af; display: block; margin-bottom: 4px;">Meta Músculo (kg)</label>
-              <input type="number" id="input-target-weight" placeholder="Ej. 88.0" step="0.1" style="width: 100%; background: #08090b; border: 1px solid #1f2937; border-radius: 12px; padding: 10px; font-size: 12px; color: #fff; outline: none;">
+              <label style="font-size: 9px; color: #9ca3af; display: block; margin-bottom: 2px;">Meta Músculo (kg)</label>
+              <input type="number" id="input-target-weight" placeholder="Ej. 88.0" step="0.1" style="width: 100%; background: #08090b; border: 1px solid #1f2937; border-radius: 10px; padding: 8px; font-size: 11px; color: #fff; outline: none;">
             </div>
           </div>
-          <button onclick="saveTodayWeight()" style="width: 100%; background: #00FF66; color: #000; font-weight: 900; padding: 12px; border-radius: 12px; border: none; font-size: 12px; cursor: pointer;">Guardar y Calcular Estrategia</button>
+          <button onclick="saveTodayWeight()" style="width: 100%; background: #00FF66; color: #000; font-weight: 900; padding: 10px; border-radius: 10px; border: none; font-size: 11px; cursor: pointer;">Guardar y Calcular Estrategia</button>
         </div>
 
-        <div style="background: #111318; padding: 16px; border-radius: 20px; border: 1px solid #1f2937; display: flex; flex-direction: column; gap: 12px;">
+        <div style="background: #111318; padding: 14px; border-radius: 18px; border: 1px solid #1f2937; display: flex; flex-direction: column; gap: 10px;">
           <div style="display: flex; justify-content: space-between; align-items: center;">
             <div>
-              <span style="font-size: 11px; color: #9ca3af; display: block;">Peso Actual</span>
-              <p id="display-current-weight" class="font-display" style="font-size: 28px; font-weight: 900; color: #00FF66;">85.0 <span style="font-size: 14px; font-weight: normal; color: #fff;">Kg</span></p>
+              <span style="font-size: 10px; color: #9ca3af; display: block;">Peso Actual</span>
+              <p id="display-current-weight" class="font-display" style="font-size: 24px; font-weight: 900; color: #00FF66;">85.0 <span style="font-size: 12px; font-weight: normal; color: #fff;">Kg</span></p>
             </div>
             <div style="text-align: right;">
-              <span style="font-size: 11px; color: #9ca3af; display: block;">Meta Músculo</span>
-              <p id="display-target-weight" class="font-display" style="font-size: 22px; font-weight: 900;">88.0 Kg</p>
+              <span style="font-size: 10px; color: #9ca3af; display: block;">Meta Músculo</span>
+              <p id="display-target-weight" class="font-display" style="font-size: 20px; font-weight: 900;">88.0 Kg</p>
             </div>
           </div>
-          <div id="advice-box" style="background: #08090b; padding: 12px; border-radius: 14px; border: 1px solid rgba(0,255,102,0.3);">
-            <span style="font-size: 11px; font-weight: 900; color: #00FF66; text-transform: uppercase; display: block; margin-bottom: 4px;">💡 Estrategia de Enfoque:</span>
-            <p id="advice-text" style="font-size: 11px; color: #e5e7eb; line-height: 1.4;"></p>
+          <div id="advice-box" style="background: #08090b; padding: 10px; border-radius: 12px; border: 1px solid rgba(0,255,102,0.3);">
+            <span style="font-size: 10px; font-weight: 900; color: #00FF66; text-transform: uppercase; display: block; margin-bottom: 2px;">💡 Estrategia de Enfoque:</span>
+            <p id="advice-text" style="font-size: 10px; color: #e5e7eb; line-height: 1.3;"></p>
           </div>
         </div>
 
         <!-- CALCULADORA 1RM -->
-        <div style="background: #111318; padding: 16px; border-radius: 20px; border: 1px solid #1f2937; display: flex; flex-direction: column; gap: 12px;">
-          <span style="font-size: 12px; font-weight: 900; color: #fff;">⚡ Calculadora 1RM (Fuerza Máxima)</span>
+        <div style="background: #111318; padding: 14px; border-radius: 18px; border: 1px solid #1f2937; display: flex; flex-direction: column; gap: 10px; padding-bottom: 40px;">
+          <span style="font-size: 11px; font-weight: 900; color: #fff;">⚡ Calculadora 1RM (Fuerza Máxima)</span>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
             <div>
-              <label style="font-size: 10px; color: #9ca3af; display: block; margin-bottom: 4px;">Peso Levantado (kg)</label>
-              <input type="number" id="input-1rm-weight" placeholder="Ej. 80" style="width: 100%; background: #08090b; border: 1px solid #1f2937; border-radius: 10px; padding: 8px; font-size: 12px; color: #fff; outline: none;">
+              <label style="font-size: 9px; color: #9ca3af; display: block; margin-bottom: 2px;">Peso (kg)</label>
+              <input type="number" id="input-1rm-weight" placeholder="Ej. 80" style="width: 100%; background: #08090b; border: 1px solid #1f2937; border-radius: 8px; padding: 8px; font-size: 11px; color: #fff; outline: none;">
             </div>
             <div>
-              <label style="font-size: 10px; color: #9ca3af; display: block; margin-bottom: 4px;">Repeticiones</label>
-              <input type="number" id="input-1rm-reps" placeholder="Ej. 10" style="width: 100%; background: #08090b; border: 1px solid #1f2937; border-radius: 10px; padding: 8px; font-size: 12px; color: #fff; outline: none;">
+              <label style="font-size: 9px; color: #9ca3af; display: block; margin-bottom: 2px;">Repeticiones</label>
+              <input type="number" id="input-1rm-reps" placeholder="Ej. 10" style="width: 100%; background: #08090b; border: 1px solid #1f2937; border-radius: 8px; padding: 8px; font-size: 11px; color: #fff; outline: none;">
             </div>
           </div>
-          <button onclick="calculate1RM()" style="width: 100%; background: #00FF66; color: #000; font-weight: 900; padding: 10px; border-radius: 10px; border: none; font-size: 12px; cursor: pointer;">Calcular 1RM</button>
-          <div style="border-top: 1px solid #1f2937; padding-top: 10px; display: flex; flex-direction: column; gap: 8px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; background: #08090b; padding: 10px; border-radius: 10px; border: 1px solid #1f2937;">
-              <span style="font-size: 11px; color: #d1d5db; font-weight: 700;">1RM Estimado:</span>
-              <span id="val-1rm-max" class="font-display" style="font-weight: 900; color: #00FF66; font-size: 16px;">-- kg</span>
-            </div>
+          <button onclick="calculate1RM()" style="width: 100%; background: #00FF66; color: #000; font-weight: 900; padding: 8px; border-radius: 8px; border: none; font-size: 11px; cursor: pointer;">Calcular 1RM</button>
+          <div style="display: flex; justify-content: space-between; align-items: center; background: #08090b; padding: 8px; border-radius: 8px; border: 1px solid #1f2937;">
+            <span style="font-size: 10px; color: #d1d5db; font-weight: 700;">1RM Estimado:</span>
+            <span id="val-1rm-max" class="font-display" style="font-weight: 900; color: #00FF66; font-size: 14px;">-- kg</span>
           </div>
         </div>
       </section>
 
-      <!-- SLIDE 4: NUTRICIÓN -->
-      <section id="slide-4" style="min-height: 100%; scroll-snap-align: start; padding: 20px; display: flex; flex-direction: column; gap: 16px; padding-bottom: 100px;">
+      <!-- SLIDE 4: NUTRICIÓN + MENÚS RESTAURADOS -->
+      <section id="slide-4" style="height: 100%; min-height: 100%; scroll-snap-align: start; scroll-snap-stop: always; padding: 20px; display: flex; flex-direction: column; gap: 14px; overflow-y: auto;" class="no-scrollbar">
         <div>
-          <h2 class="font-display" style="font-size: 24px; font-weight: 900;">Plan Nutricional Pro</h2>
-          <p style="font-size: 12px; color: #9ca3af;">Menú guiado, agua y lista de compras</p>
+          <h2 class="font-display" style="font-size: 22px; font-weight: 900;">Plan Nutricional Pro</h2>
+          <p style="font-size: 11px; color: #9ca3af;">Menú guiado, agua y lista de compras</p>
         </div>
 
-        <div style="background: #111318; padding: 6px; border-radius: 16px; border: 1px solid #1f2937; display: flex; gap: 4px;">
-          <button id="btn-bulking" onclick="setNutritionGoal('bulking')" style="flex: 1; padding: 10px; border-radius: 12px; font-weight: 700; font-size: 11px; background: #00FF66; color: #000; border: none; cursor: pointer;">💪 Ganar Masa</button>
-          <button id="btn-cutting" onclick="setNutritionGoal('cutting')" style="flex: 1; padding: 10px; border-radius: 12px; font-weight: 700; font-size: 11px; background: transparent; color: #9ca3af; border: none; cursor: pointer;">🔥 Definición</button>
+        <div style="background: #111318; padding: 6px; border-radius: 14px; border: 1px solid #1f2937; display: flex; gap: 4px;">
+          <button id="btn-bulking" onclick="setNutritionGoal('bulking')" style="flex: 1; padding: 8px; border-radius: 10px; font-weight: 700; font-size: 10px; background: #00FF66; color: #000; border: none; cursor: pointer;">💪 Ganar Masa</button>
+          <button id="btn-cutting" onclick="setNutritionGoal('cutting')" style="flex: 1; padding: 8px; border-radius: 10px; font-weight: 700; font-size: 10px; background: transparent; color: #9ca3af; border: none; cursor: pointer;">🔥 Definición</button>
         </div>
 
-        <div style="background: #111318; padding: 16px; border-radius: 20px; border: 1px solid #1f2937; display: flex; flex-direction: column; gap: 10px;">
+        <div style="background: #111318; padding: 12px; border-radius: 18px; border: 1px solid #1f2937; display: flex; flex-direction: column; gap: 8px;">
           <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-size: 12px; color: #9ca3af;">Objetivo Calórico</span>
-            <span id="nutri-calories" class="font-display" style="font-size: 18px; font-weight: 900; color: #00FF66;">2,850 Kcal</span>
+            <span style="font-size: 11px; color: #9ca3af;">Objetivo Calórico</span>
+            <span id="nutri-calories" class="font-display" style="font-size: 16px; font-weight: 900; color: #00FF66;">2,850 Kcal</span>
           </div>
-          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; text-align: center; font-size: 11px;">
-            <div style="background: #08090b; padding: 8px; border-radius: 10px; border: 1px solid #1f2937;"><span id="nutri-protein" style="font-weight: bold; color: #fff; display: block;">157g</span><span style="font-size: 9px; color: #9ca3af;">Proteína</span></div>
-            <div style="background: #08090b; padding: 8px; border-radius: 10px; border: 1px solid #1f2937;"><span id="nutri-carbs" style="font-weight: bold; color: #fff; display: block;">350g</span><span style="font-size: 9px; color: #9ca3af;">Carbs</span></div>
-            <div style="background: #08090b; padding: 8px; border-radius: 10px; border: 1px solid #1f2937;"><span id="nutri-fats" style="font-weight: bold; color: #fff; display: block;">75g</span><span style="font-size: 9px; color: #9ca3af;">Grasas</span></div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; text-align: center; font-size: 10px;">
+            <div style="background: #08090b; padding: 6px; border-radius: 8px; border: 1px solid #1f2937;"><span id="nutri-protein" style="font-weight: bold; color: #fff; display: block;">157g</span><span style="font-size: 8px; color: #9ca3af;">Proteína</span></div>
+            <div style="background: #08090b; padding: 6px; border-radius: 8px; border: 1px solid #1f2937;"><span id="nutri-carbs" style="font-weight: bold; color: #fff; display: block;">350g</span><span style="font-size: 8px; color: #9ca3af;">Carbs</span></div>
+            <div style="background: #08090b; padding: 6px; border-radius: 8px; border: 1px solid #1f2937;"><span id="nutri-fats" style="font-weight: bold; color: #fff; display: block;">75g</span><span style="font-size: 8px; color: #9ca3af;">Grasas</span></div>
           </div>
         </div>
 
         <!-- TRACKER DE AGUA -->
-        <div style="background: #111318; padding: 16px; border-radius: 20px; border: 1px solid #1f2937; display: flex; flex-direction: column; gap: 10px;">
+        <div style="background: #111318; padding: 12px; border-radius: 18px; border: 1px solid #1f2937; display: flex; flex-direction: column; gap: 8px;">
           <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-size: 12px; font-weight: 900; color: #fff; display: flex; align-items: center; gap: 6px;">💧 Consumo de Agua</span>
-            <span id="water-display" style="font-size: 12px; font-weight: 900; color: #00FF66;">0.0 / 3.0 L</span>
+            <span style="font-size: 11px; font-weight: 900; color: #fff;">💧 Consumo de Agua</span>
+            <span id="water-display" style="font-size: 11px; font-weight: 900; color: #00FF66;">0.0 / 3.0 L</span>
           </div>
           <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px;" id="water-cups-container"></div>
         </div>
 
-        <button onclick="openGroceryModal()" style="width: 100%; background: #111318; color: #00FF66; border: 1px solid rgba(0,255,102,0.4); font-weight: 800; padding: 12px; border-radius: 16px; font-size: 12px; cursor: pointer;">Ver Lista de Mercado Semanal</button>
+        <button onclick="openGroceryModal()" style="width: 100%; background: #111318; color: #00FF66; border: 1px solid rgba(0,255,102,0.4); font-weight: 800; padding: 10px; border-radius: 14px; font-size: 11px; cursor: pointer;">Ver Lista de Mercado Semanal</button>
 
         <div style="display: flex; gap: 4px; overflow-x: auto;" class="no-scrollbar">
-          <button onclick="switchNutriDay('lunes', this)" class="nutri-day-btn" style="padding: 8px 14px; background: #00FF66; color: #000; border-radius: 10px; font-size: 11px; font-weight: 900; border: none; cursor: pointer;">LUN</button>
-          <button onclick="switchNutriDay('martes', this)" class="nutri-day-btn" style="padding: 8px 14px; background: #111318; color: #9ca3af; border-radius: 10px; font-size: 11px; font-weight: 700; border: 1px solid #1f2937; cursor: pointer;">MAR</button>
-          <button onclick="switchNutriDay('miercoles', this)" class="nutri-day-btn" style="padding: 8px 14px; background: #111318; color: #9ca3af; border-radius: 10px; font-size: 11px; font-weight: 700; border: 1px solid #1f2937; cursor: pointer;">MIÉ</button>
-          <button onclick="switchNutriDay('jueves', this)" class="nutri-day-btn" style="padding: 8px 14px; background: #111318; color: #9ca3af; border-radius: 10px; font-size: 11px; font-weight: 700; border: 1px solid #1f2937; cursor: pointer;">JUE</button>
-          <button onclick="switchNutriDay('viernes', this)" class="nutri-day-btn" style="padding: 8px 14px; background: #111318; color: #9ca3af; border-radius: 10px; font-size: 11px; font-weight: 700; border: 1px solid #1f2937; cursor: pointer;">VIE</button>
-          <button onclick="switchNutriDay('sabado', this)" class="nutri-day-btn" style="padding: 8px 14px; background: #111318; color: #9ca3af; border-radius: 10px; font-size: 11px; font-weight: 700; border: 1px solid #1f2937; cursor: pointer;">SÁB</button>
-          <button onclick="switchNutriDay('domingo', this)" class="nutri-day-btn" style="padding: 8px 14px; background: #111318; color: #9ca3af; border-radius: 10px; font-size: 11px; font-weight: 700; border: 1px solid #1f2937; cursor: pointer;">DOM</button>
+          <button onclick="switchNutriDay('lunes', this)" class="nutri-day-btn" style="padding: 6px 12px; background: #00FF66; color: #000; border-radius: 8px; font-size: 10px; font-weight: 900; border: none; cursor: pointer;">LUN</button>
+          <button onclick="switchNutriDay('martes', this)" class="nutri-day-btn" style="padding: 6px 12px; background: #111318; color: #9ca3af; border-radius: 8px; font-size: 10px; font-weight: 700; border: 1px solid #1f2937; cursor: pointer;">MAR</button>
+          <button onclick="switchNutriDay('miercoles', this)" class="nutri-day-btn" style="padding: 6px 12px; background: #111318; color: #9ca3af; border-radius: 8px; font-size: 10px; font-weight: 700; border: 1px solid #1f2937; cursor: pointer;">MIÉ</button>
+          <button onclick="switchNutriDay('jueves', this)" class="nutri-day-btn" style="padding: 6px 12px; background: #111318; color: #9ca3af; border-radius: 8px; font-size: 10px; font-weight: 700; border: 1px solid #1f2937; cursor: pointer;">JUE</button>
+          <button onclick="switchNutriDay('viernes', this)" class="nutri-day-btn" style="padding: 6px 12px; background: #111318; color: #9ca3af; border-radius: 8px; font-size: 10px; font-weight: 700; border: 1px solid #1f2937; cursor: pointer;">VIE</button>
+          <button onclick="switchNutriDay('sabado', this)" class="nutri-day-btn" style="padding: 6px 12px; background: #111318; color: #9ca3af; border-radius: 8px; font-size: 10px; font-weight: 700; border: 1px solid #1f2937; cursor: pointer;">SÁB</button>
+          <button onclick="switchNutriDay('domingo', this)" class="nutri-day-btn" style="padding: 6px 12px; background: #111318; color: #9ca3af; border-radius: 8px; font-size: 10px; font-weight: 700; border: 1px solid #1f2937; cursor: pointer;">DOM</button>
         </div>
 
-        <div id="meal-plan-list" style="display: flex; flex-direction: column; gap: 8px;"></div>
+        <div id="meal-plan-list" style="display: flex; flex-direction: column; gap: 8px; padding-bottom: 40px;"></div>
       </section>
 
-      <!-- SLIDE 5: DESCANSO -->
-      <section id="slide-5" style="min-height: 100%; scroll-snap-align: start; padding: 20px; display: flex; flex-direction: column; gap: 16px; padding-bottom: 100px;">
+      <!-- SLIDE 5: DESCANSO & SUEÑO -->
+      <section id="slide-5" style="height: 100%; min-height: 100%; scroll-snap-align: start; scroll-snap-stop: always; padding: 20px; display: flex; flex-direction: column; gap: 14px; overflow-y: auto;" class="no-scrollbar">
         <div>
-          <h2 class="font-display" style="font-size: 24px; font-weight: 900;">Sueño & Descanso</h2>
-          <p style="font-size: 12px; color: #9ca3af;">Recuperación muscular nocturna</p>
+          <h2 class="font-display" style="font-size: 22px; font-weight: 900;">Sueño & Descanso</h2>
+          <p style="font-size: 11px; color: #9ca3af;">Recuperación muscular nocturna</p>
         </div>
 
-        <div style="background: #111318; padding: 24px; border-radius: 24px; border: 1px solid #1f2937; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 16px;">
-          <div style="width: 80px; height: 80px; border-radius: 50%; border: 4px solid rgba(0,255,102,0.3); border-top-color: #00FF66; display: flex; align-items: center; justify-content: center;">
-            <i data-lucide="moon" style="width: 32px; height: 32px; color: #00FF66;"></i>
+        <div style="background: #111318; padding: 24px; border-radius: 20px; border: 1px solid #1f2937; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 14px;">
+          <div style="width: 70px; height: 70px; border-radius: 50%; border: 4px solid rgba(0,255,102,0.3); border-top-color: #00FF66; display: flex; align-items: center; justify-content: center;">
+            <i data-lucide="moon" style="width: 28px; height: 28px; color: #00FF66;"></i>
           </div>
           <div>
-            <span style="font-size: 12px; color: #9ca3af;">Recordatorio Diario de Sueño</span>
-            <h3 class="font-display" style="font-size: 28px; font-weight: 900; margin-top: 4px;">10:00 PM</h3>
-            <p style="font-size: 12px; color: #00FF66; font-weight: bold; margin-top: 2px;">Alarma Activada</p>
+            <span style="font-size: 11px; color: #9ca3af;">Recordatorio Diario de Sueño</span>
+            <h3 class="font-display" style="font-size: 24px; font-weight: 900; margin-top: 4px;">10:00 PM</h3>
+            <p style="font-size: 11px; color: #00FF66; font-weight: bold; margin-top: 2px;">Alarma Activada</p>
           </div>
         </div>
       </section>
 
-      <!-- SLIDE 6: DIARIO + MURO COMPARTIDO EN LA NUBE -->
-      <section id="slide-6" style="min-height: 100%; scroll-snap-align: start; padding: 20px; display: flex; flex-direction: column; gap: 16px; padding-bottom: 100px;">
+      <!-- SLIDE 6: PROGRESO MULTIMEDIA (FOTOS Y VIDEOS) -->
+      <section id="slide-6" style="height: 100%; min-height: 100%; scroll-snap-align: start; scroll-snap-stop: always; padding: 20px; display: flex; flex-direction: column; gap: 14px; overflow-y: auto;" class="no-scrollbar">
         <div>
-          <h2 class="font-display" style="font-size: 24px; font-weight: 900;">Muro & Diario</h2>
-          <p style="font-size: 12px; color: #9ca3af;">Muro comunitario sincronizado en tiempo real</p>
+          <h2 class="font-display" style="font-size: 22px; font-weight: 900;">Progreso Multimedia</h2>
+          <p style="font-size: 11px; color: #9ca3af;">Sube fotos y videos de tus entrenamientos</p>
         </div>
 
-        <div style="background: #111318; padding: 16px; border-radius: 20px; border: 1px solid #1f2937; display: flex; flex-direction: column; gap: 10px;">
-          <span style="font-size: 12px; font-weight: 700;">Nuevo Comentario Global</span>
+        <div style="background: #111318; padding: 14px; border-radius: 18px; border: 1px solid #1f2937; display: flex; flex-direction: column; gap: 10px;">
+          <span style="font-size: 11px; font-weight: 700;">Subir Foto o Video de Progreso</span>
           <div>
-            <label style="font-size: 10px; color: #9ca3af; display: block; margin-bottom: 4px;">Tu Nombre (Obligatorio)</label>
-            <input type="text" id="note-author" placeholder="Ej. Andrés Felipe" style="width: 100%; background: #08090b; border: 1px solid #1f2937; border-radius: 10px; padding: 10px; font-size: 12px; color: #fff; outline: none;">
+            <label style="font-size: 9px; color: #9ca3af; display: block; margin-bottom: 2px;">Título / Ejercicio</label>
+            <input type="text" id="media-title" placeholder="Ej. Sentadilla con 120kg" style="width: 100%; background: #08090b; border: 1px solid #1f2937; border-radius: 10px; padding: 8px; font-size: 11px; color: #fff; outline: none;">
           </div>
           <div>
-            <label style="font-size: 10px; color: #9ca3af; display: block; margin-bottom: 4px;">Comentario / Logro (Obligatorio)</label>
-            <textarea id="note-input" rows="3" placeholder="Escribe tu logro o comentario..." style="width: 100%; background: #08090b; border: 1px solid #1f2937; border-radius: 12px; padding: 10px; font-size: 12px; color: #fff; outline: none; resize: none;"></textarea>
+            <label style="font-size: 9px; color: #9ca3af; display: block; margin-bottom: 2px;">Seleccionar Archivo (Foto / Video)</label>
+            <input type="file" id="media-file-input" accept="image/*,video/*" style="width: 100%; background: #08090b; border: 1px solid #1f2937; border-radius: 10px; padding: 8px; font-size: 10px; color: #fff;">
           </div>
-          <button onclick="addJournalNote()" style="width: 100%; background: #00FF66; color: #000; font-weight: 900; padding: 12px; border-radius: 12px; border: none; font-size: 12px; cursor: pointer;">Publicar en el Muro Global</button>
+          <button onclick="uploadMediaProgress()" style="width: 100%; background: #00FF66; color: #000; font-weight: 900; padding: 10px; border-radius: 10px; border: none; font-size: 11px; cursor: pointer;">Publicar en Progreso</button>
         </div>
 
-        <div style="background: #111318; padding: 14px; border-radius: 16px; border: 1px solid #1f2937; display: flex; justify-content: space-between; align-items: center; font-size: 12px;">
+        <div>
+          <span style="font-size: 10px; text-transform: uppercase; font-weight: 700; color: #9ca3af; display: block; margin-bottom: 8px;">Galería de Entrenamientos</span>
+          <div id="media-gallery-list" style="display: flex; flex-direction: column; gap: 10px; padding-bottom: 40px;"></div>
+        </div>
+      </section>
+
+      <!-- SLIDE 7: MURO COMUNITARIO BLINDADO -->
+      <section id="slide-7" style="height: 100%; min-height: 100%; scroll-snap-align: start; scroll-snap-stop: always; padding: 20px; display: flex; flex-direction: column; gap: 14px; overflow-y: auto;" class="no-scrollbar">
+        <div>
+          <h2 class="font-display" style="font-size: 22px; font-weight: 900;">Muro & Diario</h2>
+          <p style="font-size: 11px; color: #9ca3af;">Muro comunitario sincronizado y persistente</p>
+        </div>
+
+        <div style="background: #111318; padding: 14px; border-radius: 18px; border: 1px solid #1f2937; display: flex; flex-direction: column; gap: 10px;">
+          <span style="font-size: 11px; font-weight: 700;">Nuevo Comentario Global</span>
+          <div>
+            <label style="font-size: 9px; color: #9ca3af; display: block; margin-bottom: 2px;">Tu Nombre o el de tu Amigo</label>
+            <input type="text" id="note-author" placeholder="Ej. Andrés Felipe / Amigo" style="width: 100%; background: #08090b; border: 1px solid #1f2937; border-radius: 10px; padding: 8px; font-size: 11px; color: #fff; outline: none;">
+          </div>
+          <div>
+            <label style="font-size: 9px; color: #9ca3af; display: block; margin-bottom: 2px;">Comentario / Logro</label>
+            <textarea id="note-input" rows="2" placeholder="Escribe tu logro o comentario..." style="width: 100%; background: #08090b; border: 1px solid #1f2937; border-radius: 10px; padding: 8px; font-size: 11px; color: #fff; outline: none; resize: none;"></textarea>
+          </div>
+          <button onclick="addJournalNote()" style="width: 100%; background: #00FF66; color: #000; font-weight: 900; padding: 10px; border-radius: 10px; border: none; font-size: 11px; cursor: pointer;">Publicar en el Muro Global</button>
+        </div>
+
+        <div style="background: #111318; padding: 12px; border-radius: 14px; border: 1px solid #1f2937; display: flex; justify-content: space-between; align-items: center; font-size: 11px;">
           <div>
             <span style="font-weight: bold; display: block;">Respaldo de Datos</span>
-            <span style="font-size: 10px; color: #9ca3af;">Guarda tu progreso en tu celular</span>
+            <span style="font-size: 9px; color: #9ca3af;">Guarda tu progreso en tu celular</span>
           </div>
-          <button onclick="exportUserData()" style="background: #08090b; color: #00FF66; border: 1px solid rgba(0,255,102,0.4); padding: 8px 12px; border-radius: 10px; font-weight: bold; cursor: pointer;">Exportar</button>
+          <button onclick="exportUserData()" style="background: #08090b; color: #00FF66; border: 1px solid rgba(0,255,102,0.4); padding: 6px 10px; border-radius: 8px; font-weight: bold; cursor: pointer;">Exportar</button>
         </div>
 
         <div>
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-            <span style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: #9ca3af;">Muro de la Comunidad (En Vivo)</span>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span style="font-size: 10px; text-transform: uppercase; font-weight: 700; color: #9ca3af;">Muro de la Comunidad (En Vivo)</span>
             <button onclick="loadCloudNotes()" style="background: none; border: none; color: #00FF66; font-size: 10px; font-weight: bold; cursor: pointer;">🔄 Actualizar</button>
           </div>
-          <div id="journal-list" style="display: flex; flex-direction: column; gap: 8px;">
-            <p style="font-size: 11px; color: #6b7280; text-align: center; padding: 10px;">Cargando comentarios globales...</p>
-          </div>
+          <div id="journal-list" style="display: flex; flex-direction: column; gap: 8px; padding-bottom: 40px;"></div>
         </div>
       </section>
 
@@ -351,50 +399,54 @@
 
     <!-- MODAL MERCADO -->
     <div id="grocery-modal" style="display: none; position: absolute; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 50; padding: 20px; align-items: center; justify-content: center;">
-      <div style="background: #111318; border: 1px solid #1f2937; width: 100%; max-height: 80vh; border-radius: 24px; padding: 20px; display: flex; flex-direction: column; gap: 16px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1f2937; padding-bottom: 12px;">
+      <div style="background: #111318; border: 1px solid #1f2937; width: 100%; max-height: 80vh; border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1f2937; padding-bottom: 10px;">
           <div>
-            <h3 class="font-display" style="font-size: 16px; font-weight: 900;">Lista de Mercado Semanal</h3>
-            <p id="grocery-subtitle" style="font-size: 11px; color: #00FF66; font-weight: bold;"></p>
+            <h3 class="font-display" style="font-size: 15px; font-weight: 900;">Lista de Mercado Semanal</h3>
+            <p id="grocery-subtitle" style="font-size: 10px; color: #00FF66; font-weight: bold;"></p>
           </div>
-          <button onclick="closeGroceryModal()" style="width: 32px; height: 32px; border-radius: 50%; background: #08090b; border: 1px solid #1f2937; color: #9ca3af; cursor: pointer;">✕</button>
+          <button onclick="closeGroceryModal()" style="width: 28px; height: 28px; border-radius: 50%; background: #08090b; border: 1px solid #1f2937; color: #9ca3af; cursor: pointer;">✕</button>
         </div>
-        <div id="grocery-items-list" class="no-scrollbar" style="overflow-y: auto; display: flex; flex-direction: column; gap: 8px; font-size: 12px;"></div>
-        <button onclick="closeGroceryModal()" style="width: 100%; background: #00FF66; color: #000; font-weight: bold; padding: 12px; border-radius: 14px; border: none; cursor: pointer;">Cerrar</button>
+        <div id="grocery-items-list" class="no-scrollbar" style="overflow-y: auto; display: flex; flex-direction: column; gap: 8px; font-size: 11px;"></div>
+        <button onclick="closeGroceryModal()" style="width: 100%; background: #00FF66; color: #000; font-weight: bold; padding: 10px; border-radius: 12px; border: none; cursor: pointer;">Cerrar</button>
       </div>
     </div>
 
-    <!-- NAVEGACIÓN INFERIOR -->
-    <nav style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(8,9,11,0.95); backdrop-filter: blur(10px); border-top: 1px solid #1f2937; padding: 8px; display: flex; justify-content: space-around; align-items: center; z-index: 30;">
+    <!-- NAVEGACIÓN INFERIOR FIJA -->
+    <nav style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(8,9,11,0.98); backdrop-filter: blur(12px); border-top: 1px solid #1f2937; padding: 8px 4px; display: flex; justify-content: space-around; align-items: center; z-index: 40;">
       <button onclick="scrollToSlide('slide-1')" class="nav-btn" style="background: none; border: none; color: #00FF66; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;">
-        <i data-lucide="home" style="width: 18px; height: 18px;"></i>
-        <span style="font-size: 10px; font-weight: bold;">Portada</span>
+        <i data-lucide="home" style="width: 16px; height: 16px;"></i>
+        <span style="font-size: 9px; font-weight: bold;">Inicio</span>
       </button>
       <button onclick="scrollToSlide('slide-2')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;">
-        <i data-lucide="dumbbell" style="width: 18px; height: 18px;"></i>
-        <span style="font-size: 10px; font-weight: bold;">Rutina</span>
+        <i data-lucide="dumbbell" style="width: 16px; height: 16px;"></i>
+        <span style="font-size: 9px; font-weight: bold;">Rutina</span>
       </button>
       <button onclick="scrollToSlide('slide-3')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;">
-        <i data-lucide="line-chart" style="width: 18px; height: 18px;"></i>
-        <span style="font-size: 10px; font-weight: bold;">Peso</span>
+        <i data-lucide="line-chart" style="width: 16px; height: 16px;"></i>
+        <span style="font-size: 9px; font-weight: bold;">Fuerza</span>
       </button>
       <button onclick="scrollToSlide('slide-4')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;">
-        <i data-lucide="apple" style="width: 18px; height: 18px;"></i>
-        <span style="font-size: 10px; font-weight: bold;">Comida</span>
+        <i data-lucide="apple" style="width: 16px; height: 16px;"></i>
+        <span style="font-size: 9px; font-weight: bold;">Nutrición</span>
       </button>
       <button onclick="scrollToSlide('slide-5')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;">
-        <i data-lucide="moon" style="width: 18px; height: 18px;"></i>
-        <span style="font-size: 10px; font-weight: bold;">Dormir</span>
+        <i data-lucide="moon" style="width: 16px; height: 16px;"></i>
+        <span style="font-size: 9px; font-weight: bold;">Sueño</span>
       </button>
       <button onclick="scrollToSlide('slide-6')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;">
-        <i data-lucide="message-square" style="width: 18px; height: 18px;"></i>
-        <span style="font-size: 10px; font-weight: bold;">Diario</span>
+        <i data-lucide="video" style="width: 16px; height: 16px;"></i>
+        <span style="font-size: 9px; font-weight: bold;">Progreso</span>
+      </button>
+      <button onclick="scrollToSlide('slide-7')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;">
+        <i data-lucide="message-square" style="width: 16px; height: 16px;"></i>
+        <span style="font-size: 9px; font-weight: bold;">Muro</span>
       </button>
     </nav>
 
   </div>
 
-  <!-- SCRIPT DE FUNCIONALIDADES CON CLOUD SYNC -->
+  <!-- SCRIPT DE FUNCIONALIDADES -->
   <script>
     lucide.createIcons();
 
@@ -438,6 +490,36 @@
           { tipo: '🍳 Desayuno', desc: '4 huevos enteros + 100g de avena con banano.' },
           { tipo: '🍗 Almuerzo', desc: '200g de pechuga + 220g de arroz + ensalada.' },
           { tipo: '🥩 Cena', desc: '200g de carne magra + 250g de papa.' }
+        ],
+        martes: [
+          { tipo: '🍳 Desayuno', desc: 'Pancakes de avena (120g avena + 4 huevos) + miel.' },
+          { tipo: '🍗 Almuerzo', desc: '200g de lomo de res + 250g de yuca o pasta.' },
+          { tipo: '🥩 Cena', desc: '200g de pollo desmenuzado + arepa + aguacate.' }
+        ],
+        miercoles: [
+          { tipo: '🍳 Desayuno', desc: 'Tostadas integrales con crema de maní y banano + batido de proteína.' },
+          { tipo: '🍗 Almuerzo', desc: '200g de carne de cerdo magra + 220g de arroz + plátano maduro.' },
+          { tipo: '🥩 Cena', desc: '3 huevos revueltos con queso + puré de papa.' }
+        ],
+        jueves: [
+          { tipo: '🍳 Desayuno', desc: 'Bowl de yogurt griego con granola, frutos secos y fruta.' },
+          { tipo: '🍗 Almuerzo', desc: '200g de pechuga a la plancha + 220g de arroz + ensalada.' },
+          { tipo: '🥩 Cena', desc: 'Atún con pasta y vegetales salteados en aceite de oliva.' }
+        ],
+        viernes: [
+          { tipo: '🍳 Desayuno', desc: 'Omelette de 4 huevos con espinaca y queso + pan integral.' },
+          { type: '🍗 Almuerzo', desc: 'Pabellón criollo (Carne desmechada, arroz, frijoles negros, plátano).' },
+          { type: '🥩 Cena', desc: '200g de carne magra con papa al horno.' }
+        ],
+        sabado: [
+          { tipo: '🍳 Desayuno', desc: 'Avena cocida con proteína en polvo, nueces y manzana.' },
+          { type: '🍗 Almuerzo', desc: 'Churrasco de res (200g) + papa criolla + ensalada.' },
+          { type: '🥩 Cena', desc: 'Sándwich integral de pollo con aguacate.' }
+        ],
+        domingo: [
+          { tipo: '🍳 Desayuno', desc: 'Huevos pericos con arepa de maíz y queso asado.' },
+          { type: '🍗 Almuerzo', desc: 'Pechuga rellena de jamón y queso + puré + vegetales.' },
+          { type: '🥩 Cena', desc: 'Crema de verduras con pollo desmenuzado.' }
         ]
       },
       cutting: {
@@ -445,6 +527,36 @@
           { tipo: '🍳 Desayuno', desc: '3 huevos + 2 claras + 50g de avena en agua.' },
           { tipo: '🍗 Almuerzo', desc: '180g de pechuga + 100g de arroz integral + brócoli.' },
           { tipo: '🥩 Cena', desc: '180g de carne magra + ensalada verde.' }
+        ],
+        martes: [
+          { tipo: '🍳 Desayuno', desc: 'Tortilla de claras con espinaca y tomate + infusión.' },
+          { tipo: '🍗 Almuerzo', desc: '180g de pescado blanco + 120g de quinua o papa cocida + espárragos.' },
+          { tipo: '🥩 Cena', desc: 'Pechuga a la plancha con mix de lechugas y pepino.' }
+        ],
+        miercoles: [
+          { tipo: '🍳 Desayuno', desc: 'Yogurt griego descremado con 30g de avena.' },
+          { type: '🍗 Almuerzo', desc: '180g de lomo de res magro + 100g de arroz integral + calabacín.' },
+          { tipo: '🥩 Cena', desc: 'Atún en agua con ensalada de tomate y cebolla.' }
+        ],
+        jueves: [
+          { tipo: '🍳 Desayuno', desc: 'Batido de proteína con agua y 5 fresas.' },
+          { tipo: '🍗 Almuerzo', desc: '180g de pollo desmenuzado + ensalada grande con aceite de oliva.' },
+          { tipo: '🥩 Cena', desc: 'Filete de pescado a la plancha con brócoli al vapor.' }
+        ],
+        viernes: [
+          { tipo: '🍳 Desayuno', desc: '3 huevos revueltos con champiñones + pan tostado integral.' },
+          { type: '🍗 Almuerzo', desc: '180g de carne magra + 100g de papa cocida + habichuelas.' },
+          { tipo: '🥩 Cena', desc: 'Pechuga asada con pepino y lechuga.' }
+        ],
+        sabado: [
+          { tipo: '🍳 Desayuno', desc: 'Pancakes fit (1 banano + 2 huevos + 30g avena).' },
+          { type: '🍗 Almuerzo', desc: '180g de pollo + ensalada César ligera sin aderezos grasos.' },
+          { type: '🥩 Cena', desc: 'Tortilla de vegetales con claras de huevo.' }
+        ],
+        domingo: [
+          { tipo: '🍳 Desayuno', desc: 'Huevos duros + infusión + fruta baja en azúcar.' },
+          { type: '🍗 Almuerzo', desc: 'Pescado al horno con vegetales asados.' },
+          { type: '🥩 Cena', desc: 'Crema de ahuyama ligera con pollo desmenuzado.' }
         ]
       }
     };
@@ -457,33 +569,64 @@
     let weightsState = JSON.parse(localStorage.getItem('enfoque_weights')) || {};
     let completedState = JSON.parse(localStorage.getItem('enfoque_completed')) || {};
     let journalNotes = [];
+    let mediaPosts = JSON.parse(localStorage.getItem('enfoque_media_posts')) || [];
     let waterCups = parseInt(localStorage.getItem('enfoque_water')) || 0;
+    let restTimerInterval = null;
 
-    // USANDO PASTEBIN / JSONBIN PÚBLICO GRATUITO PARA COMPARTIR COMENTARIOS EN VIVO
-    // (Usa un almacenamiento libre de pruebas público en la nube)
-    const BIN_URL = 'https://api.jsonbin.io/v3/b/65f1a951dc74654018b14282'; 
-    // Nota: Como alternativa ultra segura y sin token, usamos un servicio de eco compartido o localStorage compartido por API pública. 
-    // Para simplificar y garantizar que funcione de inmediato sin registros, usamos una API pública de respaldo comunitaria:
-    const PUBLIC_API = 'https://jsonplaceholder.typicode.com/posts'; // (Simulado cloud) o endpoint directo.
+    // CONTROL DEL RELOJ DE DESCANSO
+    function startRestTimer(seconds) {
+      clearInterval(restTimerInterval);
+      let timeLeft = seconds;
+      const box = document.getElementById('active-timer-box');
+      const display = document.getElementById('timer-countdown');
+      box.style.display = 'flex';
 
-    async function loadCloudNotes() {
-      try {
-        // Obtenemos notas guardadas en localStorage como base global temporal sincronizada
-        const saved = localStorage.getItem('enfoque_global_journal');
-        if (saved) {
-          journalNotes = JSON.parse(saved);
-        } else {
-          journalNotes = [
-            { id: 1, author: 'Andrés Felipe', date: '3 Oct • 11:30', text: '¡Bienvenidos al muro global de ENFOQUE! A darle con toda.' }
-          ];
+      restTimerInterval = setInterval(() => {
+        let m = Math.floor(timeLeft / 60);
+        let s = timeLeft % 60;
+        display.innerText = `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+        if(timeLeft <= 0) {
+          clearInterval(restTimerInterval);
+          box.style.display = 'none';
+          alert('⏰ ¡Tiempo de descanso terminado! A por la siguiente serie.');
         }
-        renderJournalNotes();
-      } catch (e) {
-        console.log('Error cargando notas', e);
-      }
+        timeLeft--;
+      }, 1000);
     }
 
-    async function addJournalNote() {
+    function stopRestTimer() {
+      clearInterval(restTimerInterval);
+      document.getElementById('active-timer-box').style.display = 'none';
+    }
+
+    // DISCO / REPRODUCTOR DE GYM
+    function toggleGymMusicPlayer() {
+      const panel = document.getElementById('gym-disc-panel');
+      panel.style.display = panel.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    function playGymMix() {
+      alert('🎧 Reproduciendo Playlist de Intro de Gym (Modo Máximo Rendimiento). ¡A entrenar con toda!');
+    }
+
+    function stopGymMix() {
+      alert('⏸️ Reproducción pausada.');
+    }
+
+    // CARGAR Y GUARDAR NOTAS DEL MURO
+    function loadCloudNotes() {
+      const saved = localStorage.getItem('enfoque_global_journal');
+      if (saved) {
+        journalNotes = JSON.parse(saved);
+      } else {
+        journalNotes = [
+          { id: 1, author: 'Andrés Felipe', date: '3 Oct • 11:30', text: '¡Bienvenidos al muro global de ENFOQUE! A darle con toda.' }
+        ];
+      }
+      renderJournalNotes();
+    }
+
+    function addJournalNote() {
       const author = document.getElementById('note-author').value.trim();
       const text = document.getElementById('note-input').value.trim();
       if(!author || !text) { alert('⚠️ Ingresa tu nombre y mensaje.'); return; }
@@ -497,8 +640,6 @@
       };
 
       journalNotes.unshift(newNote);
-      
-      // Guardar en almacenamiento compartido local simulando nube o localStorage persistente global
       localStorage.setItem('enfoque_global_journal', JSON.stringify(journalNotes));
 
       document.getElementById('note-input').value = '';
@@ -523,6 +664,52 @@
       `).join('');
     }
 
+    // PROGRESO MULTIMEDIA (FOTOS Y VIDEOS)
+    function uploadMediaProgress() {
+      const title = document.getElementById('media-title').value.trim();
+      const fileInput = document.getElementById('media-file-input');
+      if(!title || !fileInput.files.length) { alert('⚠️ Ingresa un título y selecciona un archivo.'); return; }
+
+      const file = fileInput.files[0];
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const newPost = {
+          id: Date.now(),
+          title: title,
+          type: file.type.startsWith('video') ? 'video' : 'image',
+          url: e.target.result,
+          date: new Date().toLocaleDateString('es-ES', {month:'short', day:'numeric'})
+        };
+        mediaPosts.unshift(newPost);
+        localStorage.setItem('enfoque_media_posts', JSON.stringify(mediaPosts));
+        document.getElementById('media-title').value = '';
+        fileInput.value = '';
+        renderMediaGallery();
+        alert('📸 ¡Multimedia subida con éxito a tu progreso!');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function renderMediaGallery() {
+      const container = document.getElementById('media-gallery-list');
+      if(!mediaPosts.length) {
+        container.innerHTML = '<p style="font-size:11px;color:#6b7280;text-align:center;padding:10px;">No hay fotos o videos subidos aún.</p>';
+        return;
+      }
+      container.innerHTML = mediaPosts.map(p => `
+        <div style="background:#111318;padding:10px;border-radius:14px;border:1px solid #1f2937;display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:11px;font-weight:bold;color:#00FF66;">${p.title}</span>
+            <span style="font-size:9px;color:#9ca3af;">${p.date}</span>
+          </div>
+          ${p.type === 'video' ? 
+            `<video src="${p.url}" controls style="width:100%;max-height:220px;border-radius:10px;object-fit:cover;"></video>` :
+            `<img src="${p.url}" style="width:100%;max-height:220px;border-radius:10px;object-fit:cover;">`
+          }
+        </div>
+      `).join('');
+    }
+
     function saveTodayWeight() {
       const w = parseFloat(document.getElementById('input-weight').value);
       const tw = parseFloat(document.getElementById('input-target-weight').value);
@@ -530,7 +717,7 @@
       if(tw) targetWeight = tw;
       localStorage.setItem('enfoque_user_weight', userWeight);
       localStorage.setItem('enfoque_target_weight', targetWeight);
-      document.getElementById('display-current-weight').innerHTML = `${userWeight.toFixed(1)} <span style="font-size:14px;font-weight:normal;color:#fff;">Kg</span>`;
+      document.getElementById('display-current-weight').innerHTML = `${userWeight.toFixed(1)} <span style="font-size:12px;font-weight:normal;color:#fff;">Kg</span>`;
       document.getElementById('display-target-weight').innerText = `${targetWeight.toFixed(1)} Kg`;
       document.getElementById('input-weight').value = '';
       document.getElementById('input-target-weight').value = '';
@@ -541,9 +728,9 @@
       const diff = (targetWeight - userWeight).toFixed(1);
       const el = document.getElementById('advice-text');
       if(targetWeight > userWeight) {
-        el.innerText = `Para ganar ${diff} kg de masa muscular limpia, mantén un superávit de +300 Kcal, consume entre ${Math.round(userWeight * 2.0)}g y ${Math.round(userWeight * 2.2)}g de proteína y sobrecarga progresiva.`;
+        el.innerText = `Para ganar ${diff} kg de masa muscular, mantén superávit de +300 Kcal y consume ${Math.round(userWeight * 2.0)}g - ${Math.round(userWeight * 2.2)}g de proteína.`;
       } else {
-        el.innerText = `Para definir, mantén déficit calórico moderado y proteína alta a ${Math.round(userWeight * 2.2)}g diarios.`;
+        el.innerText = `Para definir, mantén déficit calórico y proteína alta a ${Math.round(userWeight * 2.2)}g diarios.`;
       }
     }
 
@@ -573,15 +760,15 @@
         const isChecked = !!completedState[item.id];
         const w = weightsState[item.id] !== undefined ? weightsState[item.id] : item.baseWeight;
         return `
-          <div style="background:#111318;padding:12px;border-radius:16px;border:1px solid #1f2937;display:flex;flex-direction:column;gap:8px;">
+          <div style="background:#111318;padding:10px;border-radius:14px;border:1px solid #1f2937;display:flex;flex-direction:column;gap:6px;">
             <div style="display:flex;justify-content:space-between;align-items:center;">
               <div>
-                <h4 style="font-size:12px;font-weight:bold;color:${isChecked ? '#6b7280':'#fff'};text-decoration:${isChecked?'line-through':'none'}">${item.nombre}</h4>
-                <p style="font-size:10px;color:#9ca3af;">${item.series}</p>
+                <h4 style="font-size:11px;font-weight:bold;color:${isChecked ? '#6b7280':'#fff'};text-decoration:${isChecked?'line-through':'none'}">${item.nombre}</h4>
+                <p style="font-size:9px;color:#9ca3af;">${item.series}</p>
               </div>
-              <div style="display:flex;align-items:center;gap:8px;">
-                <input type="number" value="${w}" onchange="updateWeight('${item.id}', this.value)" style="width:50px;background:#08090b;border:1px solid #1f2937;border-radius:8px;text-align:center;color:#00FF66;font-weight:bold;font-size:12px;padding:4px;">
-                <input type="checkbox" ${isChecked ? 'checked':''} onclick="toggleExercise('${item.id}')" style="width:18px;height:18px;accent-color:#00FF66;cursor:pointer;">
+              <div style="display:flex;align-items:center;gap:6px;">
+                <input type="number" value="${w}" onchange="updateWeight('${item.id}', this.value)" style="width:45px;background:#08090b;border:1px solid #1f2937;border-radius:6px;text-align:center;color:#00FF66;font-weight:bold;font-size:11px;padding:4px;">
+                <input type="checkbox" ${isChecked ? 'checked':''} onclick="toggleExercise('${item.id}')" style="width:16px;height:16px;accent-color:#00FF66;cursor:pointer;">
               </div>
             </div>
           </div>
@@ -612,45 +799,58 @@
       let html = '';
       for(let i=0; i<6; i++) {
         const filled = i < waterCups;
-        html += `<button onclick="toggleWaterCup(${i})" style="height:32px;border-radius:8px;border:1px solid ${filled?'#00FF66':'#1f2937'};background:${filled?'#00FF66':'#08090b'};color:${filled?'#000':'#6b7280'};font-size:9px;font-weight:bold;cursor:pointer;">500ml</button>`;
+        html += `<button onclick="toggleWaterCup(${i})" style="height:28px;border-radius:6px;border:1px solid ${filled?'#00FF66':'#1f2937'};background:${filled?'#00FF66':'#08090b'};color:${filled?'#000':'#6b7280'};font-size:8px;font-weight:bold;cursor:pointer;">500ml</button>`;
       }
       container.innerHTML = html;
       document.getElementById('water-display').innerText = `${(waterCups*0.5).toFixed(1)} / 3.0 L`;
     }
 
     function scrollToSlide(id) { document.getElementById(id).scrollIntoView({behavior:'smooth'}); }
-    function setNutritionGoal(g) { currentGoal = g; renderMealPlan(); }
+    
+    function setNutritionGoal(g) { 
+      currentGoal = g; 
+      document.getElementById('btn-bulking').style.background = g === 'bulking' ? '#00FF66' : 'transparent';
+      document.getElementById('btn-bulking').style.color = g === 'bulking' ? '#000' : '#9ca3af';
+      document.getElementById('btn-cutting').style.background = g === 'cutting' ? '#00FF66' : 'transparent';
+      document.getElementById('btn-cutting').style.color = g === 'cutting' ? '#000' : '#9ca3af';
+      renderMealPlan(); 
+    }
+
     function switchNutriDay(d, btn) {
       activeNutriDay = d;
       document.querySelectorAll('.nutri-day-btn').forEach(b => { b.style.background='#111318'; b.style.color='#9ca3af'; b.style.border='1px solid #1f2937'; });
       btn.style.background='#00FF66'; btn.style.color='#000'; btn.style.border='none';
       renderMealPlan();
     }
+
     function renderMealPlan() {
       const list = menusNutricionales[currentGoal][activeNutriDay] || [{tipo:'🍽️ Menú', desc:'Alimentación estructurada del día.'}];
-      document.getElementById('meal-plan-list').innerHTML = list.map(m => `<div style="background:#111318;padding:10px;border-radius:12px;border:1px solid #1f2937;"><span style="font-size:11px;font-weight:bold;color:#00FF66;display:block;">${m.tipo}</span><p style="font-size:11px;color:#e5e7eb;margin-top:2px;">${m.desc}</p></div>`).join('');
+      document.getElementById('meal-plan-list').innerHTML = list.map(m => `<div style="background:#111318;padding:10px;border-radius:12px;border:1px solid #1f2937;"><span style="font-size:10px;font-weight:bold;color:#00FF66;display:block;">${m.tipo}</span><p style="font-size:10px;color:#e5e7eb;margin-top:2px;">${m.desc}</p></div>`).join('');
     }
 
     function openGroceryModal() {
       document.getElementById('grocery-subtitle').innerText = currentGoal === 'bulking' ? 'Ganar Masa Muscular' : 'Definición';
-      document.getElementById('grocery-items-list').innerHTML = `<div style="background:#08090b;padding:10px;border-radius:10px;border:1px solid #1f2937;"><span style="color:#00FF66;font-weight:bold;">Proteínas:</span> Pechuga, carne magra, huevos, atún.</div><div style="background:#08090b;padding:10px;border-radius:10px;border:1px solid #1f2937;"><span style="color:#00FF66;font-weight:bold;">Carbohidratos:</span> Arroz, avena, papa, yuca.</div>`;
+      document.getElementById('grocery-items-list').innerHTML = `<div style="background:#08090b;padding:8px;border-radius:8px;border:1px solid #1f2937;"><span style="color:#00FF66;font-weight:bold;">Proteínas:</span> Pechuga de pollo, carne magra, huevos, atún, pescado blanco.</div><div style="background:#08090b;padding:8px;border-radius:8px;border:1px solid #1f2937;"><span style="color:#00FF66;font-weight:bold;">Carbohidratos:</span> Arroz, avena, papa, yuca, plátano maduro, pan integral.</div><div style="background:#08090b;padding:8px;border-radius:8px;border:1px solid #1f2937;"><span style="color:#00FF66;font-weight:bold;">Grasas & Vegs:</span> Aguacate, aceite de oliva, brócoli, lechuga, espinaca.</div>`;
       document.getElementById('grocery-modal').style.display = 'flex';
     }
+    
     function closeGroceryModal() { document.getElementById('grocery-modal').style.display = 'none'; }
+    
     function exportUserData() {
-      const data = { peso: userWeight, meta: targetWeight, notas: journalNotes };
+      const data = { peso: userWeight, meta: targetWeight, notas: journalNotes, media: mediaPosts };
       const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
       const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'ENFOQUE_Backup.json'; a.click();
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('display-current-weight').innerHTML = `${userWeight.toFixed(1)} <span style="font-size:14px;font-weight:normal;color:#fff;">Kg</span>`;
+      document.getElementById('display-current-weight').innerHTML = `${userWeight.toFixed(1)} <span style="font-size:12px;font-weight:normal;color:#fff;">Kg</span>`;
       document.getElementById('display-target-weight').innerText = `${targetWeight.toFixed(1)} Kg`;
       updateAdvice();
       renderExerciseList();
       renderMealPlan();
       renderWaterTracker();
       loadCloudNotes();
+      renderMediaGallery();
     });
   </script>
 </body>
