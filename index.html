@@ -90,37 +90,42 @@
       <section id="slide-2" class="min-h-full p-5 space-y-4 snap-start pt-4 pb-24">
         <div class="flex justify-between items-center">
           <div>
-            <h2 class="text-xl font-extrabold font-display text-white">Mi Rutina Semanal</h2>
+            <h2 class="text-2xl font-black font-display text-white">Mi Rutina Semanal</h2>
             <p class="text-xs text-gray-400">Progreso y cargas comparativas</p>
           </div>
           <span id="current-day-badge" class="text-xs bg-brand/10 text-brand px-3 py-1 rounded-full font-bold border border-brand/30">LUNES</span>
         </div>
 
-        <!-- Días con nombres de enfoque muscular técnico -->
-        <div class="space-y-1.5">
-          <span class="text-[10px] uppercase font-bold tracking-wider text-gray-400">Seleccionar Enfoque</span>
-          <div class="flex justify-between space-x-1 overflow-x-auto no-scrollbar">
-            <button onclick="switchRoutineDay('lunes', this)" class="routine-day-btn active flex-1 py-2 bg-brand text-black rounded-2xl flex flex-col items-center font-bold text-[10px] shadow-md shadow-brand/20 min-w-[65px]">
-              <span>LUN</span><span class="text-[9px] font-black">Cuádriceps</span>
+        <!-- Días con scroll horizontal suave y texto legible de 10pt/12pt -->
+        <div class="space-y-2">
+          <span class="text-xs uppercase font-bold tracking-wider text-gray-400 block">Seleccionar Enfoque</span>
+          <div class="flex space-x-2 overflow-x-auto no-scrollbar pb-1">
+            <button onclick="switchRoutineDay('lunes', this)" class="routine-day-btn active flex-shrink-0 px-4 py-2.5 bg-brand text-black rounded-2xl flex flex-col items-center font-bold shadow-md shadow-brand/20">
+              <span class="text-xs font-black">LUNES</span>
+              <span class="text-[10px]">Cuádriceps & Gemelos</span>
             </button>
-            <button onclick="switchRoutineDay('martes', this)" class="routine-day-btn flex-1 py-2 bg-cardBg text-gray-400 rounded-2xl flex flex-col items-center font-bold text-[10px] border border-gray-800 min-w-[65px]">
-              <span>MAR</span><span class="text-[9px] font-black">Espalda/Deltoides</span>
+            <button onclick="switchRoutineDay('martes', this)" class="routine-day-btn flex-shrink-0 px-4 py-2.5 bg-cardBg text-gray-400 rounded-2xl flex flex-col items-center font-bold border border-gray-800">
+              <span class="text-xs font-black">MARTES</span>
+              <span class="text-[10px]">Espalda & Deltoides</span>
             </button>
-            <button onclick="switchRoutineDay('miercoles', this)" class="routine-day-btn flex-1 py-2 bg-cardBg text-gray-400 rounded-2xl flex flex-col items-center font-bold text-[10px] border border-gray-800 min-w-[65px]">
-              <span>MIÉ</span><span class="text-[9px] font-black">Isquios/Glúteo</span>
+            <button onclick="switchRoutineDay('miercoles', this)" class="routine-day-btn flex-shrink-0 px-4 py-2.5 bg-cardBg text-gray-400 rounded-2xl flex flex-col items-center font-bold border border-gray-800">
+              <span class="text-xs font-black">MIÉRCOLES</span>
+              <span class="text-[10px]">Isquios & Glúteos</span>
             </button>
-            <button onclick="switchRoutineDay('jueves', this)" class="routine-day-btn flex-1 py-2 bg-cardBg text-gray-400 rounded-2xl flex flex-col items-center font-bold text-[10px] border border-gray-800 min-w-[65px]">
-              <span>JUE</span><span class="text-[9px] font-black">Pecho/Brazos</span>
+            <button onclick="switchRoutineDay('jueves', this)" class="routine-day-btn flex-shrink-0 px-4 py-2.5 bg-cardBg text-gray-400 rounded-2xl flex flex-col items-center font-bold border border-gray-800">
+              <span class="text-xs font-black">JUEVES</span>
+              <span class="text-[10px]">Pectoral & Brazos</span>
             </button>
-            <button onclick="switchRoutineDay('viernes', this)" class="routine-day-btn flex-1 py-2 bg-cardBg text-gray-400 rounded-2xl flex flex-col items-center font-bold text-[10px] border border-gray-800 min-w-[65px]">
-              <span>VIE</span><span class="text-[9px] font-black">Pierna Fuerza</span>
+            <button onclick="switchRoutineDay('viernes', this)" class="routine-day-btn flex-shrink-0 px-4 py-2.5 bg-cardBg text-gray-400 rounded-2xl flex flex-col items-center font-bold border border-gray-800">
+              <span class="text-xs font-black">VIERNES</span>
+              <span class="text-[10px]">Pierna Fuerza</span>
             </button>
           </div>
         </div>
 
-        <div class="bg-cardBg p-3 rounded-2xl border border-gray-800 space-y-1.5">
+        <div class="bg-cardBg p-3.5 rounded-2xl border border-gray-800 space-y-1.5">
           <div class="flex justify-between text-xs">
-            <span class="text-gray-400">Progreso del Día</span>
+            <span class="text-gray-400 font-medium">Progreso del Día</span>
             <span id="progress-percent" class="font-bold text-brand">0%</span>
           </div>
           <div class="w-full bg-darkBg h-2.5 rounded-full overflow-hidden border border-gray-800">
@@ -134,7 +139,7 @@
       <!-- ==================== SLIDE 3: EVOLUCIÓN DE PESO CORPORAL ==================== -->
       <section id="slide-3" class="min-h-full p-5 space-y-4 snap-start pt-4 pb-24">
         <div>
-          <h2 class="text-xl font-extrabold font-display text-white">Evolución de Peso</h2>
+          <h2 class="text-2xl font-black font-display text-white">Evolución de Peso</h2>
           <p class="text-xs text-gray-400">Seguimiento corporal mensual</p>
         </div>
 
@@ -178,7 +183,7 @@
       <!-- ==================== SLIDE 4: ALIMENTACIÓN DINÁMICA ==================== -->
       <section id="slide-4" class="min-h-full p-5 space-y-4 snap-start pt-4 pb-24">
         <div>
-          <h2 class="text-xl font-extrabold font-display text-white">Alimentación Nutritiva</h2>
+          <h2 class="text-2xl font-black font-display text-white">Alimentación Nutritiva</h2>
           <p class="text-xs text-gray-400">Calculada automáticamente para tu peso</p>
         </div>
 
@@ -199,15 +204,15 @@
           <div class="grid grid-cols-3 gap-2 text-center text-xs">
             <div class="p-2 bg-darkBg rounded-xl border border-gray-800">
               <span id="nutri-protein" class="font-bold text-white block">157g</span>
-              <span class="text-[9px] text-gray-400">Proteína</span>
+              <span class="text-[10px] text-gray-400">Proteína</span>
             </div>
             <div class="p-2 bg-darkBg rounded-xl border border-gray-800">
               <span id="nutri-carbs" class="font-bold text-white block">350g</span>
-              <span class="text-[9px] text-gray-400">Carbohidratos</span>
+              <span class="text-[10px] text-gray-400">Carbohidratos</span>
             </div>
             <div class="p-2 bg-darkBg rounded-xl border border-gray-800">
               <span id="nutri-fats" class="font-bold text-white block">75g</span>
-              <span class="text-[9px] text-gray-400">Grasas</span>
+              <span class="text-[10px] text-gray-400">Grasas</span>
             </div>
           </div>
         </div>
@@ -216,7 +221,7 @@
       <!-- ==================== SLIDE 5: DESCANSO ==================== -->
       <section id="slide-5" class="min-h-full p-5 space-y-4 snap-start pt-4 pb-24">
         <div>
-          <h2 class="text-xl font-extrabold font-display text-white">Sueño & Descanso</h2>
+          <h2 class="text-2xl font-black font-display text-white">Sueño & Descanso</h2>
           <p class="text-xs text-gray-400">Recuperación muscular nocturna</p>
         </div>
 
@@ -239,7 +244,7 @@
       <!-- ==================== SLIDE 6: DIARIO ==================== -->
       <section id="slide-6" class="min-h-full p-5 space-y-4 snap-start pt-4 pb-28">
         <div>
-          <h2 class="text-xl font-extrabold font-display text-white">Diario de Comentarios</h2>
+          <h2 class="text-2xl font-black font-display text-white">Diario de Comentarios</h2>
           <p class="text-xs text-gray-400">Registra tus sensaciones y marcas personales</p>
         </div>
 
@@ -259,33 +264,33 @@
     <nav class="absolute bottom-0 left-0 right-0 bg-darkBg/95 backdrop-blur-lg border-t border-gray-800/80 px-2 py-2 flex justify-around items-center z-30">
       <button onclick="scrollToSlide('slide-1')" class="nav-btn active flex flex-col items-center space-y-1 text-brand">
         <i data-lucide="home" class="w-4 h-4"></i>
-        <span class="text-[9px] font-bold">Portada</span>
+        <span class="text-[10px] font-bold">Portada</span>
       </button>
       <button onclick="scrollToSlide('slide-2')" class="nav-btn flex flex-col items-center space-y-1 text-gray-500">
         <i data-lucide="dumbbell" class="w-4 h-4"></i>
-        <span class="text-[9px] font-bold">Rutina</span>
+        <span class="text-[10px] font-bold">Rutina</span>
       </button>
       <button onclick="scrollToSlide('slide-3')" class="nav-btn flex flex-col items-center space-y-1 text-gray-500">
         <i data-lucide="line-chart" class="w-4 h-4"></i>
-        <span class="text-[9px] font-bold">Peso</span>
+        <span class="text-[10px] font-bold">Peso</span>
       </button>
       <button onclick="scrollToSlide('slide-4')" class="nav-btn flex flex-col items-center space-y-1 text-gray-500">
         <i data-lucide="apple" class="w-4 h-4"></i>
-        <span class="text-[9px] font-bold">Comida</span>
+        <span class="text-[10px] font-bold">Comida</span>
       </button>
       <button onclick="scrollToSlide('slide-5')" class="nav-btn flex flex-col items-center space-y-1 text-gray-500">
         <i data-lucide="moon" class="w-4 h-4"></i>
-        <span class="text-[9px] font-bold">Dormir</span>
+        <span class="text-[10px] font-bold">Dormir</span>
       </button>
       <button onclick="scrollToSlide('slide-6')" class="nav-btn flex flex-col items-center space-y-1 text-gray-500">
         <i data-lucide="message-square" class="w-4 h-4"></i>
-        <span class="text-[9px] font-bold">Diario</span>
+        <span class="text-[10px] font-bold">Diario</span>
       </button>
     </nav>
 
   </div>
 
-  <!-- LÓGICA DE PROGRAMACIÓN MEJORADA -->
+  <!-- LÓGICA DE PROGRAMACIÓN CON RUTINAS EXTENDIDAS Y TEXTOS MÁS GRANDES -->
   <script>
     lucide.createIcons();
 
@@ -294,27 +299,34 @@
         { id: 'l1', nombre: 'Sentadilla Pesada con Barra', series: '4 x 8-10', baseWeight: 30, tip: 'Desciende rompiendo el paralelo.' },
         { id: 'l2', nombre: 'Prensa Inclinada 45°', series: '4 x 12', baseWeight: 180, tip: 'No bloquees rodillas al extender.' },
         { id: 'l3', nombre: 'Extensión de Cuádriceps', series: '3 x 15', baseWeight: 65, tip: 'Pausa de 1 segundo arriba.' },
-        { id: 'l4', nombre: 'Elevación Pantorrilla de Pie', series: '4 x 20', baseWeight: 70, tip: 'Extensión completa de tobillo.' }
+        { id: 'l4', nombre: 'Zancadas con Mancuernas', series: '4 x 12', baseWeight: 20, tip: 'Mantén el torso recto.' },
+        { id: 'l5', nombre: 'Elevación Pantorrilla de Pie', series: '4 x 20', baseWeight: 70, tip: 'Extensión completa de tobillo.' }
       ],
       martes: [
         { id: 'm1', nombre: 'Jalón al Pecho Prono', series: '4 x 10', baseWeight: 70, tip: 'Tracciona con los codos hacia abajo.' },
         { id: 'm2', nombre: 'Remo con Barra T', series: '4 x 10', baseWeight: 75, tip: 'Mantén la espalda neutra.' },
-        { id: 'm3', nombre: 'Elevaciones Laterales Mancuerna', series: '4 x 15', baseWeight: 14, tip: 'Lleva las mancuernas hacia los lados.' },
-        { id: 'm4', nombre: 'Curl Bíceps Barra Z', series: '4 x 12', baseWeight: 35, tip: 'Evita el balanceo lumbar.' }
+        { id: 'm3', nombre: 'Remo Unilateral Polea', series: '3 x 12', baseWeight: 35, tip: 'Lleva el codo pegado a la cadera.' },
+        { id: 'm4', nombre: 'Elevaciones Laterales Mancuerna', series: '4 x 15', baseWeight: 14, tip: 'Lleva las mancuernas hacia los lados.' },
+        { id: 'm5', nombre: 'Curl Bíceps Barra Z', series: '4 x 12', baseWeight: 35, tip: 'Evita el balanceo lumbar.' }
       ],
       miercoles: [
         { id: 'mi1', nombre: 'Peso Muerto Rumano', series: '4 x 10', baseWeight: 90, tip: 'Empuja la cadera hacia atrás.' },
         { id: 'mi2', nombre: 'Curl Femoral Tumbado', series: '4 x 12', baseWeight: 50, tip: 'Controla la bajada en 3 segundos.' },
-        { id: 'mi3', nombre: 'Hip Thrust Pesado', series: '4 x 12', baseWeight: 130, tip: 'Apriete máximo de glúteo arriba.' }
+        { id: 'mi3', nombre: 'Hip Thrust Pesado', series: '4 x 12', baseWeight: 130, tip: 'Apriete máximo de glúteo arriba.' },
+        { id: 'mi4', nombre: 'Patada de Glúteo en Polea', series: '3 x 15', baseWeight: 25, tip: 'Extensión controlada sin arquear la espalda.' }
       ],
       jueves: [
         { id: 'j1', nombre: 'Press de Banca Plano', series: '4 x 8', baseWeight: 85, tip: 'Junta escápulas contra la banca.' },
         { id: 'j2', nombre: 'Press Inclinado Mancuernas', series: '4 x 10', baseWeight: 30, tip: 'Siente el estiramiento en la base.' },
-        { id: 'j3', nombre: 'Extensión Tríceps Polea', series: '4 x 12', baseWeight: 45, tip: 'Bloquea el codo en posición.' }
+        { id: 'j3', nombre: 'Cruce de Poleas / Aperturas', series: '3 x 12', baseWeight: 20, tip: 'Mantén ligera flexión de codo.' },
+        { id: 'j4', nombre: 'Extensión Tríceps Polea', series: '4 x 12', baseWeight: 45, tip: 'Bloquea el codo en posición.' },
+        { id: 'j5', nombre: 'Press Francés con Barra Z', series: '3 x 10', baseWeight: 30, tip: 'Baja controlado hacia la frente.' }
       ],
       viernes: [
         { id: 'v1', nombre: 'Sentadilla Búlgara', series: '3 x 12', baseWeight: 22, tip: 'Enfoca el peso en la pierna delantera.' },
-        { id: 'v2', nombre: 'Prensa Pesada Fuerza', series: '4 x 8', baseWeight: 200, tip: 'Carga progresiva de fuerza.' }
+        { id: 'v2', nombre: 'Prensa Pesada Fuerza', series: '4 x 8', baseWeight: 200, tip: 'Carga progresiva de fuerza.' },
+        { id: 'v3', nombre: 'Peso Muerto Convencional', series: '3 x 6', baseWeight: 110, tip: 'Empuja el suelo con fuerza.' },
+        { id: 'v4', nombre: 'Elevación Pantorrilla Sentado', series: '4 x 15', baseWeight: 50, tip: 'Pausa de 2 segundos en contracción.' }
       ]
     };
 
@@ -328,9 +340,9 @@
     function switchRoutineDay(day, btn) {
       activeDay = day;
       document.querySelectorAll('.routine-day-btn').forEach(b => {
-        b.className = 'routine-day-btn flex-1 py-2 bg-cardBg text-gray-400 rounded-2xl flex flex-col items-center font-bold text-[10px] border border-gray-800 min-w-[65px]';
+        b.className = 'routine-day-btn flex-shrink-0 px-4 py-2.5 bg-cardBg text-gray-400 rounded-2xl flex flex-col items-center font-bold border border-gray-800';
       });
-      if(btn) btn.className = 'routine-day-btn active flex-1 py-2 bg-brand text-black rounded-2xl flex flex-col items-center font-bold text-[10px] shadow-md shadow-brand/20 min-w-[65px]';
+      if(btn) btn.className = 'routine-day-btn active flex-shrink-0 px-4 py-2.5 bg-brand text-black rounded-2xl flex flex-col items-center font-bold shadow-md shadow-brand/20';
 
       document.getElementById('current-day-badge').innerText = day.toUpperCase();
       renderExerciseList();
@@ -347,34 +359,34 @@
 
         let badge = '';
         if (currentW > prevW) {
-          badge = `<span class="text-[9px] bg-brand/20 text-brand font-black px-2 py-0.5 rounded-md border border-brand/40">🔥 ¡RÉCORD PR +${(currentW - prevW).toFixed(1)}kg!</span>`;
+          badge = `<span class="text-[10px] bg-brand/20 text-brand font-black px-2 py-0.5 rounded-md border border-brand/40">🔥 ¡RÉCORD PR +${(currentW - prevW).toFixed(1)}kg!</span>`;
         } else {
-          badge = `<span class="text-[9px] text-gray-400">Anterior: ${prevW} kg</span>`;
+          badge = `<span class="text-[10px] text-gray-400">Anterior: ${prevW} kg</span>`;
         }
 
         return `
-          <div class="bg-cardBg p-3.5 rounded-2xl border border-gray-800 flex flex-col space-y-2 text-xs">
+          <div class="bg-cardBg p-4 rounded-2xl border border-gray-800 flex flex-col space-y-2.5 text-sm">
             <div class="flex justify-between items-center">
               <div class="flex items-center space-x-3 flex-1">
-                <div class="w-8 h-8 rounded-xl bg-darkBg border border-gray-800 flex items-center justify-center text-brand font-black">
-                  🏋️
+                <div class="w-9 h-9 rounded-xl bg-darkBg border border-gray-800 flex items-center justify-center text-brand font-black text-base">
+                  🏋️️
                 </div>
                 <div>
-                  <h4 class="font-bold ${isChecked ? 'line-through text-gray-500' : 'text-white'}">${item.nombre}</h4>
-                  <p class="text-[10px] text-gray-400">${item.series}</p>
+                  <h4 class="font-bold text-sm ${isChecked ? 'line-through text-gray-500' : 'text-white'}">${item.nombre}</h4>
+                  <p class="text-xs text-gray-400">${item.series}</p>
                 </div>
               </div>
 
               <div class="flex items-center space-x-2">
                 <div class="flex flex-col items-end">
-                  <input type="number" value="${currentW}" onchange="updateWeight('${item.id}', this.value)" class="w-16 bg-darkBg border border-gray-700 rounded-xl px-2 py-1 text-center font-bold text-brand focus:outline-none">
+                  <input type="number" value="${currentW}" onchange="updateWeight('${item.id}', this.value)" class="w-16 bg-darkBg border border-gray-700 rounded-xl px-2 py-1.5 text-center font-bold text-brand focus:outline-none text-sm">
                 </div>
                 <input type="checkbox" ${isChecked ? 'checked' : ''} onclick="toggleExercise('${item.id}')" class="w-5 h-5 accent-brand rounded border-gray-700 bg-darkBg cursor-pointer">
               </div>
             </div>
             <div class="flex justify-between items-center pt-1 border-t border-gray-800/60">
               ${badge}
-              <span class="text-[10px] text-gray-500 italic">${item.tip}</span>
+              <span class="text-[11px] text-gray-400 italic">${item.tip}</span>
             </div>
           </div>
         `;
