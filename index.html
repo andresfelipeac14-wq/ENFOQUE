@@ -20,6 +20,14 @@
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
+  <!-- Firebase SDK (Para sincronización global en la nube) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    // TODO: Aquí pondremos tus credenciales gratuitas de Firebase en el siguiente paso
+  </script>
+
   <!-- CSS NATIVO AJUSTADO TIPO APP -->
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -321,11 +329,11 @@
         </div>
       </section>
 
-      <!-- SLIDE 7: MURO COMUNITARIO CON EDICIÓN -->
+      <!-- SLIDE 7: MURO COMUNITARIO GLOBAL -->
       <section id="slide-7" style="height: 100%; min-height: 100%; scroll-snap-align: start; padding: 20px; display: flex; flex-direction: column; gap: 14px; overflow-y: auto;" class="no-scrollbar">
         <div>
           <h2 class="font-display" style="font-size: 22px; font-weight: 900;">Muro & Diario</h2>
-          <p style="font-size: 11px; color: #9ca3af;">Muro comunitario sincronizado y editable</p>
+          <p style="font-size: 11px; color: #9ca3af;">Muro comunitario sincronizado en la nube</p>
         </div>
 
         <div style="background: #111318; padding: 14px; border-radius: 18px; border: 1px solid #1f2937; display: flex; flex-direction: column; gap: 10px;">
@@ -347,7 +355,7 @@
 
         <div>
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-            <span style="font-size: 10px; text-transform: uppercase; font-weight: 700; color: #9ca3af;">Muro de la Comunidad (En Vivo)</span>
+            <span style="font-size: 10px; text-transform: uppercase; font-weight: 700; color: #9ca3af;">Muro en la Nube (En Vivo)</span>
             <button onclick="loadCloudNotes()" style="background: none; border: none; color: #00FF66; font-size: 10px; font-weight: bold; cursor: pointer;">🔄 Actualizar</button>
           </div>
           <div id="journal-list" style="display: flex; flex-direction: column; gap: 8px; padding-bottom: 40px;"></div>
@@ -464,22 +472,17 @@
     let waterCups = parseInt(localStorage.getItem('enfoque_water')) || 0;
     let restTimerInterval = null;
 
-    // MURO BLINDADO CON SOPORTE DE EDICIÓN Y VISUALIZACIÓN GLOBAL
+    // SIMULACIÓN DE RESPALDO EN LÍNEA LOCAL HASTA CONECTAR FIREBASE
     function loadCloudNotes() {
-      try {
-        const saved = localStorage.getItem('enfoque_global_journal');
-        if (saved) {
-          journalNotes = JSON.parse(saved);
-        } else {
-          journalNotes = [
-            { id: 1, author: 'Andrés Felipe', date: '3 Oct • 11:30', text: '¡Bienvenidos al muro global de ENFOQUE! A darle con toda.' }
-          ];
-        }
-        renderJournalNotes();
-      } catch (e) {
-        journalNotes = [{ id: 1, author: 'Andrés Felipe', date: '3 Oct • 11:30', text: '¡Bienvenidos al muro de ENFOQUE!' }];
-        renderJournalNotes();
+      const saved = localStorage.getItem('enfoque_global_journal');
+      if (saved) {
+        journalNotes = JSON.parse(saved);
+      } else {
+        journalNotes = [
+          { id: 1, author: 'Andrés Felipe', date: '3 Oct • 11:30', text: '¡Bienvenidos al muro global de ENFOQUE! A darle con toda.' }
+        ];
       }
+      renderJournalNotes();
     }
 
     function saveJournalNote() {
@@ -498,7 +501,6 @@
       const dateStr = `${now.toLocaleDateString('es-ES', {month:'short', day:'numeric'})} • ${now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
 
       if (editId) {
-        // Editando comentario existente
         const note = journalNotes.find(n => n.id == editId);
         if (note) {
           note.author = author;
@@ -508,18 +510,12 @@
         cancelEditNote();
         alert('✏️ ¡Comentario actualizado con éxito!');
       } else {
-        // Nuevo comentario
         const newNote = {
           id: Date.now(),
           author: author,
           date: dateStr,
           text: text
         };
-
-        if(journalNotes.length > 0 && journalNotes[0].text === text && journalNotes[0].author === author) {
-          return;
-        }
-
         journalNotes.unshift(newNote);
         alert('🚀 ¡Comentario publicado con éxito!');
       }
@@ -621,7 +617,7 @@
     function uploadMediaProgress() {
       const title = document.getElementById('media-title').value.trim();
       const fileInput = document.getElementById('media-file-input');
-      if(!title || !fileInput.files.length) { alert('⚠️️ Ingresa título y selecciona archivo.'); return; }
+      if(!title || !fileInput.files.length) { alert('⚠️ Ingresa título y selecciona archivo.'); return; }
       const file = fileInput.files[0];
       const reader = new FileReader();
       reader.onload = function(e) {
