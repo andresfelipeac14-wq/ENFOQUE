@@ -83,24 +83,18 @@
     <!-- CONTENEDOR PRINCIPAL: 6 SLIDES VERTICALES CONTINUOS -->
     <main id="scroll-container" class="flex-1 overflow-y-auto no-scrollbar relative snap-y snap-mandatory">
 
-<!-- ==================== SLIDE 1: PORTADA ENFOQUE ==================== -->
-<section id="slide-1" class="min-h-full snap-start relative flex flex-col justify-end p-6 overflow-hidden bg-black">
-  
-  <!-- Imagen de portada cargada desde el repositorio -->
-  <img src="portada.jpg" alt="Portada ENFOQUE" class="absolute inset-0 w-full h-full object-cover z-0">
+      <!-- ==================== SLIDE 1: PORTADA ENFOQUE ==================== -->
+      <section id="slide-1" class="min-h-full snap-start relative flex flex-col justify-end p-6 overflow-hidden bg-black">
+        <img src="portada.jpg" alt="Portada ENFOQUE" class="absolute inset-0 w-full h-full object-cover z-0">
+        <div class="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black via-black/50 to-transparent z-10 pointer-events-none"></div>
 
-  <!-- Sombra abajo para resaltar el botón -->
-  <div class="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black via-black/50 to-transparent z-10 pointer-events-none"></div>
-
-  <!-- Botón Inferior DESLIZA -->
-  <div class="relative z-20 w-full text-center pb-10 sm:pb-4">
-    <button onclick="scrollToSlide('slide-2')" class="w-full bg-black/70 backdrop-blur-md text-brand font-extrabold py-3.5 px-6 rounded-full flex items-center justify-center space-x-2 border-2 border-brand shadow-[0_0_20px_rgba(0,255,102,0.4)] active:scale-95 transition transform">
-      <span class="text-xs tracking-wider uppercase font-black text-white">DESLIZA</span>
-      <i data-lucide="chevron-down" class="w-5 h-5 text-brand animate-bounce"></i>
-    </button>
-  </div>
-
-</section>
+        <div class="relative z-20 w-full text-center pb-10 sm:pb-4">
+          <button onclick="scrollToSlide('slide-2')" class="w-full bg-black/70 backdrop-blur-md text-brand font-extrabold py-3.5 px-6 rounded-full flex items-center justify-center space-x-2 border-2 border-brand shadow-[0_0_20px_rgba(0,255,102,0.4)] active:scale-95 transition transform">
+            <span class="text-xs tracking-wider uppercase font-black text-white">DESLIZA</span>
+            <i data-lucide="chevron-down" class="w-5 h-5 text-brand animate-bounce"></i>
+          </button>
+        </div>
+      </section>
 
       <!-- ==================== SLIDE 2: CALENDARIO & RUTINA CON COMPARACIÓN ==================== -->
       <section id="slide-2" class="min-h-full p-5 space-y-4 snap-start pt-4 pb-24">
@@ -112,7 +106,6 @@
           <span id="current-day-badge" class="text-xs bg-brand/10 text-brand px-3 py-1 rounded-full font-bold border border-brand/30">LUNES</span>
         </div>
 
-        <!-- Tira de Calendario Semanal -->
         <div class="space-y-1.5">
           <span class="text-[10px] uppercase font-bold tracking-wider text-gray-400">Seleccionar Día</span>
           <div class="flex justify-between space-x-1 overflow-x-auto no-scrollbar">
@@ -134,7 +127,6 @@
           </div>
         </div>
 
-        <!-- Barra de Progreso -->
         <div class="bg-cardBg p-3 rounded-2xl border border-gray-800 space-y-1.5">
           <div class="flex justify-between text-xs">
             <span class="text-gray-400">Progreso del Día</span>
@@ -145,10 +137,7 @@
           </div>
         </div>
 
-        <!-- Lista de Ejercicios -->
-        <div id="exercise-list" class="space-y-3">
-          <!-- Cargado por JS con comparación entre semanas -->
-        </div>
+        <div id="exercise-list" class="space-y-3"></div>
       </section>
 
       <!-- ==================== SLIDE 3: EVOLUCIÓN DE PESO CORPORAL ==================== -->
@@ -158,7 +147,6 @@
           <p class="text-xs text-gray-400">Seguimiento corporal mensual</p>
         </div>
 
-        <!-- Registro de Peso Interactivo -->
         <div class="bg-cardBg p-4 rounded-3xl border border-gray-800 space-y-3">
           <span class="text-xs font-bold text-white block">Registrar Peso Corporal de Hoy</span>
           <div class="flex space-x-2">
@@ -169,7 +157,6 @@
           </div>
         </div>
 
-        <!-- Tarjetas de Métricas -->
         <div class="bg-cardBg p-5 rounded-3xl border border-gray-800 flex justify-between items-center">
           <div>
             <span class="text-xs text-gray-400">Peso Actual</span>
@@ -196,7 +183,6 @@
           </div>
         </div>
 
-        <!-- Gráfico Mensual -->
         <div class="bg-cardBg p-4 rounded-3xl border border-gray-800 space-y-2">
           <span class="text-xs font-bold text-gray-300">Crecimiento Corporal Mes a Mes</span>
           <div class="flex justify-between items-end h-32 pt-4 px-2">
@@ -231,7 +217,6 @@
           <p class="text-xs text-gray-400">Nutrientes e investigación de alimentos</p>
         </div>
 
-        <!-- Selector de Modo -->
         <div class="bg-cardBg p-1.5 rounded-2xl border border-gray-800 flex justify-between">
           <button id="btn-bulking" onclick="setNutritionGoal('bulking')" class="flex-1 py-2.5 rounded-xl font-bold text-xs bg-brand text-black transition">
             💪 Ganar Masa
@@ -241,7 +226,6 @@
           </button>
         </div>
 
-        <!-- Alimentos Interactivos -->
         <div class="space-y-2">
           <span class="text-xs font-bold text-gray-300 block">Toca un alimento para analizar macros:</span>
           <div class="grid grid-cols-5 gap-1.5">
@@ -266,7 +250,6 @@
               <span class="text-[9px] font-bold mt-1">Frutas</span>
             </button>
           </div>
-          <!-- Popover Informativo Alimento -->
           <div id="food-detail-box" class="hidden bg-brand/10 border border-brand/40 p-3 rounded-2xl text-xs space-y-1">
             <div class="flex justify-between font-bold text-brand">
               <span id="food-name">Huevos</span>
@@ -276,7 +259,6 @@
           </div>
         </div>
 
-        <!-- Totales Diarios -->
         <div class="bg-cardBg p-4 rounded-3xl border border-gray-800 space-y-2">
           <div class="flex justify-between items-center">
             <span class="text-xs text-gray-400">Totales Diarios Recomendados</span>
@@ -298,7 +280,6 @@
           </div>
         </div>
 
-        <!-- Módulo: Mejora de Hoy (Gimnasio y Aspecto Físico) -->
         <div class="bg-cardBg p-4 rounded-3xl border border-gray-800 space-y-2.5">
           <span class="text-xs font-bold text-brand uppercase tracking-wider block">⚡ Mejora de Hoy</span>
           <div class="space-y-2 text-xs">
@@ -351,9 +332,7 @@
           </button>
         </div>
 
-        <div id="journal-list" class="space-y-2">
-          <!-- Notas guardadas -->
-        </div>
+        <div id="journal-list" class="space-y-2"></div>
       </section>
 
     </main>
@@ -459,6 +438,8 @@
     let activeDay = 'lunes';
     let weightsState = JSON.parse(localStorage.getItem('enfoque_weights')) || {};
     let completedState = JSON.parse(localStorage.getItem('enfoque_completed')) || {};
+    let journalNotes = JSON.parse(localStorage.getItem('enfoque_journal')) || [];
+    let isSleepActive = true;
 
     function switchRoutineDay(day, btn) {
       activeDay = day;
@@ -478,7 +459,7 @@
       container.innerHTML = list.map(item => {
         const isChecked = !!completedState[item.id];
         const currentW = weightsState[item.id] !== undefined ? weightsState[item.id] : item.baseWeight;
-        const prevW = item.baseWeight; // Comparación con base semana anterior
+        const prevW = item.baseWeight;
 
         let comparisonBadge = '';
         if (currentW > prevW) {
@@ -492,7 +473,7 @@
         return `
           <div class="bg-cardBg p-3.5 rounded-2xl border border-gray-800 flex flex-col space-y-2 text-xs">
             <div class="flex justify-between items-center">
-              <div class="flex items-center space-x-3 flex-1" onclick="openExerciseModal('${item.nombre}', '${item.video}', '${item.tip}')">
+              <div class="flex items-center space-x-3 flex-1 cursor-pointer" onclick="openExerciseModal('${item.nombre}', '${item.video}', '${item.tip}')">
                 <div class="w-8 h-8 rounded-xl bg-darkBg border border-gray-800 flex items-center justify-center text-brand font-black">
                   🏋️
                 </div>
@@ -507,7 +488,7 @@
                   <span class="text-[9px] text-gray-400">Peso (kg)</span>
                   <input type="number" value="${currentW}" onchange="updateWeight('${item.id}', this.value)" class="w-16 bg-darkBg border border-gray-700 rounded-xl px-2 py-1 text-center font-bold text-brand focus:outline-none">
                 </div>
-                <input type="checkbox" ${isChecked ? 'checked' : ''} onclick="toggleExercise('${item.id}')" class="w-5 h-5 accent-brand rounded border-gray-700 bg-darkBg">
+                <input type="checkbox" ${isChecked ? 'checked' : ''} onclick="toggleExercise('${item.id}')" class="w-5 h-5 accent-brand rounded border-gray-700 bg-darkBg cursor-pointer">
               </div>
             </div>
             ${comparisonBadge}
@@ -559,35 +540,30 @@
 
     // Peso Corporal
     function saveTodayWeight() {
-      const val = document.getElementById('input-weight').value;
-      if(!val) return;
-      document.getElementById('display-current-weight').innerHTML = `${val} <span class="text-sm font-normal text-white">Kg</span>`;
-      localStorage.setItem('enfoque_weight', val);
-      document.getElementById('input-weight').value = '';
+      const input = document.getElementById('input-weight');
+      const val = parseFloat(input.value);
+      if (val) {
+        document.getElementById('display-current-weight').innerHTML = `${val.toFixed(1)} <span class="text-sm font-normal text-white">Kg</span>`;
+        localStorage.setItem('enfoque_user_weight', val);
+        input.value = '';
+      }
     }
 
-    // Nutrición Interactiva Alimentos
-    function showFoodDetail(name, cals, desc) {
-      const box = document.getElementById('food-detail-box');
-      document.getElementById('food-name').innerText = name;
-      document.getElementById('food-cals').innerText = cals;
-      document.getElementById('food-desc').innerText = desc;
-      box.classList.remove('hidden');
-    }
-
+    // Nutrición
     function setNutritionGoal(goal) {
-      const b1 = document.getElementById('btn-bulking');
-      const b2 = document.getElementById('btn-cutting');
-      if(goal === 'bulking') {
-        b1.className = 'flex-1 py-2.5 rounded-xl font-bold text-xs bg-brand text-black transition';
-        b2.className = 'flex-1 py-2.5 rounded-xl font-bold text-xs text-gray-400 transition';
+      const btnBulking = document.getElementById('btn-bulking');
+      const btnCutting = document.getElementById('btn-cutting');
+      
+      if (goal === 'bulking') {
+        btnBulking.className = 'flex-1 py-2.5 rounded-xl font-bold text-xs bg-brand text-black transition';
+        btnCutting.className = 'flex-1 py-2.5 rounded-xl font-bold text-xs text-gray-400 transition';
         document.getElementById('nutri-calories').innerText = '2,850 Kcal';
         document.getElementById('nutri-protein').innerText = '180g';
         document.getElementById('nutri-carbs').innerText = '340g';
         document.getElementById('nutri-fats').innerText = '75g';
       } else {
-        b2.className = 'flex-1 py-2.5 rounded-xl font-bold text-xs bg-brand text-black transition';
-        b1.className = 'flex-1 py-2.5 rounded-xl font-bold text-xs text-gray-400 transition';
+        btnCutting.className = 'flex-1 py-2.5 rounded-xl font-bold text-xs bg-brand text-black transition';
+        btnBulking.className = 'flex-1 py-2.5 rounded-xl font-bold text-xs text-gray-400 transition';
         document.getElementById('nutri-calories').innerText = '2,100 Kcal';
         document.getElementById('nutri-protein').innerText = '195g';
         document.getElementById('nutri-carbs').innerText = '180g';
@@ -595,61 +571,71 @@
       }
     }
 
-    // Dormir
-    let sleepActive = true;
+    function showFoodDetail(name, cals, protein, desc) {
+      const box = document.getElementById('food-detail-box');
+      document.getElementById('food-name').innerText = name;
+      document.getElementById('food-cals').innerText = cals;
+      document.getElementById('food-desc').innerText = `${protein} • ${desc}`;
+      box.classList.remove('hidden');
+    }
+
+    // Alarma Sueño
     function toggleSleepAlert() {
-      sleepActive = !sleepActive;
-      const st = document.getElementById('sleep-status');
+      isSleepActive = !isSleepActive;
+      const status = document.getElementById('sleep-status');
       const btn = document.getElementById('btn-toggle-sleep');
-      if(sleepActive) {
-        st.innerText = 'Alarma Activada';
-        st.className = 'text-xs text-brand font-bold mt-1';
+
+      if (isSleepActive) {
+        status.innerText = 'Alarma Activada';
+        status.className = 'text-xs text-brand font-bold mt-1';
         btn.innerText = 'Desactivar Recordatorio';
+        btn.className = 'w-full bg-brand text-black font-bold py-3 rounded-2xl text-xs';
       } else {
-        st.innerText = 'Alarma Pausada';
-        st.className = 'text-xs text-gray-500 font-bold mt-1';
+        status.innerText = 'Alarma Desactivada';
+        status.className = 'text-xs text-gray-500 font-bold mt-1';
         btn.innerText = 'Activar Recordatorio';
+        btn.className = 'w-full bg-cardBg border border-gray-800 text-white font-bold py-3 rounded-2xl text-xs';
       }
     }
 
-    // Diario
+    // Diario / Comentarios
     function addJournalNote() {
-      const inp = document.getElementById('note-input');
-      if(!inp.value.trim()) return;
-      const list = document.getElementById('journal-list');
-      const card = document.createElement('div');
-      card.className = 'bg-cardBg p-3.5 rounded-2xl border border-gray-800 text-xs space-y-1';
-      card.innerHTML = `
-        <div class="flex justify-between text-[10px] text-gray-500">
-          <span>${new Date().toLocaleDateString('es-ES')}</span>
-          <span class="text-brand">Publicado</span>
-        </div>
-        <p class="text-gray-300">${inp.value}</p>
-      `;
-      list.prepend(card);
-      inp.value = '';
+      const input = document.getElementById('note-input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const dateStr = new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
+      const note = { id: Date.now(), date: dateStr, text: text };
+      journalNotes.unshift(note);
+      localStorage.setItem('enfoque_journal', JSON.stringify(journalNotes));
+      
+      input.value = '';
+      renderJournalNotes();
     }
 
-    // Rotador de Frases
-    const phrases = [
-      '«Todo lo puedo en Cristo que me fortalece.» — Filipenses 4:13',
-      '«La disciplina supera al talento cuando el talento no se esfuerza.»',
-      '«Esfuérzate y sé valiente; no temas ni desmayes.» — Josué 1:9',
-      '«Cada repetición te acerca a tu mejor versión.»'
-    ];
-    let pIdx = 0;
-    setInterval(() => {
-      pIdx = (pIdx + 1) % phrases.length;
-      document.getElementById('phrase-display').innerText = phrases[pIdx];
-    }, 4500);
-
-    // Inicialización
-    document.addEventListener('DOMContentLoaded', () => {
-      switchRoutineDay('lunes', document.querySelector('.routine-day-btn'));
-      const savedW = localStorage.getItem('enfoque_weight');
-      if(savedW) {
-        document.getElementById('display-current-weight').innerHTML = `${savedW} <span class="text-sm font-normal text-white">Kg</span>`;
+    function renderJournalNotes() {
+      const container = document.getElementById('journal-list');
+      if (!journalNotes.length) {
+        container.innerHTML = '<p class="text-xs text-gray-500 italic text-center py-4">No hay entradas aún. ¡Escribe la primera!</p>';
+        return;
       }
+
+      container.innerHTML = journalNotes.map(n => `
+        <div class="bg-cardBg p-3.5 rounded-2xl border border-gray-800 space-y-1">
+          <span class="text-[10px] text-brand font-bold block">${n.date}</span>
+          <p class="text-xs text-gray-300">${n.text}</p>
+        </div>
+      `).join('');
+    }
+
+    // Carga Inicial
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedWeight = localStorage.getItem('enfoque_user_weight');
+      if (savedWeight) {
+        document.getElementById('display-current-weight').innerHTML = `${parseFloat(savedWeight).toFixed(1)} <span class="text-sm font-normal text-white">Kg</span>`;
+      }
+      renderExerciseList();
+      renderJournalNotes();
     });
   </script>
 </body>
