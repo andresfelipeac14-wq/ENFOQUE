@@ -15,67 +15,90 @@
   <link rel="shortcut icon" href="ENFOQUE_2.jpg">
   <link rel="manifest" href="manifest.json">
 
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;0,900;1,900&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brand: '#00FF66',
-            brandDark: '#00cc52',
-            darkBg: '#08090b',
-            cardBg: '#111318',
-            cardHover: '#181b22'
-          },
-          fontFamily: {
-            sans: ['Outfit', 'sans-serif'],
-            display: ['Montserrat', 'sans-serif'],
-          }
-        }
-      }
-    }
-  </script>
-
+  <!-- CSS NATIVO BLINDADO (Evita que la página pierda el diseño si falla el CDN) -->
   <style>
-    html { scroll-behavior: smooth; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-family: 'Outfit', sans-serif; background-color: #000; color: #fff; }
+    body { display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+    
+    .app-container {
+      width: 100%;
+      max-width: 440px;
+      height: 100vh;
+      background-color: #08090b;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    @media (min-width: 640px) {
+      .app-container { height: 844px; border-radius: 44px; box-shadow: 0 25px 50px rgba(0,0,0,0.8); }
+    }
+
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-    /* Animación fluida e infinita para el Banner de Íconos de Gym */
-    @keyframes headerGymTicker {
+    /* Animación Banner Gym */
+    @keyframes gymTicker {
       0% { transform: translateX(0%); }
       100% { transform: translateX(-50%); }
     }
     .animate-gym-ticker {
       display: flex;
       width: 200%;
-      animation: headerGymTicker 10s linear infinite;
+      animation: gymTicker 10s linear infinite;
     }
+
+    /* Clases de utilidad rápida tipo Tailwind */
+    .bg-black { background-color: #000; }
+    .bg-dark { background-color: #08090b; }
+    .bg-card { background-color: #111318; }
+    .text-brand { color: #00FF66; }
+    .bg-brand { background-color: #00FF66; color: #000; }
+    .border-brand { border-color: rgba(0,255,102,0.4); }
+    .font-display { font-family: 'Montserrat', sans-serif; }
+    
+    /* Layout Helpers */
+    .flex { display: flex; }
+    .flex-col { flex-direction: column; }
+    .justify-between { justify-content: space-between; }
+    .items-center { align-items: center; }
+    .space-y-3 > * + * { margin-top: 0.75rem; }
+    .space-y-2 > * + * { margin-top: 0.5rem; }
+    .p-4 { padding: 1rem; }
+    .p-5 { padding: 1.25rem; }
+    .rounded-2xl { border-radius: 1rem; }
+    .rounded-3xl { border-radius: 1.5xl; }
+    .border { border: 1px solid #1f2937; }
+    .text-xs { font-size: 0.75rem; line-height: 1rem; }
+    .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+    .font-bold { font-weight: 700; }
+    .font-black { font-weight: 900; }
   </style>
 </head>
-<body class="bg-black text-white font-sans flex justify-center items-center min-h-screen sm:py-4">
+<body>
 
   <!-- Contenedor Principal Estilo Smartphone -->
-  <div class="w-full max-w-md bg-darkBg h-[100vh] sm:h-[844px] sm:rounded-[44px] shadow-2xl flex flex-col justify-between overflow-hidden relative border border-gray-800/80">
+  <div class="app-container">
 
-    <!-- HEADER SUPERIOR: TITULO ENFOQUE Y BANNER ANIMADO DE GYM (SIN CIRCULOS ROTOS) -->
-    <header class="w-full px-4 pt-4 pb-2.5 bg-darkBg/95 backdrop-blur-md border-b border-gray-800/80 z-30 shrink-0 space-y-2">
-      
-      <div class="flex justify-between items-center">
-        <span class="font-display font-black text-xl italic tracking-wider text-white">EN<span class="text-brand">FOQUE</span></span>
-        <span class="text-[10px] font-extrabold bg-brand/10 text-brand px-2.5 py-1 rounded-full border border-brand/30 uppercase tracking-widest">PRO ATHLETE</span>
+    <!-- HEADER SUPERIOR BLINDADO -->
+    <header style="width: 100%; padding: 16px 16px 10px 16px; background: rgba(8,9,11,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #1f2937; z-index: 30; flex-shrink: 0;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <span class="font-display font-black text-xl italic tracking-wider" style="font-style: italic;">EN<span class="text-brand">FOQUE</span></span>
+        <span class="text-xs font-black bg-brand" style="background: rgba(0,255,102,0.1); color: #00FF66; padding: 4px 10px; border-radius: 9999px; border: 1px solid rgba(0,255,102,0.3);">PRO ATHLETE</span>
       </div>
 
-      <!-- BANNER DE VECTORES DE GYM EN MOVIMIENTO CONTINUO -->
-      <div class="w-full overflow-hidden rounded-xl bg-cardBg border border-brand/30 py-1.5 shadow-[0_0_15px_rgba(0,255,102,0.15)]">
-        <div class="animate-gym-ticker items-center text-brand font-black text-xs uppercase tracking-wider">
-          <div class="flex items-center space-x-6 shrink-0">
+      <!-- BANNER DE VECTORES DE GYM EN MOVIMIENTO -->
+      <div style="width: 100%; overflow: hidden; border-radius: 10px; background: #111318; border: 1px solid rgba(0,255,102,0.3); padding: 6px 0;">
+        <div class="animate-gym-ticker text-brand font-black text-xs uppercase" style="display: flex; align-items: center; gap: 24px;">
+          <div style="display: flex; gap: 24px; white-space: nowrap;">
             <span>🏋️ SQUAT HACKA</span>
             <span>⚡ SOBRECARGA</span>
             <span>💪 HIPERTROFIA</span>
@@ -83,7 +106,7 @@
             <span>⏱️ 1:30 REST</span>
             <span>🍗 PROTEÍNA</span>
           </div>
-          <div class="flex items-center space-x-6 shrink-0">
+          <div style="display: flex; gap: 24px; white-space: nowrap;">
             <span>🏋️ SQUAT HACKA</span>
             <span>⚡ SOBRECARGA</span>
             <span>💪 HIPERTROFIA</span>
@@ -93,358 +116,299 @@
           </div>
         </div>
       </div>
-
     </header>
 
     <!-- BARRA DE TEMPORIZADOR DE DESCANSO FLOTANTE -->
-    <div id="timer-bar" class="hidden absolute top-20 left-4 right-4 bg-brand text-black p-3 rounded-2xl shadow-xl z-40 flex justify-between items-center border border-black/20">
-      <div class="flex items-center space-x-2">
-        <i data-lucide="timer" class="w-5 h-5"></i>
+    <div id="timer-bar" style="display: none; position: absolute; top: 75px; left: 16px; right: 16px; background: #00FF66; color: #000; padding: 12px; border-radius: 16px; z-index: 40; justify-content: space-between; align-items: center; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <i data-lucide="timer" style="width: 20px; height: 20px;"></i>
         <div>
-          <span class="text-[10px] font-black uppercase tracking-wider block leading-none">Descanso en Curso</span>
-          <span id="timer-display" class="text-xl font-black font-display leading-tight">01:30</span>
+          <span style="font-size: 10px; font-weight: 900; text-transform: uppercase; display: block; line-height: 1;">Descanso en Curso</span>
+          <span id="timer-display" class="font-display" style="font-size: 20px; font-weight: 900;">01:30</span>
         </div>
       </div>
-      <div class="flex items-center space-x-1.5">
-        <button onclick="toggleTimerPause()" id="btn-timer-pause" class="bg-black/10 hover:bg-black/20 px-2.5 py-1 rounded-xl text-xs font-extrabold">Pausa</button>
-        <button onclick="stopTimer()" class="bg-black text-white px-2.5 py-1 rounded-xl text-xs font-extrabold">Cerrar</button>
+      <div style="display: flex; gap: 6px;">
+        <button onclick="toggleTimerPause()" id="btn-timer-pause" style="background: rgba(0,0,0,0.1); border: none; padding: 6px 10px; border-radius: 10px; font-size: 11px; font-weight: 800; cursor: pointer;">Pausa</button>
+        <button onclick="stopTimer()" style="background: #000; color: #fff; border: none; padding: 6px 10px; border-radius: 10px; font-size: 11px; font-weight: 800; cursor: pointer;">Cerrar</button>
       </div>
     </div>
 
-    <!-- CONTENEDOR PRINCIPAL: 6 SLIDES VERTICALES -->
-    <main id="scroll-container" class="flex-1 overflow-y-auto no-scrollbar relative snap-y snap-mandatory">
+    <!-- CONTENEDOR PRINCIPAL: SLIDES -->
+    <main id="scroll-container" class="no-scrollbar" style="flex: 1; overflow-y: auto; position: relative; scroll-snap-type: y mandatory;">
 
-      <!-- ==================== SLIDE 1: PORTADA ENFOQUE ==================== -->
-      <section id="slide-1" class="min-h-full snap-start relative flex flex-col justify-end p-6 overflow-hidden bg-black">
-        <img src="portada.jpg" alt="Portada ENFOQUE" class="absolute inset-0 w-full h-full object-cover z-0">
-        <div class="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black via-black/50 to-transparent z-10 pointer-events-none"></div>
+      <!-- SLIDE 1: PORTADA -->
+      <section id="slide-1" style="min-height: 100%; scroll-snap-align: start; position: relative; display: flex; flex-direction: column; justify-content: flex-end; padding: 24px; overflow: hidden; background: #000;">
+        <img src="portada.jpg" alt="Portada ENFOQUE" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;">
+        <div style="position: absolute; inset-x: 0; bottom: 0; height: 160px; background: linear-gradient(to top, #000, transparent); z-index: 10; pointer-events: none;"></div>
 
-        <div class="relative z-20 w-full text-center pb-10 sm:pb-4">
-          <button onclick="scrollToSlide('slide-2')" class="w-full bg-black/70 backdrop-blur-md text-brand font-extrabold py-3.5 px-6 rounded-full flex items-center justify-center space-x-2 border-2 border-brand shadow-[0_0_20px_rgba(0,255,102,0.4)] active:scale-95 transition transform">
-            <span class="text-xs tracking-wider uppercase font-black text-white">DESLIZA</span>
-            <i data-lucide="chevron-down" class="w-5 h-5 text-brand animate-bounce"></i>
+        <div style="position: relative; z-index: 20; width: 100%; text-align: center; padding-bottom: 20px;">
+          <button onclick="scrollToSlide('slide-2')" style="width: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); color: #00FF66; font-weight: 900; padding: 14px; border-radius: 9999px; display: flex; align-items: center; justify-content: center; gap: 8px; border: 2px solid #00FF66; cursor: pointer;">
+            <span style="font-size: 12px; text-transform: uppercase; color: #fff;">DESLIZA</span>
+            <i data-lucide="chevron-down" style="width: 20px; height: 20px;"></i>
           </button>
         </div>
       </section>
 
-      <!-- ==================== SLIDE 2: RUTINA PERSONALIZADA CON TEMPORIZADOR ==================== -->
-      <section id="slide-2" class="min-h-full p-5 space-y-4 snap-start pt-4 pb-24">
-        <div class="flex justify-between items-center">
+      <!-- SLIDE 2: RUTINA -->
+      <section id="slide-2" style="min-height: 100%; scroll-snap-align: start; padding: 20px; display: flex; flex-direction: column; gap: 16px; padding-bottom: 100px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
           <div>
-            <h2 class="text-2xl font-black font-display text-white">Mi Rutina Semanal</h2>
-            <p class="text-xs text-gray-400">Progreso, cargas y temporizador</p>
+            <h2 class="font-display" style="font-size: 24px; font-weight: 900;">Mi Rutina Semanal</h2>
+            <p style="font-size: 12px; color: #9ca3af;">Progreso, cargas y temporizador</p>
           </div>
-          <span id="current-day-badge" class="text-xs bg-brand/10 text-brand px-3 py-1 rounded-full font-bold border border-brand/30">LUNES</span>
+          <span id="current-day-badge" style="font-size: 11px; background: rgba(0,255,102,0.1); color: #00FF66; padding: 4px 12px; border-radius: 9999px; font-weight: 700; border: 1px solid rgba(0,255,102,0.3);">LUNES</span>
         </div>
 
-        <div class="space-y-2">
-          <span class="text-xs uppercase font-bold tracking-wider text-gray-400 block">Seleccionar Día</span>
-          <div class="flex space-x-2 overflow-x-auto no-scrollbar pb-1">
-            <button onclick="switchRoutineDay('lunes', this)" class="routine-day-btn active flex-shrink-0 px-4 py-2.5 bg-brand text-black rounded-2xl flex flex-col items-center font-bold shadow-md shadow-brand/20">
-              <span class="text-xs font-black">LUNES</span>
-              <span class="text-[10px]">Cuádriceps</span>
+        <div>
+          <span style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: #9ca3af; display: block; margin-bottom: 6px;">Seleccionar Día</span>
+          <div class="no-scrollbar" style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px;">
+            <button onclick="switchRoutineDay('lunes', this)" class="routine-day-btn" style="flex-shrink: 0; padding: 10px 16px; background: #00FF66; color: #000; border-radius: 16px; border: none; font-weight: 900; text-align: center; cursor: pointer;">
+              <span style="font-size: 11px; display: block;">LUNES</span>
+              <span style="font-size: 9px;">Cuádriceps</span>
             </button>
-            <button onclick="switchRoutineDay('martes', this)" class="routine-day-btn flex-shrink-0 px-4 py-2.5 bg-cardBg text-gray-400 rounded-2xl flex flex-col items-center font-bold border border-gray-800">
-              <span class="text-xs font-black">MARTES</span>
-              <span class="text-[10px]">Espalda & Bíceps</span>
+            <button onclick="switchRoutineDay('martes', this)" class="routine-day-btn" style="flex-shrink: 0; padding: 10px 16px; background: #111318; color: #9ca3af; border-radius: 16px; border: 1px solid #1f2937; font-weight: 700; text-align: center; cursor: pointer;">
+              <span style="font-size: 11px; display: block;">MARTES</span>
+              <span style="font-size: 9px;">Espalda</span>
             </button>
-            <button onclick="switchRoutineDay('miercoles', this)" class="routine-day-btn flex-shrink-0 px-4 py-2.5 bg-cardBg text-gray-400 rounded-2xl flex flex-col items-center font-bold border border-gray-800">
-              <span class="text-xs font-black">MIÉRCOLES</span>
-              <span class="text-[10px]">Isquio & Hombro</span>
+            <button onclick="switchRoutineDay('miercoles', this)" class="routine-day-btn" style="flex-shrink: 0; padding: 10px 16px; background: #111318; color: #9ca3af; border-radius: 16px; border: 1px solid #1f2937; font-weight: 700; text-align: center; cursor: pointer;">
+              <span style="font-size: 11px; display: block;">MIÉRCOLES</span>
+              <span style="font-size: 9px;">Isquio</span>
             </button>
-            <button onclick="switchRoutineDay('jueves', this)" class="routine-day-btn flex-shrink-0 px-4 py-2.5 bg-cardBg text-gray-400 rounded-2xl flex flex-col items-center font-bold border border-gray-800">
-              <span class="text-xs font-black">JUEVES</span>
-              <span class="text-[10px]">Pecho & Tríceps</span>
+            <button onclick="switchRoutineDay('jueves', this)" class="routine-day-btn" style="flex-shrink: 0; padding: 10px 16px; background: #111318; color: #9ca3af; border-radius: 16px; border: 1px solid #1f2937; font-weight: 700; text-align: center; cursor: pointer;">
+              <span style="font-size: 11px; display: block;">JUEVES</span>
+              <span style="font-size: 9px;">Pecho</span>
             </button>
-            <button onclick="switchRoutineDay('viernes', this)" class="routine-day-btn flex-shrink-0 px-4 py-2.5 bg-cardBg text-gray-400 rounded-2xl flex flex-col items-center font-bold border border-gray-800">
-              <span class="text-xs font-black">VIERNES</span>
-              <span class="text-[10px]">Pierna Completa</span>
+            <button onclick="switchRoutineDay('viernes', this)" class="routine-day-btn" style="flex-shrink: 0; padding: 10px 16px; background: #111318; color: #9ca3af; border-radius: 16px; border: 1px solid #1f2937; font-weight: 700; text-align: center; cursor: pointer;">
+              <span style="font-size: 11px; display: block;">VIERNES</span>
+              <span style="font-size: 9px;">Pierna</span>
             </button>
-          </div>
-        </div>
-
-        <div class="bg-cardBg p-3.5 rounded-2xl border border-gray-800 space-y-1.5">
-          <div class="flex justify-between text-xs">
-            <span class="text-gray-400 font-medium">Progreso del Día</span>
-            <span id="progress-percent" class="font-bold text-brand">0%</span>
-          </div>
-          <div class="w-full bg-darkBg h-2.5 rounded-full overflow-hidden border border-gray-800">
-            <div id="progress-bar-fill" class="bg-brand h-full w-0 transition-all duration-300"></div>
           </div>
         </div>
 
-        <div id="exercise-list" class="space-y-3"></div>
+        <div style="background: #111318; padding: 14px; border-radius: 16px; border: 1px solid #1f2937;">
+          <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+            <span style="color: #9ca3af;">Progreso del Día</span>
+            <span id="progress-percent" style="font-weight: 700; color: #00FF66;">0%</span>
+          </div>
+          <div style="width: 100%; background: #08090b; height: 10px; border-radius: 9999px; overflow: hidden; border: 1px solid #1f2937;">
+            <div id="progress-bar-fill" style="background: #00FF66; height: 100%; width: 0%; transition: width 0.3s;"></div>
+          </div>
+        </div>
+
+        <div id="exercise-list" style="display: flex; flex-direction: column; gap: 12px;"></div>
       </section>
 
-      <!-- ==================== SLIDE 3: EVOLUCIÓN PESO + META MÚSCULO ==================== -->
-      <section id="slide-3" class="min-h-full p-5 space-y-4 snap-start pt-4 pb-28">
+      <!-- SLIDE 3: EVOLUCIÓN PESO & 1RM -->
+      <section id="slide-3" style="min-height: 100%; scroll-snap-align: start; padding: 20px; display: flex; flex-direction: column; gap: 16px; padding-bottom: 100px;">
         <div>
-          <h2 class="text-2xl font-black font-display text-white">Evolución & Fuerza</h2>
-          <p class="text-xs text-gray-400">Objetivos de músculo y estimación de 1RM</p>
+          <h2 class="font-display" style="font-size: 24px; font-weight: 900;">Evolución & Fuerza</h2>
+          <p style="font-size: 12px; color: #9ca3af;">Objetivos de músculo y 1RM</p>
         </div>
 
-        <div class="bg-cardBg p-4 rounded-3xl border border-gray-800 space-y-3">
-          <span class="text-xs font-bold text-white block">Registra tu Progreso Corporal</span>
-          <div class="grid grid-cols-2 gap-2">
+        <div style="background: #111318; padding: 16px; border-radius: 20px; border: 1px solid #1f2937; display: flex; flex-direction: column; gap: 12px;">
+          <span style="font-size: 12px; font-weight: 700;">Registra tu Progreso Corporal</span>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
             <div>
-              <label class="text-[10px] text-gray-400 block mb-1">Tu Peso Actual (kg)</label>
-              <input type="number" id="input-weight" placeholder="Ej. 85.0" step="0.1" class="w-full bg-darkBg border border-gray-800 rounded-2xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-brand">
+              <label style="font-size: 10px; color: #9ca3af; display: block; margin-bottom: 4px;">Peso Actual (kg)</label>
+              <input type="number" id="input-weight" placeholder="Ej. 85.0" step="0.1" style="width: 100%; background: #08090b; border: 1px solid #1f2937; border-radius: 12px; padding: 10px; font-size: 12px; color: #fff; outline: none;">
             </div>
             <div>
-              <label class="text-[10px] text-gray-400 block mb-1">Meta Músculo (kg)</label>
-              <input type="number" id="input-target-weight" placeholder="Ej. 88.0" step="0.1" class="w-full bg-darkBg border border-gray-800 rounded-2xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-brand">
+              <label style="font-size: 10px; color: #9ca3af; display: block; margin-bottom: 4px;">Meta Músculo (kg)</label>
+              <input type="number" id="input-target-weight" placeholder="Ej. 88.0" step="0.1" style="width: 100%; background: #08090b; border: 1px solid #1f2937; border-radius: 12px; padding: 10px; font-size: 12px; color: #fff; outline: none;">
             </div>
           </div>
-          <button onclick="saveTodayWeight()" class="w-full bg-brand text-black font-extrabold py-2.5 rounded-2xl text-xs active:scale-95 transition shadow-md shadow-brand/20">
-            Guardar y Calcular Estrategia
-          </button>
+          <button onclick="saveTodayWeight()" style="width: 100%; background: #00FF66; color: #000; font-weight: 900; padding: 12px; border-radius: 12px; border: none; font-size: 12px; cursor: pointer;">Guardar y Calcular Estrategia</button>
         </div>
 
-        <div class="bg-cardBg p-5 rounded-3xl border border-gray-800 space-y-3">
-          <div class="flex justify-between items-center">
+        <div style="background: #111318; padding: 16px; border-radius: 20px; border: 1px solid #1f2937; display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
             <div>
-              <span class="text-xs text-gray-400 block">Peso Actual</span>
-              <p id="display-current-weight" class="text-3xl font-black font-display text-brand">85.0 <span class="text-sm font-normal text-white">Kg</span></p>
+              <span style="font-size: 11px; color: #9ca3af; display: block;">Peso Actual</span>
+              <p id="display-current-weight" class="font-display" style="font-size: 28px; font-weight: 900; color: #00FF66;">85.0 <span style="font-size: 14px; font-weight: normal; color: #fff;">Kg</span></p>
             </div>
-            <div class="text-right">
-              <span class="text-xs text-gray-400 block">Meta Músculo</span>
-              <p id="display-target-weight" class="text-2xl font-black font-display text-white">88.0 Kg</p>
+            <div style="text-align: right;">
+              <span style="font-size: 11px; color: #9ca3af; display: block;">Meta Músculo</span>
+              <p id="display-target-weight" class="font-display" style="font-size: 22px; font-weight: 900;">88.0 Kg</p>
             </div>
           </div>
-
-          <div id="advice-box" class="bg-darkBg p-3.5 rounded-2xl border border-brand/30 space-y-1">
-            <span class="text-[11px] font-black text-brand uppercase tracking-wider block">💡 Estrategia de Enfoque Recomendada:</span>
-            <p id="advice-text" class="text-xs text-gray-200 leading-relaxed"></p>
+          <div id="advice-box" style="background: #08090b; padding: 12px; border-radius: 14px; border: 1px solid rgba(0,255,102,0.3);">
+            <span style="font-size: 11px; font-weight: 900; color: #00FF66; text-transform: uppercase; display: block; margin-bottom: 4px;">💡 Estrategia de Enfoque:</span>
+            <p id="advice-text" style="font-size: 11px; color: #e5e7eb; line-height: 1.4;"></p>
           </div>
         </div>
 
         <!-- CALCULADORA 1RM -->
-        <div class="bg-cardBg p-4 rounded-3xl border border-gray-800 space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-extrabold text-white flex items-center space-x-1.5">
-              <span class="text-brand font-black">⚡</span>
-              <span>Calculadora 1RM (Fuerza Máxima)</span>
-            </span>
-          </div>
-
-          <div class="grid grid-cols-2 gap-2">
+        <div style="background: #111318; padding: 16px; border-radius: 20px; border: 1px solid #1f2937; display: flex; flex-direction: column; gap: 12px;">
+          <span style="font-size: 12px; font-weight: 900; color: #fff;">⚡ Calculadora 1RM (Fuerza Máxima)</span>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
             <div>
-              <label class="text-[10px] text-gray-400 block mb-1">Peso Levantado (kg)</label>
-              <input type="number" id="input-1rm-weight" placeholder="Ej. 80" class="w-full bg-darkBg border border-gray-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand">
+              <label style="font-size: 10px; color: #9ca3af; display: block; margin-bottom: 4px;">Peso Levantado (kg)</label>
+              <input type="number" id="input-1rm-weight" placeholder="Ej. 80" style="width: 100%; background: #08090b; border: 1px solid #1f2937; border-radius: 10px; padding: 8px; font-size: 12px; color: #fff; outline: none;">
             </div>
             <div>
-              <label class="text-[10px] text-gray-400 block mb-1">Repeticiones</label>
-              <input type="number" id="input-1rm-reps" placeholder="Ej. 10" class="w-full bg-darkBg border border-gray-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand">
+              <label style="font-size: 10px; color: #9ca3af; display: block; margin-bottom: 4px;">Repeticiones</label>
+              <input type="number" id="input-1rm-reps" placeholder="Ej. 10" style="width: 100%; background: #08090b; border: 1px solid #1f2937; border-radius: 10px; padding: 8px; font-size: 12px; color: #fff; outline: none;">
             </div>
           </div>
-
-          <button onclick="calculate1RM()" class="w-full bg-brand text-black font-extrabold py-2.5 rounded-xl text-xs active:scale-95 transition shadow-md shadow-brand/20">
-            Calcular 1RM
-          </button>
-
-          <div id="rm-results" class="pt-3 border-t border-gray-800/80 space-y-2">
-            <div class="flex justify-between items-center bg-darkBg p-2.5 rounded-xl border border-gray-800">
-              <span class="text-xs text-gray-300 font-bold">1RM Máximo Estimado:</span>
-              <span id="val-1rm-max" class="font-black text-brand text-base">-- kg</span>
-            </div>
-            <div class="grid grid-cols-2 gap-2 text-center text-xs">
-              <div class="bg-darkBg p-2 rounded-xl border border-gray-800">
-                <span class="text-[10px] text-gray-400 block">Hipertrofia (75%)</span>
-                <span id="val-1rm-hip" class="font-bold text-white text-xs">-- kg</span>
-              </div>
-              <div class="bg-darkBg p-2 rounded-xl border border-gray-800">
-                <span class="text-[10px] text-gray-400 block">Fuerza (85%)</span>
-                <span id="val-1rm-fuerza" class="font-bold text-white text-xs">-- kg</span>
-              </div>
+          <button onclick="calculate1RM()" style="width: 100%; background: #00FF66; color: #000; font-weight: 900; padding: 10px; border-radius: 10px; border: none; font-size: 12px; cursor: pointer;">Calcular 1RM</button>
+          <div style="border-top: 1px solid #1f2937; padding-top: 10px; display: flex; flex-direction: column; gap: 8px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; background: #08090b; padding: 10px; border-radius: 10px; border: 1px solid #1f2937;">
+              <span style="font-size: 11px; color: #d1d5db; font-weight: 700;">1RM Estimado:</span>
+              <span id="val-1rm-max" class="font-display" style="font-weight: 900; color: #00FF66; font-size: 16px;">-- kg</span>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- ==================== SLIDE 4: NUTRICIÓN + TRACKER AGUA + LISTA MERCADO ==================== -->
-      <section id="slide-4" class="min-h-full p-5 space-y-4 snap-start pt-4 pb-28">
+      <!-- SLIDE 4: NUTRICIÓN -->
+      <section id="slide-4" style="min-height: 100%; scroll-snap-align: start; padding: 20px; display: flex; flex-direction: column; gap: 16px; padding-bottom: 100px;">
         <div>
-          <h2 class="text-2xl font-black font-display text-white">Plan Nutricional Pro</h2>
-          <p class="text-xs text-gray-400">Menú guiado, agua y lista de compras</p>
+          <h2 class="font-display" style="font-size: 24px; font-weight: 900;">Plan Nutricional Pro</h2>
+          <p style="font-size: 12px; color: #9ca3af;">Menú guiado, agua y lista de compras</p>
         </div>
 
-        <div class="bg-cardBg p-1.5 rounded-2xl border border-gray-800 flex justify-between">
-          <button id="btn-bulking" onclick="setNutritionGoal('bulking')" class="flex-1 py-2.5 rounded-xl font-bold text-xs bg-brand text-black transition">
-            💪 Ganar Masa
-          </button>
-          <button id="btn-cutting" onclick="setNutritionGoal('cutting')" class="flex-1 py-2.5 rounded-xl font-bold text-xs text-gray-400 transition">
-            🔥 Definición / Quema
-          </button>
+        <div style="background: #111318; padding: 6px; border-radius: 16px; border: 1px solid #1f2937; display: flex; gap: 4px;">
+          <button id="btn-bulking" onclick="setNutritionGoal('bulking')" style="flex: 1; padding: 10px; border-radius: 12px; font-weight: 700; font-size: 11px; background: #00FF66; color: #000; border: none; cursor: pointer;">💪 Ganar Masa</button>
+          <button id="btn-cutting" onclick="setNutritionGoal('cutting')" style="flex: 1; padding: 10px; border-radius: 12px; font-weight: 700; font-size: 11px; background: transparent; color: #9ca3af; border: none; cursor: pointer;">🔥 Definición</button>
         </div>
 
-        <div class="bg-cardBg p-4 rounded-3xl border border-gray-800 space-y-2">
-          <div class="flex justify-between items-center">
-            <span class="text-xs text-gray-400">Objetivo Calórico</span>
-            <span id="nutri-calories" class="text-lg font-black font-display text-brand">2,850 Kcal</span>
+        <div style="background: #111318; padding: 16px; border-radius: 20px; border: 1px solid #1f2937; display: flex; flex-direction: column; gap: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 12px; color: #9ca3af;">Objetivo Calórico</span>
+            <span id="nutri-calories" class="font-display" style="font-size: 18px; font-weight: 900; color: #00FF66;">2,850 Kcal</span>
           </div>
-          <div class="grid grid-cols-3 gap-2 text-center text-xs">
-            <div class="p-2 bg-darkBg rounded-xl border border-gray-800">
-              <span id="nutri-protein" class="font-bold text-white block">157g</span>
-              <span class="text-[10px] text-gray-400">Proteína</span>
-            </div>
-            <div class="p-2 bg-darkBg rounded-xl border border-gray-800">
-              <span id="nutri-carbs" class="font-bold text-white block">350g</span>
-              <span class="text-[10px] text-gray-400">Carbohidratos</span>
-            </div>
-            <div class="p-2 bg-darkBg rounded-xl border border-gray-800">
-              <span id="nutri-fats" class="font-bold text-white block">75g</span>
-              <span class="text-[10px] text-gray-400">Grasas</span>
-            </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; text-align: center; font-size: 11px;">
+            <div style="background: #08090b; padding: 8px; border-radius: 10px; border: 1px solid #1f2937;"><span id="nutri-protein" style="font-weight: bold; color: #fff; display: block;">157g</span><span style="font-size: 9px; color: #9ca3af;">Proteína</span></div>
+            <div style="background: #08090b; padding: 8px; border-radius: 10px; border: 1px solid #1f2937;"><span id="nutri-carbs" style="font-weight: bold; color: #fff; display: block;">350g</span><span style="font-size: 9px; color: #9ca3af;">Carbs</span></div>
+            <div style="background: #08090b; padding: 8px; border-radius: 10px; border: 1px solid #1f2937;"><span id="nutri-fats" style="font-weight: bold; color: #fff; display: block;">75g</span><span style="font-size: 9px; color: #9ca3af;">Grasas</span></div>
           </div>
         </div>
 
-        <div class="bg-cardBg p-4 rounded-3xl border border-gray-800 space-y-2.5">
-          <div class="flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-              <i data-lucide="droplet" class="w-4 h-4 text-brand"></i>
-              <span class="text-xs font-extrabold text-white">Consumo de Agua Diario</span>
-            </div>
-            <span id="water-display" class="text-xs font-black text-brand">0.0 / 3.0 L</span>
+        <!-- TRACKER DE AGUA -->
+        <div style="background: #111318; padding: 16px; border-radius: 20px; border: 1px solid #1f2937; display: flex; flex-direction: column; gap: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 12px; font-weight: 900; color: #fff; display: flex; align-items: center; gap: 6px;">💧 Consumo de Agua</span>
+            <span id="water-display" style="font-size: 12px; font-weight: 900; color: #00FF66;">0.0 / 3.0 L</span>
           </div>
-          <div class="grid grid-cols-6 gap-1.5" id="water-cups-container"></div>
+          <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px;" id="water-cups-container"></div>
         </div>
 
-        <button onclick="openGroceryModal()" class="w-full bg-darkBg hover:bg-cardBg text-brand border border-brand/40 font-bold py-3 rounded-2xl text-xs flex items-center justify-center space-x-2 transition active:scale-95">
-          <i data-lucide="shopping-cart" class="w-4 h-4"></i>
-          <span>Ver Lista de Mercado Semanal</span>
-        </button>
+        <button onclick="openGroceryModal()" style="width: 100%; background: #111318; color: #00FF66; border: 1px solid rgba(0,255,102,0.4); font-weight: 800; padding: 12px; border-radius: 16px; font-size: 12px; cursor: pointer;">Ver Lista de Mercado Semanal</button>
 
-        <div class="space-y-2 pt-2">
-          <span class="text-xs uppercase font-bold tracking-wider text-gray-400 block">Día de la Semana</span>
-          <div class="flex space-x-1.5 overflow-x-auto no-scrollbar pb-1">
-            <button onclick="switchNutriDay('lunes', this)" class="nutri-day-btn active px-3.5 py-2 bg-brand text-black rounded-xl text-xs font-black">LUN</button>
-            <button onclick="switchNutriDay('martes', this)" class="nutri-day-btn px-3.5 py-2 bg-cardBg text-gray-400 border border-gray-800 rounded-xl text-xs font-bold">MAR</button>
-            <button onclick="switchNutriDay('miercoles', this)" class="nutri-day-btn px-3.5 py-2 bg-cardBg text-gray-400 border border-gray-800 rounded-xl text-xs font-bold">MIÉ</button>
-            <button onclick="switchNutriDay('jueves', this)" class="nutri-day-btn px-3.5 py-2 bg-cardBg text-gray-400 border border-gray-800 rounded-xl text-xs font-bold">JUE</button>
-            <button onclick="switchNutriDay('viernes', this)" class="nutri-day-btn px-3.5 py-2 bg-cardBg text-gray-400 border border-gray-800 rounded-xl text-xs font-bold">VIE</button>
-            <button onclick="switchNutriDay('sabado', this)" class="nutri-day-btn px-3.5 py-2 bg-cardBg text-gray-400 border border-gray-800 rounded-xl text-xs font-bold">SÁB</button>
-            <button onclick="switchNutriDay('domingo', this)" class="nutri-day-btn px-3.5 py-2 bg-cardBg text-gray-400 border border-gray-800 rounded-xl text-xs font-bold">DOM</button>
-          </div>
+        <div style="display: flex; gap: 4px; overflow-x: auto;" class="no-scrollbar">
+          <button onclick="switchNutriDay('lunes', this)" class="nutri-day-btn" style="padding: 8px 14px; background: #00FF66; color: #000; border-radius: 10px; font-size: 11px; font-weight: 900; border: none; cursor: pointer;">LUN</button>
+          <button onclick="switchNutriDay('martes', this)" class="nutri-day-btn" style="padding: 8px 14px; background: #111318; color: #9ca3af; border-radius: 10px; font-size: 11px; font-weight: 700; border: 1px solid #1f2937; cursor: pointer;">MAR</button>
+          <button onclick="switchNutriDay('miercoles', this)" class="nutri-day-btn" style="padding: 8px 14px; background: #111318; color: #9ca3af; border-radius: 10px; font-size: 11px; font-weight: 700; border: 1px solid #1f2937; cursor: pointer;">MIÉ</button>
+          <button onclick="switchNutriDay('jueves', this)" class="nutri-day-btn" style="padding: 8px 14px; background: #111318; color: #9ca3af; border-radius: 10px; font-size: 11px; font-weight: 700; border: 1px solid #1f2937; cursor: pointer;">JUE</button>
+          <button onclick="switchNutriDay('viernes', this)" class="nutri-day-btn" style="padding: 8px 14px; background: #111318; color: #9ca3af; border-radius: 10px; font-size: 11px; font-weight: 700; border: 1px solid #1f2937; cursor: pointer;">VIE</button>
+          <button onclick="switchNutriDay('sabado', this)" class="nutri-day-btn" style="padding: 8px 14px; background: #111318; color: #9ca3af; border-radius: 10px; font-size: 11px; font-weight: 700; border: 1px solid #1f2937; cursor: pointer;">SÁB</button>
+          <button onclick="switchNutriDay('domingo', this)" class="nutri-day-btn" style="padding: 8px 14px; background: #111318; color: #9ca3af; border-radius: 10px; font-size: 11px; font-weight: 700; border: 1px solid #1f2937; cursor: pointer;">DOM</button>
         </div>
 
-        <div id="meal-plan-list" class="space-y-3"></div>
+        <div id="meal-plan-list" style="display: flex; flex-direction: column; gap: 8px;"></div>
       </section>
 
-      <!-- ==================== SLIDE 5: DESCANSO ==================== -->
-      <section id="slide-5" class="min-h-full p-5 space-y-4 snap-start pt-4 pb-24">
+      <!-- SLIDE 5: DESCANSO -->
+      <section id="slide-5" style="min-height: 100%; scroll-snap-align: start; padding: 20px; display: flex; flex-direction: column; gap: 16px; padding-bottom: 100px;">
         <div>
-          <h2 class="text-2xl font-black font-display text-white">Sueño & Descanso</h2>
-          <p class="text-xs text-gray-400">Recuperación muscular nocturna</p>
+          <h2 class="font-display" style="font-size: 24px; font-weight: 900;">Sueño & Descanso</h2>
+          <p style="font-size: 12px; color: #9ca3af;">Recuperación muscular nocturna</p>
         </div>
 
-        <div class="bg-cardBg p-6 rounded-3xl border border-gray-800 flex flex-col items-center text-center space-y-4">
-          <div class="w-24 h-24 rounded-full border-4 border-brand/30 border-t-brand flex items-center justify-center">
-            <i data-lucide="moon" class="w-10 h-10 text-brand"></i>
+        <div style="background: #111318; padding: 24px; border-radius: 24px; border: 1px solid #1f2937; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 16px;">
+          <div style="width: 80px; height: 80px; border-radius: 50%; border: 4px solid rgba(0,255,102,0.3); border-top-color: #00FF66; display: flex; align-items: center; justify-content: center;">
+            <i data-lucide="moon" style="width: 32px; height: 32px; color: #00FF66;"></i>
           </div>
           <div>
-            <span class="text-xs text-gray-400">Recordatorio Diario de Sueño</span>
-            <h3 class="text-3xl font-black font-display text-white mt-1">10:00 PM</h3>
-            <p id="sleep-status" class="text-xs text-brand font-bold mt-1">Alarma Activada</p>
+            <span style="font-size: 12px; color: #9ca3af;">Recordatorio Diario de Sueño</span>
+            <h3 class="font-display" style="font-size: 28px; font-weight: 900; margin-top: 4px;">10:00 PM</h3>
+            <p style="font-size: 12px; color: #00FF66; font-weight: bold; margin-top: 2px;">Alarma Activada</p>
           </div>
-
-          <button onclick="toggleSleepAlert()" id="btn-toggle-sleep" class="w-full bg-brand text-black font-bold py-3 rounded-2xl text-xs">
-            Desactivar Recordatorio
-          </button>
         </div>
       </section>
 
-      <!-- ==================== SLIDE 6: DIARIO + MURO SOCIAL ==================== -->
-      <section id="slide-6" class="min-h-full p-5 space-y-4 snap-start pt-4 pb-28">
+      <!-- SLIDE 6: DIARIO + MURO -->
+      <section id="slide-6" style="min-height: 100%; scroll-snap-align: start; padding: 20px; display: flex; flex-direction: column; gap: 16px; padding-bottom: 100px;">
         <div>
-          <h2 class="text-2xl font-black font-display text-white">Muro & Diario</h2>
-          <p class="text-xs text-gray-400">Publica tus avances y marcas personales</p>
+          <h2 class="font-display" style="font-size: 24px; font-weight: 900;">Muro & Diario</h2>
+          <p style="font-size: 12px; color: #9ca3af;">Publica tus avances y marcas personales</p>
         </div>
 
-        <div class="bg-cardBg p-4 rounded-3xl border border-gray-800 space-y-3">
-          <span class="text-xs font-bold text-white block">Nuevo Comentario en el Muro</span>
+        <div style="background: #111318; padding: 16px; border-radius: 20px; border: 1px solid #1f2937; display: flex; flex-direction: column; gap: 10px;">
+          <span style="font-size: 12px; font-weight: 700;">Nuevo Comentario en el Muro</span>
           <div>
-            <label class="text-[10px] text-gray-400 block mb-1">Tu Nombre (Obligatorio)</label>
-            <input type="text" id="note-author" placeholder="Ej. Andrés Felipe" class="w-full bg-darkBg border border-gray-800 rounded-xl px-3.5 py-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-brand">
+            <label style="font-size: 10px; color: #9ca3af; display: block; margin-bottom: 4px;">Tu Nombre (Obligatorio)</label>
+            <input type="text" id="note-author" placeholder="Ej. Andrés Felipe" style="width: 100%; background: #08090b; border: 1px solid #1f2937; border-radius: 10px; padding: 10px; font-size: 12px; color: #fff; outline: none;">
           </div>
           <div>
-            <label class="text-[10px] text-gray-400 block mb-1">Comentario / Logro (Obligatorio)</label>
-            <textarea id="note-input" rows="3" placeholder="Escribe tu logro o comentario..." class="w-full bg-darkBg border border-gray-800 rounded-2xl p-3.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-brand"></textarea>
+            <label style="font-size: 10px; color: #9ca3af; display: block; margin-bottom: 4px;">Comentario / Logro (Obligatorio)</label>
+            <textarea id="note-input" rows="3" placeholder="Escribe tu logro o comentario..." style="width: 100%; background: #08090b; border: 1px solid #1f2937; border-radius: 12px; padding: 10px; font-size: 12px; color: #fff; outline: none; resize: none;"></textarea>
           </div>
-          <button onclick="addJournalNote()" class="w-full bg-brand text-black font-extrabold py-3 rounded-2xl text-xs active:scale-95 transition shadow-md shadow-brand/20">
-            Publicar en el Muro
-          </button>
+          <button onclick="addJournalNote()" style="width: 100%; background: #00FF66; color: #000; font-weight: 900; padding: 12px; border-radius: 12px; border: none; font-size: 12px; cursor: pointer;">Publicar en el Muro</button>
         </div>
 
-        <div class="bg-cardBg p-3.5 rounded-2xl border border-gray-800 flex justify-between items-center text-xs">
+        <div style="background: #111318; padding: 14px; border-radius: 16px; border: 1px solid #1f2937; display: flex; justify-content: space-between; align-items: center; font-size: 12px;">
           <div>
-            <span class="font-bold text-white block">Respaldo de Datos</span>
-            <span class="text-[10px] text-gray-400">Guarda tu progreso en tu celular</span>
+            <span style="font-weight: bold; display: block;">Respaldo de Datos</span>
+            <span style="font-size: 10px; color: #9ca3af;">Guarda tu progreso en tu celular</span>
           </div>
-          <button onclick="exportUserData()" class="bg-darkBg text-brand border border-brand/40 px-3 py-2 rounded-xl font-bold flex items-center space-x-1.5 active:scale-95 transition">
-            <i data-lucide="download" class="w-3.5 h-3.5"></i>
-            <span>Exportar</span>
-          </button>
+          <button onclick="exportUserData()" style="background: #08090b; color: #00FF66; border: 1px solid rgba(0,255,102,0.4); padding: 8px 12px; border-radius: 10px; font-weight: bold; cursor: pointer;">Exportar</button>
         </div>
 
-        <div class="space-y-2">
-          <span class="text-xs uppercase font-bold tracking-wider text-gray-400 block">Muro de la Comunidad</span>
-          <div id="journal-list" class="space-y-2"></div>
+        <div>
+          <span style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: #9ca3af; display: block; margin-bottom: 8px;">Muro de la Comunidad</span>
+          <div id="journal-list" style="display: flex; flex-direction: column; gap: 8px;"></div>
         </div>
       </section>
 
     </main>
 
-    <!-- MODAL LISTA DE MERCADO -->
-    <div id="grocery-modal" class="hidden absolute inset-0 bg-black/80 backdrop-blur-md z-50 p-5 flex items-center justify-center">
-      <div class="bg-cardBg border border-gray-800 w-full max-h-[80vh] rounded-3xl p-5 flex flex-col space-y-4 overflow-hidden">
-        <div class="flex justify-between items-center border-b border-gray-800 pb-3">
+    <!-- MODAL MERCADO -->
+    <div id="grocery-modal" style="display: none; position: absolute; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 50; padding: 20px; align-items: center; justify-content: center;">
+      <div style="background: #111318; border: 1px solid #1f2937; width: 100%; max-height: 80vh; border-radius: 24px; padding: 20px; display: flex; flex-direction: column; gap: 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1f2937; padding-bottom: 12px;">
           <div>
-            <h3 class="text-lg font-black font-display text-white">Lista de Mercado Semanal</h3>
-            <p id="grocery-subtitle" class="text-xs text-brand font-bold">Consolidado para Ganar Masa</p>
+            <h3 class="font-display" style="font-size: 16px; font-weight: 900;">Lista de Mercado Semanal</h3>
+            <p id="grocery-subtitle" style="font-size: 11px; color: #00FF66; font-weight: bold;"></p>
           </div>
-          <button onclick="closeGroceryModal()" class="w-8 h-8 rounded-full bg-darkBg border border-gray-800 flex items-center justify-center text-gray-400">
-            <i data-lucide="x" class="w-4 h-4"></i>
-          </button>
+          <button onclick="closeGroceryModal()" style="width: 32px; height: 32px; border-radius: 50%; background: #08090b; border: 1px solid #1f2937; color: #9ca3af; cursor: pointer;">✕</button>
         </div>
-
-        <div id="grocery-items-list" class="overflow-y-auto no-scrollbar space-y-2 text-xs"></div>
-
-        <button onclick="closeGroceryModal()" class="w-full bg-brand text-black font-bold py-3 rounded-2xl text-xs">
-          Entendido / Cerrar
-        </button>
+        <div id="grocery-items-list" class="no-scrollbar" style="overflow-y: auto; display: flex; flex-direction: column; gap: 8px; font-size: 12px;"></div>
+        <button onclick="closeGroceryModal()" style="width: 100%; background: #00FF66; color: #000; font-weight: bold; padding: 12px; border-radius: 14px; border: none; cursor: pointer;">Cerrar</button>
       </div>
     </div>
 
     <!-- NAVEGACIÓN INFERIOR -->
-    <nav class="absolute bottom-0 left-0 right-0 bg-darkBg/95 backdrop-blur-lg border-t border-gray-800/80 px-2 py-2 flex justify-around items-center z-30">
-      <button onclick="scrollToSlide('slide-1')" class="nav-btn active flex flex-col items-center space-y-1 text-brand">
-        <i data-lucide="home" class="w-4 h-4"></i>
-        <span class="text-[10px] font-bold">Portada</span>
+    <nav style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(8,9,11,0.95); backdrop-filter: blur(10px); border-top: 1px solid #1f2937; padding: 8px; display: flex; justify-content: space-around; align-items: center; z-index: 30;">
+      <button onclick="scrollToSlide('slide-1')" class="nav-btn" style="background: none; border: none; color: #00FF66; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;">
+        <i data-lucide="home" style="width: 18px; height: 18px;"></i>
+        <span style="font-size: 10px; font-weight: bold;">Portada</span>
       </button>
-      <button onclick="scrollToSlide('slide-2')" class="nav-btn flex flex-col items-center space-y-1 text-gray-500">
-        <i data-lucide="dumbbell" class="w-4 h-4"></i>
-        <span class="text-[10px] font-bold">Rutina</span>
+      <button onclick="scrollToSlide('slide-2')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;">
+        <i data-lucide="dumbbell" style="width: 18px; height: 18px;"></i>
+        <span style="font-size: 10px; font-weight: bold;">Rutina</span>
       </button>
-      <button onclick="scrollToSlide('slide-3')" class="nav-btn flex flex-col items-center space-y-1 text-gray-500">
-        <i data-lucide="line-chart" class="w-4 h-4"></i>
-        <span class="text-[10px] font-bold">Peso</span>
+      <button onclick="scrollToSlide('slide-3')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;">
+        <i data-lucide="line-chart" style="width: 18px; height: 18px;"></i>
+        <span style="font-size: 10px; font-weight: bold;">Peso</span>
       </button>
-      <button onclick="scrollToSlide('slide-4')" class="nav-btn flex flex-col items-center space-y-1 text-gray-500">
-        <i data-lucide="apple" class="w-4 h-4"></i>
-        <span class="text-[10px] font-bold">Comida</span>
+      <button onclick="scrollToSlide('slide-4')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;">
+        <i data-lucide="apple" style="width: 18px; height: 18px;"></i>
+        <span style="font-size: 10px; font-weight: bold;">Comida</span>
       </button>
-      <button onclick="scrollToSlide('slide-5')" class="nav-btn flex flex-col items-center space-y-1 text-gray-500">
-        <i data-lucide="moon" class="w-4 h-4"></i>
-        <span class="text-[10px] font-bold">Dormir</span>
+      <button onclick="scrollToSlide('slide-5')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;">
+        <i data-lucide="moon" style="width: 18px; height: 18px;"></i>
+        <span style="font-size: 10px; font-weight: bold;">Dormir</span>
       </button>
-      <button onclick="scrollToSlide('slide-6')" class="nav-btn flex flex-col items-center space-y-1 text-gray-500">
-        <i data-lucide="message-square" class="w-4 h-4"></i>
-        <span class="text-[10px] font-bold">Diario</span>
+      <button onclick="scrollToSlide('slide-6')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;">
+        <i data-lucide="message-square" style="width: 18px; height: 18px;"></i>
+        <span style="font-size: 10px; font-weight: bold;">Diario</span>
       </button>
     </nav>
 
   </div>
 
+  <!-- SCRIPT DE FUNCIONALIDADES -->
   <script>
     lucide.createIcons();
 
@@ -456,144 +420,47 @@
       lunes: [
         { id: 'l1', nombre: 'Sentadilla Hacka', series: '4 x 8-12', baseWeight: 60, tip: '3 discos por lado • 1:30 min descanso' },
         { id: 'l2', nombre: 'Sentadilla Búlgara', series: '3 x 12', baseWeight: 15, tip: 'Mancuernas de 15 kg por lado' },
-        { id: 'l3', nombre: 'Prensa Inclinada (Dropset)', series: '3 x 10-10-10', baseWeight: 60, tip: 'Bajando peso 3 platos progresivamente' },
-        { id: 'l4', nombre: 'Extensión de Cuádriceps (Dropset)', series: '3 x 10-10-10', baseWeight: 50, tip: 'Misma dinámica de dropset que prensa' },
-        { id: 'l5', nombre: 'Abductores en Máquina', series: '3 x 15', baseWeight: 45, tip: 'Máquina cerrando en tensión constante' }
+        { id: 'l3', nombre: 'Prensa Inclinada (Dropset)', series: '3 x 10-10-10', baseWeight: 60, tip: 'Bajando peso progresivamente' },
+        { id: 'l4', nombre: 'Extensión de Cuádriceps', series: '3 x 10-10-10', baseWeight: 50, tip: 'Tensión constante' },
+        { id: 'l5', nombre: 'Abductores en Máquina', series: '3 x 15', baseWeight: 45, tip: 'Máquina cerrando' }
       ],
       martes: [
-        { id: 'm1', nombre: 'Jalón al Pecho Prono', series: '4 x 10-12', baseWeight: 45, tip: 'Tracción enfocada a dorsal' },
-        { id: 'm2', nombre: 'Remo Supino con Barra', series: '3 x 10', baseWeight: 50, tip: 'Agarre supino pegado a la cadera' },
-        { id: 'm3', nombre: 'Remo Neutro en Polea', series: '3 x 12', baseWeight: 55, tip: 'Agarre neutro doble maneral' },
-        { id: 'm4', nombre: 'Dominadas Libres', series: '3 x Fallo', baseWeight: 0, tip: 'Las repeticiones máximas que salgan' },
-        { id: 'm5', nombre: 'Aperturas Invertidas (Dropset)', series: '3 x 10-10-10', baseWeight: 20, tip: 'Enfoque en deltoides posterior' },
-        { id: 'm6', nombre: 'Curl Supino Mancuerna (Pared)', series: '3 x 12', baseWeight: 12, tip: 'Espalda apoyada a la pared' },
-        { id: 'm7', nombre: 'Curl Martillo al Hombro', series: '3 x 12', baseWeight: 15, tip: 'Tracción cruzada hacia el hombro' }
+        { id: 'm1', nombre: 'Jalón al Pecho Prono', series: '4 x 10-12', baseWeight: 45, tip: 'Tracción dorsal' },
+        { id: 'm2', nombre: 'Remo Supino con Barra', series: '3 x 10', baseWeight: 50, tip: 'Agarre supino' },
+        { id: 'm3', nombre: 'Remo Neutro en Polea', series: '3 x 12', baseWeight: 55, tip: 'Agarre neutro doble' },
+        { id: 'm4', nombre: 'Dominadas Libres', series: '3 x Fallo', baseWeight: 0, tip: 'Al fallo muscular' }
       ],
       miercoles: [
-        { id: 'mi1', nombre: 'Peso Muerto Rumano', series: '4 x 8-12', baseWeight: 80, tip: 'Enfoque de 70 a 80 kg total' },
-        { id: 'mi2', nombre: 'Isquio Acostado + Femoral Sentado', series: '3 x 12 (Bi-serie)', baseWeight: 40, tip: 'Ejecutar Bi-serie sin descanso' },
-        { id: 'mi3', nombre: 'Hip Thrust + Abductores Máquina', series: '3 x 12 (Bi-serie)', baseWeight: 50, tip: 'Hip Thrust 50kg por lado + máquina abriendo' },
-        { id: 'mi4', nombre: 'Elevaciones Laterales Mancuerna', series: '3 x 15', baseWeight: 10, tip: 'Codos ligeramente flexionados' },
-        { id: 'mi5', nombre: 'Press Militar Pesado', series: '3 x 8-10', baseWeight: 60, tip: 'Enfoque en carga pesada' }
+        { id: 'mi1', nombre: 'Peso Muerto Rumano', series: '4 x 8-12', baseWeight: 80, tip: 'Enfoque femoral' },
+        { id: 'mi2', nombre: 'Isquio Acostado', series: '3 x 12', baseWeight: 40, tip: 'Aislamiento' },
+        { id: 'mi3', nombre: 'Hip Thrust', series: '3 x 12', baseWeight: 50, tip: 'Cadera arriba' }
       ],
       jueves: [
-        { id: 'j1', nombre: 'Press de Banca Plano con Barra', series: '4 x 8-10', baseWeight: 40, tip: '20 kg por lado + barra' },
-        { id: 'j2', nombre: 'Press Inclinado Mancuernas', series: '3 x 10', baseWeight: 30, tip: 'Mancuernas de 25 kg a 30 kg' },
-        { id: 'j3', nombre: 'Aperturas en Contractora/Polea', series: '3 x 12', baseWeight: 50, tip: 'Carga de 45 kg a 50 kg' },
-        { id: 'j4', nombre: 'Fondos en Paralelas', series: '3 x Fallo', baseWeight: 0, tip: 'Repeticiones máximas al fallo' },
-        { id: 'j5', nombre: 'Extensión de Tríceps en Polea', series: '3 x 12', baseWeight: 35, tip: 'Codos fijos al costado' },
-        { id: 'j6', nombre: 'Press Francés (Aplasta Cráneos)', series: '3 x 10', baseWeight: 25, tip: 'Barra Z hacia la frente' }
+        { id: 'j1', nombre: 'Press de Banca Plano', series: '4 x 8-10', baseWeight: 40, tip: 'Barra y discos' },
+        { id: 'j2', nombre: 'Press Inclinado Mancuernas', series: '3 x 10', baseWeight: 30, tip: 'Inclinado 30°' },
+        { id: 'j3', nombre: 'Fondos en Paralelas', series: '3 x Fallo', baseWeight: 0, tip: 'Al fallo' }
       ],
       viernes: [
-        { id: 'v1', nombre: 'Sentadilla Libre/Hacka', series: '4 x 8-10', baseWeight: 60, tip: 'Enfoque global de fuerza' },
-        { id: 'v2', nombre: 'Peso Muerto', series: '4 x 8', baseWeight: 80, tip: 'Tracción potente de cadena posterior' },
-        { id: 'v3', nombre: 'Extensión de Cuádriceps', series: '3 x 12', baseWeight: 50, tip: 'Enfoque de bombeo' },
-        { id: 'v4', nombre: 'Isquios Acostado', series: '3 x 12', baseWeight: 40, tip: 'Aislamiento de femoral' }
+        { id: 'v1', nombre: 'Sentadilla Libre', series: '4 x 8-10', baseWeight: 60, tip: 'Fuerza global' },
+        { id: 'v2', nombre: 'Peso Muerto', series: '4 x 8', baseWeight: 80, tip: 'Potencia' }
       ]
     };
 
     const menusNutricionales = {
       bulking: {
         lunes: [
-          { tipo: '🍳 Desayuno', desc: '4 huevos enteros + 100g de avena en hojuelas con banano y canela.' },
-          { tipo: '🍗 Almuerzo', desc: '200g de pechuga de pollo a la plancha + 220g de arroz blanco/integral + ensalada verde.' },
-          { tipo: '🍌 Pre-Entreno', desc: '1 banano grande + 30g de mantequilla de maní + 1 vaso de leche o batido.' },
-          { tipo: '🥩 Cena', desc: '200g de carne magra de res + 250g de papa cocida.' }
-        ],
-        martes: [
-          { tipo: '🍳 Desayuno', desc: 'Arepa con queso + 4 huevos revueltos + 1 taza de chocolate en leche.' },
-          { tipo: '🍗 Almuerzo', desc: '220g de carne desmechada + 200g de frijoles cocidos + 150g de arroz.' },
-          { tipo: '🥣 Snack', desc: 'Batido de proteína con 1 taza de avena, fresas y mantequilla de maní.' },
-          { tipo: '🐟 Cena', desc: '200g de filete de pescado + 200g de yuca o papa hervida.' }
-        ],
-        miercoles: [
-          { tipo: '🍳 Desayuno', desc: 'Pancakes de avena (100g avena + 4 claras + 1 huevo entero + miel).' },
-          { tipo: '🍗 Almuerzo', desc: '220g de pechuga + 250g de pasta integral con salsa natural.' },
-          { tipo: '🍌 Pre-Entreno', desc: '2 tostadas integrales con aguacate + jamón pavo.' },
-          { tipo: '🥩 Cena', desc: '200g de carne de res + 200g de arroz blanco + puré de papa.' }
-        ],
-        jueves: [
-          { tipo: '🍳 Desayuno', desc: '4 huevos revueltos con espinaca + 2 tajadas de pan integral.' },
-          { tipo: '🍗 Almuerzo', desc: '200g de pechuga a la parrilla + 220g de arroz + 100g de lentejas.' },
-          { tipo: '🥣 Snack', desc: 'Yogur griego entero con frutos secos y 1 manzana.' },
-          { tipo: '🐟 Cena', desc: '200g de atún en agua o carne magra + 220g de papa cocida.' }
-        ],
-        viernes: [
-          { tipo: '🍳 Desayuno', desc: 'Tortilla de 4 huevos con queso + 100g de avena cocida.' },
-          { tipo: '🍗 Almuerzo', desc: '220g de carne de res + 220g de arroz + ensalada con aguacate.' },
-          { tipo: '🍌 Pre-Entreno', desc: '1 sándwich de pollo desmechado con pan integral.' },
-          { tipo: '🥩 Cena', desc: '200g de pechuga + 200g de camote/batata al horno.' }
-        ],
-        sabado: [
-          { tipo: '🍳 Desayuno', desc: 'Calentado ligero (arroz + frijol) con 3 huevos fritos.' },
-          { tipo: '🍗 Almuerzo', desc: '250g de pechuga/carne asada + papa criolla salteada.' },
-          { tipo: '🥣 Snack', desc: 'Batido hipercalórico casero (leche + avena + banano).' },
-          { tipo: '🐟 Cena', desc: '200g de pescado blanco + 180g de arroz.' }
-        ],
-        domingo: [
-          { tipo: '🍳 Desayuno', desc: '4 huevos revueltos + 2 arepas pequeñas con queso fresco.' },
-          { tipo: '🍗 Almuerzo', desc: 'Comida libre estructurada (Hamburguesa casera o Sudado de carne).' },
-          { tipo: '🍌 Snack', desc: 'Fruta fresca + puñado de almendras.' },
-          { tipo: '🥩 Cena', desc: 'Omelette de 4 huevos con jamón de pavo y champiñones.' }
+          { tipo: '🍳 Desayuno', desc: '4 huevos enteros + 100g de avena con banano.' },
+          { tipo: '🍗 Almuerzo', desc: '200g de pechuga + 220g de arroz + ensalada.' },
+          { tipo: '🥩 Cena', desc: '200g de carne magra + 250g de papa.' }
         ]
       },
       cutting: {
         lunes: [
-          { tipo: '🍳 Desayuno', desc: '3 huevos enteros + 2 claras + 50g de avena cocida en agua.' },
-          { tipo: '🍗 Almuerzo', desc: '180g de pechuga a la plancha + 100g de arroz integral + brócoli.' },
-          { tipo: '🍌 Snack', desc: '1 manzana verde + 15g de almendras.' },
-          { tipo: '🥩 Cena', desc: '180g de carne magra de res + ensalada grande mixta con aceite de oliva.' }
-        ],
-        martes: [
-          { tipo: '🍳 Desayuno', desc: 'Omelette de 4 claras + 1 huevo entero con espinaca + 1 tostada.' },
-          { tipo: '🍗 Almuerzo', desc: '180g de pechuga desmechada + 120g de papa cocida + ensalada.' },
-          { tipo: '🥣 Pre-Entreno', desc: '1 cup de proteína de suero + 1/2 banano.' },
-          { tipo: '🐟 Cena', desc: '200g de filete de pescado blanco + verduras salteadas.' }
-        ],
-        miercoles: [
-          { tipo: '🍳 Desayuno', desc: '3 huevos cocidos + 1/2 arepa pequeña integral + café sin azúcar.' },
-          { tipo: '🍗 Almuerzo', desc: '180g de carne de res magra + 100g de lentejas cocidas + ensalada.' },
-          { tipo: '🍌 Snack', desc: '1 yogur griego descremado + fresas.' },
-          { tipo: '🥩 Cena', desc: '180g de pechuga de pollo + 100g de camote/batata.' }
-        ],
-        jueves: [
-          { tipo: '🍳 Desayuno', desc: 'Pancakes proteicos (50g avena + 4 claras de huevo).' },
-          { tipo: '🍗 Almuerzo', desc: '180g de pechuga a la parrilla + 100g de arroz blanco.' },
-          { tipo: '🥣 Snack', desc: '1 lata de atún en agua con rodajas de pepino cohombro.' },
-          { tipo: '🐟 Cena', desc: '180g de filete de pescado + ensalada de espinaca y aguacate.' }
-        ],
-        viernes: [
-          { tipo: '🍳 Desayuno', desc: '3 huevos revueltos con tomate + 40g de avena en agua.' },
-          { tipo: '🍗 Almuerzo', desc: '180g de pechuga + 120g de yuca cocida + ensalada verde.' },
-          { tipo: '🍌 Pre-Entreno', desc: '1 manzana + 1 espresso o café cargado.' },
-          { tipo: '🥩 Cena', desc: '180g de carne magra + salteado de champiñones.' }
-        ],
-        sabado: [
-          { tipo: '🍳 Desayuno', desc: '4 claras + 1 huevo entero con champiñones + 1 tostada.' },
-          { tipo: '🍗 Almuerzo', desc: '200g de pechuga al limón + 100g de papa al vapor.' },
-          { tipo: '🥣 Snack', desc: 'Batido de proteína en agua.' },
-          { tipo: '🐟 Cena', desc: '180g de atún o pescado + ensalada fresca.' }
-        ],
-        domingo: [
-          { tipo: '🍳 Desayuno', desc: '3 huevos revueltos + 30g de queso bajo en grasa + café solo.' },
-          { tipo: '🍗 Almuerzo', desc: '180g de carne de res magra + 100g de arroz + verduras.' },
-          { tipo: '🍌 Snack', desc: '1 puñado pequeño de almendras.' },
-          { tipo: '🥩 Cena', desc: 'Consomé de pollo con 150g de pechuga desmechada.' }
+          { tipo: '🍳 Desayuno', desc: '3 huevos + 2 claras + 50g de avena en agua.' },
+          { tipo: '🍗 Almuerzo', desc: '180g de pechuga + 100g de arroz integral + brócoli.' },
+          { tipo: '🥩 Cena', desc: '180g de carne magra + ensalada verde.' }
         ]
       }
-    };
-
-    const listaMercado = {
-      bulking: [
-        { cat: 'Proteínas', desc: '3.5 kg Pechuga de Pollo • 2.5 kg Carne de Res Magra • 1.5 kg Pescado/Atún • 4 cubetas de Huevos (120 un)' },
-        { cat: 'Carbohidratos', desc: '2 kg Arroz Blanco/Integral • 2 kg Avena en hojuelas • 3 kg Papa/Yuca • 1 kg Pasta • 2 paq Pan/Tostadas Integrales' },
-        { cat: 'Grasas y Frutas', desc: '1 frasco Mantequilla de Maní • 1 kg Bananos • 1 kg Manzanas • 4 Aguacates • Aceite de Oliva' }
-      ],
-      cutting: [
-        { cat: 'Proteínas', desc: '3.0 kg Pechuga de Pollo • 2.0 kg Carne de Res Magra • 2.0 kg Pescado/Atún • 4 cubetas de Huevos (enfocado en claras)' },
-        { cat: 'Carbohidratos', desc: '1 kg Arroz Integral • 1 kg Avena en hojuelas • 2 kg Papa/Camote • 1 paq Tostadas Integrales' },
-        { cat: 'Vegetales y Frutas', desc: 'Brócoli, Espinacas, Pepino Coho, Champiñones • Manzanas Verdes, Fresas • Limones' }
-      ]
     };
 
     let activeDay = 'lunes';
@@ -611,167 +478,69 @@
     let isTimerPaused = false;
 
     function saveTodayWeight() {
-      const inputW = document.getElementById('input-weight');
-      const inputTW = document.getElementById('input-target-weight');
-
-      const valW = parseFloat(inputW.value);
-      const valTW = parseFloat(inputTW.value);
-
-      if (valW) userWeight = valW;
-      if (valTW) targetWeight = valTW;
-
+      const w = parseFloat(document.getElementById('input-weight').value);
+      const tw = parseFloat(document.getElementById('input-target-weight').value);
+      if(w) userWeight = w;
+      if(tw) targetWeight = tw;
       localStorage.setItem('enfoque_user_weight', userWeight);
       localStorage.setItem('enfoque_target_weight', targetWeight);
-
-      document.getElementById('display-current-weight').innerHTML = `${userWeight.toFixed(1)} <span class="text-sm font-normal text-white">Kg</span>`;
+      document.getElementById('display-current-weight').innerHTML = `${userWeight.toFixed(1)} <span style="font-size:14px;font-weight:normal;color:#fff;">Kg</span>`;
       document.getElementById('display-target-weight').innerText = `${targetWeight.toFixed(1)} Kg`;
-
-      inputW.value = '';
-      inputTW.value = '';
-
+      document.getElementById('input-weight').value = '';
+      document.getElementById('input-target-weight').value = '';
       updateAdvice();
-      calculateMacros();
     }
 
     function updateAdvice() {
-      const textEl = document.getElementById('advice-text');
       const diff = (targetWeight - userWeight).toFixed(1);
-
-      if (targetWeight > userWeight) {
-        textEl.innerText = `Para ganar ${diff} kg de masa muscular limpia, mantén un superávit calórico controlado (+300 a +400 Kcal al día), consume entre ${Math.round(userWeight * 2.0)}g y ${Math.round(userWeight * 2.2)}g de proteína diaria y enfócate en la sobrecarga progresiva de peso en tus ejercicios principales.`;
-      } else if (targetWeight < userWeight) {
-        const loss = Math.abs(diff);
-        textEl.innerText = `Para bajar ${loss} kg de grasa preservando tu masa muscular, mantén un déficit calórico moderado (-300 a -500 Kcal), eleva tu consumo de proteína a ${Math.round(userWeight * 2.2)}g al día y mantén la intensidad de tus cargas en el gimnasio.`;
+      const el = document.getElementById('advice-text');
+      if(targetWeight > userWeight) {
+        el.innerText = `Para ganar ${diff} kg de masa muscular limpia, mantén un superávit de +300 Kcal, consume entre ${Math.round(userWeight * 2.0)}g y ${Math.round(userWeight * 2.2)}g de proteína y sobrecarga progresiva.`;
       } else {
-        textEl.innerText = `Estás exactamente en tu meta de ${targetWeight} kg. Enfócate en la recomposición corporal: mantén tus calorías de mantenimiento, alta ingesta proteica (${Math.round(userWeight * 2.0)}g) y busca aumentar las repeticiones y el peso en tus rutinas.`;
+        el.innerText = `Para definir, mantén déficit calórico moderado y proteína alta a ${Math.round(userWeight * 2.2)}g diarios.`;
       }
     }
 
     function addJournalNote() {
-      const authorInput = document.getElementById('note-author');
-      const textInput = document.getElementById('note-input');
-
-      const author = authorInput.value.trim();
-      const text = textInput.value.trim();
-
-      if (!author || !text) {
-        alert('⚠️ Por favor ingresa tu NOMBRE y tu MENSAJE antes de publicar.');
-        return;
-      }
-
+      const author = document.getElementById('note-author').value.trim();
+      const text = document.getElementById('note-input').value.trim();
+      if(!author || !text) { alert('Ingresa tu nombre y mensaje.'); return; }
       const now = new Date();
-      const dateStr = now.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
-      const timeStr = now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
-
-      const note = { id: Date.now(), author: author, date: `${dateStr} • ${timeStr}`, text: text };
-      journalNotes.unshift(note);
+      journalNotes.unshift({ id: Date.now(), author, date: `${now.toLocaleDateString()} • ${now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`, text });
       localStorage.setItem('enfoque_journal', JSON.stringify(journalNotes));
-
-      textInput.value = '';
+      document.getElementById('note-input').value = '';
       renderJournalNotes();
     }
 
     function renderJournalNotes() {
       const container = document.getElementById('journal-list');
-      if (!journalNotes.length) {
-        container.innerHTML = '<p class="text-xs text-gray-500 italic text-center py-4">Aún no hay comentarios en el muro. ¡Sé el primero en escribir!</p>';
-        return;
-      }
-
+      if(!journalNotes.length) { container.innerHTML = '<p style="font-size:11px;color:#6b7280;text-align:center;padding:10px;">Sin comentarios aún.</p>'; return; }
       container.innerHTML = journalNotes.map(n => `
-        <div class="bg-cardBg p-3.5 rounded-2xl border border-gray-800 space-y-1">
-          <div class="flex justify-between items-center">
-            <span class="text-xs font-extrabold text-brand">${n.author || 'Atleta ENFOQUE'}</span>
-            <span class="text-[10px] text-gray-400 font-medium">${n.date}</span>
+        <div style="background:#111318;padding:12px;border-radius:14px;border:1px solid #1f2937;">
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+            <span style="font-size:11px;font-weight:bold;color:#00FF66;">${n.author}</span>
+            <span style="font-size:9px;color:#9ca3af;">${n.date}</span>
           </div>
-          <p class="text-xs text-gray-200 leading-relaxed">${n.text}</p>
+          <p style="font-size:11px;color:#e5e7eb;">${n.text}</p>
         </div>
       `).join('');
     }
 
     function calculate1RM() {
-      const inputW = document.getElementById('input-1rm-weight');
-      const inputR = document.getElementById('input-1rm-reps');
-      
-      const w = parseFloat(inputW ? inputW.value : 0);
-      const r = parseFloat(inputR ? inputR.value : 0);
-
-      if (w > 0 && r > 0) {
+      const w = parseFloat(document.getElementById('input-1rm-weight').value);
+      const r = parseFloat(document.getElementById('input-1rm-reps').value);
+      if(w > 0 && r > 0) {
         const rm = Math.round(w * (1 + (r / 30)));
-        const hipertrofia = Math.round(rm * 0.75);
-        const fuerza = Math.round(rm * 0.85);
-
         document.getElementById('val-1rm-max').innerText = `${rm} kg`;
-        document.getElementById('val-1rm-hip').innerText = `${hipertrofia} kg`;
-        document.getElementById('val-1rm-fuerza').innerText = `${fuerza} kg`;
-      } else {
-        alert('Por favor ingresa tanto el peso como las repeticiones.');
-      }
-    }
-
-    function exportUserData() {
-      const data = {
-        peso: userWeight,
-        metaMusculo: targetWeight,
-        pesosEjercicios: weightsState,
-        completados: completedState,
-        muroComunidad: journalNotes,
-        agua: waterCups,
-        fecha: new Date().toLocaleDateString()
-      };
-
-      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = `ENFOQUE_Respaldo_${new Date().toISOString().slice(0,10)}.json`;
-      a.click();
-    }
-
-    function startRestTimer() {
-      clearInterval(timerInterval);
-      timerSeconds = 90;
-      isTimerPaused = false;
-      document.getElementById('timer-bar').classList.remove('hidden');
-      document.getElementById('btn-timer-pause').innerText = 'Pausa';
-      updateTimerDisplay();
-
-      timerInterval = setInterval(() => {
-        if (!isTimerPaused) {
-          timerSeconds--;
-          updateTimerDisplay();
-          if (timerSeconds <= 0) {
-            clearInterval(timerInterval);
-            if ('vibrate' in navigator) navigator.vibrate([200, 100, 200]);
-            alert('⏱️ ¡Tiempo de descanso terminado! A darle a la siguiente serie.');
-            stopTimer();
-          }
-        }
-      }, 1000);
-    }
-
-    function toggleTimerPause() {
-      isTimerPaused = !isTimerPaused;
-      document.getElementById('btn-timer-pause').innerText = isTimerPaused ? 'Reanudar' : 'Pausa';
-    }
-
-    function stopTimer() {
-      clearInterval(timerInterval);
-      document.getElementById('timer-bar').classList.add('hidden');
-    }
-
-    function updateTimerDisplay() {
-      const min = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
-      const sec = String(timerSeconds % 60).padStart(2, '0');
-      document.getElementById('timer-display').innerText = `${min}:${sec}`;
+      } else { alert('Ingresa peso y repeticiones.'); }
     }
 
     function switchRoutineDay(day, btn) {
       activeDay = day;
       document.querySelectorAll('.routine-day-btn').forEach(b => {
-        b.className = 'routine-day-btn flex-shrink-0 px-4 py-2.5 bg-cardBg text-gray-400 rounded-2xl flex flex-col items-center font-bold border border-gray-800';
+        b.style.background = '#111318'; b.style.color = '#9ca3af'; b.style.fontWeight = '700'; b.style.border = '1px solid #1f2937';
       });
-      if(btn) btn.className = 'routine-day-btn active flex-shrink-0 px-4 py-2.5 bg-brand text-black rounded-2xl flex flex-col items-center font-bold shadow-md shadow-brand/20';
-
+      btn.style.background = '#00FF66'; btn.style.color = '#000'; btn.style.fontWeight = '900'; btn.style.border = 'none';
       document.getElementById('current-day-badge').innerText = day.toUpperCase();
       renderExerciseList();
     }
@@ -779,122 +548,40 @@
     function renderExerciseList() {
       const container = document.getElementById('exercise-list');
       const list = rutinas[activeDay] || [];
-
       container.innerHTML = list.map(item => {
         const isChecked = !!completedState[item.id];
-        const currentW = weightsState[item.id] !== undefined ? weightsState[item.id] : item.baseWeight;
-        const prevW = item.baseWeight;
-
-        let badge = '';
-        if (currentW > prevW) {
-          badge = `<span class="text-[10px] bg-brand/20 text-brand font-black px-2 py-0.5 rounded-md border border-brand/40">🔥 ¡RÉCORD PR +${(currentW - prevW).toFixed(1)}kg!</span>`;
-        } else {
-          badge = `<span class="text-[10px] text-gray-400">Anterior: ${prevW} kg</span>`;
-        }
-
+        const w = weightsState[item.id] !== undefined ? weightsState[item.id] : item.baseWeight;
         return `
-          <div class="bg-cardBg p-4 rounded-2xl border border-gray-800 flex flex-col space-y-2.5 text-sm">
-            <div class="flex justify-between items-center">
-              <div class="flex items-center space-x-3 flex-1">
-                <div class="w-9 h-9 rounded-xl bg-darkBg border border-gray-800 flex items-center justify-center text-brand font-black text-base">
-                  🏋
-                </div>
-                <div>
-                  <h4 class="font-bold text-sm ${isChecked ? 'line-through text-gray-500' : 'text-white'}">${item.nombre}</h4>
-                  <p class="text-xs text-gray-400">${item.series}</p>
-                </div>
+          <div style="background:#111318;padding:12px;border-radius:16px;border:1px solid #1f2937;display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <h4 style="font-size:12px;font-weight:bold;color:${isChecked ? '#6b7280':'#fff'};text-decoration:${isChecked?'line-through':'none'}">${item.nombre}</h4>
+                <p style="font-size:10px;color:#9ca3af;">${item.series}</p>
               </div>
-
-              <div class="flex items-center space-x-2">
-                <button onclick="startRestTimer()" class="w-8 h-8 rounded-xl bg-darkBg border border-gray-700 flex items-center justify-center text-brand hover:bg-brand hover:text-black transition" title="Iniciar Descanso de 1:30 min">
-                  <i data-lucide="timer" class="w-4 h-4"></i>
-                </button>
-                <div class="flex flex-col items-end">
-                  <input type="number" value="${currentW}" onchange="updateWeight('${item.id}', this.value)" class="w-16 bg-darkBg border border-gray-700 rounded-xl px-2 py-1.5 text-center font-bold text-brand focus:outline-none text-sm">
-                </div>
-                <input type="checkbox" ${isChecked ? 'checked' : ''} onclick="toggleExercise('${item.id}')" class="w-5 h-5 accent-brand rounded border-gray-700 bg-darkBg cursor-pointer">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <input type="number" value="${w}" onchange="updateWeight('${item.id}', this.value)" style="width:50px;background:#08090b;border:1px solid #1f2937;border-radius:8px;text-align:center;color:#00FF66;font-weight:bold;font-size:12px;padding:4px;">
+                <input type="checkbox" ${isChecked ? 'checked':''} onclick="toggleExercise('${item.id}')" style="width:18px;height:18px;accent-color:#00FF66;cursor:pointer;">
               </div>
-            </div>
-            <div class="flex justify-between items-center pt-1 border-t border-gray-800/60">
-              ${badge}
-              <span class="text-[11px] text-gray-400 italic">${item.tip}</span>
             </div>
           </div>
         `;
       }).join('');
-
-      lucide.createIcons();
       updateProgressBar();
     }
 
-    function updateWeight(id, val) {
-      weightsState[id] = parseFloat(val) || 0;
-      localStorage.setItem('enfoque_weights', JSON.stringify(weightsState));
-      renderExerciseList();
-    }
-
-    function toggleExercise(id) {
-      completedState[id] = !completedState[id];
-      localStorage.setItem('enfoque_completed', JSON.stringify(completedState));
-      renderExerciseList();
-    }
-
+    function updateWeight(id, val) { weightsState[id] = parseFloat(val)||0; localStorage.setItem('enfoque_weights', JSON.stringify(weightsState)); }
+    function toggleExercise(id) { completedState[id] = !completedState[id]; localStorage.setItem('enfoque_completed', JSON.stringify(completedState)); renderExerciseList(); }
     function updateProgressBar() {
       const list = rutinas[activeDay] || [];
       if(!list.length) return;
       const count = list.filter(i => completedState[i.id]).length;
-      const pct = Math.round((count / list.length) * 100);
+      const pct = Math.round((count / list.length)*100);
       document.getElementById('progress-percent').innerText = `${pct}%`;
       document.getElementById('progress-bar-fill').style.width = `${pct}%`;
     }
 
-    function scrollToSlide(slideId) {
-      document.getElementById(slideId).scrollIntoView({ behavior: 'smooth' });
-    }
-
-    function setNutritionGoal(goal) {
-      currentGoal = goal;
-      const btnBulking = document.getElementById('btn-bulking');
-      const btnCutting = document.getElementById('btn-cutting');
-      
-      if (goal === 'bulking') {
-        btnBulking.className = 'flex-1 py-2.5 rounded-xl font-bold text-xs bg-brand text-black transition';
-        btnCutting.className = 'flex-1 py-2.5 rounded-xl font-bold text-xs text-gray-400 transition';
-      } else {
-        btnCutting.className = 'flex-1 py-2.5 rounded-xl font-bold text-xs bg-brand text-black transition';
-        btnBulking.className = 'flex-1 py-2.5 rounded-xl font-bold text-xs text-gray-400 transition';
-      }
-      calculateMacros();
-      renderMealPlan();
-    }
-
-    function switchNutriDay(day, btn) {
-      activeNutriDay = day;
-      document.querySelectorAll('.nutri-day-btn').forEach(b => {
-        b.className = 'nutri-day-btn px-3.5 py-2 bg-cardBg text-gray-400 border border-gray-800 rounded-xl text-xs font-bold';
-      });
-      if(btn) btn.className = 'nutri-day-btn active px-3.5 py-2 bg-brand text-black rounded-xl text-xs font-black';
-      renderMealPlan();
-    }
-
-    function renderMealPlan() {
-      const container = document.getElementById('meal-plan-list');
-      const plan = menusNutricionales[currentGoal][activeNutriDay] || [];
-
-      container.innerHTML = plan.map(item => `
-        <div class="bg-cardBg p-3.5 rounded-2xl border border-gray-800 space-y-1">
-          <span class="text-xs font-black text-brand uppercase tracking-wider block">${item.tipo}</span>
-          <p class="text-xs text-gray-200 leading-relaxed">${item.desc}</p>
-        </div>
-      `).join('');
-    }
-
-    function toggleWaterCup(index) {
-      if (waterCups === index + 1) {
-        waterCups = index;
-      } else {
-        waterCups = index + 1;
-      }
+    function toggleWaterCup(i) {
+      waterCups = (waterCups === i + 1) ? i : i + 1;
       localStorage.setItem('enfoque_water', waterCups);
       renderWaterTracker();
     }
@@ -902,70 +589,43 @@
     function renderWaterTracker() {
       const container = document.getElementById('water-cups-container');
       let html = '';
-      for (let i = 0; i < 6; i++) {
-        const isFilled = i < waterCups;
-        html += `
-          <button onclick="toggleWaterCup(${i})" class="h-10 rounded-xl border flex flex-col items-center justify-center transition active:scale-90 ${isFilled ? 'bg-brand text-black border-brand font-bold' : 'bg-darkBg text-gray-600 border-gray-800'}">
-            <span class="text-[9px] font-black">500ml</span>
-          </button>
-        `;
+      for(let i=0; i<6; i++) {
+        const filled = i < waterCups;
+        html += `<button onclick="toggleWaterCup(${i})" style="height:32px;border-radius:8px;border:1px solid ${filled?'#00FF66':'#1f2937'};background:${filled?'#00FF66':'#08090b'};color:${filled?'#000':'#6b7280'};font-size:9px;font-weight:bold;cursor:pointer;">500ml</button>`;
       }
       container.innerHTML = html;
-      const liters = (waterCups * 0.5).toFixed(1);
-      document.getElementById('water-display').innerText = `${liters} / 3.0 L`;
+      document.getElementById('water-display').innerText = `${(waterCups*0.5).toFixed(1)} / 3.0 L`;
+    }
+
+    function scrollToSlide(id) { document.getElementById(id).scrollIntoView({behavior:'smooth'}); }
+    function setNutritionGoal(g) { currentGoal = g; renderMealPlan(); }
+    function switchNutriDay(d, btn) {
+      activeNutriDay = d;
+      document.querySelectorAll('.nutri-day-btn').forEach(b => { b.style.background='#111318'; b.style.color='#9ca3af'; b.style.border='1px solid #1f2937'; });
+      btn.style.background='#00FF66'; btn.style.color='#000'; btn.style.border='none';
+      renderMealPlan();
+    }
+    function renderMealPlan() {
+      const list = menusNutricionales[currentGoal][activeNutriDay] || [{tipo:'🍽️ Menú', desc:'Alimentación estructurada del día.'}];
+      document.getElementById('meal-plan-list').innerHTML = list.map(m => `<div style="background:#111318;padding:10px;border-radius:12px;border:1px solid #1f2937;"><span style="font-size:11px;font-weight:bold;color:#00FF66;display:block;">${m.tipo}</span><p style="font-size:11px;color:#e5e7eb;margin-top:2px;">${m.desc}</p></div>`).join('');
     }
 
     function openGroceryModal() {
-      const modal = document.getElementById('grocery-modal');
-      const subtitle = document.getElementById('grocery-subtitle');
-      const listContainer = document.getElementById('grocery-items-list');
-
-      subtitle.innerText = currentGoal === 'bulking' ? 'Consolidado Semanal para Ganar Masa' : 'Consolidado Semanal para Definición';
-
-      const items = listaMercado[currentGoal] || [];
-      listContainer.innerHTML = items.map(item => `
-        <div class="bg-darkBg p-3 rounded-2xl border border-gray-800 space-y-1">
-          <span class="text-xs font-bold text-brand block">${item.cat}</span>
-          <p class="text-xs text-gray-300">${item.desc}</p>
-        </div>
-      `).join('');
-
-      modal.classList.remove('hidden');
+      document.getElementById('grocery-subtitle').innerText = currentGoal === 'bulking' ? 'Ganar Masa Muscular' : 'Definición';
+      document.getElementById('grocery-items-list').innerHTML = `<div style="background:#08090b;padding:10px;border-radius:10px;border:1px solid #1f2937;"><span style="color:#00FF66;font-weight:bold;">Proteínas:</span> Pechuga, carne magra, huevos, atún.</div><div style="background:#08090b;padding:10px;border-radius:10px;border:1px solid #1f2937;"><span style="color:#00FF66;font-weight:bold;">Carbohidratos:</span> Arroz, avena, papa, yuca.</div>`;
+      document.getElementById('grocery-modal').style.display = 'flex';
     }
-
-    function closeGroceryModal() {
-      document.getElementById('grocery-modal').classList.add('hidden');
-    }
-
-    function calculateMacros() {
-      let proteinGrams = 0;
-      let calories = 0;
-      let carbsGrams = 0;
-      let fatsGrams = 0;
-
-      if (currentGoal === 'bulking') {
-        proteinGrams = Math.round(userWeight * 2.0);
-        calories = Math.round(userWeight * 36);
-        carbsGrams = Math.round(userWeight * 4.2);
-        fatsGrams = Math.round(userWeight * 0.9);
-      } else {
-        proteinGrams = Math.round(userWeight * 2.2);
-        calories = Math.round(userWeight * 27);
-        carbsGrams = Math.round(userWeight * 2.2);
-        fatsGrams = Math.round(userWeight * 0.7);
-      }
-
-      document.getElementById('nutri-calories').innerText = `${calories.toLocaleString()} Kcal`;
-      document.getElementById('nutri-protein').innerText = `${proteinGrams}g`;
-      document.getElementById('nutri-carbs').innerText = `${carbsGrams}g`;
-      document.getElementById('nutri-fats').innerText = `${fatsGrams}g`;
+    function closeGroceryModal() { document.getElementById('grocery-modal').style.display = 'none'; }
+    function exportUserData() {
+      const data = { peso: userWeight, meta: targetWeight, notas: journalNotes };
+      const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'ENFOQUE_Backup.json'; a.click();
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('display-current-weight').innerHTML = `${userWeight.toFixed(1)} <span class="text-sm font-normal text-white">Kg</span>`;
+      document.getElementById('display-current-weight').innerHTML = `${userWeight.toFixed(1)} <span style="font-size:14px;font-weight:normal;color:#fff;">Kg</span>`;
       document.getElementById('display-target-weight').innerText = `${targetWeight.toFixed(1)} Kg`;
       updateAdvice();
-      calculateMacros();
       renderExerciseList();
       renderMealPlan();
       renderWaterTracker();
