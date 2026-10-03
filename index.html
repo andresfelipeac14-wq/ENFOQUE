@@ -70,8 +70,8 @@
       </div>
     </header>
 
-    <!-- BARRA DE TEMPORIZADOR DE DESCANSO FLOTANTE (Oculta por defecto) -->
-    <div id="timer-bar" class="hidden absolute top-16 left-4 right-4 bg-brand text-black p-3 rounded-2xl shadow-xl z-40 flex justify-between items-center animate-fade-in border border-black/20">
+    <!-- BARRA DE TEMPORIZADOR DE DESCANSO FLOTANTE -->
+    <div id="timer-bar" class="hidden absolute top-16 left-4 right-4 bg-brand text-black p-3 rounded-2xl shadow-xl z-40 flex justify-between items-center border border-black/20">
       <div class="flex items-center space-x-2">
         <i data-lucide="timer" class="w-5 h-5"></i>
         <div>
@@ -101,7 +101,7 @@
         </div>
       </section>
 
-      <!-- ==================== SLIDE 2: RUTINA PERSONALIZADA CON CRONÓMETRO ==================== -->
+      <!-- ==================== SLIDE 2: RUTINA PERSONALIZADA CON TEMPORIZADOR ==================== -->
       <section id="slide-2" class="min-h-full p-5 space-y-4 snap-start pt-4 pb-24">
         <div class="flex justify-between items-center">
           <div>
@@ -194,14 +194,13 @@
         </div>
       </section>
 
-      <!-- ==================== SLIDE 4: NUTRICIÓN + TRACKER DE AGUA + LISTA MERCADO ==================== -->
+      <!-- ==================== SLIDE 4: NUTRICIÓN + TRACKER AGUA + LISTA MERCADO ==================== -->
       <section id="slide-4" class="min-h-full p-5 space-y-4 snap-start pt-4 pb-28">
         <div>
           <h2 class="text-2xl font-black font-display text-white">Plan Nutricional Pro</h2>
-          <p class="text-xs text-gray-400">Menú guiado, consumo de agua y lista de compras</p>
+          <p class="text-xs text-gray-400">Menú guiado, agua y lista de compras</p>
         </div>
 
-        <!-- Selector de Objetivo -->
         <div class="bg-cardBg p-1.5 rounded-2xl border border-gray-800 flex justify-between">
           <button id="btn-bulking" onclick="setNutritionGoal('bulking')" class="flex-1 py-2.5 rounded-xl font-bold text-xs bg-brand text-black transition">
             💪 Ganar Masa
@@ -211,7 +210,6 @@
           </button>
         </div>
 
-        <!-- Resumen de Macros -->
         <div class="bg-cardBg p-4 rounded-3xl border border-gray-800 space-y-2">
           <div class="flex justify-between items-center">
             <span class="text-xs text-gray-400">Objetivo Calórico</span>
@@ -233,7 +231,7 @@
           </div>
         </div>
 
-        <!-- NOVEDAD 1: TRACKER DE AGUA DIARIO -->
+        <!-- TRACKER DE AGUA DIARIO -->
         <div class="bg-cardBg p-4 rounded-3xl border border-gray-800 space-y-2.5">
           <div class="flex justify-between items-center">
             <div class="flex items-center space-x-2">
@@ -242,12 +240,10 @@
             </div>
             <span id="water-display" class="text-xs font-black text-brand">0.0 / 3.0 L</span>
           </div>
-          <div class="grid grid-cols-6 gap-1.5" id="water-cups-container">
-            <!-- Vasos generados dinámicamente -->
-          </div>
+          <div class="grid grid-cols-6 gap-1.5" id="water-cups-container"></div>
         </div>
 
-        <!-- NOVEDAD 2: BOTÓN LISTA DE MERCADO -->
+        <!-- BOTÓN LISTA DE MERCADO -->
         <button onclick="openGroceryModal()" class="w-full bg-darkBg hover:bg-cardBg text-brand border border-brand/40 font-bold py-3 rounded-2xl text-xs flex items-center justify-center space-x-2 transition active:scale-95">
           <i data-lucide="shopping-cart" class="w-4 h-4"></i>
           <span>Ver Lista de Mercado Semanal</span>
@@ -267,7 +263,6 @@
           </div>
         </div>
 
-        <!-- Contenedor del Menú Diario -->
         <div id="meal-plan-list" class="space-y-3"></div>
       </section>
 
@@ -313,7 +308,7 @@
 
     </main>
 
-    <!-- MODAL VENTANA FLOTANTE LISTA DE MERCADO -->
+    <!-- MODAL LISTA DE MERCADO -->
     <div id="grocery-modal" class="hidden absolute inset-0 bg-black/80 backdrop-blur-md z-50 p-5 flex items-center justify-center">
       <div class="bg-cardBg border border-gray-800 w-full max-h-[80vh] rounded-3xl p-5 flex flex-col space-y-4 overflow-hidden">
         <div class="flex justify-between items-center border-b border-gray-800 pb-3">
@@ -326,9 +321,7 @@
           </button>
         </div>
 
-        <div id="grocery-items-list" class="overflow-y-auto no-scrollbar space-y-2 text-xs">
-          <!-- Items generados automáticamente -->
-        </div>
+        <div id="grocery-items-list" class="overflow-y-auto no-scrollbar space-y-2 text-xs"></div>
 
         <button onclick="closeGroceryModal()" class="w-full bg-brand text-black font-bold py-3 rounded-2xl text-xs">
           Entendido / Cerrar
@@ -366,11 +359,9 @@
 
   </div>
 
-  <!-- LÓGICA COMPLETA DE PROGRAMACIÓN -->
   <script>
     lucide.createIcons();
 
-    // Rutinas de fuerza de Andrés
     const rutinas = {
       lunes: [
         { id: 'l1', nombre: 'Sentadilla Hacka', series: '4 x 8-12', baseWeight: 60, tip: '3 discos por lado • 1:30 min descanso' },
@@ -411,7 +402,6 @@
       ]
     };
 
-    // Plan nutricional semanal LUN a DOM
     const menusNutricionales = {
       bulking: {
         lunes: [
@@ -503,7 +493,6 @@
       }
     };
 
-    // Listas de Mercado consolidadas
     const listaMercado = {
       bulking: [
         { cat: 'Proteínas', desc: '3.5 kg Pechuga de Pollo • 2.5 kg Carne de Res Magra • 1.5 kg Pescado/Atún • 4 cubetas de Huevos (120 un)' },
@@ -526,7 +515,6 @@
     let journalNotes = JSON.parse(localStorage.getItem('enfoque_journal')) || [];
     let waterCups = parseInt(localStorage.getItem('enfoque_water')) || 0;
 
-    // Temporizador de descanso
     let timerInterval = null;
     let timerSeconds = 90;
     let isTimerPaused = false;
@@ -705,7 +693,6 @@
       `).join('');
     }
 
-    // Lógica del Tracker de Agua
     function toggleWaterCup(index) {
       if (waterCups === index + 1) {
         waterCups = index;
@@ -732,7 +719,6 @@
       document.getElementById('water-display').innerText = `${liters} / 3.0 L`;
     }
 
-    // Modal de Lista de Mercado
     function openGroceryModal() {
       const modal = document.getElementById('grocery-modal');
       const subtitle = document.getElementById('grocery-subtitle');
