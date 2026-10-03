@@ -2,10 +2,10 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>ENFOQUE - Performance & Fitness</title>
 
-  <!-- PWA Metadata -->
+  <!-- PWA Metadata ajustada como app nativa -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -20,16 +20,17 @@
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
-  <!-- CSS NATIVO BLINDADO -->
+  <!-- CSS NATIVO AJUSTADO TIPO APP -->
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; font-family: 'Outfit', sans-serif; background-color: #000; color: #fff; }
-    body { display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    html { scroll-behavior: smooth; font-family: 'Outfit', sans-serif; background-color: #000; color: #fff; height: 100%; }
+    body { display: flex; justify-content: center; align-items: center; height: 100vh; height: 100dvh; overflow: hidden; background: #000; }
     
     .app-container {
       width: 100%;
       max-width: 440px;
       height: 100vh;
+      height: 100dvh;
       background-color: #08090b;
       display: flex;
       flex-direction: column;
@@ -320,15 +321,16 @@
         </div>
       </section>
 
-      <!-- SLIDE 7: MURO COMUNITARIO -->
+      <!-- SLIDE 7: MURO COMUNITARIO CON EDICIÓN -->
       <section id="slide-7" style="height: 100%; min-height: 100%; scroll-snap-align: start; padding: 20px; display: flex; flex-direction: column; gap: 14px; overflow-y: auto;" class="no-scrollbar">
         <div>
           <h2 class="font-display" style="font-size: 22px; font-weight: 900;">Muro & Diario</h2>
-          <p style="font-size: 11px; color: #9ca3af;">Muro comunitario sincronizado</p>
+          <p style="font-size: 11px; color: #9ca3af;">Muro comunitario sincronizado y editable</p>
         </div>
 
         <div style="background: #111318; padding: 14px; border-radius: 18px; border: 1px solid #1f2937; display: flex; flex-direction: column; gap: 10px;">
-          <span style="font-size: 11px; font-weight: 700;">Nuevo Comentario Global</span>
+          <span id="form-title-label" style="font-size: 11px; font-weight: 700;">Nuevo Comentario Global</span>
+          <input type="hidden" id="edit-note-id" value="">
           <div>
             <label style="font-size: 9px; color: #9ca3af; display: block; margin-bottom: 2px;">Tu Nombre o el de tu Amigo</label>
             <input type="text" id="note-author" placeholder="Ej. Andrés Felipe / Amigo" style="width: 100%; background: #08090b; border: 1px solid #1f2937; border-radius: 10px; padding: 8px; font-size: 11px; color: #fff; outline: none;">
@@ -337,7 +339,10 @@
             <label style="font-size: 9px; color: #9ca3af; display: block; margin-bottom: 2px;">Comentario / Logro</label>
             <textarea id="note-input" rows="2" placeholder="Escribe tu logro o comentario..." style="width: 100%; background: #08090b; border: 1px solid #1f2937; border-radius: 10px; padding: 8px; font-size: 11px; color: #fff; outline: none; resize: none;"></textarea>
           </div>
-          <button onclick="addJournalNote()" style="width: 100%; background: #00FF66; color: #000; font-weight: 900; padding: 10px; border-radius: 10px; border: none; font-size: 11px; cursor: pointer;">Publicar en el Muro Global</button>
+          <div style="display: flex; gap: 6px;">
+            <button id="btn-publish-note" onclick="saveJournalNote()" style="flex: 1; background: #00FF66; color: #000; font-weight: 900; padding: 10px; border-radius: 10px; border: none; font-size: 11px; cursor: pointer;">Publicar en el Muro Global</button>
+            <button id="btn-cancel-edit" onclick="cancelEditNote()" style="display: none; background: #1f2937; color: #fff; font-weight: bold; padding: 10px; border-radius: 10px; border: none; font-size: 11px; cursor: pointer;">Cancelar</button>
+          </div>
         </div>
 
         <div>
@@ -367,7 +372,7 @@
     </div>
 
     <!-- NAVEGACIÓN INFERIOR FIJA -->
-    <nav style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(8,9,11,0.98); backdrop-filter: blur(12px); border-top: 1px solid #1f2937; padding: 8px 4px; display: flex; justify-content: space-around; align-items: center; z-index: 40;">
+    <nav style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(8,9,11,0.98); backdrop-filter: blur(12px); border-top: 1px solid #1f2937; padding: 8px 4px env(safe-area-inset-bottom, 8px); display: flex; justify-content: space-around; align-items: center; z-index: 40;">
       <button onclick="scrollToSlide('slide-1')" class="nav-btn" style="background: none; border: none; color: #00FF66; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="home" style="width: 16px; height: 16px;"></i><span style="font-size: 9px; font-weight: bold;">Inicio</span></button>
       <button onclick="scrollToSlide('slide-2')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="dumbbell" style="width: 16px; height: 16px;"></i><span style="font-size: 9px; font-weight: bold;">Rutina</span></button>
       <button onclick="scrollToSlide('slide-3')" class="nav-btn" style="background: none; border: none; color: #9ca3af; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;"><i data-lucide="line-chart" style="width: 16px; height: 16px;"></i><span style="font-size: 9px; font-weight: bold;">Fuerza</span></button>
@@ -459,6 +464,7 @@
     let waterCups = parseInt(localStorage.getItem('enfoque_water')) || 0;
     let restTimerInterval = null;
 
+    // MURO BLINDADO CON SOPORTE DE EDICIÓN Y VISUALIZACIÓN GLOBAL
     function loadCloudNotes() {
       try {
         const saved = localStorage.getItem('enfoque_global_journal');
@@ -476,7 +482,8 @@
       }
     }
 
-    function addJournalNote() {
+    function saveJournalNote() {
+      const editId = document.getElementById('edit-note-id').value;
       const authorInput = document.getElementById('note-author');
       const textInput = document.getElementById('note-input');
       const author = authorInput.value.trim();
@@ -488,24 +495,68 @@
       }
       
       const now = new Date();
-      const newNote = {
-        id: Date.now(),
-        author: author,
-        date: `${now.toLocaleDateString('es-ES', {month:'short', day:'numeric'})} • ${now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`,
-        text: text
-      };
+      const dateStr = `${now.toLocaleDateString('es-ES', {month:'short', day:'numeric'})} • ${now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
 
-      if(journalNotes.length > 0 && journalNotes[0].text === text && journalNotes[0].author === author) {
-        return;
+      if (editId) {
+        // Editando comentario existente
+        const note = journalNotes.find(n => n.id == editId);
+        if (note) {
+          note.author = author;
+          note.text = text;
+          note.date = dateStr + ' (Editado)';
+        }
+        cancelEditNote();
+        alert('✏️ ¡Comentario actualizado con éxito!');
+      } else {
+        // Nuevo comentario
+        const newNote = {
+          id: Date.now(),
+          author: author,
+          date: dateStr,
+          text: text
+        };
+
+        if(journalNotes.length > 0 && journalNotes[0].text === text && journalNotes[0].author === author) {
+          return;
+        }
+
+        journalNotes.unshift(newNote);
+        alert('🚀 ¡Comentario publicado con éxito!');
       }
 
-      journalNotes.unshift(newNote);
       localStorage.setItem('enfoque_global_journal', JSON.stringify(journalNotes));
-
       authorInput.value = '';
       textInput.value = '';
       renderJournalNotes();
-      alert('🚀 ¡Comentario publicado con éxito!');
+    }
+
+    function editJournalNote(id) {
+      const note = journalNotes.find(n => n.id == id);
+      if (!note) return;
+      document.getElementById('edit-note-id').value = note.id;
+      document.getElementById('note-author').value = note.author;
+      document.getElementById('note-input').value = note.text;
+      document.getElementById('form-title-label').innerText = 'Editar Comentario';
+      document.getElementById('btn-publish-note').innerText = 'Guardar Cambios';
+      document.getElementById('btn-cancel-edit').style.display = 'block';
+      document.getElementById('slide-7').scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    function cancelEditNote() {
+      document.getElementById('edit-note-id').value = '';
+      document.getElementById('note-author').value = '';
+      document.getElementById('note-input').value = '';
+      document.getElementById('form-title-label').innerText = 'Nuevo Comentario Global';
+      document.getElementById('btn-publish-note').innerText = 'Publicar en el Muro Global';
+      document.getElementById('btn-cancel-edit').style.display = 'none';
+    }
+
+    function deleteJournalNote(id) {
+      if(confirm('¿Estás seguro de eliminar este comentario?')) {
+        journalNotes = journalNotes.filter(n => n.id != id);
+        localStorage.setItem('enfoque_global_journal', JSON.stringify(journalNotes));
+        renderJournalNotes();
+      }
     }
 
     function renderJournalNotes() {
@@ -517,9 +568,13 @@
       
       container.innerHTML = journalNotes.map(n => `
         <div style="background:#111318;padding:12px;border-radius:14px;border:1px solid #1f2937; margin-bottom: 8px;">
-          <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px;align-items:center;">
             <span style="font-size:11px;font-weight:bold;color:#00FF66;">${escapeHtml(n.author)}</span>
-            <span style="font-size:9px;color:#9ca3af;">${n.date}</span>
+            <div style="display:flex;gap:6px;align-items:center;">
+              <span style="font-size:9px;color:#9ca3af;">${n.date}</span>
+              <button onclick="editJournalNote(${n.id})" style="background:none;border:none;color:#00FF66;font-size:10px;cursor:pointer;" title="Editar">✏️</button>
+              <button onclick="deleteJournalNote(${n.id})" style="background:none;border:none;color:#ef4444;font-size:10px;cursor:pointer;" title="Eliminar">🗑️</button>
+            </div>
           </div>
           <p style="font-size:11px;color:#e5e7eb;line-height:1.4; word-break: break-word;">${escapeHtml(n.text)}</p>
         </div>
@@ -566,7 +621,7 @@
     function uploadMediaProgress() {
       const title = document.getElementById('media-title').value.trim();
       const fileInput = document.getElementById('media-file-input');
-      if(!title || !fileInput.files.length) { alert('⚠️ Ingresa título y selecciona archivo.'); return; }
+      if(!title || !fileInput.files.length) { alert('⚠️️ Ingresa título y selecciona archivo.'); return; }
       const file = fileInput.files[0];
       const reader = new FileReader();
       reader.onload = function(e) {
