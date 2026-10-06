@@ -675,6 +675,115 @@
 
     renderRoutine();
     renderWater();
+    /* ============================================================
+   ENFOQUE COACH - MOTOR DE INTELIGENCIA ADAPTATIVA
+   ============================================================ */
+const CONFIG_COACH = {
+    STORAGE: {
+        profile: "enfoque_profile",
+        program: "enfoque_program",
+        history: "enfoque_history",
+        nutrition: "enfoque_nutrition"
+    },
+    weeksPerCycle: 12,
+    progression: { compoundPercent: 0.025, isolationPercent: 0.05, minimumIncrement: 1.25, maximumIncrement: 5 }
+};
+
+function loadCoachData(key, fallback) {
+    try {
+        const data = localStorage.getItem(key);
+        return data ? JSON.parse(data) : fallback;
+    } catch (e) {
+        return fallback;
+    }
+}
+
+function saveCoachData(key, value) {
+    try {
+        localStorage.setItem(key, JSON.stringify(value));
+    } catch (e) {}
+}
+
+const EXERCISES_DB = {
+    hack_squat: { name: "Hack Squat", muscle: "Cuádriceps", type: "compound", rest: 180, reps: [6, 10] },
+    prensa: { name: "Prensa 45°", muscle: "Cuádriceps", type: "compound", rest: 150, reps: [8, 12] },
+    sentadilla: { name: "Sentadilla Libre", muscle: "Cuádriceps", type: "compound", rest: 180, reps: [6, 10] },
+    extension: { name: "Extensión de Cuádriceps", muscle: "Cuádriceps", type: "isolation", rest: 90, reps: [10, 15] },
+    curl_femoral: { name: "Curl Femoral Acostado", muscle: "Isquios", type: "isolation", rest: 90, reps: [8, 12] },
+    peso_muerto_rumano: { name: "Peso Muerto Rumano", muscle: "Isquios", type: "compound", rest: 150, reps: [6, 10] },
+    hip_thrust: { name: "Hip Thrust", muscle: "Glúteos", type: "compound", rest: 150, reps: [8, 12] },
+    pantorrilla: { name: "Elevación de Pantorrilla", muscle: "Pantorrilla", type: "isolation", rest: 75, reps: [10, 15] },
+    jalon_pecho: { name: "Jalón al Pecho", muscle: "Espalda", type: "compound", rest: 120, reps: [8, 12] },
+    remo: { name: "Remo en Máquina", muscle: "Espalda", type: "compound", rest: 120, reps: [8, 12] },
+    curl_biceps: { name: "Curl de Bíceps", muscle: "Bíceps", type: "isolation", rest: 90, reps: [8, 12] },
+    press_banca: { name: "Press de Banca", muscle: "Pecho", type: "compound", rest: 180, reps: [6, 10] },
+    press_hombros: { name: "Press de Hombros", muscle: "Hombros", type: "compound", rest: 120, reps: [8, 12] },
+    elevaciones_laterales: { name: "Elevaciones Laterales", muscle: "Hombros", type: "isolation", rest: 60, reps: [12, 20] },
+    pushdown: { name: "Extensión Tríceps Polea", muscle: "Tríceps", type: "isolation", rest: 75, reps: [10, 15] }
+};
+
+const SPLIT_COACH = {
+    monday: { name: "Pierna A (Cuádriceps)", exercises: ["hack_squat", "prensa", "extension", "pantorrilla"] },
+    tuesday: { name: "Espalda + Bíceps", exercises: ["jalon_pecho", "remo", "curl_biceps"] },
+    wednesday: { name: "Femoral + Glúteos", exercises: ["peso_muerto_rumano", "curl_femoral", "hip_thrust", "pantorrilla"] },
+    thursday: { name: "Pecho + Hombros + Tríceps", exercises: ["press_banca", "press_hombros", "elevaciones_laterales", "pushdown"] },
+    friday: { name: "Pierna B + Complementarios", exercises: ["sentadilla", "hack_squat", "curl_femoral", "hip_thrust"] }
+};
+
+const EnfoqueCoach = {
+    profile: loadCoachData(CONFIG_COACH.STORAGE.profile, {
+        nombre: "Andrés Felipe",
+        edad: 44,
+        peso: 85,
+        altura: 178,
+        objetivo: "hipertrofia",
+        cicloActual: 1,
+        semanaActual: 1
+    }),
+    program: loadCoachData(CONFIG_COACH.STORAGE.program, null),
+    history: loadCoachData(CONFIG_COACH.STORAGE.history, {}),
+    nutrition: loadCoachData(CONFIG_COACH.STORAGE.nutrition, null),
+
+    init() {
+        if (!this.program) this.generateProgram();
+        if (!this.nutrition) this.generateNutrition();
+        this.save();
+        console.log("🔥 ENFOQUE COACH ACTIVADO | Ciclo:", this.profile.cicloActual, "Semana:", this.profile.semanaActual);
+    },
+
+    save() {
+        saveCoachData(CONFIG_COACH.STORAGE.profile, this.profile);
+        saveCoachData(CONFIG_COACH.STORAGE.program, this.program);
+        saveCoachData(CONFIG_COACH.STORAGE.history, this.history);
+        saveCoachData(CONFIG_COACH.STORAGE.nutrition, this.nutrition);
+    },
+
+    generateProgram() {
+        const weeks = {};
+        for (let w = 1; w <= 12; w++) {
+            weeks[w] = { week: w, days: SPLIT_COACH };
+        }
+        this.program = { cycle: this.profile.cicloActual, weeks };
+        this.save();
+    },
+
+    generateNutrition() {
+        const { peso, altura, edad, objetivo } = this.profile;
+        let bmr = (10 * peso) + (6.25 * altura) - (5 * edad) + 5;
+        let tdee = bmr * 1.55;
+        let targetCalories = objetivo === "hipertrofia" ? tdee + 300 : tdee - 400;
+        this.nutrition = {
+            targetCalories: Math.round(targetCalories),
+            protein: Math.round(peso * 2),
+            carbs: Math.round((targetCalories * 0.4) / 4),
+            fat: Math.round((targetCalories * 0.25) / 9)
+        };
+        this.save();
+    }
+};
+
+window.EnfoqueCoach = EnfoqueCoach;
+EnfoqueCoach.init();
   </script>
 </body>
 </html>
