@@ -784,6 +784,26 @@ const EnfoqueCoach = {
 
 window.EnfoqueCoach = EnfoqueCoach;
 EnfoqueCoach.init();
+    /* --- ACTUALIZAR INTERFAZ VISUAL DEL COACH --- */
+function renderCoachDashboardUI() {
+    const today = EnfoqueCoach.getTodayWorkout ? EnfoqueCoach.getTodayWorkout() : null;
+    const routineContainer = document.getElementById("routine-list") || document.getElementById("rutina-container") || document.querySelector(".routine-card") || document.body;
+    
+    if (routineContainer && today) {
+        let html = `
+            <div style="background: rgba(0, 242, 254, 0.1); border: 1px solid #00f2fe; padding: 14px; border-radius: 12px; margin: 16px 0; font-family: sans-serif;">
+                <span style="background: #00f2fe; color: #000; font-weight: 900; padding: 3px 8px; border-radius: 4px; font-size: 10px; letter-spacing: 1px;">ENFOQUE COACH</span>
+                <h3 style="color: #fff; margin: 8px 0 4px 0; font-size: 16px;">${today.day.toUpperCase()} — ${today.name}</h3>
+                <p style="color: #00ff87; font-size: 12px; margin: 0; font-weight: bold;">Ciclo 01 | Semana 01 (Acumulación)</p>
+            </div>
+        `;
+        routineContainer.insertAdjacentHTML('afterbegin', html);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => { 
+    setTimeout(renderCoachDashboardUI, 600); 
+});
   </script>
 </body>
 </html>
