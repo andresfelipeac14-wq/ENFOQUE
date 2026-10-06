@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ENFOQUE — Performance & Fitness Coach</title>
-    <link rel="manifest" href="manifest.json">
     <style>
         :root {
             --bg-dark: #0a0b0e;
@@ -64,7 +63,7 @@
         <!-- ================= ENTRENAMIENTO TAB ================= -->
         <section id="tab-workout" class="tab-content active">
             <div id="workout-header-card" class="card">
-                <!-- Se llena dinámicamente -->
+                <!-- Contenido dinámico del coach -->
             </div>
 
             <div id="workout-exercises-container">
@@ -136,9 +135,6 @@
 
     <!-- MOTOR LÓGICO DEL ENFOQUE COACH -->
     <script>
-    /* ============================================================
-       ENFOQUE COACH ENGINE v2.0
-       ============================================================ */
     const EnfoqueCoach = {
         profile: {
             nombre: "Andrés Felipe",
@@ -179,8 +175,6 @@
         getTodayWorkout() {
             const days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
             const todayKey = days[new Date().getDay()];
-            
-            // Regla: Si es fin de semana o fuera de rango, por defecto muestra la rutina del Lunes
             const selectedDay = ["monday", "tuesday", "wednesday", "thursday", "friday"].includes(todayKey) ? todayKey : "monday";
             return { key: selectedDay, ...this.SPLIT[selectedDay] };
         },
@@ -208,11 +202,7 @@
         }
     };
 
-    /* ============================================================
-       RENDERIZADO Y CONEXIÓN DE INTERFAZ VISUAL
-       ============================================================ */
     function renderAppUI() {
-        // 1. Renderizar Encabezado del Entrenador
         const today = EnfoqueCoach.getTodayWorkout();
         const phase = EnfoqueCoach.getPhaseName();
 
@@ -226,7 +216,6 @@
             <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 4px;">Enfoque: ${today.focus.join(", ")} | ⏱️ 75-90 min</p>
         `;
 
-        // 2. Renderizar Ejercicios de Hoy
         const exercisesContainer = document.getElementById("workout-exercises-container");
         exercisesContainer.innerHTML = today.exercises.map(exKey => {
             const ex = EnfoqueCoach.EXERCISES[exKey];
@@ -252,7 +241,6 @@
             `;
         }).join('');
 
-        // 3. Renderizar Nutrición
         const nutri = EnfoqueCoach.calculateNutrition();
         document.getElementById("nutri-target-cals").innerText = `${nutri.calories} kcal / día`;
         document.getElementById("nutri-prot").innerText = `${nutri.protein}g`;
@@ -296,7 +284,6 @@
         alert("¡Check-in semanal registrado! Tu Índice de Recuperación es ÓPTIMO (8.5/10). Mantenemos la sobrecarga esta semana.");
     }
 
-    // Cargar la app al iniciar
     document.addEventListener("DOMContentLoaded", renderAppUI);
     </script>
 </body>
