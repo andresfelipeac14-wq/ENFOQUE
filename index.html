@@ -28,7 +28,6 @@
         <div class="onboarding-container card-glass">
             <div class="step-indicator">Paso <span id="onboarding-step-num">1</span> de 4</div>
             
-            <!-- Step 1: Objetivo -->
             <div id="ob-step-1" class="ob-step active">
                 <h2>¿CUÁL ES TU OBJETIVO PRINCIPAL?</h2>
                 <div class="goal-selector">
@@ -45,7 +44,6 @@
                 </div>
             </div>
 
-            <!-- Step 2: Datos Personales -->
             <div id="ob-step-2" class="ob-step">
                 <h2>CUÉNTANOS SOBRE TI</h2>
                 <div class="form-group">
@@ -75,7 +73,6 @@
                 <button class="btn-primary-neon" onclick="App.nextOnboardingStep(3)">CONTINUAR</button>
             </div>
 
-            <!-- Step 3: Nivel -->
             <div id="ob-step-3" class="ob-step">
                 <h2>¿CUÁL ES TU NIVEL DE ENTRENAMIENTO?</h2>
                 <div class="level-selector">
@@ -94,7 +91,6 @@
                 </div>
             </div>
 
-            <!-- Step 4: Confirmación -->
             <div id="ob-step-4" class="ob-step">
                 <h2>¡TU PLAN ENFOQUE ESTÁ LISTO!</h2>
                 <div class="summary-card" id="ob-summary"></div>
@@ -116,26 +112,171 @@
         </header>
 
         <main class="app-content">
+            <!-- TAB 1: INICIO -->
             <section id="tab-dashboard" class="tab-page active">
                 <div class="card-glass">
-                    <h2 id="dash-greeting">¡Bienvenido a ENFOQUE!</h2>
-                    <p class="text-muted" style="margin-top: 6px;">Tu plan personalizado ya está activo.</p>
+                    <span class="badge-neon">ENTRENADOR DIGITAL</span>
+                    <h2 id="dash-greeting" style="margin-top:8px;">¡Hola, listo para entrenar!</h2>
+                    <p class="text-muted" id="dash-goal-desc">Tu plan personalizado está activo.</p>
+                </div>
+
+                <div class="card-glass" style="margin-top:16px;">
+                    <span class="badge-neon" id="today-day-tag">ENTRENAMIENTO DE HOY</span>
+                    <h3 id="today-title" style="margin-top:6px;">PIERNA COMPLETA</h3>
+                    <p class="text-muted">5 Ejercicios estructurados</p>
+                    <button class="btn-primary-neon" style="margin-top:12px;" onclick="App.navigateTo('workouts')">VER MI RUTINA COMPLETA</button>
+                </div>
+
+                <div class="form-row" style="margin-top:16px;">
+                    <div class="card-glass" style="text-align:center;">
+                        <span class="text-muted">Peso Actual</span>
+                        <h2 style="color:var(--neon-green); margin-top:4px;"><span id="dash-weight">--</span> kg</h2>
+                    </div>
+                    <div class="card-glass" style="text-align:center;">
+                        <span class="text-muted">Racha</span>
+                        <h2 style="color:var(--neon-green); margin-top:4px;">🔥 <span id="dash-streak">0</span> días</h2>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: RUTINAS -->
+            <section id="tab-workouts" class="tab-page">
+                <h2 style="margin-bottom:16px;">MI RUTINA SEMANAL</h2>
+                <div id="days-list-container"></div>
+            </section>
+
+            <!-- DETALLE DE ENTRENAMIENTO -->
+            <section id="workout-detail-view" class="tab-page">
+                <button class="btn-back" onclick="App.closeWorkoutDetail()">← Volver a Rutinas</button>
+                <div id="workout-detail-content"></div>
+            </section>
+
+            <!-- TAB 3: NUTRICIÓN -->
+            <section id="tab-nutrition" class="tab-page">
+                <h2 style="margin-bottom:12px;">NUTRICIÓN ADAPTATIVA</h2>
+                <div class="card-glass" id="nutrition-target-card"></div>
+                <h3 style="margin: 16px 0 12px 0;">Plan de Comidas Sugerido</h3>
+                <div id="meals-container"></div>
+            </section>
+
+            <!-- TAB 4: COMUNIDAD -->
+            <section id="tab-community" class="tab-page">
+                <h2 style="margin-bottom:16px;">MURO DE COMUNIDAD</h2>
+                <div class="card-glass">
+                    <textarea id="community-input" class="input-dark" placeholder="Comparte tu progreso o logro de hoy..."></textarea>
+                    <button class="btn-primary-neon" style="margin-top:10px;" onclick="App.postCommunity()">PUBLICAR 🔥</button>
+                </div>
+                <div id="community-feed" style="margin-top:16px;"></div>
+            </section>
+
+            <!-- TAB 5: PERFIL -->
+            <section id="tab-profile" class="tab-page">
+                <h2 style="margin-bottom:16px;">MI PERFIL</h2>
+                <div class="card-glass">
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <input type="text" id="prof-name" class="input-dark">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Peso (kg)</label>
+                            <input type="number" id="prof-weight" class="input-dark">
+                        </div>
+                        <div class="form-group">
+                            <label>Objetivo</label>
+                            <select id="prof-goal" class="input-dark">
+                                <option value="gain">Ganar Masa Muscular</option>
+                                <option value="lose">Perder Grasa</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn-primary-neon" onclick="App.updateProfile()">GUARDAR CAMBIOS</button>
+                    <button class="btn-back" style="margin-top:12px; width:100%; color:#ff4444; border-color:#ff4444;" onclick="App.resetProfile()">REINICIAR DATOS DE PRUEBA</button>
                 </div>
             </section>
         </main>
+
+        <!-- BOTTOM NAV -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" onclick="App.navigateTo('dashboard')">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-text">Inicio</span>
+            </button>
+            <button class="nav-item" onclick="App.navigateTo('workouts')">
+                <span class="nav-icon">🏋️</span>
+                <span class="nav-text">Rutinas</span>
+            </button>
+            <button class="nav-item" onclick="App.navigateTo('nutrition')">
+                <span class="nav-icon">🥗</span>
+                <span class="nav-text">Nutrición</span>
+            </button>
+            <button class="nav-item" onclick="App.navigateTo('community')">
+                <span class="nav-icon">👥</span>
+                <span class="nav-text">Muro</span>
+            </button>
+            <button class="nav-item" onclick="App.navigateTo('profile')">
+                <span class="nav-icon">⚙️</span>
+                <span class="nav-text">Perfil</span>
+            </button>
+        </nav>
     </div>
 
-    <!-- MOTOR LÓGICO INTEGRADO DIRECTAMENTE -->
+    <!-- MODAL TÉCNICA DE EJERCICIO -->
+    <div id="modal-technique" class="modal-overlay">
+        <div class="modal-card card-glass">
+            <button class="modal-close" onclick="App.closeModal()">✕</button>
+            <h3 id="modal-ex-title">Nombre Ejercicio</h3>
+            <div class="modal-body" style="margin-top:12px;">
+                <h4>Técnica Correcta</h4>
+                <ul id="modal-ex-tech" style="padding-left:18px; margin:8px 0;"></ul>
+                <h4>Errores Comunes</h4>
+                <ul id="modal-ex-mistakes" style="padding-left:18px; margin:8px 0; color:#ff6b6b;"></ul>
+                <h4>Consejo del Coach</h4>
+                <p id="modal-ex-tips" class="badge-neon" style="display:inline-block; margin-top:6px;"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- TEMPORIZADOR DE DESCANSO -->
+    <div id="rest-timer-widget" class="timer-widget">
+        <span>⏱️ DESCANSO: <strong id="timer-display">00:00</strong></span>
+        <button onclick="App.stopTimer()" style="background:none; border:none; font-weight:bold; cursor:pointer;">Saltar</button>
+    </div>
+
+    <!-- BASE DE DATOS Y MOTOR DE NAVEGACIÓN -->
     <script>
+        const AppData = {
+            exercises: {
+                sentadilla: { name: "Sentadilla Libre / Hack", sets: 4, reps: "8-12", rest: 90, technique: ["Espalda neutra", "Controla la bajada"], mistakes: ["Despegar talones"], tips: "Empuja con el medio del pie." },
+                prensa: { name: "Prensa 45°", sets: 4, reps: "10-12", rest: 90, technique: ["Pies a anchura de hombros"], mistakes: ["Bloquear rodillas arriba"], tips: "Tensión constante." },
+                jalon: { name: "Jalón al Pecho", sets: 4, reps: "10-12", rest: 60, technique: ["Tira con los codos"], mistakes: ["Inclinarse demasiado"], tips: "Siente el dorsal." },
+                press: { name: "Press de Banca", sets: 4, reps: "8-10", rest: 90, technique: ["Retracción escapular"], mistakes: ["Rebotar la barra"], tips: "Controla el descenso." }
+            },
+            routines: {
+                monday: { name: "LUNES — PIERNA COMPLETA", exercises: ["sentadilla", "prensa"] },
+                tuesday: { name: "MARTES — ESPALDA + BÍCEPS", exercises: ["jalon"] },
+                wednesday: { name: "MIÉRCOLES — PECHO + TRÍCEPS", exercises: ["press"] },
+                thursday: { name: "JUEVES — PIERNA + ACCESORIOS", exercises: ["sentadilla"] },
+                friday: { name: "VIERNES — TORSO COMPLETO", exercises: ["jalon", "press"] }
+            },
+            nutrition: {
+                gain: { title: "Superávit Calórico (+300 kcal)", protein: "2.0g / kg", meals: [{ name: "Desayuno Anabólico", desc: "4 Huevos + Avena con banano." }, { name: "Almuerzo de Fuerza", desc: "200g Pollo + Arroz + Aguacate." }] },
+                lose: { title: "Déficit Energético (-400 kcal)", protein: "2.2g / kg", meals: [{ name: "Desayuno Saciante", desc: "Tortilla de claras + Espinacas." }, { name: "Almuerzo Magro", desc: "Pechuga a la plancha + Ensalada." }] }
+            }
+        };
+
         const Storage = {
-            KEYS: { USER: 'enfoque_user_profile' },
+            KEYS: { USER: 'enfoque_user_profile', POSTS: 'enfoque_posts' },
             saveUser(profile) { localStorage.setItem(this.KEYS.USER, JSON.stringify(profile)); },
-            getUser() { const d = localStorage.getItem(this.KEYS.USER); return d ? JSON.parse(d) : null; }
+            getUser() { const d = localStorage.getItem(this.KEYS.USER); return d ? JSON.parse(d) : null; },
+            savePosts(posts) { localStorage.setItem(this.KEYS.POSTS, JSON.stringify(posts)); },
+            getPosts() { const d = localStorage.getItem(this.KEYS.POSTS); return d ? JSON.parse(d) : [{ author: "Andrés F.", text: "¡Completada la rutina de hoy! 🔥", date: "Hoy" }]; }
         };
 
         const App = {
             user: null,
             tempUser: {},
+            timerInterval: null,
 
             init() {
                 this.user = Storage.getUser();
@@ -185,7 +326,6 @@
             selectLevel(level) {
                 this.tempUser.level = level;
                 this.tempUser.currentWeek = 1;
-                
                 const summary = document.getElementById('ob-summary');
                 if (summary) {
                     summary.innerHTML = `
@@ -204,12 +344,151 @@
                 this.renderDashboard();
             },
 
-            renderDashboard() {
-                const userName = document.getElementById('header-user-name');
-                if (userName) userName.innerText = `Hola, ${this.user.name} 👋`;
+            navigateTo(tabName) {
+                document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
                 
-                const greeting = document.getElementById('dash-greeting');
-                if (greeting) greeting.innerText = `¡Hola ${this.user.name}, listo para entrenar!`;
+                const tab = document.getElementById(`tab-${tabName}`);
+                if (tab) tab.classList.add('active');
+
+                if (tabName === 'workouts') this.renderWorkouts();
+                if (tabName === 'nutrition') this.renderNutrition();
+                if (tabName === 'community') this.renderCommunity();
+                if (tabName === 'profile') this.renderProfile();
+            },
+
+            renderDashboard() {
+                document.getElementById('header-user-name').innerText = `Hola, ${this.user.name} 👋`;
+                document.getElementById('dash-greeting').innerText = `¡Hola ${this.user.name}, listo para entrenar!`;
+                document.getElementById('dash-weight').innerText = this.user.weight;
+                document.getElementById('dash-streak').innerText = "1";
+            },
+
+            renderWorkouts() {
+                const container = document.getElementById('days-list-container');
+                container.innerHTML = Object.keys(AppData.routines).map(dayKey => {
+                    const r = AppData.routines[dayKey];
+                    return `
+                        <div class="card-glass" style="margin-bottom:12px;">
+                            <h3>${r.name}</h3>
+                            <p class="text-muted">${r.exercises.length} Ejercicios</p>
+                            <button class="btn-primary-neon" style="margin-top:10px;" onclick="App.openWorkoutDetail('${dayKey}')">VER ENTRENAMIENTO</button>
+                        </div>
+                    `;
+                }).join('');
+            },
+
+            openWorkoutDetail(dayKey) {
+                const r = AppData.routines[dayKey];
+                document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
+                const detailView = document.getElementById('workout-detail-view');
+                detailView.classList.add('active');
+
+                document.getElementById('workout-detail-content').innerHTML = `
+                    <h2>${r.name}</h2>
+                    ${r.exercises.map(exId => {
+                        const ex = AppData.exercises[exId];
+                        return `
+                            <div class="card-glass" style="margin-top:12px;">
+                                <h4>${ex.name}</h4>
+                                <p class="text-muted">${ex.sets} Series x${ex.reps} reps</p>
+                                <button class="btn-primary-neon" style="margin-top:8px;" onclick="App.openTechniqueModal('${exId}')">▶ TÉCNICA</button>
+                                <button class="btn-primary-neon" style="margin-top:8px; background:#00E65C;" onclick="App.startTimer(${ex.rest})">⏱️ COMPLETA SERIE (${ex.rest}s)</button>
+                            </div>
+                        `;
+                    }).join('')}
+                `;
+            },
+
+            closeWorkoutDetail() { this.navigateTo('workouts'); },
+
+            openTechniqueModal(exId) {
+                const ex = AppData.exercises[exId];
+                document.getElementById('modal-ex-title').innerText = ex.name;
+                document.getElementById('modal-ex-tech').innerHTML = ex.technique.map(t => `<li>${t}</li>`).join('');
+                document.getElementById('modal-ex-mistakes').innerHTML = ex.mistakes.map(m => `<li>${m}</li>`).join('');
+                document.getElementById('modal-ex-tips').innerText = ex.tips;
+                document.getElementById('modal-technique').classList.add('active');
+            },
+
+            closeModal() { document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active')); },
+
+            startTimer(seconds) {
+                clearInterval(this.timerInterval);
+                const widget = document.getElementById('rest-timer-widget');
+                widget.classList.add('active');
+                let left = seconds;
+                document.getElementById('timer-display').innerText = `${left}s`;
+
+                this.timerInterval = setInterval(() => {
+                    left--;
+                    document.getElementById('timer-display').innerText = `${left}s`;
+                    if (left <= 0) {
+                        clearInterval(this.timerInterval);
+                        widget.classList.remove('active');
+                        alert("¡Tiempo cumplido! A por la siguiente serie 🔥");
+                    }
+                }, 1000);
+            },
+
+            stopTimer() {
+                clearInterval(this.timerInterval);
+                document.getElementById('rest-timer-widget').classList.remove('active');
+            },
+
+            renderNutrition() {
+                const plan = AppData.nutrition[this.user.goal] || AppData.nutrition.gain;
+                document.getElementById('nutrition-target-card').innerHTML = `
+                    <span class="badge-neon">${this.user.goal === 'gain' ? 'GANAR MASA' : 'PERDER GRASA'}</span>
+                    <h3 style="margin-top:6px;">${plan.title}</h3>
+                    <p class="text-muted">Proteína: ${plan.protein}</p>
+                `;
+                document.getElementById('meals-container').innerHTML = plan.meals.map(m => `
+                    <div class="card-glass" style="margin-bottom:12px;">
+                        <h4>${m.name}</h4>
+                        <p style="margin-top:4px;">${m.desc}</p>
+                    </div>
+                `).join('');
+            },
+
+            renderCommunity() {
+                const posts = Storage.getPosts();
+                document.getElementById('community-feed').innerHTML = posts.map(p => `
+                    <div class="card-glass" style="margin-bottom:12px;">
+                        <strong>${p.author}</strong> <small class="text-muted">• ${p.date}</small>
+                        <p style="margin-top:6px;">${p.text}</p>
+                    </div>
+                `).join('');
+            },
+
+            postCommunity() {
+                const txt = document.getElementById('community-input').value;
+                if (!txt) return;
+                const posts = Storage.getPosts();
+                posts.unshift({ author: this.user.name, text: txt, date: "Ahora" });
+                Storage.savePosts(posts);
+                document.getElementById('community-input').value = '';
+                this.renderCommunity();
+            },
+
+            renderProfile() {
+                document.getElementById('prof-name').value = this.user.name;
+                document.getElementById('prof-weight').value = this.user.weight;
+                document.getElementById('prof-goal').value = this.user.goal;
+            },
+
+            updateProfile() {
+                this.user.name = document.getElementById('prof-name').value;
+                this.user.weight = parseFloat(document.getElementById('prof-weight').value);
+                this.user.goal = document.getElementById('prof-goal').value;
+                Storage.saveUser(this.user);
+                alert("Perfil actualizado correctamente.");
+                this.renderDashboard();
+            },
+
+            resetProfile() {
+                localStorage.clear();
+                location.reload();
             }
         };
 
