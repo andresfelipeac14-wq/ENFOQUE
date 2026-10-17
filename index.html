@@ -105,7 +105,6 @@
 
     <!-- ================= 3. MAIN APP LAYOUT ================= -->
     <div id="screen-main-app" class="screen">
-        <!-- HEADER TOP -->
         <header class="app-header">
             <div class="header-logo">
                 <img src="ENFOQUE.jpg" alt="Logo ENFOQUE">
@@ -116,197 +115,105 @@
             </div>
         </header>
 
-        <!-- MAIN NAVIGATION CONTAINER -->
         <main class="app-content">
-
-            <!-- TAB 1: INICIO / DASHBOARD -->
             <section id="tab-dashboard" class="tab-page active">
-                <div class="coach-banner card-glass">
-                    <div class="coach-icon">🧠</div>
-                    <div class="coach-text">
-                        <span class="coach-label">MI ENTRENADOR</span>
-                        <p id="coach-message">"Hoy no se negocia la disciplina. Vamos por esa meta."</p>
-                    </div>
-                </div>
-
-                <div class="today-card card-glass">
-                    <span class="badge-neon" id="today-day-tag">LUNES</span>
-                    <h2 id="today-title">PIERNA COMPLETA</h2>
-                    <p id="today-subtitle" class="text-muted">5 Ejercicios | 65 Minutos approx.</p>
-                    <div class="progress-container">
-                        <div class="progress-bar-bg">
-                            <div id="today-progress-fill" class="progress-bar-fill" style="width: 0%;"></div>
-                        </div>
-                        <span id="today-progress-text" class="progress-text">0% completado</span>
-                    </div>
-                    <button class="btn-primary-neon" onclick="App.navigateTo('workouts')">VER ENTRENAMIENTO</button>
-                </div>
-
-                <div class="metrics-grid">
-                    <div class="metric-card card-glass">
-                        <span class="metric-label">Peso Corporal</span>
-                        <div class="metric-value"><span id="dash-weight">--</span> <small>kg</small></div>
-                    </div>
-                    <div class="metric-card card-glass">
-                        <span class="metric-label">Racha Activa</span>
-                        <div class="metric-value">🔥 <span id="dash-streak">0</span> <small>días</small></div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- TAB 2: RUTINAS -->
-            <section id="tab-workouts" class="tab-page">
-                <h2 class="page-title">MI PROGRAMA DE ENTRENAMIENTO</h2>
-                <div id="days-list-container" class="days-grid">
-                    <!-- Dinámico por JS -->
-                </div>
-            </section>
-
-            <!-- DETALLE DE ENTRENAMIENTO MODAL/VIEW -->
-            <section id="workout-detail-view" class="tab-page">
-                <button class="btn-back" onclick="App.closeWorkoutDetail()">← Volver a Rutinas</button>
-                <div id="workout-detail-content"></div>
-            </section>
-
-            <!-- TAB 3: NUTRICIÓN -->
-            <section id="tab-nutrition" class="tab-page">
-                <h2 class="page-title">NUTRICIÓN ADAPTATIVA</h2>
-                <div class="nutrition-disclaimer">
-                    ⚠️ Las recomendaciones son orientativas y no sustituyen la valoración de un profesional de la salud.
-                </div>
-                <div id="nutrition-target-card" class="card-glass"></div>
-                <h3 class="section-subtitle">Plan de Comidas Sugerido</h3>
-                <div id="meals-container" class="meals-grid"></div>
-            </section>
-
-            <!-- TAB 4: PROGRESO -->
-            <section id="tab-progress" class="tab-page">
-                <h2 class="page-title">EVOLUCIÓN Y PROGRESO</h2>
                 <div class="card-glass">
-                    <h3>Registro de Cargas & Peso</h3>
-                    <div class="form-row" style="margin-top: 12px;">
-                        <input type="number" id="input-new-weight" class="input-dark" placeholder="Nuevo peso (kg)">
-                        <button class="btn-primary-neon" onclick="App.recordWeight()">Guardar</button>
-                    </div>
-                </div>
-                <div class="card-glass" style="margin-top: 16px;">
-                    <h3>Cumplimiento Semanal</h3>
-                    <div id="progress-history-list" class="history-list"></div>
+                    <h2 id="dash-greeting">¡Bienvenido a ENFOQUE!</h2>
+                    <p class="text-muted" style="margin-top: 6px;">Tu plan personalizado ya está activo.</p>
                 </div>
             </section>
-
-            <!-- TAB 5: COMUNIDAD -->
-            <section id="tab-community" class="tab-page">
-                <h2 class="page-title">MURO DE COMUNIDAD</h2>
-                <div class="card-glass">
-                    <textarea id="community-input" class="input-dark" placeholder="Comparte tu logro de hoy con la comunidad..."></textarea>
-                    <button class="btn-primary-neon" style="margin-top: 10px;" onclick="App.postCommunity()">PUBLICAR 🔥</button>
-                </div>
-                <div id="community-feed" class="feed-container"></div>
-            </section>
-
-            <!-- TAB 6: PERFIL & RATING -->
-            <section id="tab-profile" class="tab-page">
-                <h2 class="page-title">MI PERFIL</h2>
-                <div class="card-glass">
-                    <div class="form-group">
-                        <label>Nombre</label>
-                        <input type="text" id="prof-name" class="input-dark">
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Peso (kg)</label>
-                            <input type="number" id="prof-weight" class="input-dark">
-                        </div>
-                        <div class="form-group">
-                            <label>Objetivo</label>
-                            <select id="prof-goal" class="input-dark">
-                                <option value="gain">Ganar Masa Muscular</option>
-                                <option value="lose">Perder Grasa</option>
-                            </select>
-                        </div>
-                    </div>
-                    <button class="btn-primary-neon" onclick="App.updateProfile()">GUARDAR CAMBIOS</button>
-                </div>
-
-                <div class="card-glass" style="margin-top: 16px;">
-                    <h3>VALORA LA APP ENFOQUE</h3>
-                    <div class="star-rating" id="star-rating-box">
-                        <span onclick="App.rateApp(1)">★</span>
-                        <span onclick="App.rateApp(2)">★</span>
-                        <span onclick="App.rateApp(3)">★</span>
-                        <span onclick="App.rateApp(4)">★</span>
-                        <span onclick="App.rateApp(5)">★</span>
-                    </div>
-                    <p id="rating-feedback" class="text-muted" style="text-align: center; margin-top: 8px;"></p>
-                </div>
-            </section>
-
         </main>
-
-        <!-- BOTTOM NAVIGATION MOBILE -->
-        <nav class="bottom-nav">
-            <button class="nav-item active" onclick="App.navigateTo('dashboard')">
-                <span class="nav-icon">🏠</span>
-                <span class="nav-text">Inicio</span>
-            </button>
-            <button class="nav-item" onclick="App.navigateTo('workouts')">
-                <span class="nav-icon">🏋️</span>
-                <span class="nav-text">Rutinas</span>
-            </button>
-            <button class="nav-item" onclick="App.navigateTo('nutrition')">
-                <span class="nav-icon">🥗</span>
-                <span class="nav-text">Nutrición</span>
-            </button>
-            <button class="nav-item" onclick="App.navigateTo('progress')">
-                <span class="nav-icon">📈</span>
-                <span class="nav-text">Progreso</span>
-            </button>
-            <button class="nav-item" onclick="App.navigateTo('community')">
-                <span class="nav-icon">👥</span>
-                <span class="nav-text">Muro</span>
-            </button>
-            <button class="nav-item" onclick="App.navigateTo('profile')">
-                <span class="nav-icon">⚙️</span>
-                <span class="nav-text">Perfil</span>
-            </button>
-        </nav>
     </div>
 
-    <!-- MODAL TÉCNICA DE EJERCICIO -->
-    <div id="modal-technique" class="modal-overlay">
-        <div class="modal-card card-glass">
-            <button class="modal-close" onclick="App.closeModal()">✕</button>
-            <h3 id="modal-ex-title">Nombre Ejercicio</h3>
-            <div id="modal-ex-media" class="ex-media-placeholder">▶ DEMOSTRACIÓN TÉCNICA</div>
-            <div class="modal-body">
-                <h4>Técnica Correcta</h4>
-                <ul id="modal-ex-tech"></ul>
-                <h4>Errores Comunes</h4>
-                <ul id="modal-ex-mistakes" class="text-danger"></ul>
-                <h4>Consejo del Coach</h4>
-                <p id="modal-ex-tips" class="badge-neon-p"></p>
-            </div>
-        </div>
-    </div>
+    <!-- MOTOR LÓGICO INTEGRADO DIRECTAMENTE -->
+    <script>
+        const Storage = {
+            KEYS: { USER: 'enfoque_user_profile' },
+            saveUser(profile) { localStorage.setItem(this.KEYS.USER, JSON.stringify(profile)); },
+            getUser() { const d = localStorage.getItem(this.KEYS.USER); return d ? JSON.parse(d) : null; }
+        };
 
-    <!-- MODAL RECETA COMIDA -->
-    <div id="modal-recipe" class="modal-overlay">
-        <div class="modal-card card-glass">
-            <button class="modal-close" onclick="App.closeModal()">✕</button>
-            <h3 id="modal-meal-title">Nombre Platillo</h3>
-            <div class="modal-body" id="modal-meal-body"></div>
-        </div>
-    </div>
+        const App = {
+            user: null,
+            tempUser: {},
 
-    <!-- TEMPORIZADOR DE DESCANSO FLOTANTE -->
-    <div id="rest-timer-widget" class="timer-widget">
-        <span>⏱️ DESCANSO: <strong id="timer-display">00:00</strong></span>
-        <button onclick="App.stopTimer()">Saltar</button>
-    </div>
+            init() {
+                this.user = Storage.getUser();
+                if (!this.user) {
+                    this.showScreen('screen-landing');
+                } else {
+                    this.showScreen('screen-main-app');
+                    this.renderDashboard();
+                }
+            },
 
-    <script src="js/storage.js"></script>
-    <script src="js/data.js"></script>
-    <script src="js/app.js"></script>
+            showScreen(id) {
+                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+                const target = document.getElementById(id);
+                if (target) target.classList.add('active');
+            },
+
+            startOnboarding() {
+                this.showScreen('screen-onboarding');
+                this.showObStep(1);
+            },
+
+            showObStep(step) {
+                document.querySelectorAll('.ob-step').forEach(s => s.classList.remove('active'));
+                const currentStep = document.getElementById(`ob-step-${step}`);
+                if (currentStep) currentStep.classList.add('active');
+                const stepNum = document.getElementById('onboarding-step-num');
+                if (stepNum) stepNum.innerText = step;
+            },
+
+            selectGoal(goal) {
+                this.tempUser.goal = goal;
+                this.showObStep(2);
+            },
+
+            nextOnboardingStep(step) {
+                if (step === 3) {
+                    this.tempUser.name = document.getElementById('ob-name').value || "Andrés";
+                    this.tempUser.age = document.getElementById('ob-age').value || 44;
+                    this.tempUser.city = document.getElementById('ob-city').value || "Medellín";
+                    this.tempUser.weight = parseFloat(document.getElementById('ob-weight').value) || 85;
+                    this.tempUser.height = parseFloat(document.getElementById('ob-height').value) || 178;
+                    this.showObStep(3);
+                }
+            },
+
+            selectLevel(level) {
+                this.tempUser.level = level;
+                this.tempUser.currentWeek = 1;
+                
+                const summary = document.getElementById('ob-summary');
+                if (summary) {
+                    summary.innerHTML = `
+                        <p style="margin-top:10px;"><strong>Atleta:</strong> ${this.tempUser.name}</p>
+                        <p><strong>Objetivo:</strong> ${this.tempUser.goal === 'gain' ? 'Ganar Masa Muscular' : 'Perder Grasa'}</p>
+                        <p><strong>Peso Inicial:</strong> ${this.tempUser.weight} kg</p>
+                    `;
+                }
+                this.showObStep(4);
+            },
+
+            finishOnboarding() {
+                this.user = { ...this.tempUser };
+                Storage.saveUser(this.user);
+                this.showScreen('screen-main-app');
+                this.renderDashboard();
+            },
+
+            renderDashboard() {
+                const userName = document.getElementById('header-user-name');
+                if (userName) userName.innerText = `Hola, ${this.user.name} 👋`;
+                
+                const greeting = document.getElementById('dash-greeting');
+                if (greeting) greeting.innerText = `¡Hola ${this.user.name}, listo para entrenar!`;
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => App.init());
+    </script>
 </body>
 </html>
