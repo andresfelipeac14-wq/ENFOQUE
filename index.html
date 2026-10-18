@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ENFOQUE — Performance Club</title>
     
-    <!-- Librerías Externas para Calidad Profesional -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -15,492 +14,132 @@
         :root {
             --bg-black: #080A08;
             --bg-card: #121512;
-            --bg-card-hover: #181C18;
             --neon-green: #CCFF00;
             --neon-green-glow: rgba(204, 255, 0, 0.25);
-            --neon-purple: #A855F7;
-            --neon-cyan: #06B6D4;
             --text-white: #FFFFFF;
             --text-muted: #8E958D;
-            --border-card: rgba(255, 255, 255, 0.07);
+            --border-card: rgba(255, 255, 255, 0.08);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
         body { background-color: var(--bg-black); color: var(--text-white); overflow-x: hidden; min-height: 100vh; }
 
-        .screen { display: none; min-height: 100vh; padding-bottom: 110px; }
+        .screen { display: none; min-height: 100vh; }
         .screen.active { display: block; }
 
-        /* PORTADA LANDING */
+        /* PORTADA LIMPIA SIN LOGO GIGANTE TAPANDO */
         #screen-landing {
-            background: linear-gradient(180deg, rgba(8,10,8,0.3) 0%, var(--bg-black) 100%), url('portada.jpg') center/cover no-repeat;
-            display: flex; align-items: flex-end; justify-content: center; padding: 40px 24px; text-align: center;
+            background: linear-gradient(180deg, rgba(8,10,8,0.7) 0%, #080A08 100%), url('portada.jpg') center/cover no-repeat;
+            min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px 20px; text-align: center;
         }
-        .landing-box { max-width: 420px; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 16px; }
-        .verse-tag { color: var(--neon-green); font-size: 0.85rem; font-weight: 800; letter-spacing: 2px; text-shadow: 0 0 10px var(--neon-green-glow); }
-        .landing-title { font-size: 2.6rem; font-weight: 900; letter-spacing: 4px; color: var(--neon-green); }
-        .landing-logo { width: 170px; height: auto; filter: drop-shadow(0 0 25px var(--neon-green-glow)); }
+        .landing-box { max-width: 380px; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+        .verse-tag { color: var(--neon-green); font-size: 0.85rem; font-weight: 800; letter-spacing: 2px; }
+        .landing-title { font-size: 2.2rem; font-weight: 900; letter-spacing: 3px; color: #fff; }
+        
+        /* FIX DE TAMAÑO DE LOGO */
+        .landing-logo { width: 120px !important; height: auto !important; max-height: 120px; object-fit: contain; margin: 10px 0; }
 
         .btn-neon-main {
-            width: 100%; background: var(--neon-green); color: #000; border: none; padding: 18px 24px;
-            border-radius: 30px; font-weight: 900; font-size: 1.05rem; cursor: pointer; transition: all 0.25s ease;
-            text-transform: uppercase; letter-spacing: 1.5px; box-shadow: 0 0 30px var(--neon-green-glow);
-            display: flex; align-items: center; justify-content: center; gap: 10px;
+            width: 100%; background: var(--neon-green); color: #000; border: none; padding: 16px 20px;
+            border-radius: 30px; font-weight: 900; font-size: 1rem; cursor: pointer; transition: all 0.2s;
+            text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 0 20px var(--neon-green-glow);
         }
-        .btn-neon-main:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(204, 255, 0, 0.4); }
         .btn-neon-main:active { transform: scale(0.98); }
 
-        /* HEADER APP */
-        .app-header { display: flex; justify-content: space-between; align-items: center; padding: 24px 24px 12px 24px; max-width: 1200px; margin: 0 auto; }
-        .user-profile-badge { display: flex; align-items: center; gap: 14px; }
-        .user-avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--neon-green); color: #000; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.2rem; box-shadow: 0 0 15px var(--neon-green-glow); }
-        .greeting-sub { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
-        .greeting-name { font-size: 1.25rem; font-weight: 800; }
-        .icon-btn-round { width: 42px; height: 42px; border-radius: 50%; background: var(--bg-card); border: 1px solid var(--border-card); display: flex; align-items: center; justify-content: center; color: var(--text-white); cursor: pointer; transition: all 0.2s; }
-        .icon-btn-round:hover { background: var(--bg-card-hover); border-color: var(--neon-green); }
+        /* DASHBOARD PRINCIPAL */
+        .app-header { display: flex; justify-content: space-between; align-items: center; padding: 20px; max-width: 1000px; margin: 0 auto; }
+        .user-avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--neon-green); color: #000; display: flex; align-items: center; justify-content: center; font-weight: 900; }
 
-        /* CONTAINERS & CARDS */
-        .main-container { padding: 0 24px; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
-        .card { background: var(--bg-card); border-radius: 24px; padding: 22px; border: 1px solid var(--border-card); position: relative; transition: all 0.2s; }
-        .card:hover { border-color: rgba(204, 255, 0, 0.2); }
+        .main-container { padding: 0 20px 100px 20px; max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+        .card { background: var(--bg-card); border-radius: 20px; padding: 20px; border: 1px solid var(--border-card); }
 
-        /* GRID LAYOUTS */
-        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
-        .dash-split-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 20px; }
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+        .metric-value { font-size: 1.8rem; font-weight: 900; color: #fff; margin-top: 6px; }
 
-        /* TARJETAS MÉTICAS */
-        .metric-card-header { display: flex; justify-content: space-between; align-items: center; color: var(--text-muted); font-size: 0.85rem; font-weight: 600; }
-        .metric-value { font-size: 2rem; font-weight: 900; color: var(--text-white); margin: 8px 0 4px 0; }
-        .metric-unit { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; }
-
-        /* HERO CARD (PLAN DEL DÍA) */
-        .hero-banner {
-            background: linear-gradient(135deg, #161B14 0%, #0C0F0B 100%);
-            border: 1px solid rgba(204, 255, 0, 0.2); border-radius: 28px; padding: 28px; position: relative; overflow: hidden;
-        }
-        .hero-tag { color: var(--neon-green); font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; }
-        .hero-title { font-size: 2rem; font-weight: 900; margin: 8px 0 12px 0; line-height: 1.1; }
-        .hero-desc { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; }
-
-        /* LISTA DE EJERCICIOS */
-        .exercise-card { background: var(--bg-card); border-radius: 20px; padding: 16px; display: flex; align-items: center; justify-content: space-between; border: 1px solid var(--border-card); margin-bottom: 12px; }
-        .ex-info { display: flex; align-items: center; gap: 14px; }
-        .ex-icon-box { width: 48px; height: 48px; border-radius: 14px; background: rgba(204, 255, 0, 0.1); color: var(--neon-green); display: flex; align-items: center; justify-content: center; }
-        .ex-title { font-size: 1rem; font-weight: 800; }
-        .ex-sub { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
-
-        /* BARRA NAVEGACIÓN FLOTANTE (MÓVIL & DESKTOP) */
+        /* NAV FLOTANTE */
         .floating-navbar {
-            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
-            background: rgba(18, 21, 18, 0.88); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 40px; padding: 8px 16px;
-            display: flex; align-items: center; gap: 12px; z-index: 1000; box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: rgba(18, 21, 18, 0.95); border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 40px; padding: 6px 12px; display: flex; gap: 8px; z-index: 1000;
         }
         .nav-tab-btn {
-            background: transparent; border: none; color: var(--text-muted); padding: 12px 20px;
-            border-radius: 30px; font-weight: 800; font-size: 0.85rem; display: flex; align-items: center; gap: 8px;
-            cursor: pointer; transition: all 0.25s ease;
+            background: transparent; border: none; color: var(--text-muted); padding: 10px 16px;
+            border-radius: 30px; font-weight: 800; font-size: 0.85rem; cursor: pointer;
         }
-        .nav-tab-btn.active { background: var(--neon-green); color: #000; box-shadow: 0 0 20px var(--neon-green-glow); }
-
-        /* ONBOARDING */
-        .onboarding-wrap { max-width: 480px; margin: 40px auto; padding: 24px; }
-        .ob-step { display: none; }
-        .ob-step.active { display: flex; flex-direction: column; gap: 16px; }
-        .input-field { width: 100%; background: #000; border: 1px solid var(--border-card); color: #fff; padding: 16px; border-radius: 14px; font-size: 1rem; margin-top: 6px; outline: none; }
-        .input-field:focus { border-color: var(--neon-green); }
-
-        @media (max-width: 900px) {
-            .dash-split-grid { grid-template-columns: 1fr; }
-            .hero-title { font-size: 1.6rem; }
-            .main-container { padding: 0 16px; }
-        }
+        .nav-tab-btn.active { background: var(--neon-green); color: #000; }
     </style>
 </head>
 <body>
 
-    <!-- 1. LANDING PORTADA -->
+    <!-- 1. LANDING PORTADA SÚPER CORREGIDA -->
     <section id="screen-landing" class="screen active">
         <div class="landing-box">
             <div class="verse-tag">1 CORINTIOS 9:27</div>
             <h1 class="landing-title">DISCIPLINA</h1>
             <img src="ENFOQUE.jpg" alt="Logo ENFOQUE" class="landing-logo">
-            <button class="btn-neon-main" onclick="App.startOnboarding()">EMPEZAR AHORA <i data-lucide="arrow-right"></i></button>
-            <div class="verse-tag" style="margin-top: 10px;">JOSUÉ 1:9</div>
+            <button class="btn-neon-main" onclick="App.directEnter()">ENTRAR DIRECTO AL DASHBOARD ➔</button>
+            <div class="verse-tag">JOSUÉ 1:9</div>
         </div>
     </section>
 
-    <!-- 2. ONBOARDING -->
-    <section id="screen-onboarding" class="screen">
-        <div class="onboarding-wrap card">
-            <div style="color:var(--neon-green); font-size:0.8rem; font-weight:800; margin-bottom:8px;">PASO <span id="ob-step-num">1</span> DE 3</div>
-            
-            <div id="ob-step-1" class="ob-step active">
-                <h2>¿CUÁL ES TU OBJETIVO PRINCIPAL?</h2>
-                <div class="card" style="cursor:pointer;" onclick="App.selectGoal('gain')">
-                    <h3 style="color:var(--neon-green); display:flex; align-items:center; gap:8px;"><i data-lucide="biceps"></i> GANAR MASA MUSCULAR</h3>
-                    <p style="color:var(--text-muted); font-size:0.85rem; margin-top:6px;">Hipertrofia, aumento de volumen y progresión de cargas.</p>
-                </div>
-                <div class="card" style="cursor:pointer;" onclick="App.selectGoal('lose')">
-                    <h3 style="color:var(--neon-green); display:flex; align-items:center; gap:8px;"><i data-lucide="flame"></i> PERDER GRASA</h3>
-                    <p style="color:var(--text-muted); font-size:0.85rem; margin-top:6px;">Déficit inteligente, definición y preservación de masa muscular.</p>
-                </div>
-            </div>
-
-            <div id="ob-step-2" class="ob-step">
-                <h2>PERFIL DE ATLETA ENFOQUE</h2>
-                <div>
-                    <label style="font-size:0.85rem; color:var(--text-muted);">Nombre Completo</label>
-                    <input type="text" id="ob-name" class="input-field" placeholder="Andrés Felipe">
-                </div>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-                    <div>
-                        <label style="font-size:0.85rem; color:var(--text-muted);">Peso (kg)</label>
-                        <input type="number" id="ob-weight" class="input-field" placeholder="85">
-                    </div>
-                    <div>
-                        <label style="font-size:0.85rem; color:var(--text-muted);">Estatura (cm)</label>
-                        <input type="number" id="ob-height" class="input-field" placeholder="178">
-                    </div>
-                </div>
-                <button class="btn-neon-main" style="margin-top:10px;" onclick="App.nextOnboardingStep(3)">CONTINUAR <i data-lucide="arrow-right"></i></button>
-            </div>
-
-            <div id="ob-step-3" class="ob-step">
-                <h2>¡TU PROGRAMACIÓN ESTÁ LISTA!</h2>
-                <div class="card" id="ob-summary" style="background:#000;"></div>
-                <button class="btn-neon-main" onclick="App.finishOnboarding()">ENTRAR AL DASHBOARD 🔥</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- 3. MAIN APP LAYOUT -->
+    <!-- 2. APP DASHBOARD LIMPIO -->
     <div id="screen-main-app" class="screen">
         
         <header class="app-header">
-            <div class="user-profile-badge">
-                <div class="user-avatar" id="avatar-initials">A</div>
-                <div>
-                    <div class="greeting-sub">BIENVENIDO DE NUEVO</div>
-                    <div class="greeting-name" id="header-user-name">Andrés Felipe</div>
-                </div>
+            <div>
+                <div style="font-size:0.75rem; color:var(--text-muted); font-weight:800;">ENFOQUE PERFORMANCE</div>
+                <h2 style="font-size:1.3rem;">¡Hola, Andrés Felipe! 🔥</h2>
             </div>
-            <div class="icon-btn-round"><i data-lucide="bell"></i></div>
+            <div class="user-avatar">A</div>
         </header>
 
-        <!-- TAB 1: INICIO / DASHBOARD -->
-        <section id="tab-dashboard" class="tab-page active">
-            <div class="main-container">
-                
-                <!-- BANNER HERÓICO -->
-                <div class="hero-banner">
-                    <div class="hero-tag">ENTRENAMIENTO DEL DÍA</div>
-                    <h1 class="hero-title">SUPERA TU MEJOR VERSIÓN.</h1>
-                    <p class="hero-desc">Tu sesión de Pecho + Tríceps está lista. Registra tus cargas hoy.</p>
-                    <button class="btn-neon-main" style="width:auto; padding:12px 24px; font-size:0.9rem;" onclick="App.navigateTo('workouts')">EMPEZAR AHORA <i data-lucide="play"></i></button>
-                </div>
-
-                <!-- 4 MÉTRICAS CON GRÁFICOS REALES -->
-                <div class="metrics-grid">
-                    <div class="card">
-                        <div class="metric-card-header">
-                            <span>Calorías Activas</span>
-                            <i data-lucide="flame" style="color:var(--neon-green)"></i>
-                        </div>
-                        <div class="metric-value">420 <span class="metric-unit">kcal</span></div>
-                        <canvas id="chartCalories" style="max-height: 60px;"></canvas>
-                    </div>
-
-                    <div class="card">
-                        <div class="metric-card-header">
-                            <span>Pasos Diarios</span>
-                            <i data-lucide="footprints" style="color:var(--neon-green)"></i>
-                        </div>
-                        <div class="metric-value">6.240</div>
-                        <canvas id="chartSteps" style="max-height: 60px;"></canvas>
-                    </div>
-
-                    <div class="card">
-                        <div class="metric-card-header">
-                            <span>Tiempo Activo</span>
-                            <i data-lucide="timer" style="color:var(--neon-green)"></i>
-                        </div>
-                        <div class="metric-value">48 <span class="metric-unit">min</span></div>
-                        <div style="background:rgba(255,255,255,0.08); height:8px; border-radius:4px; margin-top:20px; overflow:hidden;">
-                            <div style="background:var(--neon-green); width:80%; height:100%;"></div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="metric-card-header">
-                            <span>Hidratación</span>
-                            <i data-lucide="droplet" style="color:var(--neon-cyan)"></i>
-                        </div>
-                        <div class="metric-value">1.5 <span class="metric-unit">L</span></div>
-                        <div style="background:rgba(255,255,255,0.08); height:8px; border-radius:4px; margin-top:20px; overflow:hidden;">
-                            <div style="background:var(--neon-cyan); width:60%; height:100%;"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- SPLIT: RESUMEN ANILLO + ACTIVIDAD SEMANAL -->
-                <div class="dash-split-grid">
-                    <div class="card" style="display:flex; align-items:center; justify-content:space-between; gap:20px;">
-                        <div>
-                            <span style="font-size:0.8rem; color:var(--text-muted); font-weight:700;">SESIÓN ACTIVA</span>
-                            <h2 style="font-size:1.6rem; margin-top:4px;">PECHO + TRÍCEPS</h2>
-                            <p style="color:var(--text-muted); font-size:0.85rem; margin-top:6px;">5 Ejercicios • Nivel Avanzado</p>
-                        </div>
-                        <div style="width:100px; height:100px; flex-shrink:0;">
-                            <canvas id="chartDonutProgress"></canvas>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                            <span style="font-size:0.85rem; color:var(--text-muted); font-weight:700;">CONSTANCIA SEMANAL</span>
-                            <span style="background:rgba(204,255,0,0.15); color:var(--neon-green); font-size:0.75rem; font-weight:800; padding:4px 10px; border-radius:12px;">4 / 6 DÍAS</span>
-                        </div>
-                        <canvas id="chartWeeklyBars" style="max-height: 100px;"></canvas>
-                    </div>
-                </div>
-
+        <div class="main-container">
+            
+            <!-- TARJETA RUTINA PRINCIPAL -->
+            <div class="card" style="background: linear-gradient(135deg, #161B14 0%, #0C0F0B 100%); border-color: rgba(204,255,0,0.3);">
+                <span style="color:var(--neon-green); font-size:0.75rem; font-weight:800; letter-spacing:1px;">ENTRENAMIENTO DE HOY</span>
+                <h2 style="font-size:1.8rem; margin:6px 0;">PECHO + TRÍCEPS</h2>
+                <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:16px;">5 Ejercicios estructurados • 55 Minutos</p>
+                <button class="btn-neon-main" style="width:auto; padding:12px 24px; font-size:0.85rem;" onclick="alert('Iniciando rutina de Pecho + Tríceps...')">COMENZAR SESIÓN ➔</button>
             </div>
-        </section>
 
-        <!-- TAB 2: RUTINAS -->
-        <section id="tab-workouts" class="tab-page">
-            <div class="main-container">
-                <h2 style="margin-bottom:12px;">PROGRAMA DE ENTRENAMIENTO</h2>
-                
-                <div class="exercise-card">
-                    <div class="ex-info">
-                        <div class="ex-icon-box"><i data-lucide="dumbbell"></i></div>
-                        <div>
-                            <div class="ex-title">Press de Banca Inclinado</div>
-                            <div class="ex-sub">4 Series x 10-12 Reps • Descanso: 90s</div>
-                        </div>
-                    </div>
-                    <div class="icon-btn-round" onclick="alert('Iniciando temporizador de descanso de 90s...')"><i data-lucide="play"></i></div>
+            <!-- MÉTRICAS -->
+            <div class="metrics-grid">
+                <div class="card">
+                    <span style="font-size:0.8rem; color:var(--text-muted);">Calorías Activas</span>
+                    <div class="metric-value">420 <span style="font-size:0.8rem; color:var(--text-muted);">kcal</span></div>
                 </div>
-
-                <div class="exercise-card">
-                    <div class="ex-info">
-                        <div class="ex-icon-box"><i data-lucide="dumbbell"></i></div>
-                        <div>
-                            <div class="ex-title">Sentadilla Libre / Hack</div>
-                            <div class="ex-sub">4 Series x 8-10 Reps • Descanso: 120s</div>
-                        </div>
-                    </div>
-                    <div class="icon-btn-round"><i data-lucide="play"></i></div>
+                <div class="card">
+                    <span style="font-size:0.8rem; color:var(--text-muted);">Pasos Diarios</span>
+                    <div class="metric-value">6.240</div>
                 </div>
-
-                <div class="exercise-card">
-                    <div class="ex-info">
-                        <div class="ex-icon-box"><i data-lucide="dumbbell"></i></div>
-                        <div>
-                            <div class="ex-title">Jalón al Pecho Agarre Neutro</div>
-                            <div class="ex-sub">4 Series x 10-12 Reps • Descanso: 60s</div>
-                        </div>
-                    </div>
-                    <div class="icon-btn-round"><i data-lucide="play"></i></div>
+                <div class="card">
+                    <span style="font-size:0.8rem; color:var(--text-muted);">Tiempo Activo</span>
+                    <div class="metric-value">48 <span style="font-size:0.8rem; color:var(--text-muted);">min</span></div>
+                </div>
+                <div class="card">
+                    <span style="font-size:0.8rem; color:var(--text-muted);">Agua</span>
+                    <div class="metric-value">1.5 <span style="font-size:0.8rem; color:var(--text-muted);">L</span></div>
                 </div>
             </div>
-        </section>
 
-        <!-- TAB 3: NUTRICIÓN Y AGUA -->
-        <section id="tab-nutrition" class="tab-page">
-            <div class="main-container">
-                <h2>NUTRICIÓN Y PLANES</h2>
-                <div class="card" id="nutrition-plan-box" style="margin-top:12px;"></div>
-            </div>
-        </section>
+        </div>
 
-        <!-- TAB 4: PERFIL -->
-        <section id="tab-profile" class="tab-page">
-            <div class="main-container">
-                <h2>MI PERFIL Y AJUSTES</h2>
-                <div class="card" style="margin-top:12px; max-width:500px;">
-                    <label style="font-size:0.85rem; color:var(--text-muted);">Nombre Atleta</label>
-                    <input type="text" id="prof-name" class="input-field">
-
-                    <label style="font-size:0.85rem; color:var(--text-muted); margin-top:12px; display:block;">Peso Corporal (kg)</label>
-                    <input type="number" id="prof-weight" class="input-field">
-
-                    <button class="btn-neon-main" style="margin-top:20px;" onclick="App.saveProfile()">GUARDAR CAMBIOS</button>
-                    <button class="btn-neon-main" style="margin-top:10px; background:transparent; border:1px solid #ff4444; color:#ff4444;" onclick="App.resetProfile()">REINICIAR DATOS</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- FLOATING NAVBAR -->
         <nav class="floating-navbar">
-            <button class="nav-tab-btn active" onclick="App.navigateTo('dashboard')"><i data-lucide="layout-dashboard"></i> Inicio</button>
-            <button class="nav-tab-btn" onclick="App.navigateTo('workouts')"><i data-lucide="dumbbell"></i> Rutina</button>
-            <button class="nav-tab-btn" onclick="App.navigateTo('nutrition')"><i data-lucide="utensils"></i> Nutrición</button>
-            <button class="nav-tab-btn" onclick="App.navigateTo('profile')"><i data-lucide="user"></i> Perfil</button>
+            <button class="nav-tab-btn active">🏠 Inicio</button>
+            <button class="nav-tab-btn" onclick="alert('Entrenamientos')">🏋️ Rutina</button>
+            <button class="nav-tab-btn" onclick="alert('Perfil')">👤 Perfil</button>
         </nav>
 
     </div>
 
-    <!-- MOTOR LÓGICO Y GRÁFICOS -->
     <script>
-        const Storage = {
-            KEYS: { USER: 'enfoque_v2_user' },
-            saveUser(data) { localStorage.setItem(this.KEYS.USER, JSON.stringify(data)); },
-            getUser() { const d = localStorage.getItem(this.KEYS.USER); return d ? JSON.parse(d) : null; }
-        };
-
         const App = {
-            user: null,
-            tempUser: {},
-
-            init() {
-                this.user = Storage.getUser();
-                lucide.createIcons();
-                if (!this.user) {
-                    this.showScreen('screen-landing');
-                } else {
-                    this.showScreen('screen-main-app');
-                    this.renderDashboard();
-                }
-            },
-
-            showScreen(id) {
-                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-                const target = document.getElementById(id);
-                if (target) target.classList.add('active');
-            },
-
-            startOnboarding() {
-                this.showScreen('screen-onboarding');
-                this.showObStep(1);
-            },
-
-            showObStep(step) {
-                document.querySelectorAll('.ob-step').forEach(s => s.classList.remove('active'));
-                const stepEl = document.getElementById(`ob-step-${step}`);
-                if (stepEl) stepEl.classList.add('active');
-                document.getElementById('ob-step-num').innerText = step;
-            },
-
-            selectGoal(goal) {
-                this.tempUser.goal = goal;
-                this.showObStep(2);
-            },
-
-            nextOnboardingStep(step) {
-                this.tempUser.name = document.getElementById('ob-name').value || "Andrés Felipe";
-                this.tempUser.weight = parseFloat(document.getElementById('ob-weight').value) || 85;
-                this.tempUser.height = parseFloat(document.getElementById('ob-height').value) || 178;
-                
-                document.getElementById('ob-summary').innerHTML = `
-                    <p style="color:var(--neon-green); font-weight:800;">ATLETA: ${this.tempUser.name}</p>
-                    <p style="margin-top:6px; font-size:0.9rem;">Objetivo: ${this.tempUser.goal === 'gain' ? 'Ganar Masa Muscular' : 'Perder Grasa'}</p>
-                    <p style="font-size:0.9rem;">Peso Inicial: ${this.tempUser.weight} kg</p>
-                `;
-                this.showObStep(3);
-            },
-
-            finishOnboarding() {
-                this.user = { ...this.tempUser };
-                Storage.saveUser(this.user);
-                this.showScreen('screen-main-app');
-                this.renderDashboard();
-            },
-
-            navigateTo(tabName) {
-                document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
-                document.querySelectorAll('.nav-tab-btn').forEach(b => b.classList.remove('active'));
-
-                const targetTab = document.getElementById(`tab-${tabName}`);
-                if (targetTab) targetTab.classList.add('active');
-
-                if (tabName === 'nutrition') this.renderNutrition();
-                if (tabName === 'profile') this.renderProfile();
-            },
-
-            renderDashboard() {
-                const name = this.user ? this.user.name : "Andrés Felipe";
-                document.getElementById('header-user-name').innerText = name;
-                document.getElementById('avatar-initials').innerText = name.charAt(0).toUpperCase();
-
-                setTimeout(() => this.initCharts(), 100);
-            },
-
-            initCharts() {
-                // Chart Calorías (Línea suave)
-                new Chart(document.getElementById('chartCalories'), {
-                    type: 'line',
-                    data: {
-                        labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
-                        datasets: [{ data: [200, 350, 280, 420, 390, 450, 420], borderColor: '#CCFF00', tension: 0.4, borderWidth: 3, pointRadius: 0 }]
-                    },
-                    options: { plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { display: false } } }
-                });
-
-                // Chart Pasos (Línea suave)
-                new Chart(document.getElementById('chartSteps'), {
-                    type: 'line',
-                    data: {
-                        labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
-                        datasets: [{ data: [4000, 5200, 6100, 5800, 7200, 6240, 6500], borderColor: '#CCFF00', tension: 0.4, borderWidth: 3, pointRadius: 0 }]
-                    },
-                    options: { plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { display: false } } }
-                });
-
-                // Chart Dona Progreso
-                new Chart(document.getElementById('chartDonutProgress'), {
-                    type: 'doughnut',
-                    data: {
-                        datasets: [{ data: [65, 35], backgroundColor: ['#CCFF00', 'rgba(255,255,255,0.08)'], borderWidth: 0 }]
-                    },
-                    options: { cutout: '80%', plugins: { legend: { display: false } } }
-                });
-
-                // Chart Barras Semanal
-                new Chart(document.getElementById('chartWeeklyBars'), {
-                    type: 'bar',
-                    data: {
-                        labels: ['L', 'M', 'M', 'J', 'V', 'S', 'D'],
-                        datasets: [{ data: [1, 1, 1, 1, 0, 0, 0], backgroundColor: '#CCFF00', borderRadius: 6 }]
-                    },
-                    options: { plugins: { legend: { display: false } }, scales: { x: { grid: { display: false }, ticks: { color: '#8E958D' } }, y: { display: false } } }
-                });
-            },
-
-            renderNutrition() {
-                const planBox = document.getElementById('nutrition-plan-box');
-                const isGain = this.user && this.user.goal === 'gain';
-                planBox.innerHTML = `
-                    <span style="color:var(--neon-green); font-weight:800; font-size:0.75rem;">${isGain ? 'SUPERÁVIT CALÓRICO' : 'DÉFICIT CONTROLADO'}</span>
-                    <h3 style="margin-top:4px;">OBJETIVO: ${isGain ? 'Ganar Masa Muscular' : 'Definición'}</h3>
-                    <p style="color:var(--text-muted); font-size:0.85rem; margin-top:6px;">Proteína diaria recomendada: <strong>2.0g por kg de peso</strong></p>
-                `;
-            },
-
-            renderProfile() {
-                if (this.user) {
-                    document.getElementById('prof-name').value = this.user.name;
-                    document.getElementById('prof-weight').value = this.user.weight;
-                }
-            },
-
-            saveProfile() {
-                this.user.name = document.getElementById('prof-name').value;
-                this.user.weight = parseFloat(document.getElementById('prof-weight').value);
-                Storage.saveUser(this.user);
-                alert("Perfil actualizado correctamente.");
-                this.renderDashboard();
-            },
-
-            resetProfile() {
-                localStorage.clear();
-                location.reload();
+            directEnter() {
+                document.getElementById('screen-landing').classList.remove('active');
+                document.getElementById('screen-main-app').classList.add('active');
             }
         };
-
-        document.addEventListener('DOMContentLoaded', () => App.init());
     </script>
 </body>
 </html>
