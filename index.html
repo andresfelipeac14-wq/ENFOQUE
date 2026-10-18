@@ -2,137 +2,376 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ENFOQUE — Performance Club</title>
     
-    <!-- Tailwind CSS CDN para estilos profesionales -->
+    <!-- Librerías de UI y Gráficos -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
                         brand: {
-                            black: '#080A08',
-                            card: '#121512',
+                            black: '#0A0A0A',
+                            card: '#121212',
                             neon: '#CCFF00',
-                            muted: '#8E958D'
+                            muted: '#8E8E93'
                         }
                     }
                 }
             }
         }
     </script>
-
-    <!-- React 18 & Babel para componentes limpios -->
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        * { -webkit-tap-highlight-color: transparent; }
+        body { background-color: #0A0A0A; color: #FFFFFF; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+    </style>
 </head>
-<body class="bg-brand-black text-white font-sans antialiased min-h-screen">
+<body class="min-h-screen bg-brand-black text-white antialiased pb-28">
 
-    <div id="root"></div>
+    <!-- CABECERA DE LA APP -->
+    <header class="max-w-4xl mx-auto px-6 pt-6 pb-4 flex justify-between items-center border-b border-white/10">
+        <div class="flex items-center gap-3">
+            <img src="ENFOQUE.jpg" alt="Logo ENFOQUE" class="w-9 h-9 object-contain">
+            <div>
+                <h1 class="text-lg font-black tracking-widest text-brand-neon">ENFOQUE</h1>
+                <p class="text-[9px] text-brand-muted font-bold tracking-widest">PERFORMANCE CLUB</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-3">
+            <div class="text-right">
+                <span class="block text-xs font-bold text-white" id="user-display-name">Andrés Felipe</span>
+                <span class="text-[10px] text-brand-neon font-bold">ATLETA ENFOQUE</span>
+            </div>
+            <div class="w-10 h-10 rounded-full bg-brand-neon text-black font-black flex items-center justify-center text-sm shadow-[0_0_15px_rgba(204,255,0,0.3)]" id="avatar-initials">
+                AF
+            </div>
+        </div>
+    </header>
 
-    <!-- CÓDIGO REACT RESTRUCTURADO -->
-    <script type="text/babel">
-        const { useState, useEffect } = React;
+    <!-- CONTENEDOR PRINCIPAL -->
+    <main class="max-w-4xl mx-auto px-6 pt-6">
 
-        // 1. COMPONENTE PORTADA (LANDING)
-        function LandingScreen({ onEnter }) {
-            return (
-                <div class="min-h-screen flex flex-col items-center justify-between p-8 bg-cover bg-center text-center relative" style={{ backgroundImage: "linear-gradient(180deg, rgba(8,10,8,0.7) 0%, #080A08 100%), url('portada.jpg')" }}>
-                    <div class="text-brand-neon font-bold text-xs tracking-widest mt-6">1 CORINTIOS 9:27</div>
-                    
-                    <div class="flex flex-col items-center gap-4 my-auto">
-                        <h1 class="text-4xl font-black tracking-widest text-white">DISCIPLINA</h1>
-                        <img src="ENFOQUE.jpg" alt="Logo ENFOQUE" class="w-28 h-auto object-contain my-2 drop-shadow-[0_0_20px_rgba(204,255,0,0.3)]" />
-                        
-                        <button 
-                            onClick={onEnter} 
-                            class="bg-brand-neon text-black font-extrabold px-8 py-4 rounded-full text-sm tracking-wider uppercase shadow-[0_0_25px_rgba(204,255,0,0.4)] hover:scale-105 active:scale-95 transition-all mt-4"
-                        >
-                            ENTRAR AL DASHBOARD ➔
-                        </button>
-                    </div>
-
-                    <div class="text-brand-neon font-bold text-xs tracking-widest mb-6">JOSUÉ 1:9</div>
+        <!-- ================= 1. INICIO — DASHBOARD ================= -->
+        <section id="tab-dashboard" class="tab-content active space-y-6">
+            <!-- Saludo y resumen -->
+            <div class="bg-gradient-to-br from-[#181C10] to-[#0E100A] border border-brand-neon/30 p-6 rounded-3xl space-y-3">
+                <span class="text-brand-neon text-xs font-bold tracking-widest uppercase">RUTINA DEL DÍA</span>
+                <h2 class="text-3xl font-black">PECHO + TRÍCEPS</h2>
+                <p class="text-brand-muted text-sm">Fuerza • Nivel Intermedio • 55 Minutos</p>
+                <div class="pt-2">
+                    <button onclick="App.switchTab('workouts')" class="bg-brand-neon text-black font-extrabold px-6 py-3 rounded-full text-xs uppercase tracking-wider shadow-[0_0_20px_rgba(204,255,0,0.3)] hover:opacity-90 active:scale-95 transition-all">
+                        VER MI RUTINA ➔
+                    </button>
                 </div>
-            );
-        }
+            </div>
 
-        // 2. COMPONENTE DASHBOARD (PANEL PRINCIPAL)
-        function DashboardScreen() {
-            return (
-                <div class="min-h-screen pb-24 max-w-4xl mx-auto p-6 space-y-6">
-                    {/* Header */}
-                    <div class="flex justify-between items-center pt-4">
+            <!-- Métricas de Actividad Diaria -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-brand-card border border-white/10 p-4 rounded-2xl space-y-1">
+                    <span class="text-xs text-brand-muted font-bold block">Calorías Activas</span>
+                    <div class="text-2xl font-black text-white">420 <span class="text-xs text-brand-muted font-normal">kcal</span></div>
+                    <div class="w-full bg-white/10 h-1.5 rounded-full mt-2 overflow-hidden">
+                        <div class="bg-brand-neon h-full w-[70%]"></div>
+                    </div>
+                </div>
+
+                <div class="bg-brand-card border border-white/10 p-4 rounded-2xl space-y-1">
+                    <span class="text-xs text-brand-muted font-bold block">Pasos Diarios</span>
+                    <div class="text-2xl font-black text-white">6.240</div>
+                    <div class="w-full bg-white/10 h-1.5 rounded-full mt-2 overflow-hidden">
+                        <div class="bg-brand-neon h-full w-[78%]"></div>
+                    </div>
+                </div>
+
+                <div class="bg-brand-card border border-white/10 p-4 rounded-2xl space-y-1">
+                    <span class="text-xs text-brand-muted font-bold block">Tiempo Activo</span>
+                    <div class="text-2xl font-black text-white">48 <span class="text-xs text-brand-muted font-normal">min</span></div>
+                    <div class="w-full bg-white/10 h-1.5 rounded-full mt-2 overflow-hidden">
+                        <div class="bg-brand-neon h-full w-[80%]"></div>
+                    </div>
+                </div>
+
+                <div class="bg-brand-card border border-white/10 p-4 rounded-2xl space-y-1">
+                    <span class="text-xs text-brand-muted font-bold block">Agua</span>
+                    <div class="text-2xl font-black text-white"><span id="dash-water-val">1.5</span> <span class="text-xs text-brand-muted font-normal">L</span></div>
+                    <div class="w-full bg-white/10 h-1.5 rounded-full mt-2 overflow-hidden">
+                        <div class="bg-cyan-400 h-full w-[60%]" id="dash-water-bar"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gráfico de Actividad Semanal -->
+            <div class="bg-brand-card border border-white/10 p-5 rounded-3xl space-y-3">
+                <div class="flex justify-between items-center">
+                    <span class="text-xs font-bold text-brand-muted uppercase">Actividad Semanal</span>
+                    <span class="bg-brand-neon/10 text-brand-neon text-xs font-extrabold px-3 py-1 rounded-full">4 / 6 DÍAS</span>
+                </div>
+                <div class="h-36">
+                    <canvas id="chartWeeklyBars"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= 2. ENTRENAMIENTOS ================= -->
+        <section id="tab-workouts" class="tab-content space-y-6">
+            <div>
+                <h2 class="text-2xl font-black">RUTINAS POR GRUPOS MUSCULARES</h2>
+                <p class="text-xs text-brand-muted">Estructura semanal y seguimiento de cargas</p>
+            </div>
+
+            <div class="space-y-4">
+                <!-- Rutina Lunes -->
+                <div class="bg-brand-card border border-white/10 p-5 rounded-2xl space-y-3">
+                    <div class="flex justify-between items-center border-b border-white/10 pb-3">
                         <div>
-                            <span class="text-xs text-brand-muted font-bold tracking-wider">ENFOQUE PERFORMANCE</span>
-                            <h2 class="text-xl font-extrabold">¡Hola, Andrés Felipe! 🔥</h2>
+                            <span class="text-brand-neon font-black text-xs">LUNES</span>
+                            <h3 class="text-base font-black">PIERNA COMPLETA + ABDOMEN</h3>
                         </div>
-                        <div class="w-11 h-11 rounded-full bg-brand-neon text-black font-black flex items-center justify-center text-lg shadow-[0_0_15px_rgba(204,255,0,0.3)]">
-                            A
-                        </div>
+                        <span class="text-xs text-brand-muted">5 Ejercicios</span>
                     </div>
-
-                    {/* Tarjeta Hero */}
-                    <div class="bg-gradient-to-br from-[#161B14] to-[#0C0F0B] border border-brand-neon/30 p-6 rounded-3xl space-y-3">
-                        <span class="text-brand-neon text-xs font-bold tracking-widest">ENTRENAMIENTO DE HOY</span>
-                        <h3 class="text-2xl font-black">PECHO + TRÍCEPS</h3>
-                        <p class="text-brand-muted text-sm">5 Ejercicios estructurados • 55 Minutos</p>
-                        <button class="bg-brand-neon text-black font-extrabold px-6 py-3 rounded-full text-xs tracking-wider uppercase shadow-[0_0_15px_rgba(204,255,0,0.3)] hover:opacity-90 active:scale-95 transition-all">
-                            COMENZAR SESIÓN ➔
-                        </button>
-                    </div>
-
-                    {/* Métricas en Grid */}
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div class="bg-brand-card border border-white/10 p-4 rounded-2xl">
-                            <span class="text-xs text-brand-muted font-semibold">Calorías Activas</span>
-                            <div class="text-2xl font-black mt-1">420 <span class="text-xs text-brand-muted">kcal</span></div>
+                    <div class="space-y-2">
+                        <div class="bg-black/40 p-3 rounded-xl border border-white/5 flex justify-between items-center text-xs">
+                            <div>
+                                <span class="font-extrabold block text-white">Sentadilla Libre</span>
+                                <span class="text-brand-muted">4 Series x 8-12 Reps</span>
+                            </div>
+                            <button onclick="App.startTimer(90)" class="bg-brand-neon text-black font-extrabold px-3 py-1.5 rounded-lg">90s Descanso</button>
                         </div>
-                        <div class="bg-brand-card border border-white/10 p-4 rounded-2xl">
-                            <span class="text-xs text-brand-muted font-semibold">Pasos Diarios</span>
-                            <div class="text-2xl font-black mt-1">6.240</div>
+                        <div class="bg-black/40 p-3 rounded-xl border border-white/5 flex justify-between items-center text-xs">
+                            <div>
+                                <span class="font-extrabold block text-white">Prensa de Piernas 45°</span>
+                                <span class="text-brand-muted">4 Series x 10-12 Reps</span>
+                            </div>
+                            <button onclick="App.startTimer(90)" class="bg-brand-neon text-black font-extrabold px-3 py-1.5 rounded-lg">90s Descanso</button>
                         </div>
-                        <div class="bg-brand-card border border-white/10 p-4 rounded-2xl">
-                            <span class="text-xs text-brand-muted font-semibold">Tiempo Activo</span>
-                            <div class="text-2xl font-black mt-1">48 <span class="text-xs text-brand-muted">min</span></div>
-                        </div>
-                        <div class="bg-brand-card border border-white/10 p-4 rounded-2xl">
-                            <span class="text-xs text-brand-muted font-semibold">Agua</span>
-                            <div class="text-2xl font-black mt-1">1.5 <span class="text-xs text-brand-muted">L</span></div>
-                        </div>
-                    </div>
-
-                    {/* Navbar Flotante */}
-                    <div class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-[#121512]/90 backdrop-blur-md border border-white/15 px-4 py-2 rounded-full flex gap-3 shadow-2xl z-50">
-                        <button class="bg-brand-neon text-black font-extrabold px-5 py-2 rounded-full text-xs">🏠 Inicio</button>
-                        <button class="text-brand-muted hover:text-white font-bold px-4 py-2 text-xs">🏋️ Rutina</button>
-                        <button class="text-brand-muted hover:text-white font-bold px-4 py-2 text-xs">👤 Perfil</button>
                     </div>
                 </div>
-            );
-        }
 
-        // 3. APLICACIÓN PRINCIPAL (CONTROLADOR DE PANTALLAS)
-        function App() {
-            const [screen, setScreen] = useState('landing');
+                <!-- Rutina Martes -->
+                <div class="bg-brand-card border border-white/10 p-5 rounded-2xl space-y-3">
+                    <div class="flex justify-between items-center border-b border-white/10 pb-3">
+                        <div>
+                            <span class="text-brand-neon font-black text-xs">MARTES</span>
+                            <h3 class="text-base font-black">PECHO + TRÍCEPS</h3>
+                        </div>
+                        <span class="text-xs text-brand-muted">5 Ejercicios</span>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="bg-black/40 p-3 rounded-xl border border-white/5 flex justify-between items-center text-xs">
+                            <div>
+                                <span class="font-extrabold block text-white">Press de Banca Plano</span>
+                                <span class="text-brand-muted">4 Series x 8-10 Reps</span>
+                            </div>
+                            <button onclick="App.startTimer(90)" class="bg-brand-neon text-black font-extrabold px-3 py-1.5 rounded-lg">90s Descanso</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-            return (
+        <!-- ================= 3. NUTRICIÓN ================= -->
+        <section id="tab-nutrition" class="tab-content space-y-6">
+            <div>
+                <h2 class="text-2xl font-black">PLAN ALIMENTICIO Y AGUA</h2>
+                <p class="text-xs text-brand-muted">Seguimiento de hidratación y macronutrientes</p>
+            </div>
+
+            <!-- Registro de Agua -->
+            <div class="bg-brand-card border border-white/10 p-5 rounded-2xl space-y-3">
+                <div class="flex justify-between items-center">
+                    <span class="text-xs font-bold text-cyan-400 uppercase">CONSUMO DE AGUA</span>
+                    <span class="text-xl font-black text-cyan-400" id="nutri-water-disp">1.5 L / 3.0 L</span>
+                </div>
+                <div class="grid grid-cols-3 gap-2">
+                    <button onclick="App.addWater(0.25)" class="bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-bold py-2 rounded-xl text-xs">+ 250 ml</button>
+                    <button onclick="App.addWater(0.50)" class="bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-bold py-2 rounded-xl text-xs">+ 500 ml</button>
+                    <button onclick="App.addWater(1.00)" class="bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-bold py-2 rounded-xl text-xs">+ 1.0 L</button>
+                </div>
+            </div>
+
+            <!-- Resumen Nutricional -->
+            <div class="bg-brand-card border border-white/10 p-5 rounded-2xl space-y-3 text-xs">
+                <h3 class="font-black text-brand-neon text-sm uppercase">Plan Diario Recomendado</h3>
+                <div class="bg-black/40 p-3 rounded-xl border border-white/5 space-y-1">
+                    <strong class="text-white block">Desayuno:</strong>
+                    <p class="text-brand-muted">4 Huevos enteros + Avena en hojuelas con frutos rojos.</p>
+                </div>
+                <div class="bg-black/40 p-3 rounded-xl border border-white/5 space-y-1">
+                    <strong class="text-white block">Almuerzo:</strong>
+                    <p class="text-brand-muted">200g Pechuga de pollo / Carne magra + Arroz blanco + Aguacate.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= 4. MI PROGRESO ================= -->
+        <section id="tab-progress" class="tab-content space-y-6">
+            <div>
+                <h2 class="text-2xl font-black">ESTADÍSTICAS Y RENDIMIENTO</h2>
+                <p class="text-xs text-brand-muted">Evolución de cargas y mediciones</p>
+            </div>
+
+            <div class="bg-brand-card border border-white/10 p-5 rounded-2xl space-y-3">
+                <span class="text-xs font-bold text-brand-muted uppercase">Evolución de Cargas (kg)</span>
+                <div class="h-44">
+                    <canvas id="chartPerformance"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= 5. PERFIL ================= -->
+        <section id="tab-profile" class="tab-content space-y-6">
+            <div>
+                <h2 class="text-2xl font-black">DATOS PERSONALES Y PREFERENCIAS</h2>
+                <p class="text-xs text-brand-muted">Configuración de la cuenta</p>
+            </div>
+
+            <div class="bg-brand-card border border-white/10 p-5 rounded-2xl space-y-4 max-w-md">
                 <div>
-                    {screen === 'landing' && (
-                        <LandingScreen onEnter={() => setScreen('dashboard')} />
-                    )}
-                    {screen === 'dashboard' && (
-                        <DashboardScreen />
-                    )}
+                    <label class="text-xs text-brand-muted font-bold block mb-1">Nombre Completo</label>
+                    <input type="text" id="prof-name" class="w-full bg-black border border-white/10 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-brand-neon">
                 </div>
-            );
-        }
+                <div>
+                    <label class="text-xs text-brand-muted font-bold block mb-1">Peso Corporal (kg)</label>
+                    <input type="number" id="prof-weight" class="w-full bg-black border border-white/10 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-brand-neon">
+                </div>
+                <button onclick="App.saveProfile()" class="w-full bg-brand-neon text-black font-extrabold py-3 rounded-xl text-xs uppercase shadow-[0_0_15px_rgba(204,255,0,0.3)]">
+                    GUARDAR CAMBIOS
+                </button>
+            </div>
+        </section>
 
-        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </main>
+
+    <!-- CRONÓMETRO DE DESCANSO -->
+    <div id="timer-modal" class="fixed bottom-20 right-6 bg-brand-neon text-black p-4 rounded-2xl shadow-2xl font-black hidden items-center gap-4 z-50">
+        <div>
+            <span class="text-[10px] block uppercase">DESCANSO</span>
+            <span class="text-xl" id="timer-display">01:30</span>
+        </div>
+        <button onclick="App.stopTimer()" class="bg-black text-white text-xs px-3 py-1 rounded-lg">✕</button>
+    </div>
+
+    <!-- NAVEGACIÓN FLOTANTE -->
+    <nav class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-[#121212]/95 backdrop-blur-md border border-white/15 px-4 py-2 rounded-full flex gap-1 shadow-2xl z-40">
+        <button onclick="App.switchTab('dashboard')" class="nav-btn bg-brand-neon text-black font-black px-3.5 py-2 rounded-full text-xs flex items-center gap-1.5" data-tab="dashboard">
+            <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Inicio
+        </button>
+        <button onclick="App.switchTab('workouts')" class="nav-btn text-brand-muted font-bold px-3.5 py-2 rounded-full text-xs flex items-center gap-1.5" data-tab="workouts">
+            <i data-lucide="dumbbell" class="w-4 h-4"></i> Entrenar
+        </button>
+        <button onclick="App.switchTab('nutrition')" class="nav-btn text-brand-muted font-bold px-3.5 py-2 rounded-full text-xs flex items-center gap-1.5" data-tab="nutrition">
+            <i data-lucide="utensils" class="w-4 h-4"></i> Nutrición
+        </button>
+        <button onclick="App.switchTab('progress')" class="nav-btn text-brand-muted font-bold px-3.5 py-2 rounded-full text-xs flex items-center gap-1.5" data-tab="progress">
+            <i data-lucide="trending-up" class="w-4 h-4"></i> Progreso
+        </button>
+        <button onclick="App.switchTab('profile')" class="nav-btn text-brand-muted font-bold px-3.5 py-2 rounded-full text-xs flex items-center gap-1.5" data-tab="profile">
+            <i data-lucide="user" class="w-4 h-4"></i> Perfil
+        </button>
+    </nav>
+
+    <!-- MOTOR LÓGICO -->
+    <script>
+        const App = {
+            water: 1.5,
+            timerInterval: null,
+            user: { name: 'Andrés Felipe', weight: 85 },
+
+            init() {
+                lucide.createIcons();
+                this.loadUserData();
+                this.initCharts();
+            },
+
+            switchTab(tabId) {
+                document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    btn.classList.remove('bg-brand-neon', 'text-black', 'font-black');
+                    btn.classList.add('text-brand-muted', 'font-bold');
+                });
+
+                const targetTab = document.getElementById(`tab-${tabId}`);
+                if (targetTab) targetTab.classList.add('active');
+
+                const activeBtn = document.querySelector(`.nav-btn[data-tab="${tabId}"]`);
+                if (activeBtn) {
+                    activeBtn.classList.remove('text-brand-muted', 'font-bold');
+                    activeBtn.classList.add('bg-brand-neon', 'text-black', 'font-black');
+                }
+            },
+
+            addWater(amount) {
+                this.water = parseFloat((this.water + amount).toFixed(2));
+                document.getElementById('dash-water-val').innerText = this.water;
+                document.getElementById('nutri-water-disp').innerText = `${this.water} L / 3.0 L`;
+                const pct = Math.min((this.water / 3.0) * 100, 100);
+                document.getElementById('dash-water-bar').style.width = `${pct}%`;
+            },
+
+            startTimer(seconds) {
+                this.stopTimer();
+                const modal = document.getElementById('timer-modal');
+                const display = document.getElementById('timer-display');
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+
+                let left = seconds;
+                this.timerInterval = setInterval(() => {
+                    left--;
+                    const m = String(Math.floor(left / 60)).padStart(2, '0');
+                    const s = String(left % 60).padStart(2, '0');
+                    display.innerText = `${m}:${s}`;
+
+                    if (left <= 0) this.stopTimer();
+                }, 1000);
+            },
+
+            stopTimer() {
+                if (this.timerInterval) clearInterval(this.timerInterval);
+                document.getElementById('timer-modal').classList.add('hidden');
+            },
+
+            loadUserData() {
+                document.getElementById('prof-name').value = this.user.name;
+                document.getElementById('prof-weight').value = this.user.weight;
+            },
+
+            saveProfile() {
+                this.user.name = document.getElementById('prof-name').value;
+                this.user.weight = document.getElementById('prof-weight').value;
+                document.getElementById('user-display-name').innerText = this.user.name;
+                alert('Datos guardados.');
+            },
+
+            initCharts() {
+                new Chart(document.getElementById('chartWeeklyBars'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['LUN', 'MAR', 'MIÉ', 'JUE', 'VIE', 'SÁB', 'DOM'],
+                        datasets: [{ data: [1, 1, 1, 1, 0, 0, 0], backgroundColor: '#CCFF00', borderRadius: 4 }]
+                    },
+                    options: { plugins: { legend: { display: false } }, scales: { x: { grid: { display: false }, ticks: { color: '#8E8E93' } }, y: { display: false } } }
+                });
+
+                new Chart(document.getElementById('chartPerformance'), {
+                    type: 'line',
+                    data: {
+                        labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4'],
+                        datasets: [{ data: [140, 160, 185, 220], borderColor: '#CCFF00', tension: 0.3, borderWidth: 2 }]
+                    },
+                    options: { plugins: { legend: { display: false } }, scales: { x: { grid: { display: false }, ticks: { color: '#8E8E93' } }, y: { display: false } } }
+                });
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => App.init());
     </script>
 </body>
 </html>
