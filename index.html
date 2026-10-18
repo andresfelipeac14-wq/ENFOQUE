@@ -2,144 +2,137 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ENFOQUE — Performance Club</title>
     
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-
-    <meta name="theme-color" content="#080A08">
-    
-    <style>
-        :root {
-            --bg-black: #080A08;
-            --bg-card: #121512;
-            --neon-green: #CCFF00;
-            --neon-green-glow: rgba(204, 255, 0, 0.25);
-            --text-white: #FFFFFF;
-            --text-muted: #8E958D;
-            --border-card: rgba(255, 255, 255, 0.08);
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background-color: var(--bg-black); color: var(--text-white); overflow-x: hidden; min-height: 100vh; }
-
-        .screen { display: none; min-height: 100vh; }
-        .screen.active { display: block; }
-
-        /* PORTADA LIMPIA SIN LOGO GIGANTE TAPANDO */
-        #screen-landing {
-            background: linear-gradient(180deg, rgba(8,10,8,0.7) 0%, #080A08 100%), url('portada.jpg') center/cover no-repeat;
-            min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px 20px; text-align: center;
-        }
-        .landing-box { max-width: 380px; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 16px; }
-        .verse-tag { color: var(--neon-green); font-size: 0.85rem; font-weight: 800; letter-spacing: 2px; }
-        .landing-title { font-size: 2.2rem; font-weight: 900; letter-spacing: 3px; color: #fff; }
-        
-        /* FIX DE TAMAÑO DE LOGO */
-        .landing-logo { width: 120px !important; height: auto !important; max-height: 120px; object-fit: contain; margin: 10px 0; }
-
-        .btn-neon-main {
-            width: 100%; background: var(--neon-green); color: #000; border: none; padding: 16px 20px;
-            border-radius: 30px; font-weight: 900; font-size: 1rem; cursor: pointer; transition: all 0.2s;
-            text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 0 20px var(--neon-green-glow);
-        }
-        .btn-neon-main:active { transform: scale(0.98); }
-
-        /* DASHBOARD PRINCIPAL */
-        .app-header { display: flex; justify-content: space-between; align-items: center; padding: 20px; max-width: 1000px; margin: 0 auto; }
-        .user-avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--neon-green); color: #000; display: flex; align-items: center; justify-content: center; font-weight: 900; }
-
-        .main-container { padding: 0 20px 100px 20px; max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
-        .card { background: var(--bg-card); border-radius: 20px; padding: 20px; border: 1px solid var(--border-card); }
-
-        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
-        .metric-value { font-size: 1.8rem; font-weight: 900; color: #fff; margin-top: 6px; }
-
-        /* NAV FLOTANTE */
-        .floating-navbar {
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-            background: rgba(18, 21, 18, 0.95); border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 40px; padding: 6px 12px; display: flex; gap: 8px; z-index: 1000;
-        }
-        .nav-tab-btn {
-            background: transparent; border: none; color: var(--text-muted); padding: 10px 16px;
-            border-radius: 30px; font-weight: 800; font-size: 0.85rem; cursor: pointer;
-        }
-        .nav-tab-btn.active { background: var(--neon-green); color: #000; }
-    </style>
-</head>
-<body>
-
-    <!-- 1. LANDING PORTADA SÚPER CORREGIDA -->
-    <section id="screen-landing" class="screen active">
-        <div class="landing-box">
-            <div class="verse-tag">1 CORINTIOS 9:27</div>
-            <h1 class="landing-title">DISCIPLINA</h1>
-            <img src="ENFOQUE.jpg" alt="Logo ENFOQUE" class="landing-logo">
-            <button class="btn-neon-main" onclick="App.directEnter()">ENTRAR DIRECTO AL DASHBOARD ➔</button>
-            <div class="verse-tag">JOSUÉ 1:9</div>
-        </div>
-    </section>
-
-    <!-- 2. APP DASHBOARD LIMPIO -->
-    <div id="screen-main-app" class="screen">
-        
-        <header class="app-header">
-            <div>
-                <div style="font-size:0.75rem; color:var(--text-muted); font-weight:800;">ENFOQUE PERFORMANCE</div>
-                <h2 style="font-size:1.3rem;">¡Hola, Andrés Felipe! 🔥</h2>
-            </div>
-            <div class="user-avatar">A</div>
-        </header>
-
-        <div class="main-container">
-            
-            <!-- TARJETA RUTINA PRINCIPAL -->
-            <div class="card" style="background: linear-gradient(135deg, #161B14 0%, #0C0F0B 100%); border-color: rgba(204,255,0,0.3);">
-                <span style="color:var(--neon-green); font-size:0.75rem; font-weight:800; letter-spacing:1px;">ENTRENAMIENTO DE HOY</span>
-                <h2 style="font-size:1.8rem; margin:6px 0;">PECHO + TRÍCEPS</h2>
-                <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:16px;">5 Ejercicios estructurados • 55 Minutos</p>
-                <button class="btn-neon-main" style="width:auto; padding:12px 24px; font-size:0.85rem;" onclick="alert('Iniciando rutina de Pecho + Tríceps...')">COMENZAR SESIÓN ➔</button>
-            </div>
-
-            <!-- MÉTRICAS -->
-            <div class="metrics-grid">
-                <div class="card">
-                    <span style="font-size:0.8rem; color:var(--text-muted);">Calorías Activas</span>
-                    <div class="metric-value">420 <span style="font-size:0.8rem; color:var(--text-muted);">kcal</span></div>
-                </div>
-                <div class="card">
-                    <span style="font-size:0.8rem; color:var(--text-muted);">Pasos Diarios</span>
-                    <div class="metric-value">6.240</div>
-                </div>
-                <div class="card">
-                    <span style="font-size:0.8rem; color:var(--text-muted);">Tiempo Activo</span>
-                    <div class="metric-value">48 <span style="font-size:0.8rem; color:var(--text-muted);">min</span></div>
-                </div>
-                <div class="card">
-                    <span style="font-size:0.8rem; color:var(--text-muted);">Agua</span>
-                    <div class="metric-value">1.5 <span style="font-size:0.8rem; color:var(--text-muted);">L</span></div>
-                </div>
-            </div>
-
-        </div>
-
-        <nav class="floating-navbar">
-            <button class="nav-tab-btn active">🏠 Inicio</button>
-            <button class="nav-tab-btn" onclick="alert('Entrenamientos')">🏋️ Rutina</button>
-            <button class="nav-tab-btn" onclick="alert('Perfil')">👤 Perfil</button>
-        </nav>
-
-    </div>
-
+    <!-- Tailwind CSS CDN para estilos profesionales -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        const App = {
-            directEnter() {
-                document.getElementById('screen-landing').classList.remove('active');
-                document.getElementById('screen-main-app').classList.add('active');
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            black: '#080A08',
+                            card: '#121512',
+                            neon: '#CCFF00',
+                            muted: '#8E958D'
+                        }
+                    }
+                }
             }
-        };
+        }
+    </script>
+
+    <!-- React 18 & Babel para componentes limpios -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-brand-black text-white font-sans antialiased min-h-screen">
+
+    <div id="root"></div>
+
+    <!-- CÓDIGO REACT RESTRUCTURADO -->
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // 1. COMPONENTE PORTADA (LANDING)
+        function LandingScreen({ onEnter }) {
+            return (
+                <div class="min-h-screen flex flex-col items-center justify-between p-8 bg-cover bg-center text-center relative" style={{ backgroundImage: "linear-gradient(180deg, rgba(8,10,8,0.7) 0%, #080A08 100%), url('portada.jpg')" }}>
+                    <div class="text-brand-neon font-bold text-xs tracking-widest mt-6">1 CORINTIOS 9:27</div>
+                    
+                    <div class="flex flex-col items-center gap-4 my-auto">
+                        <h1 class="text-4xl font-black tracking-widest text-white">DISCIPLINA</h1>
+                        <img src="ENFOQUE.jpg" alt="Logo ENFOQUE" class="w-28 h-auto object-contain my-2 drop-shadow-[0_0_20px_rgba(204,255,0,0.3)]" />
+                        
+                        <button 
+                            onClick={onEnter} 
+                            class="bg-brand-neon text-black font-extrabold px-8 py-4 rounded-full text-sm tracking-wider uppercase shadow-[0_0_25px_rgba(204,255,0,0.4)] hover:scale-105 active:scale-95 transition-all mt-4"
+                        >
+                            ENTRAR AL DASHBOARD ➔
+                        </button>
+                    </div>
+
+                    <div class="text-brand-neon font-bold text-xs tracking-widest mb-6">JOSUÉ 1:9</div>
+                </div>
+            );
+        }
+
+        // 2. COMPONENTE DASHBOARD (PANEL PRINCIPAL)
+        function DashboardScreen() {
+            return (
+                <div class="min-h-screen pb-24 max-w-4xl mx-auto p-6 space-y-6">
+                    {/* Header */}
+                    <div class="flex justify-between items-center pt-4">
+                        <div>
+                            <span class="text-xs text-brand-muted font-bold tracking-wider">ENFOQUE PERFORMANCE</span>
+                            <h2 class="text-xl font-extrabold">¡Hola, Andrés Felipe! 🔥</h2>
+                        </div>
+                        <div class="w-11 h-11 rounded-full bg-brand-neon text-black font-black flex items-center justify-center text-lg shadow-[0_0_15px_rgba(204,255,0,0.3)]">
+                            A
+                        </div>
+                    </div>
+
+                    {/* Tarjeta Hero */}
+                    <div class="bg-gradient-to-br from-[#161B14] to-[#0C0F0B] border border-brand-neon/30 p-6 rounded-3xl space-y-3">
+                        <span class="text-brand-neon text-xs font-bold tracking-widest">ENTRENAMIENTO DE HOY</span>
+                        <h3 class="text-2xl font-black">PECHO + TRÍCEPS</h3>
+                        <p class="text-brand-muted text-sm">5 Ejercicios estructurados • 55 Minutos</p>
+                        <button class="bg-brand-neon text-black font-extrabold px-6 py-3 rounded-full text-xs tracking-wider uppercase shadow-[0_0_15px_rgba(204,255,0,0.3)] hover:opacity-90 active:scale-95 transition-all">
+                            COMENZAR SESIÓN ➔
+                        </button>
+                    </div>
+
+                    {/* Métricas en Grid */}
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="bg-brand-card border border-white/10 p-4 rounded-2xl">
+                            <span class="text-xs text-brand-muted font-semibold">Calorías Activas</span>
+                            <div class="text-2xl font-black mt-1">420 <span class="text-xs text-brand-muted">kcal</span></div>
+                        </div>
+                        <div class="bg-brand-card border border-white/10 p-4 rounded-2xl">
+                            <span class="text-xs text-brand-muted font-semibold">Pasos Diarios</span>
+                            <div class="text-2xl font-black mt-1">6.240</div>
+                        </div>
+                        <div class="bg-brand-card border border-white/10 p-4 rounded-2xl">
+                            <span class="text-xs text-brand-muted font-semibold">Tiempo Activo</span>
+                            <div class="text-2xl font-black mt-1">48 <span class="text-xs text-brand-muted">min</span></div>
+                        </div>
+                        <div class="bg-brand-card border border-white/10 p-4 rounded-2xl">
+                            <span class="text-xs text-brand-muted font-semibold">Agua</span>
+                            <div class="text-2xl font-black mt-1">1.5 <span class="text-xs text-brand-muted">L</span></div>
+                        </div>
+                    </div>
+
+                    {/* Navbar Flotante */}
+                    <div class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-[#121512]/90 backdrop-blur-md border border-white/15 px-4 py-2 rounded-full flex gap-3 shadow-2xl z-50">
+                        <button class="bg-brand-neon text-black font-extrabold px-5 py-2 rounded-full text-xs">🏠 Inicio</button>
+                        <button class="text-brand-muted hover:text-white font-bold px-4 py-2 text-xs">🏋️ Rutina</button>
+                        <button class="text-brand-muted hover:text-white font-bold px-4 py-2 text-xs">👤 Perfil</button>
+                    </div>
+                </div>
+            );
+        }
+
+        // 3. APLICACIÓN PRINCIPAL (CONTROLADOR DE PANTALLAS)
+        function App() {
+            const [screen, setScreen] = useState('landing');
+
+            return (
+                <div>
+                    {screen === 'landing' && (
+                        <LandingScreen onEnter={() => setScreen('dashboard')} />
+                    )}
+                    {screen === 'dashboard' && (
+                        <DashboardScreen />
+                    )}
+                </div>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
     </script>
 </body>
 </html>
