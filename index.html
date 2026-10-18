@@ -3,280 +3,444 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ENFOQUE — Personal Fitness Coach</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <title>ENFOQUE — Performance App</title>
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#07130D">
+    <meta name="theme-color" content="#0F110E">
+    <style>
+        :root {
+            --bg-dark: #0F110E;
+            --bg-card: #1B1E1A;
+            --bg-card-alt: #151814;
+            --neon-green: #CCFF00;
+            --neon-green-glow: rgba(204, 255, 0, 0.25);
+            --neon-purple: #C084FC;
+            --neon-pink: #F472B6;
+            --text-white: #FFFFFF;
+            --text-muted: #8E958C;
+            --border-card: rgba(255, 255, 255, 0.05);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif; }
+        body { background-color: var(--bg-dark); color: var(--text-white); overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
+
+        .screen { display: none; min-height: 100vh; padding-bottom: 100px; }
+        .screen.active { display: block; }
+
+        /* PORTADA LANDING */
+        #screen-landing {
+            background: linear-gradient(180deg, rgba(15,17,14,0.3) 0%, var(--bg-dark) 100%), url('portada.jpg') center/cover no-repeat;
+            display: flex; align-items: flex-end; justify-content: center; padding: 40px 24px; text-align: center;
+        }
+        .landing-box { max-width: 400px; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+        .verse-tag { color: var(--neon-green); font-size: 0.85rem; font-weight: 800; letter-spacing: 2px; }
+        .landing-title { font-size: 2.4rem; font-weight: 900; letter-spacing: 3px; color: var(--neon-green); }
+        .landing-logo { width: 160px; height: auto; filter: drop-shadow(0 0 20px var(--neon-green-glow)); }
+
+        .btn-neon-main {
+            width: 100%; background: var(--neon-green); color: #000; border: none; padding: 18px 24px;
+            border-radius: 30px; font-weight: 900; font-size: 1.05rem; cursor: pointer; transition: all 0.2s;
+            text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 0 25px var(--neon-green-glow);
+        }
+        .btn-neon-main:active { transform: scale(0.98); }
+
+        /* HEADER APP */
+        .app-header { display: flex; justify-content: space-between; align-items: center; padding: 24px 20px 12px 20px; }
+        .user-profile-badge { display: flex; align-items: center; gap: 12px; }
+        .user-avatar { width: 46px; height: 46px; border-radius: 50%; background: var(--neon-green); color: #000; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.2rem; }
+        .greeting-sub { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; }
+        .greeting-name { font-size: 1.2rem; font-weight: 800; }
+        .icon-btn-round { width: 40px; height: 40px; border-radius: 50%; background: var(--bg-card); border: 1px solid var(--border-card); display: flex; align-items: center; justify-content: center; color: #fff; cursor: pointer; }
+
+        /* SEARCH BAR */
+        .search-bar { margin: 12px 20px 20px 20px; background: var(--bg-card); border-radius: 20px; padding: 12px 18px; display: flex; align-items: center; gap: 10px; color: var(--text-muted); border: 1px solid var(--border-card); }
+        .search-bar input { background: none; border: none; color: #fff; width: 100%; outline: none; font-size: 0.9rem; }
+
+        /* CONTAINERS & CARDS */
+        .container { padding: 0 20px; display: flex; flex-direction: column; gap: 16px; max-width: 600px; margin: 0 auto; }
+        .card { background: var(--bg-card); border-radius: 24px; padding: 20px; border: 1px solid var(--border-card); position: relative; }
+
+        /* ANILLOS CONCÉNTRICOS Y LEYENDA */
+        .rings-widget { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+        .rings-svg-wrap { position: relative; width: 120px; height: 120px; flex-shrink: 0; }
+        .rings-svg-wrap svg { width: 120px; height: 120px; transform: rotate(-90deg); }
+        .rings-legend { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+        .legend-item { display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; }
+        .legend-dot-title { display: flex; align-items: center; gap: 8px; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; }
+
+        /* GRÁFICA CORDILLERA (LOWER LEGS) */
+        .wave-chart-box { background: var(--bg-card-alt); border-radius: 18px; padding: 14px; margin-top: 12px; }
+
+        /* LEVEL & XP PILLS */
+        .level-card { background: var(--bg-card); border-radius: 24px; padding: 20px; }
+        .level-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+        .level-progress-bg { background: rgba(255,255,255,0.08); height: 12px; border-radius: 10px; overflow: hidden; margin-bottom: 20px; display: flex; }
+        .level-progress-green { background: var(--neon-green); width: 45%; }
+        .level-progress-purple { background: var(--neon-purple); width: 25%; }
+        .level-progress-pink { background: var(--neon-pink); width: 15%; }
+
+        /* PÍLDORAS VERTICALES XP */
+        .xp-pills-row { display: flex; justify-content: space-between; gap: 8px; }
+        .xp-pill { flex: 1; background: var(--bg-card-alt); border-radius: 25px; padding: 12px 6px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .xp-pill-badge { background: rgba(255,255,255,0.1); border-radius: 15px; padding: 6px 4px; font-size: 0.7rem; font-weight: 800; color: #fff; width: 100%; text-align: center; }
+        .xp-pill.highlight-green { background: var(--neon-green); color: #000; }
+        .xp-pill.highlight-green .xp-pill-badge { background: rgba(0,0,0,0.15); color: #000; }
+        .xp-pill-label { font-size: 0.7rem; color: var(--text-muted); font-weight: 700; }
+        .xp-pill.highlight-green .xp-pill-label { color: #000; }
+
+        /* LISTA DE EJERCICIOS CON FOTO Y CHECK */
+        .exercise-item { background: var(--bg-card); border-radius: 20px; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; border: 1px solid var(--border-card); }
+        .ex-left { display: flex; align-items: center; gap: 14px; }
+        .ex-thumb { width: 52px; height: 52px; border-radius: 14px; background: #2A2E28; background-size: cover; background-position: center; flex-shrink: 0; }
+        .ex-title { font-size: 0.95rem; font-weight: 800; }
+        .ex-sub { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
+        .check-circle { width: 22px; height: 22px; border-radius: 6px; border: 1px solid var(--neon-green); display: flex; align-items: center; justify-content: center; color: var(--neon-green); font-size: 0.8rem; }
+        .check-circle.checked { background: var(--neon-green); color: #000; }
+
+        /* SUEÑO & PASOS (GRID) */
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .stat-card-neon { background: var(--neon-green); color: #000; border-radius: 24px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; min-height: 160px; }
+        .stat-card-dark { background: var(--bg-card); border-radius: 24px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; min-height: 160px; border: 1px solid var(--border-card); }
+
+        /* FLOATING PILL NAVBAR */
+        .floating-nav {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: rgba(27, 30, 26, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 40px; padding: 6px 12px;
+            display: flex; align-items: center; gap: 8px; z-index: 999; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .nav-pill-btn {
+            background: transparent; border: none; color: var(--text-muted); padding: 10px 16px;
+            border-radius: 30px; font-weight: 800; font-size: 0.85rem; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: all 0.2s;
+        }
+        .nav-pill-btn.active { background: var(--neon-green); color: #000; }
+
+        /* ONBOARDING FORM */
+        .onboarding-wrap { max-width: 480px; margin: 40px auto; padding: 24px; }
+        .ob-step { display: none; }
+        .ob-step.active { display: flex; flex-direction: column; gap: 16px; }
+        .input-field { width: 100%; background: #000; border: 1px solid var(--border-card); color: #fff; padding: 14px; border-radius: 12px; font-size: 0.95rem; margin-top: 6px; }
+    </style>
 </head>
 <body>
 
-    <!-- ================= 1. PORTADA ================= -->
+    <!-- 1. LANDING PORTADA -->
     <section id="screen-landing" class="screen active">
-        <div class="landing-hero">
-            <div class="verse-header">1 Corintios 9:27</div>
+        <div class="landing-box">
+            <div class="verse-tag">1 CORINTIOS 9:27</div>
             <h1 class="landing-title">DISCIPLINA</h1>
-            <div class="landing-logo-container">
-                <img src="ENFOQUE.jpg" alt="Logo ENFOQUE" class="landing-logo">
-            </div>
-            <button class="btn-primary-neon btn-glow" onclick="App.startOnboarding()">ENTRAR</button>
-            <div class="verse-footer">JOSUÉ 1:9</div>
+            <img src="ENFOQUE.jpg" alt="Logo ENFOQUE" class="landing-logo">
+            <button class="btn-neon-main" onclick="App.startOnboarding()">EMPEZAR AHORA ↗</button>
+            <div class="verse-tag" style="margin-top: 8px;">JOSUÉ 1:9</div>
         </div>
     </section>
 
-    <!-- ================= 2. ONBOARDING ================= -->
+    <!-- 2. ONBOARDING -->
     <section id="screen-onboarding" class="screen">
-        <div class="onboarding-container card-glass">
-            <div class="step-indicator">Paso <span id="onboarding-step-num">1</span> de 4</div>
+        <div class="onboarding-wrap card">
+            <div style="color:var(--neon-green); font-size:0.8rem; font-weight:800; margin-bottom:8px;">PASO <span id="ob-step-num">1</span> DE 3</div>
             
             <div id="ob-step-1" class="ob-step active">
                 <h2>¿CUÁL ES TU OBJETIVO PRINCIPAL?</h2>
-                <div class="goal-selector">
-                    <button class="card-option" onclick="App.selectGoal('gain')">
-                        <span class="icon">💪</span>
-                        <h3>GANAR MASA MUSCULAR</h3>
-                        <p>Hipertrofia, aumento de volumen muscular y fuerza progresiva.</p>
-                    </button>
-                    <button class="card-option" onclick="App.selectGoal('lose')">
-                        <span class="icon">🔥</span>
-                        <h3>PERDER GRASA</h3>
-                        <p>Déficit controlado, preservación de masa muscular y definición.</p>
-                    </button>
-                </div>
+                <button class="card" style="text-align:left; cursor:pointer;" onclick="App.selectGoal('gain')">
+                    <h3 style="color:var(--neon-green)">💪 GANAR MASA MUSCULAR</h3>
+                    <p style="color:var(--text-muted); font-size:0.85rem; margin-top:4px;">Hipertrofia, volumen muscular y progresión de cargas.</p>
+                </button>
+                <button class="card" style="text-align:left; cursor:pointer;" onclick="App.selectGoal('lose')">
+                    <h3 style="color:var(--neon-green)">🔥 PERDER GRASA</h3>
+                    <p style="color:var(--text-muted); font-size:0.85rem; margin-top:4px;">Déficit inteligente, definición y conservación muscular.</p>
+                </button>
             </div>
 
             <div id="ob-step-2" class="ob-step">
-                <h2>CUÉNTANOS SOBRE TI</h2>
-                <div class="form-group">
-                    <label>Nombre completo</label>
-                    <input type="text" id="ob-name" class="input-dark" placeholder="Ej: Andrés Felipe">
+                <h2>CONFIGURA TU PERFIL ENFOQUE</h2>
+                <div>
+                    <label style="font-size:0.85rem; color:var(--text-muted);">Nombre Atleta</label>
+                    <input type="text" id="ob-name" class="input-field" placeholder="Andrés Felipe">
                 </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Edad</label>
-                        <input type="number" id="ob-age" class="input-dark" placeholder="44">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                    <div>
+                        <label style="font-size:0.85rem; color:var(--text-muted);">Peso (kg)</label>
+                        <input type="number" id="ob-weight" class="input-field" placeholder="85">
                     </div>
-                    <div class="form-group">
-                        <label>Ciudad</label>
-                        <input type="text" id="ob-city" class="input-dark" placeholder="Medellín">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Peso (kg)</label>
-                        <input type="number" id="ob-weight" class="input-dark" placeholder="85">
-                    </div>
-                    <div class="form-group">
-                        <label>Estatura (cm)</label>
-                        <input type="number" id="ob-height" class="input-dark" placeholder="178">
+                    <div>
+                        <label style="font-size:0.85rem; color:var(--text-muted);">Estatura (cm)</label>
+                        <input type="number" id="ob-height" class="input-field" placeholder="178">
                     </div>
                 </div>
-                <button class="btn-primary-neon" onclick="App.nextOnboardingStep(3)">CONTINUAR</button>
+                <button class="btn-neon-main" style="margin-top:10px;" onclick="App.nextOnboardingStep(3)">CONTINUAR ↗</button>
             </div>
 
             <div id="ob-step-3" class="ob-step">
-                <h2>¿CUÁL ES TU NIVEL DE ENTRENAMIENTO?</h2>
-                <div class="level-selector">
-                    <button class="card-option" onclick="App.selectLevel('beginner')">
-                        <h3>PRINCIPIANTE</h3>
-                        <p>Menos de 6 meses de entrenamiento constante.</p>
-                    </button>
-                    <button class="card-option" onclick="App.selectLevel('intermediate')">
-                        <h3>INTERMEDIO</h3>
-                        <p>6 meses a 2 años dominando técnica y cargas.</p>
-                    </button>
-                    <button class="card-option" onclick="App.selectLevel('advanced')">
-                        <h3>AVANZADO</h3>
-                        <p>Más de 2 años con programación estructurada.</p>
-                    </button>
-                </div>
-            </div>
-
-            <div id="ob-step-4" class="ob-step">
                 <h2>¡TU PLAN ENFOQUE ESTÁ LISTO!</h2>
-                <div class="summary-card" id="ob-summary"></div>
-                <button class="btn-primary-neon btn-glow" onclick="App.finishOnboarding()">COMENZAR MI PLAN 🔥</button>
+                <div class="card" id="ob-summary" style="background:#000;"></div>
+                <button class="btn-neon-main" onclick="App.finishOnboarding()">ENTRAR AL DASHBOARD 🔥</button>
             </div>
         </div>
     </section>
 
-    <!-- ================= 3. MAIN APP LAYOUT ================= -->
+    <!-- 3. MAIN APP LAYOUT -->
     <div id="screen-main-app" class="screen">
+        
+        <!-- HEADER -->
         <header class="app-header">
-            <div class="header-logo">
-                <img src="ENFOQUE.jpg" alt="Logo ENFOQUE">
+            <div class="user-profile-badge">
+                <div class="user-avatar" id="avatar-initials">A</div>
+                <div>
+                    <div class="greeting-sub">Buenas noches</div>
+                    <div class="greeting-name" id="header-user-name">Andrés Felipe</div>
+                </div>
             </div>
-            <div class="header-user-info">
-                <span id="header-user-name">Hola, Atleta</span>
-                <span id="header-user-badge" class="badge-neon">SEMANA 1</span>
-            </div>
+            <div class="icon-btn-round">🔔</div>
         </header>
 
-        <main class="app-content">
-            <!-- TAB 1: INICIO -->
-            <section id="tab-dashboard" class="tab-page active">
-                <div class="card-glass">
-                    <span class="badge-neon">ENTRENADOR DIGITAL</span>
-                    <h2 id="dash-greeting" style="margin-top:8px;">¡Hola, listo para entrenar!</h2>
-                    <p class="text-muted" id="dash-goal-desc">Tu plan personalizado está activo.</p>
-                </div>
-
-                <div class="card-glass" style="margin-top:16px;">
-                    <span class="badge-neon" id="today-day-tag">ENTRENAMIENTO DE HOY</span>
-                    <h3 id="today-title" style="margin-top:6px;">PIERNA COMPLETA</h3>
-                    <p class="text-muted">5 Ejercicios estructurados</p>
-                    <button class="btn-primary-neon" style="margin-top:12px;" onclick="App.navigateTo('workouts')">VER MI RUTINA COMPLETA</button>
-                </div>
-
-                <div class="form-row" style="margin-top:16px;">
-                    <div class="card-glass" style="text-align:center;">
-                        <span class="text-muted">Peso Actual</span>
-                        <h2 style="color:var(--neon-green); margin-top:4px;"><span id="dash-weight">--</span> kg</h2>
-                    </div>
-                    <div class="card-glass" style="text-align:center;">
-                        <span class="text-muted">Racha</span>
-                        <h2 style="color:var(--neon-green); margin-top:4px;">🔥 <span id="dash-streak">0</span> días</h2>
-                    </div>
-                </div>
-            </section>
-
-            <!-- TAB 2: RUTINAS -->
-            <section id="tab-workouts" class="tab-page">
-                <h2 style="margin-bottom:16px;">MI RUTINA SEMANAL</h2>
-                <div id="days-list-container"></div>
-            </section>
-
-            <!-- DETALLE DE ENTRENAMIENTO -->
-            <section id="workout-detail-view" class="tab-page">
-                <button class="btn-back" onclick="App.closeWorkoutDetail()">← Volver a Rutinas</button>
-                <div id="workout-detail-content"></div>
-            </section>
-
-            <!-- TAB 3: NUTRICIÓN -->
-            <section id="tab-nutrition" class="tab-page">
-                <h2 style="margin-bottom:12px;">NUTRICIÓN ADAPTATIVA</h2>
-                <div class="card-glass" id="nutrition-target-card"></div>
-                <h3 style="margin: 16px 0 12px 0;">Plan de Comidas Sugerido</h3>
-                <div id="meals-container"></div>
-            </section>
-
-            <!-- TAB 4: COMUNIDAD -->
-            <section id="tab-community" class="tab-page">
-                <h2 style="margin-bottom:16px;">MURO DE COMUNIDAD</h2>
-                <div class="card-glass">
-                    <textarea id="community-input" class="input-dark" placeholder="Comparte tu progreso o logro de hoy..."></textarea>
-                    <button class="btn-primary-neon" style="margin-top:10px;" onclick="App.postCommunity()">PUBLICAR 🔥</button>
-                </div>
-                <div id="community-feed" style="margin-top:16px;"></div>
-            </section>
-
-            <!-- TAB 5: PERFIL -->
-            <section id="tab-profile" class="tab-page">
-                <h2 style="margin-bottom:16px;">MI PERFIL</h2>
-                <div class="card-glass">
-                    <div class="form-group">
-                        <label>Nombre</label>
-                        <input type="text" id="prof-name" class="input-dark">
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Peso (kg)</label>
-                            <input type="number" id="prof-weight" class="input-dark">
-                        </div>
-                        <div class="form-group">
-                            <label>Objetivo</label>
-                            <select id="prof-goal" class="input-dark">
-                                <option value="gain">Ganar Masa Muscular</option>
-                                <option value="lose">Perder Grasa</option>
-                            </select>
-                        </div>
-                    </div>
-                    <button class="btn-primary-neon" onclick="App.updateProfile()">GUARDAR CAMBIOS</button>
-                    <button class="btn-back" style="margin-top:12px; width:100%; color:#ff4444; border-color:#ff4444;" onclick="App.resetProfile()">REINICIAR DATOS DE PRUEBA</button>
-                </div>
-            </section>
-        </main>
-
-        <!-- BOTTOM NAV -->
-        <nav class="bottom-nav">
-            <button class="nav-item active" onclick="App.navigateTo('dashboard')">
-                <span class="nav-icon">🏠</span>
-                <span class="nav-text">Inicio</span>
-            </button>
-            <button class="nav-item" onclick="App.navigateTo('workouts')">
-                <span class="nav-icon">🏋️</span>
-                <span class="nav-text">Rutinas</span>
-            </button>
-            <button class="nav-item" onclick="App.navigateTo('nutrition')">
-                <span class="nav-icon">🥗</span>
-                <span class="nav-text">Nutrición</span>
-            </button>
-            <button class="nav-item" onclick="App.navigateTo('community')">
-                <span class="nav-icon">👥</span>
-                <span class="nav-text">Muro</span>
-            </button>
-            <button class="nav-item" onclick="App.navigateTo('profile')">
-                <span class="nav-icon">⚙️</span>
-                <span class="nav-text">Perfil</span>
-            </button>
-        </nav>
-    </div>
-
-    <!-- MODAL TÉCNICA DE EJERCICIO -->
-    <div id="modal-technique" class="modal-overlay">
-        <div class="modal-card card-glass">
-            <button class="modal-close" onclick="App.closeModal()">✕</button>
-            <h3 id="modal-ex-title">Nombre Ejercicio</h3>
-            <div class="modal-body" style="margin-top:12px;">
-                <h4>Técnica Correcta</h4>
-                <ul id="modal-ex-tech" style="padding-left:18px; margin:8px 0;"></ul>
-                <h4>Errores Comunes</h4>
-                <ul id="modal-ex-mistakes" style="padding-left:18px; margin:8px 0; color:#ff6b6b;"></ul>
-                <h4>Consejo del Coach</h4>
-                <p id="modal-ex-tips" class="badge-neon" style="display:inline-block; margin-top:6px;"></p>
-            </div>
+        <!-- SEARCH -->
+        <div class="search-bar">
+            <span>🔍</span>
+            <input type="text" placeholder="Buscar entrenamientos o ejercicios...">
         </div>
+
+        <!-- TAB 1: INICIO / DASHBOARD -->
+        <section id="tab-dashboard" class="tab-page active">
+            <div class="container">
+                
+                <!-- AROS CONCÉNTRICOS Y LEYENDA XP -->
+                <div class="card">
+                    <div class="rings-widget">
+                        <div class="rings-svg-wrap">
+                            <svg viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="8"/>
+                                <circle cx="50" cy="50" r="40" fill="none" stroke="var(--neon-green)" stroke-width="8" stroke-dasharray="251" stroke-dashoffset="60" stroke-linecap="round"/>
+                                
+                                <circle cx="50" cy="50" r="28" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="8"/>
+                                <circle cx="50" cy="50" r="28" fill="none" stroke="var(--neon-purple)" stroke-width="8" stroke-dasharray="175" stroke-dashoffset="50" stroke-linecap="round"/>
+                                
+                                <circle cx="50" cy="50" r="16" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="8"/>
+                                <circle cx="50" cy="50" r="16" fill="none" stroke="var(--neon-pink)" stroke-width="8" stroke-dasharray="100" stroke-dashoffset="40" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+
+                        <div class="rings-legend">
+                            <div class="legend-item">
+                                <div class="legend-dot-title"><div class="dot" style="background:var(--neon-green)"></div> Pierna / Cardio</div>
+                                <strong>14/300 XP</strong>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-dot-title"><div class="dot" style="background:var(--neon-purple)"></div> Espalda / Hombro</div>
+                                <strong>10/260 XP</strong>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-dot-title"><div class="dot" style="background:var(--neon-pink)"></div> Abdomen / Torso</div>
+                                <strong>4/130 XP</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="wave-chart-box">
+                        <div style="display:flex; justify-content:space-between; font-size:0.8rem; margin-bottom:6px;">
+                            <span style="color:var(--text-muted)">Progreso de Cargas</span>
+                            <strong style="color:var(--neon-green)">Lvl 1 • 2/280 XP</strong>
+                        </div>
+                        <svg viewBox="0 0 300 40" style="width:100%; height:40px;">
+                            <path d="M0 30 Q 50 10, 100 25 T 200 15 T 300 20" fill="none" stroke="var(--neon-green)" stroke-width="3"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- NIVEL ATLETA Y PÍLDORAS VERTICALES XP -->
+                <div class="level-card">
+                    <div class="level-header">
+                        <div>
+                            <span style="font-size:0.8rem; color:var(--text-muted);">Nivel de Atleta</span>
+                            <h2 style="font-size:1.8rem; font-weight:900;">Lvl 3 <span style="font-size:0.9rem; font-weight:600; color:var(--text-muted);">400 XP</span></h2>
+                        </div>
+                    </div>
+
+                    <div class="level-progress-bg">
+                        <div class="level-progress-green"></div>
+                        <div class="level-progress-purple"></div>
+                        <div class="level-progress-pink"></div>
+                    </div>
+
+                    <div class="xp-pills-row">
+                        <div class="xp-pill highlight-green">
+                            <div class="xp-pill-badge">160 XP</div>
+                            <div class="xp-pill-label">Pierna</div>
+                        </div>
+                        <div class="xp-pill">
+                            <div class="xp-pill-badge">95 XP</div>
+                            <div class="xp-pill-label">Pecho</div>
+                        </div>
+                        <div class="xp-pill">
+                            <div class="xp-pill-badge">70 XP</div>
+                            <div class="xp-pill-label">Glúteo</div>
+                        </div>
+                        <div class="xp-pill">
+                            <div class="xp-pill-badge">180 XP</div>
+                            <div class="xp-pill-label">Cardio</div>
+                        </div>
+                        <div class="xp-pill">
+                            <div class="xp-pill-badge">100 XP</div>
+                            <div class="xp-pill-label">Bíceps</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- TAB 2: ENTRENAMIENTO DETALLADO -->
+        <section id="tab-workouts" class="tab-page">
+            <div class="container">
+                
+                <div class="card" style="padding:0; overflow:hidden;">
+                    <img src="portada.jpg" style="width:100%; height:180px; object-fit:cover;">
+                    <div style="padding:20px;">
+                        <span style="color:var(--neon-green); font-size:0.8rem; font-weight:800;">RUTINA DEL DÍA</span>
+                        <h2 style="font-size:1.6rem; margin-top:2px;">Cuerpo Completo / Pierna</h2>
+                        <span style="font-size:0.8rem; color:var(--text-muted);">Ejercicio 1 de 5</span>
+                    </div>
+                </div>
+
+                <div class="exercise-item">
+                    <div class="ex-left">
+                        <div class="check-circle checked">✓</div>
+                        <div class="ex-thumb" style="background-image:url('ENFOQUE.jpg');"></div>
+                        <div>
+                            <div class="ex-title">Press de Banca</div>
+                            <div class="ex-sub">Serie 2 • 12 Reps</div>
+                        </div>
+                    </div>
+                    <div class="icon-btn-round" style="background:#000;">▶</div>
+                </div>
+
+                <div class="exercise-item">
+                    <div class="ex-left">
+                        <div class="check-circle checked">✓</div>
+                        <div class="ex-thumb" style="background-image:url('ENFOQUE.jpg');"></div>
+                        <div>
+                            <div class="ex-title">Sentadilla Libre / Hack</div>
+                            <div class="ex-sub">Serie 1 • 12 Reps</div>
+                        </div>
+                    </div>
+                    <div class="icon-btn-round" style="background:#000;">▶</div>
+                </div>
+
+                <div class="exercise-item">
+                    <div class="ex-left">
+                        <div class="check-circle"></div>
+                        <div class="ex-thumb" style="background-image:url('ENFOQUE.jpg');"></div>
+                        <div>
+                            <div class="ex-title">Press Militar Hombro</div>
+                            <div class="ex-sub">Serie 3 • 12 Reps</div>
+                        </div>
+                    </div>
+                    <div class="icon-btn-round" style="background:#000;">▶</div>
+                </div>
+
+                <button class="btn-neon-main" style="margin-top:10px;">INICIAR ENTRENAMIENTO 🔥</button>
+
+            </div>
+        </section>
+
+        <!-- TAB 3: PROGRESO Y MÉTRICAS -->
+        <section id="tab-progress" class="tab-page">
+            <div class="container">
+                
+                <div class="card">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <span style="font-size:0.8rem; color:var(--text-muted);">Progreso General</span>
+                            <h3 style="margin-top:2px;">Estado del Mes</h3>
+                        </div>
+                        <div style="position:relative; width:70px; height:70px;">
+                            <svg viewBox="0 0 36 36" style="width:70px; height:70px; transform:rotate(-90deg);">
+                                <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="4"/>
+                                <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831" fill="none" stroke="var(--neon-green)" stroke-width="4" stroke-dasharray="79, 100"/>
+                            </svg>
+                            <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:0.85rem;">79%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div style="display:flex; justify-content:space-between; font-size:0.85rem;">
+                        <span>Calorías Quemadas</span>
+                        <strong style="color:var(--neon-green)">195 Cal</strong>
+                    </div>
+                    <svg viewBox="0 0 300 60" style="width:100%; height:60px; margin-top:10px;">
+                        <path d="M0 40 Q 50 30, 100 35 T 200 10 T 300 30" fill="none" stroke="var(--neon-green)" stroke-width="3"/>
+                        <circle cx="200" cy="10" r="5" fill="var(--neon-green)"/>
+                    </svg>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card-neon">
+                        <div>
+                            <span style="font-size:0.8rem; font-weight:700;">🛌 Horas de Sueño</span>
+                            <h2 style="font-size:2rem; font-weight:900; margin-top:10px;">7.5 <span style="font-size:0.9rem;">Hrs</span></h2>
+                        </div>
+                        <div style="display:flex; gap:4px; height:40px; align-items:flex-end;">
+                            <div style="flex:1; background:#000; height:40%;"></div>
+                            <div style="flex:1; background:#000; height:80%;"></div>
+                            <div style="flex:1; background:#000; height:60%;"></div>
+                            <div style="flex:1; background:#000; height:100%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card-dark">
+                        <div>
+                            <span style="font-size:0.8rem; color:var(--text-muted);">👟 Pasos</span>
+                            <h2 style="font-size:2rem; font-weight:900; margin-top:10px;">4.1K</h2>
+                        </div>
+                        <svg viewBox="0 0 100 30" style="width:100%; height:30px;">
+                            <path d="M0 25 Q 30 10, 60 20 T 100 5" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+                        </svg>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- TAB 4: PERFIL Y AJUSTES -->
+        <section id="tab-profile" class="tab-page">
+            <div class="container">
+                <div class="card">
+                    <h3>CONFIGURACIÓN DE CUENTA ENFOQUE</h3>
+                    <div style="margin-top:14px;">
+                        <label style="font-size:0.85rem; color:var(--text-muted);">Nombre Atleta</label>
+                        <input type="text" id="prof-name" class="input-field">
+                    </div>
+                    <div style="margin-top:10px;">
+                        <label style="font-size:0.85rem; color:var(--text-muted);">Peso Corporal (kg)</label>
+                        <input type="number" id="prof-weight" class="input-field">
+                    </div>
+                    <button class="btn-neon-main" style="margin-top:20px;" onclick="App.saveProfile()">GUARDAR CAMBIOS</button>
+                    <button class="btn-neon-main" style="margin-top:10px; background:transparent; border:1px solid #ff4444; color:#ff4444;" onclick="App.resetProfile()">REINICIAR DATOS</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- FLOATING PILL NAVBAR -->
+        <nav class="floating-nav">
+            <button class="nav-pill-btn active" onclick="App.navigateTo('dashboard')">🏠 Home</button>
+            <button class="nav-pill-btn" onclick="App.navigateTo('workouts')">🏋️ Rutina</button>
+            <button class="nav-pill-btn" onclick="App.navigateTo('progress')">📈 Progreso</button>
+            <button class="nav-pill-btn" onclick="App.navigateTo('profile')">👤 Perfil</button>
+        </nav>
+
     </div>
 
-    <!-- TEMPORIZADOR DE DESCANSO -->
-    <div id="rest-timer-widget" class="timer-widget">
-        <span>⏱️ DESCANSO: <strong id="timer-display">00:00</strong></span>
-        <button onclick="App.stopTimer()" style="background:none; border:none; font-weight:bold; cursor:pointer;">Saltar</button>
-    </div>
-
-    <!-- BASE DE DATOS Y MOTOR DE NAVEGACIÓN -->
     <script>
-        const AppData = {
-            exercises: {
-                sentadilla: { name: "Sentadilla Libre / Hack", sets: 4, reps: "8-12", rest: 90, technique: ["Espalda neutra", "Controla la bajada"], mistakes: ["Despegar talones"], tips: "Empuja con el medio del pie." },
-                prensa: { name: "Prensa 45°", sets: 4, reps: "10-12", rest: 90, technique: ["Pies a anchura de hombros"], mistakes: ["Bloquear rodillas arriba"], tips: "Tensión constante." },
-                jalon: { name: "Jalón al Pecho", sets: 4, reps: "10-12", rest: 60, technique: ["Tira con los codos"], mistakes: ["Inclinarse demasiado"], tips: "Siente el dorsal." },
-                press: { name: "Press de Banca", sets: 4, reps: "8-10", rest: 90, technique: ["Retracción escapular"], mistakes: ["Rebotar la barra"], tips: "Controla el descenso." }
-            },
-            routines: {
-                monday: { name: "LUNES — PIERNA COMPLETA", exercises: ["sentadilla", "prensa"] },
-                tuesday: { name: "MARTES — ESPALDA + BÍCEPS", exercises: ["jalon"] },
-                wednesday: { name: "MIÉRCOLES — PECHO + TRÍCEPS", exercises: ["press"] },
-                thursday: { name: "JUEVES — PIERNA + ACCESORIOS", exercises: ["sentadilla"] },
-                friday: { name: "VIERNES — TORSO COMPLETO", exercises: ["jalon", "press"] }
-            },
-            nutrition: {
-                gain: { title: "Superávit Calórico (+300 kcal)", protein: "2.0g / kg", meals: [{ name: "Desayuno Anabólico", desc: "4 Huevos + Avena con banano." }, { name: "Almuerzo de Fuerza", desc: "200g Pollo + Arroz + Aguacate." }] },
-                lose: { title: "Déficit Energético (-400 kcal)", protein: "2.2g / kg", meals: [{ name: "Desayuno Saciante", desc: "Tortilla de claras + Espinacas." }, { name: "Almuerzo Magro", desc: "Pechuga a la plancha + Ensalada." }] }
-            }
-        };
-
         const Storage = {
-            KEYS: { USER: 'enfoque_user_profile', POSTS: 'enfoque_posts' },
-            saveUser(profile) { localStorage.setItem(this.KEYS.USER, JSON.stringify(profile)); },
-            getUser() { const d = localStorage.getItem(this.KEYS.USER); return d ? JSON.parse(d) : null; },
-            savePosts(posts) { localStorage.setItem(this.KEYS.POSTS, JSON.stringify(posts)); },
-            getPosts() { const d = localStorage.getItem(this.KEYS.POSTS); return d ? JSON.parse(d) : [{ author: "Andrés F.", text: "¡Completada la rutina de hoy! 🔥", date: "Hoy" }]; }
+            KEYS: { USER: 'enfoque_ui_user' },
+            saveUser(data) { localStorage.setItem(this.KEYS.USER, JSON.stringify(data)); },
+            getUser() { const d = localStorage.getItem(this.KEYS.USER); return d ? JSON.parse(d) : null; }
         };
 
         const App = {
             user: null,
             tempUser: {},
-            timerInterval: null,
 
             init() {
                 this.user = Storage.getUser();
@@ -301,10 +465,9 @@
 
             showObStep(step) {
                 document.querySelectorAll('.ob-step').forEach(s => s.classList.remove('active'));
-                const currentStep = document.getElementById(`ob-step-${step}`);
-                if (currentStep) currentStep.classList.add('active');
-                const stepNum = document.getElementById('onboarding-step-num');
-                if (stepNum) stepNum.innerText = step;
+                const stepEl = document.getElementById(`ob-step-${step}`);
+                if (stepEl) stepEl.classList.add('active');
+                document.getElementById('ob-step-num').innerText = step;
             },
 
             selectGoal(goal) {
@@ -313,28 +476,16 @@
             },
 
             nextOnboardingStep(step) {
-                if (step === 3) {
-                    this.tempUser.name = document.getElementById('ob-name').value || "Andrés";
-                    this.tempUser.age = document.getElementById('ob-age').value || 44;
-                    this.tempUser.city = document.getElementById('ob-city').value || "Medellín";
-                    this.tempUser.weight = parseFloat(document.getElementById('ob-weight').value) || 85;
-                    this.tempUser.height = parseFloat(document.getElementById('ob-height').value) || 178;
-                    this.showObStep(3);
-                }
-            },
-
-            selectLevel(level) {
-                this.tempUser.level = level;
-                this.tempUser.currentWeek = 1;
-                const summary = document.getElementById('ob-summary');
-                if (summary) {
-                    summary.innerHTML = `
-                        <p style="margin-top:10px;"><strong>Atleta:</strong> ${this.tempUser.name}</p>
-                        <p><strong>Objetivo:</strong> ${this.tempUser.goal === 'gain' ? 'Ganar Masa Muscular' : 'Perder Grasa'}</p>
-                        <p><strong>Peso Inicial:</strong> ${this.tempUser.weight} kg</p>
-                    `;
-                }
-                this.showObStep(4);
+                this.tempUser.name = document.getElementById('ob-name').value || "Andrés Felipe";
+                this.tempUser.weight = parseFloat(document.getElementById('ob-weight').value) || 85;
+                this.tempUser.height = parseFloat(document.getElementById('ob-height').value) || 178;
+                
+                document.getElementById('ob-summary').innerHTML = `
+                    <p style="color:var(--neon-green); font-weight:800;">ATLETA: ${this.tempUser.name}</p>
+                    <p style="margin-top:6px; font-size:0.9rem;">Objetivo: ${this.tempUser.goal === 'gain' ? 'Ganar Masa Muscular' : 'Perder Grasa'}</p>
+                    <p style="font-size:0.9rem;">Peso Inicial: ${this.tempUser.weight} kg</p>
+                `;
+                this.showObStep(3);
             },
 
             finishOnboarding() {
@@ -346,141 +497,30 @@
 
             navigateTo(tabName) {
                 document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
-                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-                
-                const tab = document.getElementById(`tab-${tabName}`);
-                if (tab) tab.classList.add('active');
+                document.querySelectorAll('.nav-pill-btn').forEach(b => b.classList.remove('active'));
 
-                if (tabName === 'workouts') this.renderWorkouts();
-                if (tabName === 'nutrition') this.renderNutrition();
-                if (tabName === 'community') this.renderCommunity();
+                const targetTab = document.getElementById(`tab-${tabName}`);
+                if (targetTab) targetTab.classList.add('active');
+
                 if (tabName === 'profile') this.renderProfile();
             },
 
             renderDashboard() {
-                document.getElementById('header-user-name').innerText = `Hola, ${this.user.name} 👋`;
-                document.getElementById('dash-greeting').innerText = `¡Hola ${this.user.name}, listo para entrenar!`;
-                document.getElementById('dash-weight').innerText = this.user.weight;
-                document.getElementById('dash-streak').innerText = "1";
-            },
-
-            renderWorkouts() {
-                const container = document.getElementById('days-list-container');
-                container.innerHTML = Object.keys(AppData.routines).map(dayKey => {
-                    const r = AppData.routines[dayKey];
-                    return `
-                        <div class="card-glass" style="margin-bottom:12px;">
-                            <h3>${r.name}</h3>
-                            <p class="text-muted">${r.exercises.length} Ejercicios</p>
-                            <button class="btn-primary-neon" style="margin-top:10px;" onclick="App.openWorkoutDetail('${dayKey}')">VER ENTRENAMIENTO</button>
-                        </div>
-                    `;
-                }).join('');
-            },
-
-            openWorkoutDetail(dayKey) {
-                const r = AppData.routines[dayKey];
-                document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
-                const detailView = document.getElementById('workout-detail-view');
-                detailView.classList.add('active');
-
-                document.getElementById('workout-detail-content').innerHTML = `
-                    <h2>${r.name}</h2>
-                    ${r.exercises.map(exId => {
-                        const ex = AppData.exercises[exId];
-                        return `
-                            <div class="card-glass" style="margin-top:12px;">
-                                <h4>${ex.name}</h4>
-                                <p class="text-muted">${ex.sets} Series x${ex.reps} reps</p>
-                                <button class="btn-primary-neon" style="margin-top:8px;" onclick="App.openTechniqueModal('${exId}')">▶ TÉCNICA</button>
-                                <button class="btn-primary-neon" style="margin-top:8px; background:#00E65C;" onclick="App.startTimer(${ex.rest})">⏱️ COMPLETA SERIE (${ex.rest}s)</button>
-                            </div>
-                        `;
-                    }).join('')}
-                `;
-            },
-
-            closeWorkoutDetail() { this.navigateTo('workouts'); },
-
-            openTechniqueModal(exId) {
-                const ex = AppData.exercises[exId];
-                document.getElementById('modal-ex-title').innerText = ex.name;
-                document.getElementById('modal-ex-tech').innerHTML = ex.technique.map(t => `<li>${t}</li>`).join('');
-                document.getElementById('modal-ex-mistakes').innerHTML = ex.mistakes.map(m => `<li>${m}</li>`).join('');
-                document.getElementById('modal-ex-tips').innerText = ex.tips;
-                document.getElementById('modal-technique').classList.add('active');
-            },
-
-            closeModal() { document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active')); },
-
-            startTimer(seconds) {
-                clearInterval(this.timerInterval);
-                const widget = document.getElementById('rest-timer-widget');
-                widget.classList.add('active');
-                let left = seconds;
-                document.getElementById('timer-display').innerText = `${left}s`;
-
-                this.timerInterval = setInterval(() => {
-                    left--;
-                    document.getElementById('timer-display').innerText = `${left}s`;
-                    if (left <= 0) {
-                        clearInterval(this.timerInterval);
-                        widget.classList.remove('active');
-                        alert("¡Tiempo cumplido! A por la siguiente serie 🔥");
-                    }
-                }, 1000);
-            },
-
-            stopTimer() {
-                clearInterval(this.timerInterval);
-                document.getElementById('rest-timer-widget').classList.remove('active');
-            },
-
-            renderNutrition() {
-                const plan = AppData.nutrition[this.user.goal] || AppData.nutrition.gain;
-                document.getElementById('nutrition-target-card').innerHTML = `
-                    <span class="badge-neon">${this.user.goal === 'gain' ? 'GANAR MASA' : 'PERDER GRASA'}</span>
-                    <h3 style="margin-top:6px;">${plan.title}</h3>
-                    <p class="text-muted">Proteína: ${plan.protein}</p>
-                `;
-                document.getElementById('meals-container').innerHTML = plan.meals.map(m => `
-                    <div class="card-glass" style="margin-bottom:12px;">
-                        <h4>${m.name}</h4>
-                        <p style="margin-top:4px;">${m.desc}</p>
-                    </div>
-                `).join('');
-            },
-
-            renderCommunity() {
-                const posts = Storage.getPosts();
-                document.getElementById('community-feed').innerHTML = posts.map(p => `
-                    <div class="card-glass" style="margin-bottom:12px;">
-                        <strong>${p.author}</strong> <small class="text-muted">• ${p.date}</small>
-                        <p style="margin-top:6px;">${p.text}</p>
-                    </div>
-                `).join('');
-            },
-
-            postCommunity() {
-                const txt = document.getElementById('community-input').value;
-                if (!txt) return;
-                const posts = Storage.getPosts();
-                posts.unshift({ author: this.user.name, text: txt, date: "Ahora" });
-                Storage.savePosts(posts);
-                document.getElementById('community-input').value = '';
-                this.renderCommunity();
+                const name = this.user ? this.user.name : "Andrés Felipe";
+                document.getElementById('header-user-name').innerText = name;
+                document.getElementById('avatar-initials').innerText = name.charAt(0).toUpperCase();
             },
 
             renderProfile() {
-                document.getElementById('prof-name').value = this.user.name;
-                document.getElementById('prof-weight').value = this.user.weight;
-                document.getElementById('prof-goal').value = this.user.goal;
+                if (this.user) {
+                    document.getElementById('prof-name').value = this.user.name;
+                    document.getElementById('prof-weight').value = this.user.weight;
+                }
             },
 
-            updateProfile() {
+            saveProfile() {
                 this.user.name = document.getElementById('prof-name').value;
                 this.user.weight = parseFloat(document.getElementById('prof-weight').value);
-                this.user.goal = document.getElementById('prof-goal').value;
                 Storage.saveUser(this.user);
                 alert("Perfil actualizado correctamente.");
                 this.renderDashboard();
