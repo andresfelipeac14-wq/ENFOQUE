@@ -3,150 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ENFOQUE — Performance App</title>
+    <title>ENFOQUE — Performance Fitness App</title>
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#0F110E">
+    <meta name="theme-color" content="#0A0A0A">
     <style>
         :root {
-            --bg-dark: #0F110E;
-            --bg-card: #1B1E1A;
-            --bg-card-alt: #151814;
+            --bg-black: #0A0A0A;
+            --bg-card: #121212;
+            --bg-card-hover: #1A1A1A;
             --neon-green: #CCFF00;
-            --neon-green-glow: rgba(204, 255, 0, 0.25);
-            --neon-purple: #C084FC;
-            --neon-pink: #F472B6;
+            --neon-green-dark: #A3CC00;
+            --neon-glow: rgba(204, 255, 0, 0.25);
             --text-white: #FFFFFF;
-            --text-muted: #8E958C;
-            --border-card: rgba(255, 255, 255, 0.05);
+            --text-muted: #8E8E93;
+            --border-subtle: rgba(255, 255, 255, 0.08);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif; }
-        body { background-color: var(--bg-dark); color: var(--text-white); overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: var(--bg-black); color: var(--text-white); overflow-x: hidden; }
 
-        .screen { display: none; min-height: 100vh; padding-bottom: 100px; }
+        .screen { display: none; min-height: 100vh; }
         .screen.active { display: block; }
 
         /* PORTADA LANDING */
         #screen-landing {
-            background: linear-gradient(180deg, rgba(15,17,14,0.3) 0%, var(--bg-dark) 100%), url('portada.jpg') center/cover no-repeat;
-            display: flex; align-items: flex-end; justify-content: center; padding: 40px 24px; text-align: center;
+            background: linear-gradient(180deg, rgba(10,10,10,0.4) 0%, var(--bg-black) 100%), url('portada.jpg') center/cover no-repeat;
+            display: flex; align-items: flex-end; justify-content: center; padding: 30px 20px 50px 20px; text-align: center;
         }
-        .landing-box { max-width: 400px; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+        .landing-box { max-width: 420px; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 14px; }
         .verse-tag { color: var(--neon-green); font-size: 0.85rem; font-weight: 800; letter-spacing: 2px; }
-        .landing-title { font-size: 2.4rem; font-weight: 900; letter-spacing: 3px; color: var(--neon-green); }
-        .landing-logo { width: 160px; height: auto; filter: drop-shadow(0 0 20px var(--neon-green-glow)); }
+        .landing-title { font-size: 2.2rem; font-weight: 900; letter-spacing: 3px; color: var(--neon-green); }
+        .landing-logo { width: 150px; height: auto; filter: drop-shadow(0 0 15px var(--neon-glow)); }
 
-        .btn-neon-main {
-            width: 100%; background: var(--neon-green); color: #000; border: none; padding: 18px 24px;
-            border-radius: 30px; font-weight: 900; font-size: 1.05rem; cursor: pointer; transition: all 0.2s;
-            text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 0 25px var(--neon-green-glow);
+        .btn-neon {
+            width: 100%; background: var(--neon-green); color: #000; border: none; padding: 16px 20px;
+            border-radius: 14px; font-weight: 900; font-size: 1rem; cursor: pointer; transition: all 0.2s ease;
+            text-transform: uppercase; letter-spacing: 1px; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
         }
-        .btn-neon-main:active { transform: scale(0.98); }
+        .btn-neon:hover { background: var(--neon-green-dark); transform: translateY(-2px); box-shadow: 0 0 20px var(--neon-glow); }
 
-        /* HEADER APP */
-        .app-header { display: flex; justify-content: space-between; align-items: center; padding: 24px 20px 12px 20px; }
-        .user-profile-badge { display: flex; align-items: center; gap: 12px; }
-        .user-avatar { width: 46px; height: 46px; border-radius: 50%; background: var(--neon-green); color: #000; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.2rem; }
-        .greeting-sub { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; }
-        .greeting-name { font-size: 1.2rem; font-weight: 800; }
-        .icon-btn-round { width: 40px; height: 40px; border-radius: 50%; background: var(--bg-card); border: 1px solid var(--border-card); display: flex; align-items: center; justify-content: center; color: #fff; cursor: pointer; }
-
-        /* SEARCH BAR */
-        .search-bar { margin: 12px 20px 20px 20px; background: var(--bg-card); border-radius: 20px; padding: 12px 18px; display: flex; align-items: center; gap: 10px; color: var(--text-muted); border: 1px solid var(--border-card); }
-        .search-bar input { background: none; border: none; color: #fff; width: 100%; outline: none; font-size: 0.9rem; }
-
-        /* CONTAINERS & CARDS */
-        .container { padding: 0 20px; display: flex; flex-direction: column; gap: 16px; max-width: 600px; margin: 0 auto; }
-        .card { background: var(--bg-card); border-radius: 24px; padding: 20px; border: 1px solid var(--border-card); position: relative; }
-
-        /* ANILLOS CONCÉNTRICOS Y LEYENDA */
-        .rings-widget { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-        .rings-svg-wrap { position: relative; width: 120px; height: 120px; flex-shrink: 0; }
-        .rings-svg-wrap svg { width: 120px; height: 120px; transform: rotate(-90deg); }
-        .rings-legend { display: flex; flex-direction: column; gap: 8px; flex: 1; }
-        .legend-item { display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; }
-        .legend-dot-title { display: flex; align-items: center; gap: 8px; }
-        .dot { width: 8px; height: 8px; border-radius: 50%; }
-
-        /* GRÁFICA CORDILLERA (LOWER LEGS) */
-        .wave-chart-box { background: var(--bg-card-alt); border-radius: 18px; padding: 14px; margin-top: 12px; }
-
-        /* LEVEL & XP PILLS */
-        .level-card { background: var(--bg-card); border-radius: 24px; padding: 20px; }
-        .level-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
-        .level-progress-bg { background: rgba(255,255,255,0.08); height: 12px; border-radius: 10px; overflow: hidden; margin-bottom: 20px; display: flex; }
-        .level-progress-green { background: var(--neon-green); width: 45%; }
-        .level-progress-purple { background: var(--neon-purple); width: 25%; }
-        .level-progress-pink { background: var(--neon-pink); width: 15%; }
-
-        /* PÍLDORAS VERTICALES XP */
-        .xp-pills-row { display: flex; justify-content: space-between; gap: 8px; }
-        .xp-pill { flex: 1; background: var(--bg-card-alt); border-radius: 25px; padding: 12px 6px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
-        .xp-pill-badge { background: rgba(255,255,255,0.1); border-radius: 15px; padding: 6px 4px; font-size: 0.7rem; font-weight: 800; color: #fff; width: 100%; text-align: center; }
-        .xp-pill.highlight-green { background: var(--neon-green); color: #000; }
-        .xp-pill.highlight-green .xp-pill-badge { background: rgba(0,0,0,0.15); color: #000; }
-        .xp-pill-label { font-size: 0.7rem; color: var(--text-muted); font-weight: 700; }
-        .xp-pill.highlight-green .xp-pill-label { color: #000; }
-
-        /* LISTA DE EJERCICIOS CON FOTO Y CHECK */
-        .exercise-item { background: var(--bg-card); border-radius: 20px; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; border: 1px solid var(--border-card); }
-        .ex-left { display: flex; align-items: center; gap: 14px; }
-        .ex-thumb { width: 52px; height: 52px; border-radius: 14px; background: #2A2E28; background-size: cover; background-position: center; flex-shrink: 0; }
-        .ex-title { font-size: 0.95rem; font-weight: 800; }
-        .ex-sub { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
-        .check-circle { width: 22px; height: 22px; border-radius: 6px; border: 1px solid var(--neon-green); display: flex; align-items: center; justify-content: center; color: var(--neon-green); font-size: 0.8rem; }
-        .check-circle.checked { background: var(--neon-green); color: #000; }
-
-        /* SUEÑO & PASOS (GRID) */
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .stat-card-neon { background: var(--neon-green); color: #000; border-radius: 24px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; min-height: 160px; }
-        .stat-card-dark { background: var(--bg-card); border-radius: 24px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; min-height: 160px; border: 1px solid var(--border-card); }
-
-        /* FLOATING PILL NAVBAR */
-        .floating-nav {
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-            background: rgba(27, 30, 26, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.1); border-radius: 40px; padding: 6px 12px;
-            display: flex; align-items: center; gap: 8px; z-index: 999; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        .app-layout { display: flex; min-height: 100vh; }
+        
+        .sidebar {
+            width: 260px; background: #0E0E0E; border-right: 1px solid var(--border-subtle); padding: 24px 16px;
+            display: flex; flex-direction: column; gap: 24px; position: fixed; height: 100vh; z-index: 100;
         }
-        .nav-pill-btn {
-            background: transparent; border: none; color: var(--text-muted); padding: 10px 16px;
-            border-radius: 30px; font-weight: 800; font-size: 0.85rem; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: all 0.2s;
-        }
-        .nav-pill-btn.active { background: var(--neon-green); color: #000; }
+        .sidebar-brand { display: flex; align-items: center; gap: 12px; }
+        .sidebar-brand img { height: 32px; }
+        .sidebar-brand-text h2 { font-size: 1.1rem; color: var(--text-white); font-weight: 900; letter-spacing: 1px; }
+        .sidebar-brand-text span { font-size: 0.65rem; color: var(--text-muted); letter-spacing: 1.5px; }
 
-        /* ONBOARDING FORM */
-        .onboarding-wrap { max-width: 480px; margin: 40px auto; padding: 24px; }
+        .menu-section-label { font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 1.5px; margin-bottom: 8px; padding-left: 10px; }
+        .nav-menu { display: flex; flex-direction: column; gap: 6px; }
+        .nav-btn {
+            background: transparent; border: none; color: var(--text-muted); padding: 12px 14px; border-radius: 12px;
+            display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: all 0.2s; text-align: left;
+        }
+        .nav-btn:hover { color: var(--text-white); background: var(--bg-card-hover); }
+        .nav-btn.active { background: var(--neon-green); color: #000; font-weight: 900; }
+
+        .main-wrapper { flex: 1; margin-left: 260px; padding: 32px; max-width: 1200px; }
+
+        .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .date-label { font-size: 0.8rem; color: var(--text-muted); font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+        .greeting-title { font-size: 1.1rem; color: var(--text-white); font-weight: 600; margin-top: 4px; }
+        .user-avatar-badge { display: flex; align-items: center; gap: 12px; }
+        .avatar-circle { width: 42px; height: 42px; background: var(--neon-green); color: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.1rem; }
+
+        /* METRICAS DIARIAS */
+        .metrics-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 24px; }
+        .metric-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 18px; }
+        .metric-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .metric-card-title { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; }
+        .metric-card-value { font-size: 1.8rem; font-weight: 900; color: var(--text-white); }
+        .metric-card-unit { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; }
+        .metric-progress-bg { background: rgba(255, 255, 255, 0.08); height: 6px; border-radius: 3px; margin-top: 12px; overflow: hidden; }
+        .metric-progress-fill { background: var(--neon-green); height: 100%; border-radius: 3px; }
+
+        /* DASHBOARD MIDDLE GRID */
+        .dash-grid-2 { display: grid; grid-template-columns: 1.2fr 1fr; gap: 20px; margin-bottom: 24px; }
+        .card-box { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 18px; padding: 22px; position: relative; }
+
+        /* CIRCULAR PROGRESS */
+        .circle-progress-wrap { position: relative; width: 70px; height: 70px; }
+        .circle-progress-wrap svg { width: 70px; height: 70px; transform: rotate(-90deg); }
+        .circle-progress-wrap circle { fill: none; stroke-width: 7; }
+        .circle-bg { stroke: rgba(255, 255, 255, 0.08); }
+        .circle-fill { stroke: var(--neon-green); stroke-dasharray: 188; stroke-dashoffset: 75; stroke-linecap: round; }
+        .circle-text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 900; color: var(--text-white); }
+
+        /* BARRAS DE ACTIVIDAD SEMANAL */
+        .weekly-bars { display: flex; justify-content: space-between; align-items: flex-end; height: 100px; margin-top: 20px; padding: 0 10px; }
+        .bar-col { display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1; }
+        .bar-fill { width: 12px; background: var(--neon-green); border-radius: 6px; }
+        .bar-label { font-size: 0.7rem; color: var(--text-muted); font-weight: 800; }
+
+        .tab-page { display: none; }
+        .tab-page.active { display: block; }
+
+        .bottom-nav {
+            display: none; position: fixed; bottom: 0; left: 0; right: 0; background: #0E0E0E;
+            border-top: 1px solid var(--border-subtle); padding: 10px 0; z-index: 200; justify-content: space-around;
+        }
+        .bottom-nav-btn { background: none; border: none; color: var(--text-muted); display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 0.75rem; cursor: pointer; }
+        .bottom-nav-btn.active { color: var(--neon-green); font-weight: 800; }
+
+        .onboarding-wrap { max-width: 480px; margin: 60px auto; padding: 24px; }
         .ob-step { display: none; }
         .ob-step.active { display: flex; flex-direction: column; gap: 16px; }
-        .input-field { width: 100%; background: #000; border: 1px solid var(--border-card); color: #fff; padding: 14px; border-radius: 12px; font-size: 0.95rem; margin-top: 6px; }
+        .input-field { width: 100%; background: #000; border: 1px solid var(--border-subtle); color: #fff; padding: 14px; border-radius: 10px; font-size: 0.95rem; margin-top: 6px; }
+
+        @media (max-width: 900px) {
+            .sidebar { display: none; }
+            .main-wrapper { margin-left: 0; padding: 16px 16px 90px 16px; }
+            .bottom-nav { display: flex; }
+            .metrics-row { grid-template-columns: 1fr 1fr; }
+            .dash-grid-2 { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- 1. LANDING PORTADA -->
+    <!-- PORTADA -->
     <section id="screen-landing" class="screen active">
         <div class="landing-box">
             <div class="verse-tag">1 CORINTIOS 9:27</div>
             <h1 class="landing-title">DISCIPLINA</h1>
             <img src="ENFOQUE.jpg" alt="Logo ENFOQUE" class="landing-logo">
-            <button class="btn-neon-main" onclick="App.startOnboarding()">EMPEZAR AHORA ↗</button>
-            <div class="verse-tag" style="margin-top: 8px;">JOSUÉ 1:9</div>
+            <button class="btn-neon" onclick="App.startOnboarding()">EMPEZAR AHORA ↗</button>
+            <div class="verse-tag" style="margin-top: 10px;">JOSUÉ 1:9</div>
         </div>
     </section>
 
-    <!-- 2. ONBOARDING -->
+    <!-- ONBOARDING -->
     <section id="screen-onboarding" class="screen">
-        <div class="onboarding-wrap card">
-            <div style="color:var(--neon-green); font-size:0.8rem; font-weight:800; margin-bottom:8px;">PASO <span id="ob-step-num">1</span> DE 3</div>
+        <div class="onboarding-wrap card-box">
+            <div style="color:var(--neon-green); font-size:0.8rem; font-weight:800; margin-bottom:12px;">PASO <span id="ob-step-num">1</span> DE 3</div>
             
             <div id="ob-step-1" class="ob-step active">
                 <h2>¿CUÁL ES TU OBJETIVO PRINCIPAL?</h2>
-                <button class="card" style="text-align:left; cursor:pointer;" onclick="App.selectGoal('gain')">
+                <button class="card-box" style="text-align:left; width:100%; cursor:pointer;" onclick="App.selectGoal('gain')">
                     <h3 style="color:var(--neon-green)">💪 GANAR MASA MUSCULAR</h3>
                     <p style="color:var(--text-muted); font-size:0.85rem; margin-top:4px;">Hipertrofia, volumen muscular y progresión de cargas.</p>
                 </button>
-                <button class="card" style="text-align:left; cursor:pointer;" onclick="App.selectGoal('lose')">
+                <button class="card-box" style="text-align:left; width:100%; cursor:pointer;" onclick="App.selectGoal('lose')">
                     <h3 style="color:var(--neon-green)">🔥 PERDER GRASA</h3>
                     <p style="color:var(--text-muted); font-size:0.85rem; margin-top:4px;">Déficit inteligente, definición y conservación muscular.</p>
                 </button>
@@ -168,274 +168,214 @@
                         <input type="number" id="ob-height" class="input-field" placeholder="178">
                     </div>
                 </div>
-                <button class="btn-neon-main" style="margin-top:10px;" onclick="App.nextOnboardingStep(3)">CONTINUAR ↗</button>
+                <button class="btn-neon" onclick="App.nextOnboardingStep(3)">CONTINUAR ↗</button>
             </div>
 
             <div id="ob-step-3" class="ob-step">
                 <h2>¡TU PLAN ENFOQUE ESTÁ LISTO!</h2>
-                <div class="card" id="ob-summary" style="background:#000;"></div>
-                <button class="btn-neon-main" onclick="App.finishOnboarding()">ENTRAR AL DASHBOARD 🔥</button>
+                <div class="card-box" id="ob-summary" style="background:#000;"></div>
+                <button class="btn-neon" onclick="App.finishOnboarding()">ENTRAR AL DASHBOARD 🔥</button>
             </div>
         </div>
     </section>
 
-    <!-- 3. MAIN APP LAYOUT -->
+    <!-- MAIN APP LAYOUT -->
     <div id="screen-main-app" class="screen">
-        
-        <!-- HEADER -->
-        <header class="app-header">
-            <div class="user-profile-badge">
-                <div class="user-avatar" id="avatar-initials">A</div>
+        <div class="app-layout">
+            
+            <aside class="sidebar">
+                <div class="sidebar-brand">
+                    <img src="ENFOQUE.jpg" alt="Logo ENFOQUE">
+                    <div class="sidebar-brand-text">
+                        <h2>ENFOQUE</h2>
+                        <span>PERFORMANCE CLUB</span>
+                    </div>
+                </div>
+
                 <div>
-                    <div class="greeting-sub">Buenas noches</div>
-                    <div class="greeting-name" id="header-user-name">Andrés Felipe</div>
+                    <div class="menu-section-label">MENÚ PRINCIPAL</div>
+                    <nav class="nav-menu">
+                        <button class="nav-btn active" onclick="App.navigateTo('dashboard')"><span>⊞</span> Inicio</button>
+                        <button class="nav-btn" onclick="App.navigateTo('workouts')"><span>🏋️</span> Entrenar</button>
+                        <button class="nav-btn" onclick="App.navigateTo('nutrition')"><span>🥗</span> Nutrición y agua</button>
+                        <button class="nav-btn" onclick="App.navigateTo('progress')"><span>📈</span> Mi progreso</button>
+                        <button class="nav-btn" onclick="App.navigateTo('community')"><span>👥</span> Comunidad</button>
+                    </nav>
                 </div>
-            </div>
-            <div class="icon-btn-round">🔔</div>
-        </header>
 
-        <!-- SEARCH -->
-        <div class="search-bar">
-            <span>🔍</span>
-            <input type="text" placeholder="Buscar entrenamientos o ejercicios...">
-        </div>
+                <div style="margin-top:auto;">
+                    <div class="menu-section-label">HERRAMIENTAS</div>
+                    <nav class="nav-menu">
+                        <button class="nav-btn" onclick="App.navigateTo('profile')"><span>⚙️</span> Mi cuenta</button>
+                    </nav>
+                </div>
+            </aside>
 
-        <!-- TAB 1: INICIO / DASHBOARD -->
-        <section id="tab-dashboard" class="tab-page active">
-            <div class="container">
+            <main class="main-wrapper">
                 
-                <!-- AROS CONCÉNTRICOS Y LEYENDA XP -->
-                <div class="card">
-                    <div class="rings-widget">
-                        <div class="rings-svg-wrap">
-                            <svg viewBox="0 0 100 100">
-                                <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="8"/>
-                                <circle cx="50" cy="50" r="40" fill="none" stroke="var(--neon-green)" stroke-width="8" stroke-dasharray="251" stroke-dashoffset="60" stroke-linecap="round"/>
-                                
-                                <circle cx="50" cy="50" r="28" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="8"/>
-                                <circle cx="50" cy="50" r="28" fill="none" stroke="var(--neon-purple)" stroke-width="8" stroke-dasharray="175" stroke-dashoffset="50" stroke-linecap="round"/>
-                                
-                                <circle cx="50" cy="50" r="16" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="8"/>
-                                <circle cx="50" cy="50" r="16" fill="none" stroke="var(--neon-pink)" stroke-width="8" stroke-dasharray="100" stroke-dashoffset="40" stroke-linecap="round"/>
-                            </svg>
+                <header class="dashboard-header">
+                    <div>
+                        <div class="date-label" id="current-date-text">SÁBADO, 17 DE OCTUBRE</div>
+                        <div class="greeting-title" id="user-greeting-text">Entrena con intención. Progresa a tu ritmo.</div>
+                    </div>
+                    <div class="user-avatar-badge">
+                        <div style="text-align:right;">
+                            <strong id="header-name-disp" style="display:block;">Andrés F.</strong>
+                            <span style="font-size:0.75rem; color:var(--neon-green); font-weight:800;">ATLETA ENFOQUE</span>
+                        </div>
+                        <div class="avatar-circle" id="avatar-initials">A</div>
+                    </div>
+                </header>
+
+                <!-- TAB INICIO / DASHBOARD -->
+                <section id="tab-dashboard" class="tab-page active">
+                    
+                    <!-- 4 METRICAS TOP -->
+                    <div class="metrics-row">
+                        <div class="metric-card">
+                            <div class="metric-card-header"><span class="metric-card-title">Calorías activas</span><span>🎯</span></div>
+                            <div class="metric-card-value">420 <span class="metric-card-unit">kcal</span></div>
+                            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">objetivo 600</div>
+                            <div class="metric-progress-bg"><div class="metric-progress-fill" style="width:70%;"></div></div>
                         </div>
 
-                        <div class="rings-legend">
-                            <div class="legend-item">
-                                <div class="legend-dot-title"><div class="dot" style="background:var(--neon-green)"></div> Pierna / Cardio</div>
-                                <strong>14/300 XP</strong>
+                        <div class="metric-card">
+                            <div class="metric-card-header"><span class="metric-card-title">Pasos diarios</span><span>⚡</span></div>
+                            <div class="metric-card-value">6.240</div>
+                            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">Meta de 8.000</div>
+                            <div class="metric-progress-bg"><div class="metric-progress-fill" style="width:78%;"></div></div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-card-header"><span class="metric-card-title">Tiempo activo</span><span>⏱️</span></div>
+                            <div class="metric-card-value">48 <span class="metric-card-unit">min</span></div>
+                            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">Movimiento de hoy</div>
+                            <div class="metric-progress-bg"><div class="metric-progress-fill" style="width:80%;"></div></div>
+                        </div>
+
+                        <div class="metric-card">
+                            <div class="metric-card-header"><span class="metric-card-title">Agua</span><span>💧</span></div>
+                            <div class="metric-card-value">1,5 <span class="metric-card-unit">L</span></div>
+                            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">Registro de hidratación</div>
+                            <div class="metric-progress-bg"><div class="metric-progress-fill" style="width:60%;"></div></div>
+                        </div>
+                    </div>
+
+                    <!-- GRID CENTRAL: TU ENTRENAMIENTO + ACTIVIDAD SEMANAL -->
+                    <div class="dash-grid-2">
+                        
+                        <div class="card-box">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <div>
+                                    <span style="font-size:0.85rem; color:var(--text-muted);">Tu entrenamiento</span>
+                                    <h2 style="font-size:1.8rem; margin-top:6px;">PECHO + TRÍCEPS</h2>
+                                    <p style="color:var(--text-muted); font-size:0.85rem; margin-top:4px;">Fuerza • Nivel intermedio • 55 min</p>
+                                </div>
+                                <div class="circle-progress-wrap">
+                                    <svg>
+                                        <circle class="circle-bg" cx="35" cy="35" r="30"></circle>
+                                        <circle class="circle-fill" cx="35" cy="35" r="30"></circle>
+                                    </svg>
+                                    <div class="circle-text">60%</div>
+                                </div>
                             </div>
-                            <div class="legend-item">
-                                <div class="legend-dot-title"><div class="dot" style="background:var(--neon-purple)"></div> Espalda / Hombro</div>
-                                <strong>10/260 XP</strong>
+                            <button class="btn-neon" style="margin-top:24px;" onclick="App.navigateTo('workouts')">VER MI RUTINA</button>
+                        </div>
+
+                        <div class="card-box">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <div>
+                                    <h3 style="font-size:1.1rem;">Actividad semanal</h3>
+                                    <span style="font-size:0.75rem; color:var(--text-muted);">Resumen ilustrativo de tu actividad</span>
+                                </div>
+                                <span style="background:rgba(204,255,0,0.15); color:var(--neon-green); font-size:0.75rem; font-weight:800; padding:4px 10px; border-radius:12px;">4 / 6 DÍAS</span>
                             </div>
-                            <div class="legend-item">
-                                <div class="legend-dot-title"><div class="dot" style="background:var(--neon-pink)"></div> Abdomen / Torso</div>
-                                <strong>4/130 XP</strong>
+
+                            <div class="weekly-bars">
+                                <div class="bar-col"><div class="bar-fill" style="height:40%;"></div><span class="bar-label">LUN</span></div>
+                                <div class="bar-col"><div class="bar-fill" style="height:85%;"></div><span class="bar-label">MAR</span></div>
+                                <div class="bar-col"><div class="bar-fill" style="height:60%;"></div><span class="bar-label">MIÉ</span></div>
+                                <div class="bar-col"><div class="bar-fill" style="height:90%;"></div><span class="bar-label">JUE</span></div>
+                                <div class="bar-col"><div class="bar-fill" style="height:30%;"></div><span class="bar-label">VIE</span></div>
+                                <div class="bar-col"><div class="bar-fill" style="height:10%; opacity:0.3;"></div><span class="bar-label">SÁB</span></div>
+                                <div class="bar-col"><div class="bar-fill" style="height:10%; opacity:0.3;"></div><span class="bar-label">DOM</span></div>
                             </div>
                         </div>
+
                     </div>
 
-                    <div class="wave-chart-box">
-                        <div style="display:flex; justify-content:space-between; font-size:0.8rem; margin-bottom:6px;">
-                            <span style="color:var(--text-muted)">Progreso de Cargas</span>
-                            <strong style="color:var(--neon-green)">Lvl 1 • 2/280 XP</strong>
-                        </div>
-                        <svg viewBox="0 0 300 40" style="width:100%; height:40px;">
-                            <path d="M0 30 Q 50 10, 100 25 T 200 15 T 300 20" fill="none" stroke="var(--neon-green)" stroke-width="3"/>
-                        </svg>
-                    </div>
-                </div>
-
-                <!-- NIVEL ATLETA Y PÍLDORAS VERTICALES XP -->
-                <div class="level-card">
-                    <div class="level-header">
-                        <div>
-                            <span style="font-size:0.8rem; color:var(--text-muted);">Nivel de Atleta</span>
-                            <h2 style="font-size:1.8rem; font-weight:900;">Lvl 3 <span style="font-size:0.9rem; font-weight:600; color:var(--text-muted);">400 XP</span></h2>
+                    <!-- BANNER MOTIVACIONAL BOTTOM -->
+                    <div class="card-box" style="background: linear-gradient(135deg, #181C10 0%, #0E100A 100%); border-color: rgba(204,255,0,0.2);">
+                        <h4 style="color:var(--neon-green); font-size:0.9rem;">⚡ TU PRÓXIMO NIVEL</h4>
+                        <p style="color:var(--text-muted); font-size:0.85rem; margin-top:4px;">La constancia construye resultados. Registra tu sesión de hoy.</p>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px;">
+                            <span style="font-size:0.75rem; color:var(--text-muted);">Semana activa • 4 de 6 sesiones</span>
+                            <div class="metric-progress-bg" style="width:120px; margin:0;"><div class="metric-progress-fill" style="width:66%;"></div></div>
                         </div>
                     </div>
 
-                    <div class="level-progress-bg">
-                        <div class="level-progress-green"></div>
-                        <div class="level-progress-purple"></div>
-                        <div class="level-progress-pink"></div>
+                </section>
+
+                <section id="tab-workouts" class="tab-page">
+                    <h2 style="margin-bottom:16px;">ENTRENAMIENTOS ENFOQUE</h2>
+                    <div id="workouts-list-container"></div>
+                </section>
+
+                <section id="tab-nutrition" class="tab-page">
+                    <h2 style="margin-bottom:16px;">NUTRICIÓN Y AGUA</h2>
+                    <div class="card-box" id="nutrition-plan-box"></div>
+                </section>
+
+                <section id="tab-progress" class="tab-page">
+                    <h2 style="margin-bottom:16px;">ESTADÍSTICAS Y PROGRESO</h2>
+                    <div class="card-box">
+                        <h3>EVOLUCIÓN DE CARGAS Y PESO CORPORAL</h3>
+                        <p style="color:var(--text-muted); margin-top:6px;">Peso actual: <strong id="progress-weight-val" style="color:var(--neon-green)">--</strong> kg</p>
                     </div>
+                </section>
 
-                    <div class="xp-pills-row">
-                        <div class="xp-pill highlight-green">
-                            <div class="xp-pill-badge">160 XP</div>
-                            <div class="xp-pill-label">Pierna</div>
-                        </div>
-                        <div class="xp-pill">
-                            <div class="xp-pill-badge">95 XP</div>
-                            <div class="xp-pill-label">Pecho</div>
-                        </div>
-                        <div class="xp-pill">
-                            <div class="xp-pill-badge">70 XP</div>
-                            <div class="xp-pill-label">Glúteo</div>
-                        </div>
-                        <div class="xp-pill">
-                            <div class="xp-pill-badge">180 XP</div>
-                            <div class="xp-pill-label">Cardio</div>
-                        </div>
-                        <div class="xp-pill">
-                            <div class="xp-pill-badge">100 XP</div>
-                            <div class="xp-pill-label">Bíceps</div>
-                        </div>
+                <section id="tab-community" class="tab-page">
+                    <h2 style="margin-bottom:16px;">COMUNIDAD ENFOQUE</h2>
+                    <div class="card-box">
+                        <textarea id="community-input" class="input-field" placeholder="Comparte tu logro o entrenamiento de hoy..." style="height:80px;"></textarea>
+                        <button class="btn-neon" style="margin-top:10px; width:auto;" onclick="App.postCommunity()">PUBLICAR EN EL MURO 🔥</button>
                     </div>
-                </div>
+                    <div id="community-feed"></div>
+                </section>
 
-            </div>
-        </section>
-
-        <!-- TAB 2: ENTRENAMIENTO DETALLADO -->
-        <section id="tab-workouts" class="tab-page">
-            <div class="container">
-                
-                <div class="card" style="padding:0; overflow:hidden;">
-                    <img src="portada.jpg" style="width:100%; height:180px; object-fit:cover;">
-                    <div style="padding:20px;">
-                        <span style="color:var(--neon-green); font-size:0.8rem; font-weight:800;">RUTINA DEL DÍA</span>
-                        <h2 style="font-size:1.6rem; margin-top:2px;">Cuerpo Completo / Pierna</h2>
-                        <span style="font-size:0.8rem; color:var(--text-muted);">Ejercicio 1 de 5</span>
-                    </div>
-                </div>
-
-                <div class="exercise-item">
-                    <div class="ex-left">
-                        <div class="check-circle checked">✓</div>
-                        <div class="ex-thumb" style="background-image:url('ENFOQUE.jpg');"></div>
-                        <div>
-                            <div class="ex-title">Press de Banca</div>
-                            <div class="ex-sub">Serie 2 • 12 Reps</div>
-                        </div>
-                    </div>
-                    <div class="icon-btn-round" style="background:#000;">▶</div>
-                </div>
-
-                <div class="exercise-item">
-                    <div class="ex-left">
-                        <div class="check-circle checked">✓</div>
-                        <div class="ex-thumb" style="background-image:url('ENFOQUE.jpg');"></div>
-                        <div>
-                            <div class="ex-title">Sentadilla Libre / Hack</div>
-                            <div class="ex-sub">Serie 1 • 12 Reps</div>
-                        </div>
-                    </div>
-                    <div class="icon-btn-round" style="background:#000;">▶</div>
-                </div>
-
-                <div class="exercise-item">
-                    <div class="ex-left">
-                        <div class="check-circle"></div>
-                        <div class="ex-thumb" style="background-image:url('ENFOQUE.jpg');"></div>
-                        <div>
-                            <div class="ex-title">Press Militar Hombro</div>
-                            <div class="ex-sub">Serie 3 • 12 Reps</div>
-                        </div>
-                    </div>
-                    <div class="icon-btn-round" style="background:#000;">▶</div>
-                </div>
-
-                <button class="btn-neon-main" style="margin-top:10px;">INICIAR ENTRENAMIENTO 🔥</button>
-
-            </div>
-        </section>
-
-        <!-- TAB 3: PROGRESO Y MÉTRICAS -->
-        <section id="tab-progress" class="tab-page">
-            <div class="container">
-                
-                <div class="card">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <div>
-                            <span style="font-size:0.8rem; color:var(--text-muted);">Progreso General</span>
-                            <h3 style="margin-top:2px;">Estado del Mes</h3>
-                        </div>
-                        <div style="position:relative; width:70px; height:70px;">
-                            <svg viewBox="0 0 36 36" style="width:70px; height:70px; transform:rotate(-90deg);">
-                                <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="4"/>
-                                <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831" fill="none" stroke="var(--neon-green)" stroke-width="4" stroke-dasharray="79, 100"/>
-                            </svg>
-                            <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:0.85rem;">79%</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div style="display:flex; justify-content:space-between; font-size:0.85rem;">
-                        <span>Calorías Quemadas</span>
-                        <strong style="color:var(--neon-green)">195 Cal</strong>
-                    </div>
-                    <svg viewBox="0 0 300 60" style="width:100%; height:60px; margin-top:10px;">
-                        <path d="M0 40 Q 50 30, 100 35 T 200 10 T 300 30" fill="none" stroke="var(--neon-green)" stroke-width="3"/>
-                        <circle cx="200" cy="10" r="5" fill="var(--neon-green)"/>
-                    </svg>
-                </div>
-
-                <div class="stats-grid">
-                    <div class="stat-card-neon">
-                        <div>
-                            <span style="font-size:0.8rem; font-weight:700;">🛌 Horas de Sueño</span>
-                            <h2 style="font-size:2rem; font-weight:900; margin-top:10px;">7.5 <span style="font-size:0.9rem;">Hrs</span></h2>
-                        </div>
-                        <div style="display:flex; gap:4px; height:40px; align-items:flex-end;">
-                            <div style="flex:1; background:#000; height:40%;"></div>
-                            <div style="flex:1; background:#000; height:80%;"></div>
-                            <div style="flex:1; background:#000; height:60%;"></div>
-                            <div style="flex:1; background:#000; height:100%;"></div>
-                        </div>
-                    </div>
-
-                    <div class="stat-card-dark">
-                        <div>
-                            <span style="font-size:0.8rem; color:var(--text-muted);">👟 Pasos</span>
-                            <h2 style="font-size:2rem; font-weight:900; margin-top:10px;">4.1K</h2>
-                        </div>
-                        <svg viewBox="0 0 100 30" style="width:100%; height:30px;">
-                            <path d="M0 25 Q 30 10, 60 20 T 100 5" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
-                        </svg>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- TAB 4: PERFIL Y AJUSTES -->
-        <section id="tab-profile" class="tab-page">
-            <div class="container">
-                <div class="card">
-                    <h3>CONFIGURACIÓN DE CUENTA ENFOQUE</h3>
-                    <div style="margin-top:14px;">
+                <section id="tab-profile" class="tab-page">
+                    <h2 style="margin-bottom:16px;">MI CUENTA ENFOQUE</h2>
+                    <div class="card-box" style="max-width:500px;">
                         <label style="font-size:0.85rem; color:var(--text-muted);">Nombre Atleta</label>
                         <input type="text" id="prof-name" class="input-field">
-                    </div>
-                    <div style="margin-top:10px;">
-                        <label style="font-size:0.85rem; color:var(--text-muted);">Peso Corporal (kg)</label>
+                        
+                        <label style="font-size:0.85rem; color:var(--text-muted); margin-top:12px; display:block;">Peso Corporal (kg)</label>
                         <input type="number" id="prof-weight" class="input-field">
+
+                        <button class="btn-neon" style="margin-top:20px;" onclick="App.saveProfile()">GUARDAR CAMBIOS</button>
+                        <button class="btn-neon" style="margin-top:10px; background:transparent; border:1px solid #ff4444; color:#ff4444;" onclick="App.resetProfile()">REINICIAR DATOS</button>
                     </div>
-                    <button class="btn-neon-main" style="margin-top:20px;" onclick="App.saveProfile()">GUARDAR CAMBIOS</button>
-                    <button class="btn-neon-main" style="margin-top:10px; background:transparent; border:1px solid #ff4444; color:#ff4444;" onclick="App.resetProfile()">REINICIAR DATOS</button>
-                </div>
-            </div>
-        </section>
+                </section>
 
-        <!-- FLOATING PILL NAVBAR -->
-        <nav class="floating-nav">
-            <button class="nav-pill-btn active" onclick="App.navigateTo('dashboard')">🏠 Home</button>
-            <button class="nav-pill-btn" onclick="App.navigateTo('workouts')">🏋️ Rutina</button>
-            <button class="nav-pill-btn" onclick="App.navigateTo('progress')">📈 Progreso</button>
-            <button class="nav-pill-btn" onclick="App.navigateTo('profile')">👤 Perfil</button>
-        </nav>
-
+            </main>
+        </div>
     </div>
+
+    <nav class="bottom-nav">
+        <button class="bottom-nav-btn active" onclick="App.navigateTo('dashboard')"><span>⊞</span> Inicio</button>
+        <button class="bottom-nav-btn" onclick="App.navigateTo('workouts')"><span>🏋️</span> Entrenar</button>
+        <button class="bottom-nav-btn" onclick="App.navigateTo('nutrition')"><span>🥗</span> Nutrición</button>
+        <button class="bottom-nav-btn" onclick="App.navigateTo('progress')"><span>📈</span> Progreso</button>
+        <button class="bottom-nav-btn" onclick="App.navigateTo('profile')"><span>⚙️</span> Perfil</button>
+    </nav>
 
     <script>
         const Storage = {
-            KEYS: { USER: 'enfoque_ui_user' },
+            KEYS: { USER: 'enfoque_app_user', POSTS: 'enfoque_app_posts' },
             saveUser(data) { localStorage.setItem(this.KEYS.USER, JSON.stringify(data)); },
-            getUser() { const d = localStorage.getItem(this.KEYS.USER); return d ? JSON.parse(d) : null; }
+            getUser() { const d = localStorage.getItem(this.KEYS.USER); return d ? JSON.parse(d) : null; },
+            savePosts(data) { localStorage.setItem(this.KEYS.POSTS, JSON.stringify(data)); },
+            getPosts() { const d = localStorage.getItem(this.KEYS.POSTS); return d ? JSON.parse(d) : [{ author: "Andrés F.", text: "¡Listo el nuevo Dashboard oficial de ENFOQUE! 🔥", date: "Hoy" }]; }
         };
 
         const App = {
@@ -497,25 +437,72 @@
 
             navigateTo(tabName) {
                 document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
-                document.querySelectorAll('.nav-pill-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.nav-btn, .bottom-nav-btn').forEach(b => b.classList.remove('active'));
 
                 const targetTab = document.getElementById(`tab-${tabName}`);
                 if (targetTab) targetTab.classList.add('active');
 
+                if (tabName === 'workouts') this.renderWorkouts();
+                if (tabName === 'nutrition') this.renderNutrition();
+                if (tabName === 'community') this.renderCommunity();
                 if (tabName === 'profile') this.renderProfile();
+                if (tabName === 'progress') {
+                    document.getElementById('progress-weight-val').innerText = this.user.weight;
+                }
             },
 
             renderDashboard() {
-                const name = this.user ? this.user.name : "Andrés Felipe";
-                document.getElementById('header-user-name').innerText = name;
+                const name = this.user.name || "Andrés";
+                document.getElementById('header-name-disp').innerText = name;
                 document.getElementById('avatar-initials').innerText = name.charAt(0).toUpperCase();
+                document.getElementById('user-greeting-text').innerText = `Entrena con intención. Progresa a tu ritmo.`;
+            },
+
+            renderWorkouts() {
+                const container = document.getElementById('workouts-list-container');
+                container.innerHTML = `
+                    <div class="card-box" style="margin-bottom:12px;">
+                        <span style="color:var(--neon-green); font-weight:800; font-size:0.75rem;">LUNES</span>
+                        <h3 style="margin-top:4px;">PIERNA COMPLETA + ABDOMEN</h3>
+                        <p style="color:var(--text-muted); font-size:0.85rem; margin:6px 0 12px 0;">5 Ejercicios • 65 minutos</p>
+                        <button class="btn-neon" style="width:auto; padding:10px 18px; font-size:0.85rem;">VER EJERCICIOS Y REGISTRAR CARGAS</button>
+                    </div>
+                `;
+            },
+
+            renderNutrition() {
+                const planBox = document.getElementById('nutrition-plan-box');
+                const isGain = this.user.goal === 'gain';
+                planBox.innerHTML = `
+                    <span style="color:var(--neon-green); font-weight:800; font-size:0.75rem;">${isGain ? 'SUPERÁVIT CALÓRICO' : 'DÉFICIT CONTROLADO'}</span>
+                    <h3 style="margin-top:4px;">OBJETIVO: ${isGain ? 'Masa Muscular' : 'Definición'}</h3>
+                    <p style="color:var(--text-muted); font-size:0.85rem; margin-top:6px;">Proteína recomendada: <strong>2.0g por kg de peso</strong></p>
+                `;
+            },
+
+            renderCommunity() {
+                const posts = Storage.getPosts();
+                document.getElementById('community-feed').innerHTML = posts.map(p => `
+                    <div class="card-box" style="margin-bottom:12px;">
+                        <strong style="color:var(--neon-green);">${p.author}</strong> <small style="color:var(--text-muted);">• ${p.date}</small>
+                        <p style="margin-top:8px;">${p.text}</p>
+                    </div>
+                `).join('');
+            },
+
+            postCommunity() {
+                const txt = document.getElementById('community-input').value;
+                if (!txt) return;
+                const posts = Storage.getPosts();
+                posts.unshift({ author: this.user.name, text: txt, date: "Ahora" });
+                Storage.savePosts(posts);
+                document.getElementById('community-input').value = '';
+                this.renderCommunity();
             },
 
             renderProfile() {
-                if (this.user) {
-                    document.getElementById('prof-name').value = this.user.name;
-                    document.getElementById('prof-weight').value = this.user.weight;
-                }
+                document.getElementById('prof-name').value = this.user.name;
+                document.getElementById('prof-weight').value = this.user.weight;
             },
 
             saveProfile() {
